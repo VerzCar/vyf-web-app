@@ -1,15 +1,34 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import { appRoutes } from './app.routes';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { LayoutModule } from './modules/layout/layout.module';
+
+// AoT requires an exported function for factories
+export const createTranslateLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/core/');
 
 @NgModule({
-  declarations: [AppComponent, NxWelcomeComponent],
+  declarations: [AppComponent],
   imports: [
-    BrowserModule,
-    RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
+	BrowserModule,
+	BrowserAnimationsModule,
+	HttpClientModule,
+	TranslateModule.forRoot(
+	  {
+		loader: {
+		  provide: TranslateLoader,
+		  useFactory: createTranslateLoaderFactory,
+		  deps: [HttpClient]
+		},
+		extend: true
+	  }
+	),
+	AppRoutingModule,
+	LayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent],
