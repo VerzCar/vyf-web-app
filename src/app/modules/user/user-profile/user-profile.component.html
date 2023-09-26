@@ -1,7 +1,7 @@
 <div class="layout-container">
 
     <!--    mobile only-->
-    <div class="flex flex-col md:flex-row gap-4">
+    <div class="flex flex-col md:flex-row gap-4 md:gap-12">
         <div class="block md:hidden ml-auto">
             <p-menu #menu
                     [model]="items" [popup]="true">
@@ -9,8 +9,9 @@
             <button pButton
                     type="button"
                     (click)="menu.toggle($event)"
-                    icon="pi pi-bars"
-                    label="Settings">
+                    icon="pi pi-cog"
+                    label="Settings"
+                    class="p-button-text p-button-secondary">
             </button>
         </div>
 
@@ -22,18 +23,35 @@
 
         <section class="flex flex-col gap-4">
             <div class="border-2 rounded bg-white p-2">
-                <p-image src="https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg"
-                         alt="Image"
-                         width="250"
-                         [preview]="true"
-                [styleClass]="'rounded-full'"
-                [imageStyle]="{'rounded-full': true}">
+                <p-image src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&q=60"
+                         alt="User Profile Image"
+                         width="150"
+                         height="150"
+                         [preview]="true">
                 </p-image>
             </div>
 
             <div>
                 <h3 class="text-xl font-bold">
                     Why vote me
+                </h3>
+                <p class="border p-2">
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                    labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                    et
+                    ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem
+                    ipsum
+                    dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+                    dolore
+                    magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                    Stet
+                    clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-bold">
+                    Bio
                 </h3>
                 <p class="border p-2">
                     Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut

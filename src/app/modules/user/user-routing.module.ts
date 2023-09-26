@@ -1,20 +1,30 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { Route } from '../../routes';
 import { LayoutComponent } from "../layout/layout/layout.component";
-import { Route } from "../../routes";
+import { UserProfileEditComponent } from './user-profile-edit/user-profile-edit.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   {
-    path: Route.default,
+    path: 'profile',
     component: LayoutComponent,
     children: [
       {
-        path: 'profile',
+        path: '',
         component: UserProfileComponent,
+      },
+      {
+        path: 'edit',
+        component: UserProfileEditComponent,
       },
     ],
   },
+  {
+    path: Route.default,
+    redirectTo: 'profile',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({

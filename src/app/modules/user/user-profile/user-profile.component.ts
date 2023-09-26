@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, PrimeIcons } from 'primeng/api';
 
 @Component({
   selector: 'app-user-profile',
@@ -14,14 +14,9 @@ export class UserProfileComponent implements OnInit {
     this.items = [
       {
         label: 'Edit',
-        icon: 'pi pi-fw pi-plus',
-        routerLink: '/edit'
+        icon: PrimeIcons.USER_EDIT,
+        routerLink: 'edit'
       },
-      {
-        label: 'Delete',
-        icon: 'pi pi-fw pi-trash',
-        routerLink: '/delete'
-      }
     ]
   }
 }
