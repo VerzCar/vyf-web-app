@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { ImageModule } from 'primeng/image';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ToastModule } from 'primeng/toast';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HttpClient } from '@angular/common/http';
@@ -35,6 +37,8 @@ export const createTranslateLoaderFactory = (http: HttpClient) =>
     ToastModule,
     ButtonModule,
     ImageModule,
+    InputTextareaModule,
+    ReactiveFormsModule,
   ],
 })
 export class UserModule {}

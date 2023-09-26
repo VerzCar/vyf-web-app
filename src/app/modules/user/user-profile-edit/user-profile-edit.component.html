@@ -1,15 +1,56 @@
 <div class="layout-container">
+    <form [formGroup]="form"
+          (submit)="onSubmit()">
+        <div class="flex flex-row justify-between">
+            <button pButton
+                    label="Close"
+                    type="button"
+                    class="p-button-link"
+                    routerLink="/user/profile">
+            </button>
 
-    <div class="flex flex-row justify-between">
-        <p-button label="Close"
-                  styleClass="p-button-link"
-                  routerLink="/user/profile">
-        </p-button>
+            <button pButton
+                    label="Save"
+                    type="submit"
+                    class="p-button-success">
+            </button>
+        </div>
 
-        <p-button label="Save"
-                  styleClass="p-button-link">
-        </p-button>
-    </div>
+        <div class="flex flex-col gap-4">
 
-    <p>user-profile-edit works!</p>
+            <div class="flex flex-col">
+                <h3 class="text-xl font-bold">
+                    Why vote me
+                </h3>
+                <textarea #whyVoteMeRef
+                          rows="2"
+                          cols="30"
+                          pInputTextarea
+                          formControlName="whyVoteMe"
+                          [autoResize]="true">
+                </textarea>
+                <small id="whyVoteMe-hint"
+                       class="self-end">
+                    {{whyVoteMeRef.value.length}}/50
+                </small>
+            </div>
+
+            <div class="flex flex-col">
+                <h3 class="text-xl font-bold">
+                    Bio
+                </h3>
+                <textarea #bioRef
+                          rows="2"
+                          cols="30"
+                          pInputTextarea
+                          formControlName="bio"
+                          [autoResize]="true">
+                </textarea>
+                <small id="bio-hint"
+                       class="self-end">
+                    {{bioRef.value.length}}/200
+                </small>
+            </div>
+        </div>
+    </form>
 </div>
