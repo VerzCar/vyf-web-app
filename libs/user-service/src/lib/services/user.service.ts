@@ -12,7 +12,11 @@ export class UserService extends ApiBaseService<User> {
 	return 'v1/api/user';
   }
 
-  public me(id = ''): Observable<User> {
+  public me(): Observable<User> {
+	return this.get();
+  }
+
+  public x(id: string): Observable<User> {
 	return this.get(id);
   }
 

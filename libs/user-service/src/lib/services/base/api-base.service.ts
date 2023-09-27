@@ -19,8 +19,11 @@ export abstract class ApiBaseService<T> {
 
   protected abstract get endpointPath(): string;
 
-  protected get(id: Identifier): Observable<T> {
-	const url = `${this.url}/${id}`;
+  protected get(id?: Identifier): Observable<T> {
+	let url = this.url;
+	if (id) {
+	  url = `${url}/${id}`;
+	}
 	return this.httpClient.get<T>(
 	  url).pipe(
 	  retry(this.retryCount)
@@ -28,7 +31,7 @@ export abstract class ApiBaseService<T> {
   }
 
   protected create(entity: T): Observable<T> {
-	return this.httpClient.put<T>(
+	return this.httpClient.post<T>(
 	  this.url,
 	  entity).pipe(
 	  retry(this.retryCount)
@@ -44,6 +47,7 @@ export abstract class ApiBaseService<T> {
   }
 
   private get url(): string {
+	console.log(`${this._baseUrl}/${this.endpointPath}`);
 	return `${this._baseUrl}/${this.endpointPath}`;
   }
 }

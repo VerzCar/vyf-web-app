@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { UserService } from '@vyf/user-service';
 import { MenuItem, PrimeIcons } from 'primeng/api';
 
 @Component({
@@ -10,13 +11,16 @@ import { MenuItem, PrimeIcons } from 'primeng/api';
 export class UserProfileComponent implements OnInit {
   public items: MenuItem[] | undefined;
 
+  private readonly userService = inject(UserService);
+
   public ngOnInit(): void {
-    this.items = [
-      {
-        label: 'Edit',
-        icon: PrimeIcons.USER_EDIT,
-        routerLink: 'edit'
-      },
-    ]
+	this.userService.me().subscribe(user => console.log(user));
+	this.items = [
+	  {
+		label: 'Edit',
+		icon: PrimeIcons.USER_EDIT,
+		routerLink: 'edit'
+	  },
+	];
   }
 }
