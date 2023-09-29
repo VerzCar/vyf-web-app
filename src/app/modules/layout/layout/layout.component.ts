@@ -9,8 +9,8 @@ import { TranslateService } from "@ngx-translate/core";
 })
 export class LayoutComponent {
   constructor(private readonly _translate: TranslateService) {
-    const currentLang = _translate.currentLang;
     _translate.currentLang = '';
+    const currentLang = _translate.currentLang ?? 'de';
     _translate.use(currentLang);
   }
 }

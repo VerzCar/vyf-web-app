@@ -1,6 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { UserService } from '@vyf/user-service';
+import {User, UserService} from '@vyf/user-service';
 import { MenuItem, PrimeIcons } from 'primeng/api';
+import {map, Observable, tap} from 'rxjs';
+
+interface UserView {
+  user: User;
+}
 
 @Component({
   selector: 'app-user-profile',
@@ -10,11 +15,22 @@ import { MenuItem, PrimeIcons } from 'primeng/api';
 })
 export class UserProfileComponent implements OnInit {
   public items: MenuItem[] | undefined;
+  public view$: Observable<UserView> | undefined;
 
   private readonly userService = inject(UserService);
 
   public ngOnInit(): void {
-	this.userService.me().subscribe(user => console.log(user));
+	this.defineMenuItems();
+
+	this.view$ = this.userService.me().pipe(
+	  map(res => ({
+		  user: res.data
+		})),
+	  tap(u => console.log(u))
+	);
+  }
+
+  private defineMenuItems() {
 	this.items = [
 	  {
 		label: 'Edit',

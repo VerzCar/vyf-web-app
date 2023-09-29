@@ -6,3 +6,4 @@ export { Identifier } from './identifier.model';
 export { PhoneNumberCountry } from './phone-number-country.model';
 export { Profile } from './profile.model';
 export { User } from './user.model';
+export { ApiResponse } from './api-response.model';

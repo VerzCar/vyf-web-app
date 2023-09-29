@@ -1,0 +1,45 @@
+{
+  "auth": {
+    "vyfwebapp69eb1ef6": {
+      "customAuth": false,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "serviceType": "imported"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_auth_vyfwebapp69eb1ef6_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "vyfwebapp69eb1ef6"
+        }
+      ]
+    },
+    "AMPLIFY_auth_vyfwebapp69eb1ef6_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "vyfwebapp69eb1ef6"
+        }
+      ]
+    },
+    "AMPLIFY_auth_vyfwebapp69eb1ef6_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "vyfwebapp69eb1ef6"
+        }
+      ]
+    },
+    "AMPLIFY_auth_vyfwebapp69eb1ef6_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "vyfwebapp69eb1ef6"
+        }
+      ]
+    }
+  }
+}

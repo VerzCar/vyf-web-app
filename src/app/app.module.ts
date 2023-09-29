@@ -1,13 +1,20 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BASE_API_URL } from '@vyf/user-service';
-import { AppComponent } from './app.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app-routing.module';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { LayoutModule } from './modules/layout/layout.module';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {BASE_API_URL} from '@vyf/user-service';
+import {AppComponent} from './app.component';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AppRoutingModule} from './app-routing.module';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {AuthInterceptor} from './core/auth/auth-interceptor.interceptor';
+import {AwsCognitoService} from './core/services/aws-cognito.service';
+import {LayoutModule} from './modules/layout/layout.module';
+import {AmplifyAuthenticatorModule} from '@aws-amplify/ui-angular';
+import awsconfig from '../aws-exports';
+import {Amplify} from 'aws-amplify';
+
+Amplify.configure(awsconfig);
 
 // AoT requires an exported function for factories
 export const createTranslateLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/core/');
@@ -18,6 +25,7 @@ export const createTranslateLoaderFactory = (http: HttpClient) => new TranslateH
 	BrowserModule,
 	BrowserAnimationsModule,
 	HttpClientModule,
+	AmplifyAuthenticatorModule,
 	TranslateModule.forRoot(
 	  {
 		loader: {
@@ -32,6 +40,12 @@ export const createTranslateLoaderFactory = (http: HttpClient) => new TranslateH
 	LayoutModule
   ],
   providers: [
+	AwsCognitoService,
+	{
+	  provide: HTTP_INTERCEPTORS,
+	  useClass: AuthInterceptor,
+	  multi: true,
+	},
 	{
 	  provide: BASE_API_URL,
 	  useValue: ''

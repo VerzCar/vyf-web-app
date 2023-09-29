@@ -1,0 +1,32 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-vyfwebapp-dev-133118-authRole",
+      "UnauthRoleArn": "arn:aws:iam::451034840874:role/amplify-vyfwebapp-dev-133118-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::451034840874:role/amplify-vyfwebapp-dev-133118-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-vyfwebapp-dev-133118-deployment",
+      "UnauthRoleName": "amplify-vyfwebapp-dev-133118-unauthRole",
+      "StackName": "amplify-vyfwebapp-dev-133118",
+      "StackId": "arn:aws:cloudformation:eu-central-1:451034840874:stack/amplify-vyfwebapp-dev-133118/6134da00-5d29-11ee-a5f9-023f558464e1",
+      "AmplifyAppId": "d2ls08zp9679ab"
+    }
+  },
+  "auth": {
+    "vyfwebapp69eb1ef6": {
+      "service": "Cognito",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "output": {
+        "UserPoolId": "eu-central-1_edqU5YuCK",
+        "UserPoolName": "vyf-user-pool",
+        "AppClientID": "60pudhrn5qhmuc464jir2dss9t",
+        "AppClientIDWeb": "60pudhrn5qhmuc464jir2dss9t",
+        "HostedUIDomain": "vyf-user"
+      },
+      "lastPushTimeStamp": "2023-09-27T12:05:31.989Z"
+    }
+  }
+}

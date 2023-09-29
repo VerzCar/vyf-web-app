@@ -1,0 +1,25 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-vyfwebapp-dev-133118-authRole",
+      "UnauthRoleArn": "arn:aws:iam::451034840874:role/amplify-vyfwebapp-dev-133118-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::451034840874:role/amplify-vyfwebapp-dev-133118-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-vyfwebapp-dev-133118-deployment",
+      "UnauthRoleName": "amplify-vyfwebapp-dev-133118-unauthRole",
+      "StackName": "amplify-vyfwebapp-dev-133118",
+      "StackId": "arn:aws:cloudformation:eu-central-1:451034840874:stack/amplify-vyfwebapp-dev-133118/6134da00-5d29-11ee-a5f9-023f558464e1",
+      "AmplifyAppId": "d2ls08zp9679ab"
+    },
+    "categories": {
+      "auth": {
+        "vyfwebapp69eb1ef6": {
+          "userPoolId": "eu-central-1_edqU5YuCK",
+          "userPoolName": "vyf-user-pool",
+          "webClientId": "60pudhrn5qhmuc464jir2dss9t",
+          "nativeClientId": "60pudhrn5qhmuc464jir2dss9t"
+        }
+      }
+    }
+  }
+}

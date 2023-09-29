@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import {RxLet} from '@rx-angular/template/let';
 import { ButtonModule } from 'primeng/button';
 import { ImageModule } from 'primeng/image';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HttpClient } from '@angular/common/http';
@@ -39,6 +41,8 @@ export const createTranslateLoaderFactory = (http: HttpClient) =>
     ImageModule,
     InputTextareaModule,
     ReactiveFormsModule,
+    RxLet,
+    ProgressSpinnerModule,
   ],
 })
 export class UserModule {}
