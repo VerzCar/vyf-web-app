@@ -20,6 +20,7 @@
     "@aws-amplify/ui-angular": "^4.0.9",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
+    "@ngxs/store": "^3.8.1",
     "@nx/angular": "16.9.0",
     "@rx-angular/cdk": "^16.0.0",
     "@rx-angular/template": "^16.1.0",

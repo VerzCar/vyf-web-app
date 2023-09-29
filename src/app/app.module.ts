@@ -1,6 +1,8 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
+import { NgxsModule } from '@ngxs/store';
 import {BASE_API_URL} from '@vyf/user-service';
+import { environment } from '../env/environment';
 import {AppComponent} from './app.component';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
@@ -37,7 +39,10 @@ export const createTranslateLoaderFactory = (http: HttpClient) => new TranslateH
 	  }
 	),
 	AppRoutingModule,
-	LayoutModule
+	LayoutModule,
+	NgxsModule.forRoot([], {
+	  developmentMode: !environment.production
+	})
   ],
   providers: [
 	AwsCognitoService,
