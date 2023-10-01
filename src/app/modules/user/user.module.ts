@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxsModule } from '@ngxs/store';
 import { RxLet } from '@rx-angular/template/let';
-import { ButtonModule } from 'primeng/button';
-import { ImageModule } from 'primeng/image';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { ToastModule } from 'primeng/toast';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { UserRoutingModule } from './user-routing.module';
-import { MenuModule } from 'primeng/menu';
 import { UserProfileEditComponent } from './user-profile-edit/user-profile-edit.component';
 import { UserState } from './user-state/user.state';
 
@@ -40,14 +40,15 @@ export const createTranslateLoaderFactory = (http: HttpClient) =>
 	  UserState
 	]),
 	UserRoutingModule,
-	MenuModule,
-	ToastModule,
-	ButtonModule,
-	ImageModule,
-	InputTextareaModule,
 	ReactiveFormsModule,
 	RxLet,
-	ProgressSpinnerModule,
+	MatMenuModule,
+	MatButtonModule,
+	MatListModule,
+	MatProgressSpinnerModule,
+	NgOptimizedImage,
+	MatFormFieldModule,
+	MatInputModule,
   ],
 })
 export class UserModule {}

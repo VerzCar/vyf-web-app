@@ -1,0 +1,127 @@
+@use '@angular/material' as mat;
+
+$vyf-base-primary: (
+        50 : #aaaab4,
+        100 : #828290,
+        200 : #666673,
+        300 : #45454d,
+        400 : #36363d,
+        500 : #28282d,
+        600 : #1a1a1d,
+        700 : #0b0b0d,
+        800 : #000000,
+        900 : #000000,
+        A100 : #828290,
+        A200 : #666673,
+        A400 : #36363d,
+        A700 : #0b0b0d,
+        contrast: (
+                50 : #000000,
+                100 : #000000,
+                200 : #ffffff,
+                300 : #ffffff,
+                400 : #ffffff,
+                500 : #ffffff,
+                600 : #ffffff,
+                700 : #ffffff,
+                800 : #ffffff,
+                900 : #ffffff,
+                A100 : #000000,
+                A200 : #ffffff,
+                A400 : #ffffff,
+                A700 : #ffffff,
+        )
+);
+
+$vyf-base-accent: (
+        50 : #ffffff,
+        100 : #e6ecff,
+        200 : #aec3ff,
+        300 : #668fff,
+        400 : #4878ff,
+        500 : #2962ff,
+        600 : #0a4cff,
+        700 : #003feb,
+        800 : #0036cc,
+        900 : #002eae,
+        A100 : #ffffff,
+        A200 : #c2d2ff,
+        A400 : #5c87ff,
+        A700 : #4275ff,
+        contrast: (
+                50 : #000000,
+                100 : #000000,
+                200 : #000000,
+                300 : #000000,
+                400 : #ffffff,
+                500 : #ffffff,
+                600 : #ffffff,
+                700 : #ffffff,
+                800 : #ffffff,
+                900 : #ffffff,
+                A100 : #000000,
+                A200 : #000000,
+                A400 : #000000,
+                A700 : #ffffff,
+        )
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$vyf-web-primary: mat.define-palette($vyf-base-primary);
+$vyf-web-accent: mat.define-palette($vyf-base-accent);
+
+// The warn palette is optional (defaults to red).
+$vyf-web-warn: mat.define-palette(mat.$red-palette);
+
+// The warn palette is optional (defaults to red).
+$vyf-web-success: mat.define-palette(mat.$green-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$vyf-web-theme: mat.define-light-theme((
+        color: (
+                primary: $vyf-web-primary,
+                accent: $vyf-web-accent,
+                warn: $vyf-web-warn,
+        ),
+        density: -2,
+));
+
+// global variables
+
+// colors ---------------
+// Primary
+$vyf-primary: mat.get-color-from-palette($vyf-web-primary);
+$vyf-primary-900: mat.get-color-from-palette($vyf-web-primary, 900);
+$vyf-primary-800: mat.get-color-from-palette($vyf-web-primary, 800);
+$vyf-primary-700: mat.get-color-from-palette($vyf-web-primary, 700);
+$vyf-primary-600: mat.get-color-from-palette($vyf-web-primary, 600);
+$vyf-primary-500: mat.get-color-from-palette($vyf-web-primary, 500);
+$vyf-primary-400: mat.get-color-from-palette($vyf-web-primary, 400);
+$vyf-primary-300: mat.get-color-from-palette($vyf-web-primary, 300);
+$vyf-primary-200: mat.get-color-from-palette($vyf-web-primary, 200);
+$vyf-primary-100: mat.get-color-from-palette($vyf-web-primary, 100);
+$vyf-primary-50: mat.get-color-from-palette($vyf-web-primary, 50);
+$vyf-on-primary: #FFFFFF;
+
+// Accent
+$vyf-accent: mat.get-color-from-palette($vyf-web-accent);
+$vyf-accent-900: mat.get-color-from-palette($vyf-web-accent, 900);
+$vyf-accent-800: mat.get-color-from-palette($vyf-web-accent, 800);
+$vyf-accent-700: mat.get-color-from-palette($vyf-web-accent, 700);
+$vyf-accent-600: mat.get-color-from-palette($vyf-web-accent, 600);
+$vyf-accent-500: mat.get-color-from-palette($vyf-web-accent, 500);
+$vyf-accent-400: mat.get-color-from-palette($vyf-web-accent, 400);
+$vyf-accent-300: mat.get-color-from-palette($vyf-web-accent, 300);
+$vyf-accent-200: mat.get-color-from-palette($vyf-web-accent, 200);
+$vyf-accent-100: mat.get-color-from-palette($vyf-web-accent, 100);
+$vyf-accent-50: mat.get-color-from-palette($vyf-web-accent, 50);
+$vyf-on-accent: #000000;
+
+// Warn
+$vyf-warn: mat.get-color-from-palette($vyf-web-warn);
+$vyf-warn-light: mat.get-color-from-palette($vyf-web-warn, 400);
+
+

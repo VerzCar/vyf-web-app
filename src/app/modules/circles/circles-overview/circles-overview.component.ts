@@ -6,4 +6,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./circles-overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CirclesOverviewComponent {}
+export class CirclesOverviewComponent {
+  circles: string[] | undefined = [''];
+
+  responsiveOptions: any[] | undefined;
+}

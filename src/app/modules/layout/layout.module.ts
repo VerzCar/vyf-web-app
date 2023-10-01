@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { MenubarModule } from "primeng/menubar";
 import { FooterComponent } from './footer/footer.component';
 import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { HttpClient } from "@angular/common/http";
@@ -18,12 +18,13 @@ export const createTranslateLoaderFactory = (http: HttpClient) => new TranslateH
   ],
   imports: [
     CommonModule,
-    MenubarModule,
     TranslateModule.forChild({
       loader: { provide: TranslateLoader, useFactory: createTranslateLoaderFactory, deps: [HttpClient] },
       isolate: false,
       extend: true
-    })
+    }),
+    RouterLink,
+    RouterOutlet
   ]
 })
 export class LayoutModule {}
