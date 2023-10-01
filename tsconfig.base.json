@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@vyf/user-service": ["libs/user-service/src/index.ts"]
+      "@vyf/user-service": ["libs/user-service/src/index.ts"],
+      "@vyf/vote-circle-service": ["libs/vote-circle-service/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
