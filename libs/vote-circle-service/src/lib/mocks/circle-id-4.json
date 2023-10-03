@@ -1,0 +1,82 @@
+{
+  "id": 4,
+  "name": "Die eine mega Wahl 2023",
+  "description": "",
+  "imageSrc": "",
+  "voters": [
+    {
+      "id": 22,
+      "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+      "commitment": "OPEN",
+      "createdAt": "2023-09-24T14:17:43.903861+02:00",
+      "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+    },
+    {
+      "id": 23,
+      "voter": "a4636d24-2458-4c7c-914d-8a41f7036c68",
+      "commitment": "OPEN",
+      "createdAt": "2023-09-24T14:17:43.903861+02:00",
+      "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+    },
+    {
+      "id": 24,
+      "voter": "ff",
+      "commitment": "OPEN",
+      "createdAt": "2023-09-24T14:17:43.903861+02:00",
+      "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+    },
+    {
+      "id": 25,
+      "voter": "bb",
+      "commitment": "OPEN",
+      "createdAt": "2023-09-24T14:17:43.903861+02:00",
+      "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+    },
+    {
+      "id": 26,
+      "voter": "cc",
+      "commitment": "OPEN",
+      "createdAt": "2023-09-24T14:17:43.903861+02:00",
+      "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+    },
+    {
+      "id": 27,
+      "voter": "dd",
+      "commitment": "OPEN",
+      "createdAt": "2023-09-24T14:17:43.903861+02:00",
+      "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+    },
+    {
+      "id": 28,
+      "voter": "ee",
+      "commitment": "OPEN",
+      "createdAt": "2023-09-24T14:17:43.903861+02:00",
+      "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+    },
+    {
+      "id": 29,
+      "voter": "hh",
+      "commitment": "OPEN",
+      "createdAt": "2023-09-24T14:17:43.903861+02:00",
+      "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+    },
+    {
+      "id": 30,
+      "voter": "ii",
+      "commitment": "OPEN",
+      "createdAt": "2023-09-24T14:17:43.903861+02:00",
+      "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+    },
+    {
+      "id": 31,
+      "voter": "jj",
+      "commitment": "OPEN",
+      "createdAt": "2023-09-24T14:17:43.903861+02:00",
+      "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+    }
+  ],
+  "private": false,
+  "active": true,
+  "createdFrom": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+  "validUntil": "2023-11-29T19:29:29.554592+01:00"
+}
