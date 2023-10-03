@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { MAT_RIPPLE_GLOBAL_OPTIONS, RippleGlobalOptions } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxsModule } from '@ngxs/store';
-import { BASE_API_URL } from '@vyf/user-service';
+import { BASE_API_URL, BASE_API_USE_MOCK } from '@vyf/base';
 import { environment } from '../env/environment';
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
@@ -63,6 +63,10 @@ const globalRippleConfig: RippleGlobalOptions = {
 	{
 	  provide: BASE_API_URL,
 	  useValue: ''
+	},
+	{
+	  provide: BASE_API_USE_MOCK,
+	  useValue: true
 	},
 	{
 	  provide: MAT_RIPPLE_GLOBAL_OPTIONS,

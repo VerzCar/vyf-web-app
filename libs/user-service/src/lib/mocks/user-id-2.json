@@ -1,0 +1,65 @@
+{
+  "id": 2,
+  "identityId": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+  "username": "verzcar+02",
+  "firstName": "Carlo",
+  "LastName": "Verzeri",
+  "gender": "X",
+  "address": {
+    "id": 1,
+    "address": "AGAIN STREET 12",
+    "city": "LAUFEN",
+    "postalCode": "83410",
+    "countryId": 84,
+    "country": {
+      "id": 84,
+      "name": "Germany",
+      "alpha2": "DE",
+      "alpha3": "DEU",
+      "continentCode": "EU",
+      "number": "276",
+      "fullName": "Federal Republic of Germany",
+      "createdAt": "2023-09-22T10:21:51.643086+02:00",
+      "updatedAt": "2023-09-22T10:21:51.643086+02:00"
+    },
+    "createdAt": "2023-09-24T07:52:47.158021+02:00",
+    "updatedAt": "2023-09-24T08:03:04.514056+02:00"
+  },
+  "contact": {
+    "id": 1,
+    "email": "carloverzeri+02@gmail.com",
+    "phoneNumber": "+4917683464774",
+    "phoneNumberCountryId": 84,
+    "phoneNumberCountry": {
+      "id": 84,
+      "name": "Germany",
+      "alpha2": "DE",
+      "alpha3": "DEU",
+      "continentCode": "EU",
+      "number": "276",
+      "fullName": "Federal Republic of Germany",
+      "createdAt": "2023-09-22T10:21:51.643086+02:00",
+      "updatedAt": "2023-09-22T10:21:51.643086+02:00"
+    },
+    "phoneNumber2": "",
+    "phoneNumber2CountryId": {
+      "Int64": 0,
+      "Valid": false
+    },
+    "phoneNumber2Country": null,
+    "web": "",
+    "createdAt": "2023-09-24T07:52:47.164823+02:00",
+    "updatedAt": "2023-09-24T08:03:04.515956+02:00"
+  },
+  "profile": {
+    "id": 2,
+    "bio": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. \n\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. \n\nUt wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit",
+    "whyVoteMe": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea tak",
+    "imageSrc": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3\u0026ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8fDA%3D\u0026auto=format\u0026fit=crop\u0026w=900\u0026q=60",
+    "imagePlaceholderColors": "",
+    "createdAt": "2023-09-23T13:32:18.276848+02:00",
+    "updatedAt": "2023-09-23T13:32:18.276848+02:00"
+  },
+  "createdAt": "2023-09-23T13:32:18.279075+02:00",
+  "updatedAt": "2023-09-24T08:03:04.519158+02:00"
+}

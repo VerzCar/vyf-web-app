@@ -1,8 +1,8 @@
 import { inject, Injectable, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, retry } from 'rxjs';
-import { Identifier } from '../../models';
-import { ApiResponse } from '../../models/api-response.model';
+import { Identifier, ApiResponse } from '../models';
+import { ApiBaseMockService } from './api-base-mock.service';
 
 export const BASE_API_URL = new InjectionToken<string>('Base API Url', {
   providedIn: 'any',
@@ -12,7 +12,7 @@ export const BASE_API_URL = new InjectionToken<string>('Base API Url', {
 @Injectable({
   providedIn: 'root'
 })
-export abstract class ApiBaseService<T> {
+export abstract class ApiBaseService extends ApiBaseMockService{
   protected retryCount = 0;
 
   protected readonly httpClient = inject(HttpClient);
@@ -20,8 +20,14 @@ export abstract class ApiBaseService<T> {
 
   protected abstract get endpointPath(): string;
 
-  protected get(id?: Identifier): Observable<ApiResponse<T>> {
+  protected get<T>(
+	id?: Identifier, // entity id
+	path?: string // additional endpoint path
+  ): Observable<ApiResponse<T>> {
 	let url = this.url;
+	if (path) {
+	  url = `${url}/${path}`;
+	}
 	if (id) {
 	  url = `${url}/${id}`;
 	}
@@ -31,17 +37,31 @@ export abstract class ApiBaseService<T> {
 	);
   }
 
-  protected create(entity: T): Observable<ApiResponse<T>> {
-	return this.httpClient.post<ApiResponse<T>>(
-	  this.url,
+  protected create<Req, Res>(
+	entity: Req,
+	path?: string // additional endpoint path
+  ): Observable<ApiResponse<Res>> {
+	let url = this.url;
+	if (path) {
+	  url = `${url}/${path}`;
+	}
+	return this.httpClient.post<ApiResponse<Res>>(
+	  url,
 	  entity).pipe(
 	  retry(this.retryCount)
 	);
   }
 
-  protected update(entity: Partial<T>): Observable<ApiResponse<T>> {
-	return this.httpClient.put<ApiResponse<T>>(
-	  this.url,
+  protected update<Req, Res>(
+	entity: Partial<Req>,
+	path?: string // additional endpoint path
+  ): Observable<ApiResponse<Res>> {
+	let url = this.url;
+	if (path) {
+	  url = `${url}/${path}`;
+	}
+	return this.httpClient.put<ApiResponse<Res>>(
+	  url,
 	  entity).pipe(
 	  retry(this.retryCount)
 	);
