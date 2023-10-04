@@ -1,7 +1,7 @@
 {
   "id": 4,
   "name": "Die eine mega Wahl 2023",
-  "description": "",
+  "description": "You create the dream - then you bring it into your world. Let's make some happy little clouds in our world. I sincerely wish for you every possible joy life could bring. We don't want to set these clouds on fire. This present moment is perfect simply due to the fact you're experiencing it. You don't have to be crazy to do this but it does help. I'm going to mix up a little color. We'll use Van Dyke Brown, Permanent Red, and a little bit of Prussian Blue. I'll go over the colors one more time that we use: Titanium white, Thalo green, Prussian blue, Van Dyke brown, Alizarin crimson, Sap green, Cad yellow, and Permanent red. There's not a thing in the world wrong with washing your brush. Maybe he has a little friend that lives right over here.",
   "imageSrc": "",
   "voters": [
     {
@@ -75,7 +75,7 @@
       "updatedAt": "2023-09-24T14:17:43.903861+02:00"
     }
   ],
-  "private": false,
+  "private": true,
   "active": true,
   "createdFrom": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
   "validUntil": "2023-11-29T19:29:29.554592+01:00"

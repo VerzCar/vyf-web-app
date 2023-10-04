@@ -1,0 +1,135 @@
+<div class="layout-container">
+    <ng-container *rxLet="view$;
+    let view;
+    error: error;
+    suspense: suspense;">
+        <div class="flex flex-col gap-6">
+
+            <div class="flex flex-row items-center">
+                <div class="mx-auto flex flex-row items-center gap-4">
+                    <div *rxIf="view.circle.private"
+                         class="flex flex-col items-center">
+                        <mat-icon>
+                            lock
+                        </mat-icon>
+                        <span class="text-gray-500 text-xs">Private</span>
+                    </div>
+                    <h2 class="text-2xl font-semibold text-gray-900">
+                        {{view.circle.name}}
+                    </h2>
+                </div>
+                <a mat-button
+                   color="primary"
+                   [routerLink]="'/circles/' + view.circle.id + '/edit'"
+                   class="self-end">
+                    Edit
+                </a>
+            </div>
+
+            <div class="relative h-[14rem] w-full">
+                <img class="object-cover"
+                     ngSrc="/assets/img/circle-vote.jpg"
+                     alt="Default avatar"
+                     fill="true">
+            </div>
+
+            <a class="text-blue-600"
+               routerLink="/circles">
+                Go to Ranking List
+            </a>
+
+            <section id="circleMetaData"
+                     class="flex flex-row justify-between">
+                <div>
+                    <h3 class="text-xl font-normal text-gray-900 mb-2">
+                        Owner
+                    </h3>
+                    <a [routerLink]="'/user/' + view.circle.createdFrom"
+                       class="flex flex-row gap-2 rounded group hover:ring">
+                        <img class="w-20 h-20 object-cover rounded"
+                             ngSrc="/assets/img/user-pic.jpg"
+                             alt="Default avatar"
+                             width="20"
+                             height="20">
+                        <p class="text-gray-500 font-normal px-2 group-hover:text-blue-600">
+                            #{{view.circle.createdFrom}}</p>
+                    </a>
+                </div>
+
+                <div class="flex flex-col">
+                    <h3 class="text-xl font-normal text-gray-900 mb-2">
+                        Valid until
+                    </h3>
+                    <p class="text-gray-500">{{view.circle.validUntil | date}}</p>
+                    <p class="text-gray-500">{{view.circle.validUntil | date:'shortTime'}}</p>
+                </div>
+            </section>
+
+            <div>
+                <h3 class="text-xl font-normal text-gray-900 mb-2">
+                    Description
+                </h3>
+                <p class="text-gray-500">
+                    {{view.circle.description}}
+                </p>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-normal text-gray-900 mb-2">
+                    Members
+                </h3>
+                <div class="flex flex-row gap-4 items-center">
+                    <div class="relative hover:shadow hover:rounded hover:ring">
+                        <a [routerLink]="'/user/' + view.circle.voters[0].voter">
+                            <img class="w-14 h-14 object-cover rounded"
+                                 ngSrc="/assets/img/user-pic.jpg"
+                                 alt="Default avatar"
+                                 width="14"
+                                 height="14">
+                            <span class="absolute bottom-0 left-10 transform translate-y-1/4 w-5 h-5 bg-green-400 border-2 border-white rounded"></span>
+                        </a>
+                    </div>
+                    <div class="relative hover:shadow hover:rounded hover:ring">
+                        <a [routerLink]="'/user/' + view.circle.voters[1].voter">
+                            <img class="w-14 h-14 object-cover rounded"
+                                 ngSrc="/assets/img/user-pic.jpg"
+                                 alt="Default avatar"
+                                 width="14"
+                                 height="14">
+                            <span class="absolute bottom-0 left-10 transform translate-y-1/4 w-5 h-5 bg-green-400 border-2 border-white rounded"></span>
+                        </a>
+                    </div>
+                    <div class="relative hover:shadow hover:rounded hover:ring">
+                        <a [routerLink]="'/user/' + view.circle.voters[2].voter">
+                            <img class="w-14 h-14 object-cover rounded"
+                                 ngSrc="/assets/img/user-pic.jpg"
+                                 alt="Default avatar"
+                                 width="14"
+                                 height="14">
+                            <span class="absolute bottom-0 left-10 transform translate-y-1/4 w-5 h-5 bg-green-400 border-2 border-white rounded"></span>
+                        </a>
+                    </div>
+                    <div class="w-14 h-14 rounded hover:text-gray-950 hover:font-semibold">
+                        <a [routerLink]="'/circles/' + view.circle.id + '/members'"
+                           class="w-full h-full flex flex-col justify-center items-center">
+                            <p>
+                                +{{view.circle.voters.length}}
+                            </p>
+                            <mat-icon>
+                                horizontal_rule>
+                            </mat-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </ng-container>
+
+    <ng-template #suspense>
+        <div class="flex justify-center items-center">
+            <mat-spinner></mat-spinner>
+        </div>
+    </ng-template>
+    <ng-template #error>ERROR!</ng-template>
+</div>
