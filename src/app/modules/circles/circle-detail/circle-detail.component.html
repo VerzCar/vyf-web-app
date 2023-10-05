@@ -14,13 +14,14 @@
                         </mat-icon>
                         <span class="text-gray-500 text-xs">Private</span>
                     </div>
-                    <h2 class="text-2xl font-semibold text-gray-900">
+                    <h2>
                         {{view.circle.name}}
                     </h2>
                 </div>
                 <a mat-button
                    color="primary"
                    [routerLink]="'/circles/' + view.circle.id + '/edit'"
+                   [disabled]="view.disabled"
                    class="self-end">
                     Edit
                 </a>
@@ -33,15 +34,17 @@
                      fill="true">
             </div>
 
-            <a class="text-blue-600"
-               routerLink="/circles">
-                Go to Ranking List
-            </a>
+            <div>
+                <a class="font-medium text-blue-600"
+                   routerLink="/circles">
+                    Go to Ranking List
+                </a>
+            </div>
 
             <section id="circleMetaData"
                      class="flex flex-row justify-between">
                 <div>
-                    <h3 class="text-xl font-normal text-gray-900 mb-2">
+                    <h3>
                         Owner
                     </h3>
                     <a [routerLink]="'/user/' + view.circle.createdFrom"
@@ -51,8 +54,9 @@
                              alt="Default avatar"
                              width="20"
                              height="20">
-                        <p class="text-gray-500 font-normal px-2 group-hover:text-blue-600">
-                            #{{view.circle.createdFrom}}</p>
+                        <p class="px-2 group-hover:text-blue-600">
+                            #{{view.circle.createdFrom}}
+                        </p>
                     </a>
                 </div>
 
@@ -60,22 +64,22 @@
                     <h3 class="text-xl font-normal text-gray-900 mb-2">
                         Valid until
                     </h3>
-                    <p class="text-gray-500">{{view.circle.validUntil | date}}</p>
-                    <p class="text-gray-500">{{view.circle.validUntil | date:'shortTime'}}</p>
+                    <p>{{view.circle.validUntil | date}}</p>
+                    <p>{{view.circle.validUntil | date:'shortTime'}}</p>
                 </div>
             </section>
 
             <div>
-                <h3 class="text-xl font-normal text-gray-900 mb-2">
+                <h3>
                     Description
                 </h3>
-                <p class="text-gray-500">
+                <p class="md:max-w-5xl">
                     {{view.circle.description}}
                 </p>
             </div>
 
             <div>
-                <h3 class="text-xl font-normal text-gray-900 mb-2">
+                <h3>
                     Members
                 </h3>
                 <div class="flex flex-row gap-4 items-center">
@@ -112,11 +116,11 @@
                     <div class="w-14 h-14 rounded hover:text-gray-950 hover:font-semibold">
                         <a [routerLink]="'/circles/' + view.circle.id + '/members'"
                            class="w-full h-full flex flex-col justify-center items-center">
-                            <p>
+                            <div>
                                 +{{view.circle.voters.length}}
-                            </p>
+                            </div>
                             <mat-icon>
-                                horizontal_rule>
+                                horizontal_rule
                             </mat-icon>
                         </a>
                     </div>

@@ -6,6 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxsModule } from '@ngxs/store';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
+import { UserState } from '../user/user-state/user.state';
 import { CirclesRoutingModule } from './circles-routing.module';
 import { CirclesOverviewComponent } from './circles-overview/circles-overview.component';
 import { CircleDetailComponent } from './circle-detail/circle-detail.component';
@@ -26,10 +27,11 @@ import { EditResolver } from './services/edit.resolver';
     ],
     imports: [
         CommonModule,
-        CirclesRoutingModule,
         NgxsModule.forFeature([
+            UserState,
             CirclesState
         ]),
+        CirclesRoutingModule,
         MatButtonModule,
         RxLet,
         MatProgressSpinnerModule,

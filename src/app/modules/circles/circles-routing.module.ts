@@ -6,6 +6,7 @@ import { CircleDetailComponent } from './circle-detail/circle-detail.component';
 import { CircleEditComponent } from './circle-edit/circle-edit.component';
 import { CircleMembersComponent } from './circle-members/circle-members.component';
 import { CirclesOverviewComponent } from './circles-overview/circles-overview.component';
+import { CircleEditGuard } from './services/circle-edit.guard';
 import { DetailsResolver } from './services/details.resolver';
 import { EditResolver } from './services/edit.resolver';
 
@@ -32,6 +33,7 @@ const routes: Routes = [
             {
                 path: `:id/edit`,
                 component: CircleEditComponent,
+                canActivate: [CircleEditGuard],
                 resolve: {
                     _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(EditResolver).resolve(r, s)
                 }
@@ -42,7 +44,7 @@ const routes: Routes = [
                 resolve: {
                     _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(DetailsResolver).resolve(r, s)
                 }
-            },
+            }
         ]
     }
 ];

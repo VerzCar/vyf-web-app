@@ -47,6 +47,53 @@
           "libs/component/package.json"
         ]
       }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "libs/component/.storybook",
+        "browserTarget": "component:build-storybook",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/component",
+        "configDir": "libs/component/.storybook",
+        "browserTarget": "component:build-storybook",
+        "compodoc": false,
+        "styles": [
+          "libs/component/src/styles/styles.scss"
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/component/src/styles"]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "component:build-storybook",
+        "staticFilePath": "dist/storybook/component"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "component:build-storybook:ci"
+        }
+      }
     }
   }
 }

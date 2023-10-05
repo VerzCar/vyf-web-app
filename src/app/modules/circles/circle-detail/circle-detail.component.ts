@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Circle } from '@vyf/vote-circle-service';
-import { filter, map, Observable, tap } from 'rxjs';
+import { combineLatest, filter, map, Observable, tap } from 'rxjs';
+import { UserSelectors } from '../../user/user-state/user.selectors';
 import { CirclesSelectors } from '../circles-state/circles.selectors';
 
 interface CircleDetailView {
     circle: Circle;
+    disabled: boolean;
 }
 
 @Component({
@@ -21,9 +23,10 @@ export class CircleDetailComponent {
 
     constructor() {
         this.view$ = this.store.select(CirclesSelectors.slices.selectedCircle).pipe(
-            filter(circle => circle !== undefined),
-            map(circle => ({
-                circle: circle as Circle
+            filter((circle) => circle !== undefined),
+            map((circle) => ({
+                circle: circle!,
+                disabled: !this.store.selectSnapshot(CirclesSelectors.canEditCircle())
             }))
         );
     }
