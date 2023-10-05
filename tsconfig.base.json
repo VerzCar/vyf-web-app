@@ -17,6 +17,7 @@
     "resolveJsonModule": true,
     "paths": {
       "@vyf/base": ["libs/base/src/index.ts"],
+      "@vyf/component": ["libs/component/src/index.ts"],
       "@vyf/user-service": ["libs/user-service/src/index.ts"],
       "@vyf/vote-circle-service": ["libs/vote-circle-service/src/index.ts"]
     }
