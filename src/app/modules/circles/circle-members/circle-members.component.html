@@ -1,1 +1,50 @@
-<p>circle-members works!</p>
+<div class="layout-container">
+
+    <ng-container *rxLet="view$;
+    let view;
+    error: error;
+    suspense: suspense;">
+        <ul class="max-w-md divide-y divide-gray-200">
+            <ng-container *rxFor="let member$ of view.members$;">
+                <ng-container *rxLet="member$; let member; error: memberError; suspense: memberSuspense;">
+                    <li class="pb-3 sm:pb-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-shrink-0">
+                                <img class="w-16 h-16 object-cover rounded"
+                                     ngSrc="{{member.user.profile.imageSrc}}"
+                                     alt="Default avatar"
+                                     width="16"
+                                     height="16">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">
+                                    {{member.user.username}}
+                                </p>
+                                <p class="text-sm text-gray-500 truncate">
+                                    {{member.user.firstName}}
+                                </p>
+                            </div>
+                            <div class="inline-flex items-center text-base font-semibold text-gray-900">
+                                {{member.voter.commitment}}
+                            </div>
+                        </div>
+                    </li>
+                </ng-container>
+
+                <ng-template #memberSuspense>
+                    <div class="flex justify-center items-center">
+                        <mat-spinner diameter="50"></mat-spinner>
+                    </div>
+                </ng-template>
+                <ng-template #memberError>ERROR!</ng-template>
+            </ng-container>
+        </ul>
+    </ng-container>
+
+    <ng-template #suspense>
+        <div class="flex justify-center items-center">
+            <mat-spinner></mat-spinner>
+        </div>
+    </ng-template>
+    <ng-template #error>ERROR!</ng-template>
+</div>

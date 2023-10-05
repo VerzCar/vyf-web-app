@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxsModule } from '@ngxs/store';
+import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import { UserState } from '../user/user-state/user.state';
@@ -37,7 +38,8 @@ import { EditResolver } from './services/edit.resolver';
         MatProgressSpinnerModule,
         NgOptimizedImage,
         MatIconModule,
-        RxIf
+        RxIf,
+        RxFor
     ],
     providers: [
         DetailsResolver,
