@@ -16,39 +16,39 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { UserRoutingModule } from './user-routing.module';
 import { UserProfileEditComponent } from './user-profile-edit/user-profile-edit.component';
 import { UserState } from './user-state/user.state';
+import { UserXComponent } from './user-x/user-x.component';
 
 export const createTranslateLoaderFactory = (http: HttpClient) =>
   new TranslateHttpLoader(http, './assets/i18n/user/');
 
 @NgModule({
   declarations: [
-	UserProfileComponent,
-	UserProfileEditComponent
+    UserProfileComponent,
+    UserProfileEditComponent,
+    UserXComponent,
   ],
   imports: [
-	CommonModule,
-	TranslateModule.forChild({
-	  loader: {
-		provide: TranslateLoader,
-		useFactory: createTranslateLoaderFactory,
-		deps: [HttpClient],
-	  },
-	  isolate: false,
-	  extend: true,
-	}),
-	NgxsModule.forFeature([
-	  UserState
-	]),
-	UserRoutingModule,
-	ReactiveFormsModule,
-	RxLet,
-	MatMenuModule,
-	MatButtonModule,
-	MatListModule,
-	MatProgressSpinnerModule,
-	NgOptimizedImage,
-	MatFormFieldModule,
-	MatInputModule,
+    CommonModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoaderFactory,
+        deps: [HttpClient],
+      },
+      isolate: false,
+      extend: true,
+    }),
+    NgxsModule.forFeature([UserState]),
+    UserRoutingModule,
+    ReactiveFormsModule,
+    RxLet,
+    MatMenuModule,
+    MatButtonModule,
+    MatListModule,
+    MatProgressSpinnerModule,
+    NgOptimizedImage,
+    MatFormFieldModule,
+    MatInputModule,
   ],
 })
 export class UserModule {}

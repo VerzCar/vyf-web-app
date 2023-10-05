@@ -6,40 +6,15 @@
     suspense: suspense;">
         <!--    mobile only-->
         <div class="flex flex-col md:flex-row gap-4 md:gap-12">
-            <div class="block md:hidden ml-auto">
-                <button mat-button
-                        [matMenuTriggerFor]="menu">
-                    Settings
-                </button>
-                <mat-menu #menu="matMenu">
-                    <ng-template matMenuContent>
-                        <a mat-menu-item
-                           [routerLink]="'edit'">
-                            Edit
-                        </a>
-                    </ng-template>
-                </mat-menu>
-            </div>
-
-
-            <!--    display only-->
-            <div class="hidden md:block">
-                <mat-list role="list">
-                    <mat-list-item role="listitem">
-                        <a mat-menu-item
-                           [routerLink]="'edit'">
-                            Edit
-                        </a>
-                    </mat-list-item>
-                </mat-list>
-            </div>
-
             <section class="flex flex-col gap-4">
-                <div class="border-2 rounded bg-white p-2">
+                <div class="flex flex-col border-2 rounded bg-white p-2 self-center">
                     <img ngSrc="{{view.user.profile.imageSrc}}"
                          alt="User Profile Image"
                          width="150"
                          height="150">
+                    <p class="group-hover:text-blue-600 mx-auto">
+                        #{{view.user.username}}
+                    </p>
                 </div>
 
                 <div>
