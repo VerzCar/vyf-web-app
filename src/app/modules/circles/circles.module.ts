@@ -7,6 +7,7 @@ import { NgxsModule } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
+import { CircleMemberComponent } from '@vyf/component';
 import { UserState } from '../user/user-state/user.state';
 import { CirclesRoutingModule } from './circles-routing.module';
 import { CirclesOverviewComponent } from './circles-overview/circles-overview.component';
@@ -17,7 +18,7 @@ import { CircleMembersComponent } from './circle-members/circle-members.componen
 import { CirclesState } from './circles-state/circles.state';
 import { DetailsResolver } from './services/details.resolver';
 import { EditResolver } from './services/edit.resolver';
-import { CircleUserCommitmentPipe } from './services/pipes/circle-user-commitment.pipe';
+import { CircleMemberCommitmentPipe } from '../../../../libs/component/src/lib/pipes/circle-member-commitment.pipe';
 
 @NgModule({
     declarations: [
@@ -41,7 +42,7 @@ import { CircleUserCommitmentPipe } from './services/pipes/circle-user-commitmen
         MatIconModule,
         RxIf,
         RxFor,
-        CircleUserCommitmentPipe
+        CircleMemberComponent
     ],
     providers: [
         DetailsResolver,

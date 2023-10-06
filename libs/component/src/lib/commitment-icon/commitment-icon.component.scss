@@ -1,0 +1,27 @@
+:host {
+    @apply absolute bottom-0 right-0 w-5 h-5 border border-white rounded;
+
+    &.open {
+        @apply bg-blue-400 content-center;
+        &:after {
+            @apply flex justify-center items-center w-full h-full text-white p-1;
+            content: '\003F';
+        }
+    }
+
+    &.committed {
+        @apply bg-green-400;
+        &:after {
+            @apply flex justify-center items-center w-full h-full text-white p-1;
+            content: '✓';
+        }
+    }
+
+    &.rejected {
+        @apply bg-red-400;
+        &:after {
+            @apply flex justify-center items-center w-full h-full text-white p-1;
+            content: '🛇';
+        }
+    }
+}

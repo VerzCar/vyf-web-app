@@ -2,10 +2,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Commitment } from '@vyf/vote-circle-service';
 
 @Pipe({
-    name: 'circleUserCommitment',
+    name: 'circleMemberCommitment',
     standalone: true
 })
-export class CircleUserCommitmentPipe implements PipeTransform {
+export class CircleMemberCommitmentPipe implements PipeTransform {
     public transform(commitment: Commitment, ...args: unknown[]): string {
         switch (commitment) {
             case Commitment.Open:
