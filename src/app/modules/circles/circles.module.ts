@@ -17,6 +17,7 @@ import { CircleMembersComponent } from './circle-members/circle-members.componen
 import { CirclesState } from './circles-state/circles.state';
 import { DetailsResolver } from './services/details.resolver';
 import { EditResolver } from './services/edit.resolver';
+import { CircleUserCommitmentPipe } from './services/pipes/circle-user-commitment.pipe';
 
 @NgModule({
     declarations: [
@@ -39,7 +40,8 @@ import { EditResolver } from './services/edit.resolver';
         NgOptimizedImage,
         MatIconModule,
         RxIf,
-        RxFor
+        RxFor,
+        CircleUserCommitmentPipe
     ],
     providers: [
         DetailsResolver,
