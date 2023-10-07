@@ -51,7 +51,6 @@ export class CircleMemberComponent implements OnInit {
     public view$: Observable<CircleMemberView> | undefined;
 
     public ngOnInit(): void {
-        console.log(this.opts, defaultOpts);
         this.view$ = this.member$?.pipe(
             map(member => ({
                 member,

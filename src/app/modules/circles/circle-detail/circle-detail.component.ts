@@ -51,12 +51,12 @@ export class CircleDetailComponent {
         this.view$ = this.store.select(CirclesSelectors.slices.selectedCircle).pipe(
             filter((circle) => circle !== undefined),
             map((circle) => {
-                const members$ = this.circleMembers$(circle!);
-                const votersCount = this.votersCount(circle!);
-                const owner$ = this.owner$(circle!);
+                const members$ = this.circleMembers$(circle as Circle);
+                const votersCount = this.votersCount(circle as Circle);
+                const owner$ = this.owner$(circle as Circle);
 
                 return {
-                    circle: circle!,
+                    circle: circle as Circle,
                     owner$,
                     members$,
                     votersCount,

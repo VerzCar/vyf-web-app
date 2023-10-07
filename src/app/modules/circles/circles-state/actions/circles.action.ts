@@ -7,4 +7,10 @@ export namespace CirclesAction {
 
         constructor(public circleId: number) {}
     }
+
+    export class SelectCircle {
+        public static readonly type = `[${domainName}] Select Circle`;
+
+        constructor(public circleId: number) {}
+    }
 }

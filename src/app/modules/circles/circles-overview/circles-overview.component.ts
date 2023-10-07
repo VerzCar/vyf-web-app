@@ -8,6 +8,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 })
 export class CirclesOverviewComponent {
   circles: string[] | undefined = [''];
-
-  responsiveOptions: any[] | undefined;
 }
