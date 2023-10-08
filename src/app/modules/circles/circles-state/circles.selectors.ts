@@ -12,4 +12,10 @@ export class CirclesSelectors {
             return userState.user?.identityId === circleState.selectedCircle?.createdFrom;
         });
     }
+
+    static canViewCircle() {
+        return createSelector([UserState, CirclesState], (userState: UserStateModel, circleState: CirclesStateModel): boolean => {
+            return userState.user?.identityId === circleState.selectedCircle?.createdFrom;
+        });
+    }
 }

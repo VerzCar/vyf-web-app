@@ -30,6 +30,10 @@
                 <a [routerLink]="'/'+route.user"
                    class="text-base font-medium text-gray-500 hover:text-gray-900">User</a>
 
+                <p class="text-base font-medium text-gray-500 hover:text-gray-900">
+                    {{username}}
+                </p>
+
                 <label class="">
                     {{ 'HOME.SELECT' | translate }}
                     <select #langSelect (change)="translate.use(langSelect.value)">

@@ -4,7 +4,7 @@
     suspense: suspense;">
 
     <div>
-        <a [routerLink]="'/user/' + view.member.user.identityId">
+        <a [routerLink]="['/user', view.member.user.identityId]">
             <div class="flex flex-row gap-4">
                 <div class="relative w-14 h-14 rounded hover:shadow hover:ring">
                     <img class="w-14 h-14 object-cover rounded"

@@ -18,35 +18,30 @@ import { CircleMembersComponent } from './circle-members/circle-members.componen
 import { CirclesState } from './circles-state/circles.state';
 import { DetailsResolver } from './services/details.resolver';
 import { EditResolver } from './services/edit.resolver';
-import { CircleMemberCommitmentPipe } from '../../../../libs/component/src/lib/pipes/circle-member-commitment.pipe';
+import { CircleNotEligibleComponent } from './circle-not-eligible/circle-not-eligible.component';
 
 @NgModule({
-    declarations: [
-        CirclesOverviewComponent,
-        CircleDetailComponent,
-        CircleEditComponent,
-        CircleCreateComponent,
-        CircleMembersComponent
-    ],
-    imports: [
-        CommonModule,
-        NgxsModule.forFeature([
-            UserState,
-            CirclesState
-        ]),
-        CirclesRoutingModule,
-        MatButtonModule,
-        RxLet,
-        MatProgressSpinnerModule,
-        NgOptimizedImage,
-        MatIconModule,
-        RxIf,
-        RxFor,
-        CircleMemberComponent
-    ],
-    providers: [
-        DetailsResolver,
-        EditResolver
-    ]
+  declarations: [
+    CirclesOverviewComponent,
+    CircleDetailComponent,
+    CircleEditComponent,
+    CircleCreateComponent,
+    CircleMembersComponent,
+    CircleNotEligibleComponent,
+  ],
+  imports: [
+    CommonModule,
+    NgxsModule.forFeature([UserState, CirclesState]),
+    MatButtonModule,
+    RxLet,
+    MatProgressSpinnerModule,
+    NgOptimizedImage,
+    MatIconModule,
+    RxIf,
+    RxFor,
+    CircleMemberComponent,
+    CirclesRoutingModule,
+  ],
+  providers: [DetailsResolver, EditResolver],
 })
 export class CirclesModule {}

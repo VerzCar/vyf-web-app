@@ -17,7 +17,7 @@ export class VoteCircleService extends ApiBaseService {
   }
 
   public circle(id: number): Observable<ApiResponse<Circle>> {
-	return this.useMock ? this.getMock(circleId04 as unknown as Circle) : this.get(id, 'circle');
+	return this.useMock ? this.getMock(circleId04 as unknown as Circle) : this.get({ ressource: 'circle', id });
   }
 
   public createCircle(circle: Circle): Observable<ApiResponse<Circle>> {
@@ -33,6 +33,13 @@ export class VoteCircleService extends ApiBaseService {
   }
 
   public rankings(circleId: number): Observable<ApiResponse<Ranking[]>> {
-	return this.useMock ? this.getMock(rankingsCircleId04 as unknown as Ranking[]) : this.get(circleId, 'rankings');
+	return this.useMock ? this.getMock(rankingsCircleId04 as unknown as Ranking[]) : this.get({
+	  ressource: 'rankings',
+	  id: circleId
+	});
+  }
+
+  public eligibleToBeInCircle(id: number): Observable<ApiResponse<boolean>> {
+	return this.useMock ? this.getMock(true) : this.get({ ressource: 'circle', id, path: 'eligible' });
   }
 }

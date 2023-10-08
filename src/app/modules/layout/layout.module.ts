@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { NgxsModule } from '@ngxs/store';
+import { UserState } from '../user/user-state/user.state';
 import { LayoutComponent } from './layout/layout.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FooterComponent } from './footer/footer.component';
@@ -18,6 +20,7 @@ export const createTranslateLoaderFactory = (http: HttpClient) => new TranslateH
   ],
   imports: [
     CommonModule,
+    NgxsModule.forFeature([UserState]),
     TranslateModule.forChild({
       loader: { provide: TranslateLoader, useFactory: createTranslateLoaderFactory, deps: [HttpClient] },
       isolate: false,

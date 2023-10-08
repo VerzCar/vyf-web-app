@@ -16,6 +16,7 @@ import { LayoutModule } from './modules/layout/layout.module';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 import awsconfig from '../aws-exports';
 import { Amplify } from 'aws-amplify';
+import { UserState } from './modules/user/user-state/user.state';
 
 Amplify.configure(awsconfig);
 
@@ -37,6 +38,9 @@ const globalRippleConfig: RippleGlobalOptions = {
 	BrowserAnimationsModule,
 	HttpClientModule,
 	AmplifyAuthenticatorModule,
+	NgxsModule.forRoot([], {
+	  developmentMode: !environment.production
+	}),
 	TranslateModule.forRoot(
 	  {
 		loader: {
@@ -47,11 +51,8 @@ const globalRippleConfig: RippleGlobalOptions = {
 		extend: true
 	  }
 	),
-	AppRoutingModule,
 	LayoutModule,
-	NgxsModule.forRoot([], {
-	  developmentMode: !environment.production
-	})
+	AppRoutingModule,
   ],
   providers: [
 	AwsCognitoService,
@@ -66,7 +67,7 @@ const globalRippleConfig: RippleGlobalOptions = {
 	},
 	{
 	  provide: BASE_API_USE_MOCK,
-	  useValue: true
+	  useValue: false
 	},
 	{
 	  provide: MAT_RIPPLE_GLOBAL_OPTIONS,

@@ -20,7 +20,7 @@ export class UserService extends ApiBaseService {
   }
 
   public x(id: string): Observable<ApiResponse<User>> {
-	return this.useMock ? this.getMock(userId02 as unknown as User) : this.get(id);
+	return this.useMock ? this.getMock(userId02 as unknown as User) : this.get({id});
   }
 
   public updateUser(user: Partial<User>): Observable<ApiResponse<User>> {
