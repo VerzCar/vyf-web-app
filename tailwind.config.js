@@ -16,7 +16,22 @@ module.exports = {
     require("daisyui")
   ],
   daisyui: {
-    themes: [], // true: all themes | false: only light + dark | array: specific themes like this ["light", "dark", "cupcake"]
+    themes: [
+      {
+        vyfTheme: {
+          "primary": "#28282D",
+          "secondary": "#2962FF",
+          "accent": "#7c3aed",
+          "neutral": "#FAFAFA",
+          "base-100": "#ffffff",
+          "info": "#29B6F6",
+          "success": "#4CAF50",
+          "warning": "#FFA726",
+          "error": "#F44336",
+        },
+      },
+      "dark",
+    ], // true: all themes | false: only light + dark | array: specific themes like this ["light", "dark", "cupcake"]
     darkTheme: "dark", // name of one of the included themes for dark mode
     base: true, // applies background color and foreground color for root element by default
     styled: true, // include daisyUI colors and design decisions for all components

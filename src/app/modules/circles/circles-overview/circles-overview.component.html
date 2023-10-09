@@ -5,27 +5,26 @@
     let view;
     error: error;
     suspense: suspense;">
-        <div class="flex flex-row justify-center">
-            <h3>
-                Your Circles
-                <span class="font-light text-base text-gray-600">
+        <div class="flex flex-col gap-4">
+            <div class="flex flex-row items-center justify-between">
+                <h3>
+                    Your Circles
+                    <span class="font-light text-base text-gray-600">
                 ({{view.circles.length}}/10)
             </span>
-            </h3>
-            <button class="daisy-btn"
-                    type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                </svg>
-                Create Circle
-            </button>
-        </div>
+                </h3>
+                <a [routerLink]="['/circles', 'create']"
+                   class="daisy-btn daisy-btn-secondary daisy-btn-sm"
+                   role="button">
+                    <i-feather name="plus"></i-feather>
+                    Create Circle
+                </a>
+            </div>
 
-        <div class="border rounded p-2">
-            <app-circles-carousel [circles]="view.circles">
-            </app-circles-carousel>
+            <div class="border rounded p-2">
+                <app-circles-carousel [circles]="view.circles">
+                </app-circles-carousel>
+            </div>
         </div>
     </ng-container>
 
