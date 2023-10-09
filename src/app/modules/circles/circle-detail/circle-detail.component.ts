@@ -102,6 +102,7 @@ export class CircleDetailComponent {
             return 0;
         }
         const votersCount = circle.voters.length - this.maxMembersCount;
+        console.log(votersCount, circle.voters.length);
         return votersCount > 0 ? votersCount : 0;
     }
 

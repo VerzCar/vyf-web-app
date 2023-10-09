@@ -7,11 +7,16 @@
         <a [routerLink]="['/user', view.member.user.identityId]">
             <div class="flex flex-row gap-4">
                 <div class="relative w-14 h-14 rounded hover:shadow hover:ring">
-                    <img class="w-14 h-14 object-cover rounded"
+                    <img *rxIf="view.member.user.profile.imageSrc"
+                         class="w-14 h-14 object-cover rounded"
                          ngSrc="{{view.member.user.profile.imageSrc}}"
                          alt="{{view.member.user.username}}"
                          width="14"
                          height="14">
+                    <div *rxIf="!view.member.user.profile.imageSrc"
+                         class="bg-gray-800 text-gray-200 w-14 h-14 flex items-center justify-center rounded">
+                        <span class="text-xl uppercase">{{view.member.user.username | shortName}}</span>
+                    </div>
                     <vyf-commitment-icon *rxIf="view.opts.show.commitmentIcon"
                                          [commitment]="view.member.voter.commitment">
                     </vyf-commitment-icon>

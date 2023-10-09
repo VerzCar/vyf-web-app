@@ -1,1 +1,7 @@
-<p>circles-carousel works!</p>
+<div class="daisy-carousel daisy-carousel-center w-full p-4 space-x-4 bg-neutral rounded-box">
+    <ng-container *rxFor="let circle of circles;">
+        <app-circle-card [circle]="circle"
+                         class="daisy-carousel-item">
+        </app-circle-card>
+    </ng-container>
+</div>

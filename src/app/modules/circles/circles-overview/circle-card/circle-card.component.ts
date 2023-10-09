@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Circle } from '@vyf/vote-circle-service';
 
 @Component({
   selector: 'app-circle-card',
@@ -6,4 +7,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['./circle-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CircleCardComponent {}
+export class CircleCardComponent {
+  @Input({ required: true }) public circle!: Circle;
+}

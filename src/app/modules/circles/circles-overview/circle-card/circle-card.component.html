@@ -1,1 +1,13 @@
-<p>circle-card works!</p>
+<a [routerLink]="['/circles', circle.id]">
+    <div class="daisy-card daisy-card-compact w-48 md:min-w-sm max-w-sm h-48 md:h-60 bg-base-100 shadow-xl">
+        <figure class="relative w-full h-48 md:h-60">
+            <img class="object-cover"
+                 ngSrc="{{circle.imageSrc}}"
+                 alt="{{circle.name}}"
+                 [fill]="true"/>
+        </figure>
+        <div class="daisy-card-body">
+            <h2 class="daisy-card-title">{{circle.name}}</h2>
+        </div>
+    </div>
+</a>
