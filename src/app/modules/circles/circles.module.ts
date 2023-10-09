@@ -20,28 +20,32 @@ import { DetailsResolver } from './services/details.resolver';
 import { EditResolver } from './services/edit.resolver';
 import { CircleNotEligibleComponent } from './circle-not-eligible/circle-not-eligible.component';
 import { OverviewResolver } from './services/overview.resolver';
+import { CircleCardComponent } from './circles-overview/circle-card/circle-card.component';
+import { CirclesCarouselComponent } from './circles-overview/circles-carousel/circles-carousel.component';
 
 @NgModule({
   declarations: [
-	CirclesOverviewComponent,
-	CircleDetailComponent,
-	CircleEditComponent,
-	CircleCreateComponent,
-	CircleMembersComponent,
-	CircleNotEligibleComponent,
+    CirclesOverviewComponent,
+    CircleDetailComponent,
+    CircleEditComponent,
+    CircleCreateComponent,
+    CircleMembersComponent,
+    CircleNotEligibleComponent,
+    CircleCardComponent,
+    CirclesCarouselComponent,
   ],
   imports: [
-	CommonModule,
-	NgxsModule.forFeature([UserState, CirclesState]),
-	MatButtonModule,
-	RxLet,
-	MatProgressSpinnerModule,
-	NgOptimizedImage,
-	MatIconModule,
-	RxIf,
-	RxFor,
-	CircleMemberComponent,
-	CirclesRoutingModule,
+    CommonModule,
+    NgxsModule.forFeature([UserState, CirclesState]),
+    MatButtonModule,
+    RxLet,
+    MatProgressSpinnerModule,
+    NgOptimizedImage,
+    MatIconModule,
+    RxIf,
+    RxFor,
+    CircleMemberComponent,
+    CirclesRoutingModule,
   ],
   providers: [DetailsResolver, EditResolver, OverviewResolver],
 })

@@ -67,7 +67,7 @@ const globalRippleConfig: RippleGlobalOptions = {
 	},
 	{
 	  provide: BASE_API_USE_MOCK,
-	  useValue: true
+	  useValue: false
 	},
 	{
 	  provide: MAT_RIPPLE_GLOBAL_OPTIONS,
