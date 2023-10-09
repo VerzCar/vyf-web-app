@@ -1,1 +1,22 @@
-<p>circle-not-eligible works!</p>
+<div class="layout-container">
+    <div class="flex flex-col gap-4 py-12">
+
+        <h2>
+            This Circle is private! <br>
+            You are not eligible to see that circle.
+        </h2>
+
+        <p>
+            Ask the owner, if you can join.
+        </p>
+
+        <div>
+            <a [routerLink]="['/circles']"
+               mat-button
+               color="accent">
+                Go back to circles
+            </a>
+        </div>
+
+    </div>
+</div>

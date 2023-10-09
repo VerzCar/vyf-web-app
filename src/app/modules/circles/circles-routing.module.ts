@@ -11,6 +11,7 @@ import { CircleDetailGuard } from './services/circle-detail.guard';
 import { CircleEditGuard } from './services/circle-edit.guard';
 import { DetailsResolver } from './services/details.resolver';
 import { EditResolver } from './services/edit.resolver';
+import { OverviewResolver } from './services/overview.resolver';
 
 const routes: Routes = [
   {
@@ -19,7 +20,10 @@ const routes: Routes = [
 	children: [
 	  {
 		path: '',
-		component: CirclesOverviewComponent
+		component: CirclesOverviewComponent,
+		resolve: {
+		  _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(OverviewResolver).resolve(r, s)
+		}
 	  },
 	  {
 		path: 'not-eligible',

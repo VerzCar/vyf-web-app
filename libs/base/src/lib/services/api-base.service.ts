@@ -13,7 +13,7 @@ export const BASE_API_URL = new InjectionToken<string>('Base API Url', {
 @Injectable({
   providedIn: 'root'
 })
-export abstract class ApiBaseService extends ApiBaseMockService{
+export abstract class ApiBaseService extends ApiBaseMockService {
   protected retryCount = 0;
 
   protected readonly httpClient = inject(HttpClient);
@@ -33,6 +33,23 @@ export abstract class ApiBaseService extends ApiBaseMockService{
 	  url = `${url}/${opts.path}`;
 	}
 	return this.httpClient.get<ApiResponse<T>>(
+	  url).pipe(
+	  retry(this.retryCount)
+	);
+  }
+
+  protected getAll<T>(opts?: ApiGetOpts): Observable<ApiResponse<T[]>> {
+	let url = this.url;
+	if (opts?.ressource) {
+	  url = `${url}/${opts.ressource}`;
+	}
+	if (opts?.id) {
+	  url = `${url}/${opts.id}`;
+	}
+	if (opts?.path) {
+	  url = `${url}/${opts.path}`;
+	}
+	return this.httpClient.get<ApiResponse<T[]>>(
 	  url).pipe(
 	  retry(this.retryCount)
 	);

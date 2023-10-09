@@ -1,0 +1,353 @@
+{
+  "status": "success",
+  "msg": "",
+  "data": [
+    {
+      "id": 3,
+      "name": "Die eine mega Wahl 2023",
+      "description": "",
+      "imageSrc": "",
+      "voters": [
+        {
+          "id": 12,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:30:09.267352+02:00",
+          "updatedAt": "2023-09-24T13:30:09.267352+02:00"
+        },
+        {
+          "id": 13,
+          "voter": "68a1a453-2f58-4ce1-8908-49a30fe6c211",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:30:09.267352+02:00",
+          "updatedAt": "2023-09-24T13:30:09.267352+02:00"
+        },
+        {
+          "id": 21,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:30:09.267352+02:00",
+          "updatedAt": "2023-09-24T13:30:09.267352+02:00"
+        },
+        {
+          "id": 17,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:30:09.267352+02:00",
+          "updatedAt": "2023-09-24T13:30:09.267352+02:00"
+        },
+        {
+          "id": 19,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:30:09.267352+02:00",
+          "updatedAt": "2023-09-24T13:30:09.267352+02:00"
+        },
+        {
+          "id": 15,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:30:09.267352+02:00",
+          "updatedAt": "2023-09-24T13:30:09.267352+02:00"
+        },
+        {
+          "id": 14,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:30:09.267352+02:00",
+          "updatedAt": "2023-09-24T13:30:09.267352+02:00"
+        },
+        {
+          "id": 20,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:30:09.267352+02:00",
+          "updatedAt": "2023-09-24T13:30:09.267352+02:00"
+        },
+        {
+          "id": 16,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:30:09.267352+02:00",
+          "updatedAt": "2023-09-24T13:30:09.267352+02:00"
+        },
+        {
+          "id": 18,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:30:09.267352+02:00",
+          "updatedAt": "2023-09-24T13:30:09.267352+02:00"
+        }
+      ],
+      "private": false,
+      "active": true,
+      "createdFrom": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+      "validUntil": "2023-11-29T19:29:29.554592+01:00"
+    },
+    {
+      "id": 4,
+      "name": "Die eine mega Wahl 2023",
+      "description": "",
+      "imageSrc": "",
+      "voters": [
+        {
+          "id": 22,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T14:17:43.903861+02:00",
+          "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+        },
+        {
+          "id": 23,
+          "voter": "68a1a453-2f58-4ce1-8908-49a30fe6c211",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T14:17:43.903861+02:00",
+          "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+        },
+        {
+          "id": 27,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T14:17:43.903861+02:00",
+          "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+        },
+        {
+          "id": 31,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T14:17:43.903861+02:00",
+          "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+        },
+        {
+          "id": 29,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T14:17:43.903861+02:00",
+          "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+        },
+        {
+          "id": 26,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T14:17:43.903861+02:00",
+          "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+        },
+        {
+          "id": 28,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T14:17:43.903861+02:00",
+          "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+        },
+        {
+          "id": 30,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T14:17:43.903861+02:00",
+          "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+        },
+        {
+          "id": 24,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T14:17:43.903861+02:00",
+          "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+        },
+        {
+          "id": 25,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T14:17:43.903861+02:00",
+          "updatedAt": "2023-09-24T14:17:43.903861+02:00"
+        }
+      ],
+      "private": false,
+      "active": true,
+      "createdFrom": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+      "validUntil": "2023-11-29T19:29:29.554592+01:00"
+    },
+    {
+      "id": 1,
+      "name": "Global",
+      "description": "One of the most impressive circles around the globe",
+      "imageSrc": "",
+      "voters": [
+        {
+          "id": 1,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "COMMITTED",
+          "createdAt": "2023-09-24T13:19:42.033055+02:00",
+          "updatedAt": "2023-09-24T13:19:42.033055+02:00"
+        },
+        {
+          "id": 32,
+          "voter": "68a1a453-2f58-4ce1-8908-49a30fe6c211",
+          "commitment": "COMMITTED",
+          "createdAt": "2023-10-07T12:50:58.748614+02:00",
+          "updatedAt": "2023-10-07T12:50:58.748614+02:00"
+        },
+        {
+          "id": 33,
+          "voter": "52ec2684-0e2a-4188-8b1a-606b20321c8f",
+          "commitment": "COMMITTED",
+          "createdAt": "2023-10-07T13:04:29.431019+02:00",
+          "updatedAt": "2023-10-07T13:04:29.431019+02:00"
+        },
+        {
+          "id": 34,
+          "voter": "b70867b5-8b4b-4e37-9074-eeb2c22a40e1",
+          "commitment": "COMMITTED",
+          "createdAt": "2023-10-07T13:05:59.517866+02:00",
+          "updatedAt": "2023-10-07T13:05:59.517866+02:00"
+        },
+        {
+          "id": 35,
+          "voter": "d4e7c3d9-8910-4ed8-a060-31f773acf1c0",
+          "commitment": "COMMITTED",
+          "createdAt": "2023-10-07T13:09:00.712644+02:00",
+          "updatedAt": "2023-10-07T13:09:00.712644+02:00"
+        },
+        {
+          "id": 36,
+          "voter": "444ae957-bd7a-4e90-b50f-b43ed2c74e7c",
+          "commitment": "COMMITTED",
+          "createdAt": "2023-10-07T13:37:46.123116+02:00",
+          "updatedAt": "2023-10-07T13:37:46.123116+02:00"
+        },
+        {
+          "id": 37,
+          "voter": "293a69b4-ffc7-481a-91cb-012765a4fd16",
+          "commitment": "COMMITTED",
+          "createdAt": "2023-10-07T13:38:53.732726+02:00",
+          "updatedAt": "2023-10-07T13:38:53.732726+02:00"
+        },
+        {
+          "id": 38,
+          "voter": "4f87e05a-3e43-4817-b7f6-64e08496da78",
+          "commitment": "COMMITTED",
+          "createdAt": "2023-10-07T13:40:11.700579+02:00",
+          "updatedAt": "2023-10-07T13:40:11.700579+02:00"
+        },
+        {
+          "id": 39,
+          "voter": "58c9727c-cc07-4c9a-98ff-91d471377352",
+          "commitment": "COMMITTED",
+          "createdAt": "2023-10-07T13:41:07.477366+02:00",
+          "updatedAt": "2023-10-07T13:41:07.477366+02:00"
+        },
+        {
+          "id": 40,
+          "voter": "b7330b24-bfa0-467e-8d01-b23136e512cb",
+          "commitment": "COMMITTED",
+          "createdAt": "2023-10-07T13:42:31.246649+02:00",
+          "updatedAt": "2023-10-07T13:42:31.246649+02:00"
+        }
+      ],
+      "private": false,
+      "active": true,
+      "createdFrom": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+      "validUntil": null
+    },
+    {
+      "id": 2,
+      "name": "Mega Wahl 2023",
+      "description": "",
+      "imageSrc": "",
+      "voters": [
+        {
+          "id": 2,
+          "voter": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:28:55.552138+02:00",
+          "updatedAt": "2023-09-24T13:28:55.552138+02:00"
+        },
+        {
+          "id": 4,
+          "voter": "68a1a453-2f58-4ce1-8908-49a30fe6c211",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:28:55.552138+02:00",
+          "updatedAt": "2023-09-24T13:28:55.552138+02:00"
+        },
+        {
+          "id": 11,
+          "voter": "68a1a453-2f58-4ce1-8908-49a30fe6c211",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:28:55.552138+02:00",
+          "updatedAt": "2023-09-24T13:28:55.552138+02:00"
+        },
+        {
+          "id": 9,
+          "voter": "68a1a453-2f58-4ce1-8908-49a30fe6c211",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:28:55.552138+02:00",
+          "updatedAt": "2023-09-24T13:28:55.552138+02:00"
+        },
+        {
+          "id": 8,
+          "voter": "68a1a453-2f58-4ce1-8908-49a30fe6c211",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:28:55.552138+02:00",
+          "updatedAt": "2023-09-24T13:28:55.552138+02:00"
+        },
+        {
+          "id": 5,
+          "voter": "68a1a453-2f58-4ce1-8908-49a30fe6c211",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:28:55.552138+02:00",
+          "updatedAt": "2023-09-24T13:28:55.552138+02:00"
+        },
+        {
+          "id": 7,
+          "voter": "68a1a453-2f58-4ce1-8908-49a30fe6c211",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:28:55.552138+02:00",
+          "updatedAt": "2023-09-24T13:28:55.552138+02:00"
+        },
+        {
+          "id": 10,
+          "voter": "68a1a453-2f58-4ce1-8908-49a30fe6c211",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:28:55.552138+02:00",
+          "updatedAt": "2023-09-24T13:28:55.552138+02:00"
+        },
+        {
+          "id": 6,
+          "voter": "68a1a453-2f58-4ce1-8908-49a30fe6c211",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:28:55.552138+02:00",
+          "updatedAt": "2023-09-24T13:28:55.552138+02:00"
+        },
+        {
+          "id": 3,
+          "voter": "68a1a453-2f58-4ce1-8908-49a30fe6c211",
+          "commitment": "OPEN",
+          "createdAt": "2023-09-24T13:28:55.552138+02:00",
+          "updatedAt": "2023-09-24T13:28:55.552138+02:00"
+        }
+      ],
+      "private": false,
+      "active": true,
+      "createdFrom": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+      "validUntil": "2023-11-29T19:29:29.554592+01:00"
+    },
+    {
+      "id": 5,
+      "name": "Landtagswahl 2023",
+      "description": "",
+      "imageSrc": "",
+      "voters": [
+        {
+          "id": 42,
+          "voter": "68a1a453-2f58-4ce1-8908-49a30fe6c211",
+          "commitment": "OPEN",
+          "createdAt": "2023-10-07T19:59:11.202702+02:00",
+          "updatedAt": "2023-10-07T19:59:11.202702+02:00"
+        }
+      ],
+      "private": true,
+      "active": true,
+      "createdFrom": "d7ca7bb9-42aa-4a64-9a72-0f6ce1ae4bfc",
+      "validUntil": "2023-11-29T19:29:29.554592+01:00"
+    }
+  ]
+}

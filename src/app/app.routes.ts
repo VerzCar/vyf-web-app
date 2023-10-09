@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { LayoutComponent } from './modules/layout/layout/layout.component';
 import { Vyf404Component } from './modules/vyf/vyf-404/vyf-404.component';
 import { Route } from './routes';
 
@@ -17,6 +18,12 @@ export const appRoutes: Routes = [
   },
   {
 	path: '**',
-	component: Vyf404Component
+	component: LayoutComponent,
+	children: [
+	  {
+		path: '',
+		component: Vyf404Component
+	  }
+	],
   }
 ];

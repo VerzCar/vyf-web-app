@@ -8,6 +8,15 @@ export namespace CirclesAction {
         constructor(public circleId: number) {}
     }
 
+    export class FetchCircles {
+        public static readonly type = `[${domainName}] Fetch Circles`;
+    }
+
+    export class GetMyCircles {
+        public static readonly type = `[${domainName}] Get My Circles`;
+    }
+
+
     export class SelectCircle {
         public static readonly type = `[${domainName}] Select Circle`;
 
