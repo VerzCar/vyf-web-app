@@ -1,30 +1,36 @@
 import { inject, Injectable } from '@angular/core';
 import { ApiBaseService, ApiResponse, BASE_API_USE_MOCK } from '@vyf/base';
-import { User } from '../models';
 import { Observable } from 'rxjs';
 
 import * as userId02 from '../mocks/user-id-2.json';
+import * as users from '../mocks/users.json';
+import { User } from '../models';
+import { UserPaginated } from '../models/user-paginated.model';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class UserService extends ApiBaseService {
-  private readonly useMock = inject(BASE_API_USE_MOCK);
+    private readonly useMock = inject(BASE_API_USE_MOCK);
 
-  protected get endpointPath(): string {
-	return 'v1/api/user';
-  }
+    protected get endpointPath(): string {
+        return 'v1/api/user';
+    }
 
-  public me(): Observable<ApiResponse<User>> {
-	return this.useMock ? this.getMock(userId02 as unknown as User) : this.get();
-  }
+    public me(): Observable<ApiResponse<User>> {
+        return this.useMock ? this.getMock(userId02 as unknown as User) : this.get();
+    }
 
-  public x(id: string): Observable<ApiResponse<User>> {
-	return this.useMock ? this.getMock(userId02 as unknown as User) : this.get({id});
-  }
+    public x(id: string): Observable<ApiResponse<User>> {
+        return this.useMock ? this.getMock(userId02 as unknown as User) : this.get({ id });
+    }
 
-  public updateUser(user: Partial<User>): Observable<ApiResponse<User>> {
-	return this.useMock ? this.updateMock(userId02 as unknown as User) : this.update(user, 'update');
-  }
+    public users(): Observable<ApiResponse<UserPaginated[]>> {
+        return this.useMock ? this.getMock(users as unknown as UserPaginated[]) : this.getAll({ ressource: 'users' });
+    }
+
+    public updateUser(user: Partial<User>): Observable<ApiResponse<User>> {
+        return this.useMock ? this.updateMock(userId02 as unknown as User) : this.update(user, 'update');
+    }
 
 }

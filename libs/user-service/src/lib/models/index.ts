@@ -5,3 +5,5 @@ export { Gender } from './gender.model';
 export { PhoneNumberCountry } from './phone-number-country.model';
 export { Profile } from './profile.model';
 export { User } from './user.model';
+export { UserPaginated } from './user-paginated.model';
+export { ProfilePaginated } from './profile-paginated.model';
