@@ -4,9 +4,9 @@
             <h2 class="mb-4 text-xl font-bold text-gray-900">Create a new circle</h2>
             <form [formGroup]="form"
                   (submit)="onSubmit()">
-                <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                    <div class="w-full">
-                        <div class="daisy-form-control w-full max-w-xs">
+                <div class="grid grid-cols-2 gap-4 items-center">
+                    <div class="col-span-2 md:col-span-1 md:w-full">
+                        <div class="daisy-form-control w-full">
                             <label for="name" class="daisy-label">
                                 <span class="daisy-label-text">Name</span>
                             </label>
@@ -16,33 +16,47 @@
                                    placeholder="My Circle!"
                                    required
                                    [formControl]="form.controls.name"
-                                   class="daisy-input daisy-input-bordered daisy-input-primary w-full max-w-xs"/>
+                                   class="daisy-input daisy-input-bordered daisy-input-primary w-full"/>
+                        </div>
+                    </div>
+                    <div class="col-span-2 md:col-span-1 md:w-full">
+                        <div class="daisy-form-control w-full">
+                            <label for="imgSrc" class="daisy-label">
+                                <span class="daisy-label-text">Image</span>
+                            </label>
+                            <input type="file"
+                                   id="imgSrc"
+                                   name="imgSrc"
+                                   [formControl]="form.controls.imgSrc"
+                                   class="daisy-file-input daisy-input-bordered daisy-input-accent w-full"/>
                         </div>
                     </div>
                     <div class="col-span-2">
-                        <div class="daisy-form-control w-full max-w-xs">
+                        <div class="daisy-form-control w-full">
                             <label for="description" class="daisy-label">
                                 <span class="daisy-label-text">Description</span>
                             </label>
                             <textarea id="description"
                                       name="description"
                                       [formControl]="form.controls.description"
-                                      class="daisy-textarea daisy-textarea-bordered daisy-textarea-primary w-full max-w-xs h-24"></textarea>
+                                      class="daisy-textarea daisy-textarea-bordered daisy-textarea-primary w-full h-24"></textarea>
                         </div>
                     </div>
-                    <div class="col-span-2">
-                        <div class="daisy-form-control w-full max-w-xs">
-                            <label for="imgSrc" class="daisy-label">
-                                <span class="daisy-label-text">Image</span>
-                            </label>
-                            <input type="text"
-                                   id="imgSrc"
-                                   name="imgSrc"
-                                   [formControl]="form.controls.imgSrc"
-                                   class="daisy-input daisy-input-bordered daisy-input-primary w-full max-w-xs"/>
-                        </div>
+                    <div class="col-span-2 md:col-span-1 md:w-full">
+                        <label for="voters" class="daisy-label">
+                            <span class="daisy-label-text">Voters</span>
+                        </label>
+                        <select id="voters"
+                                name="voters"
+                                multiple
+                                [formControl]="form.controls.voters"
+                                class="daisy-select daisy-select-primary w-full max-w-xs">
+                            <option *ngFor="let userId of userIds" [ngValue]="userId">
+                                {{userId}}
+                            </option>
+                        </select>
                     </div>
-                    <div class="w-full">
+                    <div class="col-span-2 md:col-span-1 md:w-full">
                         <div class="daisy-form-control w-full max-w-xs">
                             <label for="validUntil" class="daisy-label">
                                 <span class="daisy-label-text">Valid until</span>
@@ -55,28 +69,30 @@
                         </div>
                     </div>
                     <div class="w-full">
-                        <div class="daisy-form-control">
-                            <label for="private" class="daisy-label cursor-pointer">
+                        <div class="daisy-form-control w-full max-w-xs">
+                            <label for="private" class="daisy-label cursor-pointer max-w-xs">
                                 <span class="daisy-label-text">Private</span>
                                 <input id="private"
                                        name="private"
                                        type="checkbox"
                                        checked=""
                                        [formControl]="form.controls.private"
-                                       class="daisy-checkbox"/>
+                                       class="daisy-checkbox max-w-xs"/>
                             </label>
                         </div>
                     </div>
                 </div>
-                <a [routerLink]="['/circles']"
-                   class="daisy-btn daisy-btn-secondary"
-                   role="button">
-                    Cancel
-                </a>
-                <button class="daisy-btn daisy-btn-primary"
-                        type="submit">
-                    Create Circle
-                </button>
+                <div class="w-full flex flex-row gap-2 mt-2">
+                    <a [routerLink]="['/circles']"
+                       class="daisy-btn daisy-btn-secondary"
+                       role="button">
+                        Cancel
+                    </a>
+                    <button class="daisy-btn daisy-btn-primary"
+                            type="submit">
+                        Create Circle
+                    </button>
+                </div>
             </form>
         </div>
     </section>

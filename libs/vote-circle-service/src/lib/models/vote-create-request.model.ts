@@ -1,4 +1,4 @@
-export interface VoteCreate {
+export interface VoteCreateRequest {
   circleId: number;
   elected: string;
 }

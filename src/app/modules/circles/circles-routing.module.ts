@@ -7,62 +7,58 @@ import { CircleEditComponent } from './circle-edit/circle-edit.component';
 import { CircleMembersComponent } from './circle-members/circle-members.component';
 import { CircleNotEligibleComponent } from './circle-not-eligible/circle-not-eligible.component';
 import { CirclesOverviewComponent } from './circles-overview/circles-overview.component';
-import { CircleDetailGuard } from './services/circle-detail.guard';
-import { CircleEditGuard } from './services/circle-edit.guard';
-import { DetailsResolver } from './services/details.resolver';
-import { EditResolver } from './services/edit.resolver';
-import { OverviewResolver } from './services/overview.resolver';
+import { CircleDetailGuard } from './services/guard/circle-detail.guard';
+import { CircleEditGuard } from './services/guard/circle-edit.guard';
+import { DetailsResolver } from './services/resolver/details.resolver';
+import { EditResolver } from './services/resolver/edit.resolver';
 
 const routes: Routes = [
-  {
-	path: '',
-	component: LayoutComponent,
-	children: [
-	  {
-		path: '',
-		component: CirclesOverviewComponent,
-		resolve: {
-		  _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(OverviewResolver).resolve(r, s)
-		}
-	  },
-	  {
-		path: 'not-eligible',
-		component: CircleNotEligibleComponent
-	  },
-	  {
-		path: 'create',
-		component: CircleCreateComponent,
-		pathMatch: 'full'
-	  },
-	  {
-		path: ':id',
-		component: CircleDetailComponent,
-		canActivate: [CircleDetailGuard],
-		resolve: {
-		  _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(DetailsResolver).resolve(r, s)
-		}
-	  },
-	  {
-		path: `:id/edit`,
-		component: CircleEditComponent,
-		canActivate: [CircleEditGuard],
-		resolve: {
-		  _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(EditResolver).resolve(r, s)
-		}
-	  },
-	  {
-		path: ':id/members',
-		component: CircleMembersComponent,
-		resolve: {
-		  _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(DetailsResolver).resolve(r, s)
-		}
-	  },
-	]
-  }
+    {
+        path: '',
+        component: LayoutComponent,
+        children: [
+            {
+                path: '',
+                component: CirclesOverviewComponent
+            },
+            {
+                path: 'not-eligible',
+                component: CircleNotEligibleComponent
+            },
+            {
+                path: 'create',
+                component: CircleCreateComponent,
+                pathMatch: 'full'
+            },
+            {
+                path: ':id',
+                component: CircleDetailComponent,
+                canActivate: [CircleDetailGuard],
+                resolve: {
+                    _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(DetailsResolver).resolve(r, s)
+                }
+            },
+            {
+                path: ':id/edit',
+                component: CircleEditComponent,
+                canActivate: [CircleEditGuard],
+                resolve: {
+                    _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(EditResolver).resolve(r, s)
+                }
+            },
+            {
+                path: ':id/members',
+                component: CircleMembersComponent,
+                resolve: {
+                    _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(DetailsResolver).resolve(r, s)
+                }
+            }
+        ]
+    }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class CirclesRoutingModule {}

@@ -21,9 +21,9 @@ import { CirclesCarouselComponent } from './circles-overview/circles-carousel/ci
 import { CirclesOverviewComponent } from './circles-overview/circles-overview.component';
 import { CirclesRoutingModule } from './circles-routing.module';
 import { CirclesState } from './circles-state/circles.state';
-import { DetailsResolver } from './services/details.resolver';
-import { EditResolver } from './services/edit.resolver';
-import { OverviewResolver } from './services/overview.resolver';
+import { DetailsResolver } from './services/resolver/details.resolver';
+import { EditResolver } from './services/resolver/edit.resolver';
+import { OverviewResolver } from './services/resolver/overview.resolver';
 
 @NgModule({
   declarations: [

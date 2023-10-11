@@ -1,10 +1,20 @@
 {
   "root": true,
-  "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
+  "ignorePatterns": [
+    "**/*"
+  ],
+  "plugins": [
+    "@nx",
+    "prefer-arrow-functions"
+  ],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "files": [
+        "*.ts",
+        "*.tsx",
+        "*.js",
+        "*.jsx"
+      ],
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
@@ -14,29 +24,170 @@
             "depConstraints": [
               {
                 "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
+                "onlyDependOnLibsWithTags": [
+                  "*"
+                ]
               }
             ]
           }
-        ]
+        ],
+        "prefer-arrow-functions/prefer-arrow-functions": [
+          "error",
+          {
+            "classPropertiesAllowed": false,
+            "disallowPrototype": false,
+            "returnStyle": "implicit",
+            "singleReturnOnly": false
+          }
+        ],
+        "max-len": [
+          "error",
+          {
+            "code": 150,
+            "comments": 150,
+            "ignoreUrls": true,
+            "ignorePattern": "^import [^,]+ from |^export | implements",
+            "tabWidth": 4
+          }
+        ],
+        "indent": [
+          "error",
+          2,
+          {
+            "SwitchCase": 1,
+            "VariableDeclarator": 1,
+            "outerIIFEBody": 1,
+            "FunctionDeclaration": {
+              "parameters": 1,
+              "body": 1
+            },
+            "FunctionExpression": {
+              "parameters": 1,
+              "body": 1
+            },
+            "CallExpression": {
+              "arguments": 1
+            },
+            "ArrayExpression": 1,
+            "ObjectExpression": 1,
+            "ImportDeclaration": 1,
+            "flatTernaryExpressions": false,
+            "ignoreComments": false
+          }
+        ],
+        "quotes": [
+          "error",
+          "single",
+          {
+            "avoidEscape": true,
+            "allowTemplateLiterals": true
+          }
+        ],
+        "semi": "error"
       }
     },
     {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nx/typescript"],
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
+      "extends": [
+        "plugin:@nx/typescript"
+      ],
+      "rules": {
+        "comma-dangle": [
+          "error",
+          "never"
+        ],
+        "no-multiple-empty-lines": [
+          "error",
+          {
+            "max": 1
+          }
+        ],
+        "object-curly-spacing": [
+          "error",
+          "always"
+        ],
+        "semi": [
+          "error",
+          "always"
+        ],
+        "quotes": [
+          "error",
+          "single"
+        ],
+        "arrow-spacing": "error",
+        "keyword-spacing": [
+          1,
+          {
+            "before": true,
+            "after": true
+          }
+        ],
+        "no-multi-spaces": "error",
+        "no-trailing-spaces": "error",
+        "operator-linebreak": [
+          "error",
+          "before"
+        ],
+        "space-in-parens": "error",
+        "key-spacing": "error",
+        "comma-spacing": "error",
+        "@typescript-eslint/type-annotation-spacing": "error",
+        "indent": "off",
+        "@typescript-eslint/indent": [
+          "error"
+        ],
+        "space-before-blocks": "error",
+        "consistent-return": "error",
+        "guard-for-in": "error",
+        "no-useless-constructor": "error",
+        "eol-last": [
+          "error",
+          "always"
+        ],
+        "eqeqeq": "error",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "warn",
+          {
+            "overrides": {
+              "constructors": "no-public",
+              "decorators": "off"
+            }
+          }
+        ],
+        "@typescript-eslint/prefer-readonly": "warn"
+      }
+    },
+    {
+      "files": [
+        "*.js",
+        "*.jsx"
+      ],
+      "extends": [
+        "plugin:@nx/javascript"
+      ],
       "rules": {}
     },
     {
-      "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nx/javascript"],
-      "rules": {}
-    },
-    {
-      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "files": [
+        "*.spec.ts",
+        "*.spec.tsx",
+        "*.spec.js",
+        "*.spec.jsx"
+      ],
       "env": {
         "jest": true
       },
       "rules": {}
     }
-  ]
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "project": [
+      "tsconfig.base.json"
+    ],
+    "sourceType": "module"
+  }
 }
