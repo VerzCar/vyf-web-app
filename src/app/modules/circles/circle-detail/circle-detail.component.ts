@@ -67,10 +67,10 @@ export class CircleDetailComponent {
     }
 
     private owner$(circle: Circle): Observable<Member> {
-        const {createdFrom, voters} = circle;
+        const { createdFrom, voters } = circle;
         const circleOwnerVoter = voters.find(voter => voter.voter === createdFrom);
 
-        if(!circleOwnerVoter){
+        if (!circleOwnerVoter) {
             throw Error('createFrom does not exist in circles voters');
         }
 
