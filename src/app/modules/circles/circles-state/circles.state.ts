@@ -71,7 +71,7 @@ export class CirclesState implements NgxsOnInit {
         action: CirclesAction.FetchCircles
     ): Observable<Circle[]> {
         return this.voteCircleService.circles().pipe(
-            map(res => res.data),
+            map(res => res.data !== null ? res.data : []),
             tap((circles) => ctx.patchState({ myCircles: circles }))
         );
     }
