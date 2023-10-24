@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable, retry } from 'rxjs';
 import { ApiResponse } from '../models';
@@ -81,6 +81,30 @@ export abstract class ApiBaseService extends ApiBaseMockService {
         return this.httpClient.put<ApiResponse<Res>>(
             url,
             entity).pipe(
+            retry(this.retryCount)
+        );
+    }
+
+    protected upload<Res>(
+        file: File,
+        fileName: string,
+        path?: string // additional endpoint path
+    ): Observable<ApiResponse<Res>> {
+        let url = this.url;
+        if (path) {
+            url = `${url}/${path}`;
+        }
+
+        const formData = new FormData();
+        formData.append(fileName, file);
+
+        const headers = new HttpHeaders();
+        headers.append('Content-Type', 'multipart/form-data');
+
+        return this.httpClient.put<ApiResponse<Res>>(
+            url,
+            formData,
+            { headers }).pipe(
             retry(this.retryCount)
         );
     }

@@ -29,6 +29,10 @@ export class UserService extends ApiBaseService {
         return this.useMock ? this.getMock(users as unknown as UserPaginated[]) : this.getAll({ ressource: 'users' });
     }
 
+    public uploadUserProfileImage(image: File): Observable<ApiResponse<string | null>> {
+        return this.useMock ? this.getMock('') : this.upload(image, 'profileImageFile', 'upload/profile-img');
+    }
+
     public updateUser(user: Partial<User>): Observable<ApiResponse<User>> {
         return this.useMock ? this.updateMock(userId02 as unknown as User) : this.update(user, 'update');
     }
