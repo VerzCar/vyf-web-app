@@ -1,28 +1,10 @@
 <div class="layout-container">
     <form [formGroup]="form"
           (submit)="onSubmit()">
-        <div class="flex flex-row justify-between">
-            <div>
-                <a mat-flat-button
-                   type="button"
-                   color="accent"
-                   [routerLink]="'/user/profile'">
-                    Close
-                </a>
-            </div>
-
-            <button mat-flat-button
-                    color="primary"
-                    type="submit">
-                Save
-            </button>
-        </div>
-
         <div class="flex flex-col gap-4 pt-6">
             <div>
-                <vyf-image-upload [profileImageSrc]="userProfileImageSrc"
-                                  (onFileSelected)="onUserProfileImageSelected($event)"
-                                  [isLoading]="isUserProfileImageLoading">
+                <vyf-image-upload [profileImageSrc]="userProfileImageSrc$"
+                                  (fileSelected)="onUserProfileImageSelected($event)">
                 </vyf-image-upload>
             </div>
 
@@ -42,6 +24,9 @@
                           id="whyVoteMe"
                           formControlName="whyVoteMe">
                     </textarea>
+                    <mat-error *rxIf="form.controls.whyVoteMe.invalid">
+                        You have entered more than allowed, maybe you shorten your introduction.
+                    </mat-error>
                     <mat-hint [align]="'end'">
                         {{whyVoteMeRef.value.length}}/250
                     </mat-hint>
@@ -68,6 +53,29 @@
                         {{bioRef.value.length}}/1500
                     </mat-hint>
                 </mat-form-field>
+            </div>
+
+            <div class="flex flex-row justify-between">
+                <div>
+                    <a mat-flat-button
+                       type="button"
+                       color="accent"
+                       [routerLink]="'/user/profile'">
+                        Close
+                    </a>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <i-feather *rxIf="done" class="text-green-700 animate-jump animate-twice"
+                               name="check-circle">
+                    </i-feather>
+                    <button mat-flat-button
+                            color="primary"
+                            type="submit"
+                            [disabled]="disabled$ | push">
+                        Save
+                    </button>
+                </div>
             </div>
         </div>
     </form>

@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { finalize, Observable, take, tap } from 'rxjs';
+import { isDefined } from '@vyf/base';
+import { Profile, User } from '@vyf/user-service';
+import { BehaviorSubject, filter, map, Observable, tap } from 'rxjs';
 import { UserAction } from '../user-state/actions/user.action';
 import { UserSelectors } from '../user-state/user.selectors';
 
@@ -18,9 +19,9 @@ interface UserForm {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserProfileEditComponent {
-
-    public userProfileImageSrc: string | null = null;
-    public isUserProfileImageLoading = false;
+    public userProfileImageSrc$: Observable<string>;
+    public done = new BehaviorSubject(false);
+    public disabled$: Observable<boolean>;
 
     public readonly form = new FormGroup<UserForm>(<UserForm>{
         whyVoteMe: new FormControl('', Validators.maxLength(250)),
@@ -30,27 +31,37 @@ export class UserProfileEditComponent {
     private readonly store = inject(Store);
 
     constructor() {
-        this.store.select(UserSelectors.slices.user).pipe(
+        this.userProfileImageSrc$ = this.store.select(UserSelectors.slices.user).pipe(
+            filter(user => isDefined(user)),
+            map(user => user as User),
             tap(user => {
-                this.userProfileImageSrc = user?.profile.imageSrc.length ? user?.profile.imageSrc : null;
                 this.form.setValue({
                     whyVoteMe: user?.profile.whyVoteMe ?? '',
                     bio: user?.profile.bio ?? ''
                 });
             }),
-            takeUntilDestroyed()
-        ).subscribe();
+            map(user => user.profile.imageSrc)
+        );
+
+        this.disabled$ = this.form.statusChanges.pipe(
+            map(() => this.form.pristine || this.form.status === 'INVALID')
+        );
     }
 
     public onSubmit(): void {
-        console.log(this.form.getRawValue());
+        if (this.form.invalid) {
+            return;
+        }
+
+        const profile: Partial<Profile> = this.form.getRawValue();
+        const user: Partial<User> = {
+            profile
+        } as User;
+
+        this.store.dispatch(new UserAction.UpdateUser(user)).subscribe(() => this.done.next(true));
     }
 
     public onUserProfileImageSelected(image: File): void {
-        this.isUserProfileImageLoading = true;
-        this.store.dispatch(new UserAction.UpdateProfileImage(image)).pipe(
-            take(1),
-            finalize(() => this.isUserProfileImageLoading = false)
-        ).subscribe();
+        this.store.dispatch(new UserAction.UpdateProfileImage(image));
     }
 }

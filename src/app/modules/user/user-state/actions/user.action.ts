@@ -1,18 +1,26 @@
+import { User } from '@vyf/user-service';
+
 const domainName = 'User';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace UserAction {
     export class FetchUser {
         public static readonly type = `[${domainName}] Fetch User`;
-
-        constructor() {
-            // not used
-        }
     }
 
     export class UpdateProfileImage {
         public static readonly type = `[${domainName}] Update profile image`;
 
-        constructor(public image: File) {}
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public image: File) {
+        }
+    }
+
+    export class UpdateUser {
+        public static readonly type = `[${domainName}] Update user`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public user: Partial<User>) {
+        }
     }
 }

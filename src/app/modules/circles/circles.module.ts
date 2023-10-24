@@ -26,31 +26,31 @@ import { EditResolver } from './services/resolver/edit.resolver';
 import { OverviewResolver } from './services/resolver/overview.resolver';
 
 @NgModule({
-  declarations: [
-    CirclesOverviewComponent,
-    CircleDetailComponent,
-    CircleEditComponent,
-    CircleCreateComponent,
-    CircleMembersComponent,
-    CircleNotEligibleComponent,
-    CircleCardComponent,
-    CirclesCarouselComponent,
-  ],
-  imports: [
-	CommonModule,
-	NgxsModule.forFeature([UserState, CirclesState]),
-	MatButtonModule,
-	RxLet,
-	MatProgressSpinnerModule,
-	NgOptimizedImage,
-	MatIconModule,
-	RxIf,
-	RxFor,
-	CircleMemberComponent,
-	CirclesRoutingModule,
-	FeatherIconModule,
-	ReactiveFormsModule,
-  ],
-  providers: [DetailsResolver, EditResolver, OverviewResolver],
+    declarations: [
+        CirclesOverviewComponent,
+        CircleDetailComponent,
+        CircleEditComponent,
+        CircleCreateComponent,
+        CircleMembersComponent,
+        CircleNotEligibleComponent,
+        CircleCardComponent,
+        CirclesCarouselComponent,
+    ],
+    imports: [
+        CommonModule,
+        NgxsModule.forFeature([UserState, CirclesState]),
+        MatButtonModule,
+        RxLet,
+        MatProgressSpinnerModule,
+        NgOptimizedImage,
+        MatIconModule,
+        RxIf,
+        RxFor,
+        CircleMemberComponent,
+        CirclesRoutingModule,
+        FeatherIconModule,
+        ReactiveFormsModule
+    ],
+    providers: [DetailsResolver, EditResolver, OverviewResolver],
 })
 export class CirclesModule {}

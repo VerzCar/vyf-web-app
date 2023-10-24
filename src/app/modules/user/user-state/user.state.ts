@@ -1,6 +1,5 @@
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Action, NgxsAfterBootstrap, NgxsOnInit, State, StateContext } from '@ngxs/store';
 import { inject, Injectable } from '@angular/core';
+import { Action, NgxsOnInit, State, StateContext } from '@ngxs/store';
 import { UserService } from '@vyf/user-service';
 import { firstValueFrom, map, of, tap } from 'rxjs';
 import { UserStateModel } from '../models/user-state.model';
@@ -44,6 +43,18 @@ export class UserState implements NgxsOnInit {
                             imageSrc: src ?? ''
                         }
                     }
+                });
+            })
+        );
+    }
+
+    @Action(UserAction.UpdateUser)
+    private updateUser(ctx: StateContext<UserStateModel>, action: UserAction.UpdateUser) {
+        return this.userService.updateUser(action.user).pipe(
+            map(res => res.data),
+            tap(user => {
+                ctx.patchState({
+                    user
                 });
             })
         );
