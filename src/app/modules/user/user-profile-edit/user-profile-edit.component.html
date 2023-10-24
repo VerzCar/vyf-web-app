@@ -3,7 +3,7 @@
           (submit)="onSubmit()">
         <div class="flex flex-row justify-between">
             <div>
-                <a mat-raised-button
+                <a mat-flat-button
                    type="button"
                    color="accent"
                    [routerLink]="'/user/profile'">
@@ -11,7 +11,7 @@
                 </a>
             </div>
 
-            <button mat-raised-button
+            <button mat-flat-button
                     color="primary"
                     type="submit">
                 Save
@@ -19,37 +19,56 @@
         </div>
 
         <div class="flex flex-col gap-4 pt-6">
-            <mat-form-field class="w-full"
-                            appearance="outline"
-                            floatLabel="always">
-                <mat-label>Why vote me</mat-label>
+            <div>
+                <vyf-image-upload [profileImageSrc]="userProfileImageSrc"
+                                  (onFileSelected)="onUserProfileImageSelected($event)"
+                                  [isLoading]="isUserProfileImageLoading">
+                </vyf-image-upload>
+            </div>
+
+            <div>
+                <mat-label>
+                    <label for="whyVoteMe">
+                        Why vote me
+                    </label>
+                </mat-label>
+                <mat-form-field class="w-full"
+                                appearance="outline">
                 <textarea matInput
                           cdkTextareaAutosize
                           #whyVoteMeRef
                           rows="2"
                           cols="30"
+                          id="whyVoteMe"
                           formControlName="whyVoteMe">
                     </textarea>
-                <mat-hint [align]="'end'">
-                    {{whyVoteMeRef.value.length}}/250
-                </mat-hint>
-            </mat-form-field>
+                    <mat-hint [align]="'end'">
+                        {{whyVoteMeRef.value.length}}/250
+                    </mat-hint>
+                </mat-form-field>
+            </div>
 
-            <mat-form-field class="w-full"
-                            appearance="outline"
-                            floatLabel="always">
-                <mat-label>Bio</mat-label>
+            <div>
+                <mat-label>
+                    <label for="bio">
+                        Bio
+                    </label>
+                </mat-label>
+                <mat-form-field class="w-full"
+                                appearance="outline">
                 <textarea matInput
                           cdkTextareaAutosize
                           #bioRef
                           rows="2"
                           cols="30"
+                          id="bio"
                           formControlName="bio">
                     </textarea>
-                <mat-hint [align]="'end'">
-                    {{bioRef.value.length}}/1500
-                </mat-hint>
-            </mat-form-field>
+                    <mat-hint [align]="'end'">
+                        {{bioRef.value.length}}/1500
+                    </mat-hint>
+                </mat-form-field>
+            </div>
         </div>
     </form>
 </div>

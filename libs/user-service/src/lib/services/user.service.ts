@@ -4,8 +4,7 @@ import { Observable } from 'rxjs';
 
 import * as userId02 from '../mocks/user-id-2.json';
 import * as users from '../mocks/users.json';
-import { User } from '../models';
-import { UserPaginated } from '../models/user-paginated.model';
+import { User, UserPaginated } from '../models';
 
 @Injectable({
     providedIn: 'root'

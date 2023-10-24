@@ -14,7 +14,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxsModule } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
 import { RxLet } from '@rx-angular/template/let';
-import { CircleMemberComponent } from '@vyf/component';
+import { CircleMemberComponent, ImageUploadComponent } from '@vyf/component';
 import { UserOverviewComponent } from './user-overview/user-overview.component';
 import { UserProfileEditComponent } from './user-profile-edit/user-profile-edit.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -38,10 +38,10 @@ export const createTranslateLoaderFactory = (http: HttpClient) =>
             loader: {
                 provide: TranslateLoader,
                 useFactory: createTranslateLoaderFactory,
-                deps: [HttpClient],
+                deps: [HttpClient]
             },
             isolate: false,
-            extend: true,
+            extend: true
         }),
         NgxsModule.forFeature([UserState]),
         UserRoutingModule,
@@ -57,6 +57,7 @@ export const createTranslateLoaderFactory = (http: HttpClient) =>
         CircleMemberComponent,
         MatIconModule,
         RxFor,
-    ],
+        ImageUploadComponent
+    ]
 })
 export class UserModule {}

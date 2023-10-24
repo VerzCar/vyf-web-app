@@ -17,7 +17,6 @@ export class AuthInterceptor implements HttpInterceptor {
 	  switchMap(session => {
 		request = request.clone({
 		  setHeaders: {
-			'Content-Type': 'application/json; charset=utf-8',
 			'Accept': 'application/json',
 			'Authorization': `Bearer ${session.getAccessToken().getJwtToken()}`,
 		  },

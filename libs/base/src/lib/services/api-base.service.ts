@@ -7,7 +7,7 @@ import { ApiBaseMockService } from './api-base-mock.service';
 
 export const BASE_API_URL = new InjectionToken<string>('Base API Url', {
     providedIn: 'any',
-    factory: () => window.location.origin,
+    factory: () => window.location.origin
 });
 
 @Injectable({
@@ -15,6 +15,9 @@ export const BASE_API_URL = new InjectionToken<string>('Base API Url', {
 })
 export abstract class ApiBaseService extends ApiBaseMockService {
     protected retryCount = 0;
+    protected defaultHeaders = new HttpHeaders({
+        'Content-Type': 'application/json; charset=utf-8'
+    });
 
     protected readonly httpClient = inject(HttpClient);
     private readonly _baseUrl = inject(BASE_API_URL);
@@ -33,7 +36,8 @@ export abstract class ApiBaseService extends ApiBaseMockService {
             url = `${url}/${opts.path}`;
         }
         return this.httpClient.get<ApiResponse<T>>(
-            url).pipe(
+            url,
+            { headers: this.defaultHeaders }).pipe(
             retry(this.retryCount)
         );
     }
@@ -50,7 +54,8 @@ export abstract class ApiBaseService extends ApiBaseMockService {
             url = `${url}/${opts.path}`;
         }
         return this.httpClient.get<ApiResponse<T[]>>(
-            url).pipe(
+            url,
+            { headers: this.defaultHeaders }).pipe(
             retry(this.retryCount)
         );
     }
@@ -65,7 +70,8 @@ export abstract class ApiBaseService extends ApiBaseMockService {
         }
         return this.httpClient.post<ApiResponse<Res>>(
             url,
-            entity).pipe(
+            entity,
+            { headers: this.defaultHeaders }).pipe(
             retry(this.retryCount)
         );
     }
@@ -80,7 +86,8 @@ export abstract class ApiBaseService extends ApiBaseMockService {
         }
         return this.httpClient.put<ApiResponse<Res>>(
             url,
-            entity).pipe(
+            entity,
+            { headers: this.defaultHeaders }).pipe(
             retry(this.retryCount)
         );
     }
