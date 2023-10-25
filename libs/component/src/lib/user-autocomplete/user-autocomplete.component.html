@@ -1,0 +1,16 @@
+<form>
+    <mat-form-field>
+        <mat-label>State</mat-label>
+        <input matInput
+               aria-label="Users"
+               [matAutocomplete]="auto"
+               [formControl]="control">
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *rxFor="let user of options" [value]="state.name">
+                <img alt="" class="example-option-img" [src]="state.flag" height="25">
+                <span>{{state.name}}</span> |
+                <small>Population: {{state.population}}</small>
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</form>

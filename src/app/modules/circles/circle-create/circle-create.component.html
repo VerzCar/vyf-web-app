@@ -1,22 +1,26 @@
-<div class="layout-container">
+<div class="layout-container layout-whitespace">
     <section class="bg-white">
-        <div class="py-8 px-4 mx-auto max-w-2xl">
+        <div class="px-4 mx-auto max-w-2xl">
             <h2 class="mb-4 text-xl font-bold text-gray-900">Create a new circle</h2>
             <form [formGroup]="form"
                   (submit)="onSubmit()">
                 <div class="grid grid-cols-2 gap-4 items-center">
                     <div class="col-span-2 md:col-span-1 md:w-full">
-                        <div class="daisy-form-control w-full">
-                            <label for="name" class="daisy-label">
-                                <span class="daisy-label-text">Name</span>
-                            </label>
-                            <input type="text"
-                                   id="name"
-                                   name="name"
-                                   placeholder="My Circle!"
-                                   required
-                                   [formControl]="form.controls.name"
-                                   class="daisy-input daisy-input-bordered daisy-input-primary w-full"/>
+                        <div>
+                            <mat-label>
+                                <label for="name">
+                                    Name
+                                </label>
+                            </mat-label>
+                            <mat-form-field class="w-full"
+                                            appearance="outline">
+                                <input matInput
+                                       type="text"
+                                       id="name"
+                                       name="name"
+                                       required
+                                       formControlName="name"/>
+                            </mat-form-field>
                         </div>
                     </div>
                     <div class="col-span-2 md:col-span-1 md:w-full">
@@ -32,14 +36,22 @@
                         </div>
                     </div>
                     <div class="col-span-2">
-                        <div class="daisy-form-control w-full">
-                            <label for="description" class="daisy-label">
-                                <span class="daisy-label-text">Description</span>
-                            </label>
-                            <textarea id="description"
-                                      name="description"
-                                      [formControl]="form.controls.description"
-                                      class="daisy-textarea daisy-textarea-bordered daisy-textarea-primary w-full h-24"></textarea>
+                        <div>
+                            <mat-label>
+                                <label for="description">
+                                    Description
+                                </label>
+                            </mat-label>
+                            <mat-form-field class="w-full"
+                                            appearance="outline">
+                             <textarea matInput
+                                  cdkTextareaAutosize
+                                  rows="2"
+                                  cols="30"
+                                  id="description"
+                                  formControlName="description">
+                            </textarea>
+                            </mat-form-field>
                         </div>
                     </div>
                     <div class="col-span-2 md:col-span-1 md:w-full">

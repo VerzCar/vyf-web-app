@@ -1,8 +1,11 @@
+import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxsModule } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
@@ -49,7 +52,10 @@ import { OverviewResolver } from './services/resolver/overview.resolver';
         CircleMemberComponent,
         CirclesRoutingModule,
         FeatherIconModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        TextFieldModule
     ],
     providers: [DetailsResolver, EditResolver, OverviewResolver],
 })
