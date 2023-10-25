@@ -28,7 +28,7 @@ body {
 }
 
 .layout-container {
-    @apply max-w-7xl mx-auto px-2 md:px-6 lg:px-8;
+    @apply max-w-7xl mx-auto px-2;
 }
 
 h2 {
@@ -41,4 +41,8 @@ h3 {
 
 p {
     @apply text-gray-500;
+}
+
+.layout-whitespace {
+    @apply py-4 md:py-8;
 }

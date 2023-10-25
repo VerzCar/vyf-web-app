@@ -22,7 +22,7 @@ export class ImageUploadComponent {
     @Input()
     public set profileImageSrc(imgSrc$: Observable<string>) {
         this.profileImageSrc$ = imgSrc$.pipe(
-            map(src => src.length ? src : this.placeholderImageSrc),
+            map(src => src.length ? this.srcWithAttachedTimestamp(src) : this.placeholderImageSrc),
             tap(() => this.nextTrigger$.next())
         );
     }
@@ -48,5 +48,9 @@ export class ImageUploadComponent {
             this.fileSelected.emit(file);
             this.suspenseTrigger$.next();
         }
+    }
+
+    private srcWithAttachedTimestamp(src: string): string {
+        return `${src}?timeStamp=${Date.now()}`;
     }
 }
