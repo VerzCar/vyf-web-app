@@ -65,17 +65,9 @@
                     </a>
                 </div>
 
-                <div class="flex items-center gap-3">
-                    <i-feather *rxIf="done" class="text-green-700 animate-jump animate-twice"
-                               name="check-circle">
-                    </i-feather>
-                    <button mat-flat-button
-                            color="primary"
-                            type="submit"
-                            [disabled]="disabled$ | push">
-                        Save
-                    </button>
-                </div>
+                <vyf-submit-button [formIsValid$]="formIsValid$"
+                                   [submitSuccess$]="success$">
+                </vyf-submit-button>
             </div>
         </div>
     </form>

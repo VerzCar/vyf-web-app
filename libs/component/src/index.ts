@@ -11,3 +11,5 @@ export * from './lib/circle-member/circle-member.component';
 export * from './lib/commitment-icon/commitment-icon.component';
 
 export * from './lib/image-upload/image-upload.component';
+
+export * from './lib/submit-button/submit-button.component';
