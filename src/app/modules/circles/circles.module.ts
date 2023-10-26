@@ -3,6 +3,8 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -11,7 +13,7 @@ import { NgxsModule } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
-import { CircleMemberComponent } from '@vyf/component';
+import { CircleMemberComponent, UserAutocompleteComponent } from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/user-state/user.state';
 import { CircleCreateComponent } from './circle-create/circle-create.component';
@@ -55,7 +57,10 @@ import { OverviewResolver } from './services/resolver/overview.resolver';
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
-        TextFieldModule
+        TextFieldModule,
+        UserAutocompleteComponent,
+        MatDatepickerModule,
+        MatNativeDateModule
     ],
     providers: [DetailsResolver, EditResolver, OverviewResolver],
 })

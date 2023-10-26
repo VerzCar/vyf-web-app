@@ -45,39 +45,39 @@
                             <mat-form-field class="w-full"
                                             appearance="outline">
                              <textarea matInput
-                                  cdkTextareaAutosize
-                                  rows="2"
-                                  cols="30"
-                                  id="description"
-                                  formControlName="description">
+                                       cdkTextareaAutosize
+                                       rows="2"
+                                       cols="30"
+                                       id="description"
+                                       formControlName="description">
                             </textarea>
                             </mat-form-field>
                         </div>
                     </div>
                     <div class="col-span-2 md:col-span-1 md:w-full">
-                        <label for="voters" class="daisy-label">
+                        <label>
                             <span class="daisy-label-text">Voters</span>
                         </label>
-                        <select id="voters"
-                                name="voters"
-                                multiple
-                                [formControl]="form.controls.voters"
-                                class="daisy-select daisy-select-primary w-full max-w-xs">
-                            <option *ngFor="let userId of userIds" [ngValue]="userId">
-                                {{userId}}
-                            </option>
-                        </select>
+                        <vyf-user-autocomplete [fetchOptionsFn]="allUsersFn$"
+                                               [filteredFetchOptionsFn]="allFilteredUsersFn$">
+                        </vyf-user-autocomplete>
                     </div>
                     <div class="col-span-2 md:col-span-1 md:w-full">
-                        <div class="daisy-form-control w-full max-w-xs">
-                            <label for="validUntil" class="daisy-label">
-                                <span class="daisy-label-text">Valid until</span>
-                            </label>
-                            <input type="datetime-local"
-                                   id="validUntil"
-                                   name="validUntil"
-                                   [formControl]="form.controls.validUntil"
-                                   class="daisy-input daisy-input-bordered daisy-input-primary w-full max-w-xs"/>
+                        <div>
+                            <mat-label>
+                                <label for="validUntil">
+                                    Valid until
+                                </label>
+                            </mat-label>
+                            <mat-form-field appearance="outline">
+                                <input matInput
+                                       id="validUntil"
+                                       name="validUntil"
+                                       [matDatepicker]="picker">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
                         </div>
                     </div>
                     <div class="w-full">
