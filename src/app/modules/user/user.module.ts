@@ -16,7 +16,7 @@ import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import { CircleMemberComponent, ImageUploadComponent, SubmitButtonComponent } from '@vyf/component';
+import { CircleMemberComponent, ImageUploadComponent, SubmitButtonComponent, UserAutocompleteComponent } from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserOverviewComponent } from './user-overview/user-overview.component';
 import { UserProfileEditComponent } from './user-profile-edit/user-profile-edit.component';
@@ -64,7 +64,8 @@ export const createTranslateLoaderFactory = (http: HttpClient) =>
         FeatherIconModule,
         RxIf,
         RxPush,
-        SubmitButtonComponent
+        SubmitButtonComponent,
+        UserAutocompleteComponent
     ]
 })
 export class UserModule {}

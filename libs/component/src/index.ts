@@ -13,3 +13,5 @@ export * from './lib/commitment-icon/commitment-icon.component';
 export * from './lib/image-upload/image-upload.component';
 
 export * from './lib/submit-button/submit-button.component';
+
+export * from './lib/user-autocomplete/user-autocomplete.component';

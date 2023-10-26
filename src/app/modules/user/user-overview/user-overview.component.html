@@ -1,22 +1,30 @@
-<ng-container *rxLet="view$;
+<div class="layout-container layout-whitespace">
+    <ng-container *rxLet="view$;
     let view;
     error: error;
     suspense: suspense;">
-    <div class="flex flex-col gap-4">
-        <ul class="max-w-md divide-y divide-gray-200">
-            <ng-container *rxFor="let item of view.items;">
-                <li class="pb-3 sm:pb-4">
-                    {{item.paginatedUser.username}}
-                </li>
-            </ng-container>
-        </ul>
+        <div class="flex flex-col gap-4">
 
-    </div>
-</ng-container>
+            <vyf-user-autocomplete [fetchOptionsFn]="allUsersFn$"
+                                   [filteredFetchOptionsFn]="allFilteredUsersFn$">
+            </vyf-user-autocomplete>
 
-<ng-template #suspense>
-    <div class="flex justify-center items-center">
-        <mat-spinner></mat-spinner>
-    </div>
-</ng-template>
-<ng-template #error>ERROR!</ng-template>
+            <ul class="max-w-md divide-y divide-gray-200">
+                <ng-container *rxFor="let item of view.items;">
+                    <li class="pb-3 sm:pb-4">
+                        {{item.paginatedUser.username}}
+                    </li>
+                </ng-container>
+            </ul>
+
+        </div>
+    </ng-container>
+
+    <ng-template #suspense>
+        <div class="flex justify-center items-center">
+            <mat-spinner></mat-spinner>
+        </div>
+    </ng-template>
+    <ng-template #error>ERROR!</ng-template>
+
+</div>
