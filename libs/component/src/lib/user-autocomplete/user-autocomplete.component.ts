@@ -1,15 +1,18 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { User, UserPaginated } from '@vyf/user-service';
-import { BehaviorSubject, debounceTime, finalize, map, Observable, startWith, Subject, switchMap, take, tap, withLatestFrom } from 'rxjs';
+import { FeatherModule } from 'angular-feather';
+import { BehaviorSubject, combineLatest, debounceTime, finalize, map, Observable, shareReplay, startWith, Subject, switchMap, take, tap, withLatestFrom } from 'rxjs';
 import { ShortNamePipe } from '../pipes/short-name.pipe';
+import { UserListItemComponent } from '../user-list-item/user-list-item.component';
 
 interface UserAutocompleteOption extends UserPaginated {
     disabled: boolean;
@@ -18,7 +21,7 @@ interface UserAutocompleteOption extends UserPaginated {
 @Component({
     selector: 'vyf-user-autocomplete',
     standalone: true,
-    imports: [CommonModule, MatInputModule, MatAutocompleteModule, ReactiveFormsModule, RxFor, MatProgressSpinnerModule, RxIf, NgOptimizedImage, ShortNamePipe, MatButtonModule],
+    imports: [CommonModule, MatInputModule, MatAutocompleteModule, ReactiveFormsModule, RxFor, MatProgressSpinnerModule, RxIf, NgOptimizedImage, ShortNamePipe, MatButtonModule, FeatherModule, MatIconModule, UserListItemComponent],
     templateUrl: './user-autocomplete.component.html',
     styleUrls: ['./user-autocomplete.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -26,6 +29,7 @@ interface UserAutocompleteOption extends UserPaginated {
 export class UserAutocompleteComponent {
     @Input({ required: true }) public filteredFetchOptionsFn!: (searchTerm: string) => Observable<UserPaginated[]>;
     @Input({ required: true }) public fetchOptionsFn!: () => Observable<UserPaginated[]>;
+    @Output() public selectedUsers = new EventEmitter<string[]>();
 
     public control = new FormControl<string>('');
     public selectedUsers$: Observable<UserAutocompleteOption[]>;
@@ -35,14 +39,18 @@ export class UserAutocompleteComponent {
     public readonly selectedUsersSubject = new BehaviorSubject<UserAutocompleteOption[]>([]);
 
     constructor() {
-        this.filteredUsers$ = this.control.valueChanges.pipe(
-            startWith(''),
+        this.selectedUsers$ = this.selectedUsersSubject.asObservable();
+
+        this.filteredUsers$ = combineLatest([
+            this.control.valueChanges.pipe(startWith('')),
+            this.selectedUsers$
+        ]).pipe(
             debounceTime(300),
             tap(() => this.isLoading = true),
-            switchMap(username => username ? this.filteredUserOptions$(username) : this.allUserOptions$())
+            switchMap(([username, selectedUsers]) =>
+                username ? this.filteredUserOptions$(username, selectedUsers) : this.allUserOptions$(selectedUsers)
+            )
         );
-
-        this.selectedUsers$ = this.selectedUsersSubject.asObservable();
     }
 
     public displayFn(user: UserPaginated): string {
@@ -60,6 +68,7 @@ export class UserAutocompleteComponent {
                 const users = this.selectedUsersSubject.getValue();
                 users.push(user);
                 this.selectedUsersSubject.next(users);
+                this.selectedUsers.emit(users.map(user => user.identityId));
             }),
             finalize(() => this.control.reset(''))
         ).subscribe();
@@ -76,18 +85,19 @@ export class UserAutocompleteComponent {
         ).subscribe();
     }
 
-    private filteredUserOptions$(username: string): Observable<UserAutocompleteOption[]> {
+    private filteredUserOptions$(
+        username: string,
+        selectedUsers: UserAutocompleteOption[]
+    ): Observable<UserAutocompleteOption[]> {
         return this.filteredFetchOptionsFn(username).pipe(
-            withLatestFrom(this.selectedUsers$),
-            map(([filteredUsers, selectedUsers]) => this.createUserOptions(filteredUsers, selectedUsers)),
+            map(filteredUsers => this.createUserOptions(filteredUsers, selectedUsers)),
             finalize(() => this.isLoading = false)
         );
     }
 
-    private allUserOptions$(): Observable<UserAutocompleteOption[]> {
+    private allUserOptions$(selectedUsers: UserAutocompleteOption[]): Observable<UserAutocompleteOption[]> {
         return this.fetchOptionsFn().pipe(
-            withLatestFrom(this.selectedUsers$),
-            map(([filteredUsers, selectedUsers]) => this.createUserOptions(filteredUsers, selectedUsers)),
+            map(filteredUsers => this.createUserOptions(filteredUsers, selectedUsers)),
             finalize(() => this.isLoading = false)
         );
     }

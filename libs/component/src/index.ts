@@ -15,3 +15,5 @@ export * from './lib/image-upload/image-upload.component';
 export * from './lib/submit-button/submit-button.component';
 
 export * from './lib/user-autocomplete/user-autocomplete.component';
+
+export * from './lib/user-list-item/user-list-item.component';

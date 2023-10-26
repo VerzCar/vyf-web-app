@@ -1,15 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { User, UserPaginated, UserService } from '@vyf/user-service';
-import { catchError, map, Observable } from 'rxjs';
-
-interface Item {
-    paginatedUser: UserPaginated;
-    user$: Observable<User>;
-}
-
-interface UserOverviewView {
-    items: Item[];
-}
+import { UserService } from '@vyf/user-service';
+import { catchError, map } from 'rxjs';
 
 @Component({
     selector: 'app-user-overview',
@@ -19,8 +10,6 @@ interface UserOverviewView {
 })
 export class UserOverviewComponent {
     private readonly userService = inject(UserService);
-
-    public view$: Observable<UserOverviewView>;
     public readonly allUsersFn$ = () => this.userService.users().pipe(
         map(res => res.data),
         catchError(() => [])
@@ -30,26 +19,4 @@ export class UserOverviewComponent {
         map(res => res.data),
         catchError(() => [])
     );
-
-    constructor() {
-        this.view$ = this.userService.users().pipe(
-            map(res => res.data),
-            map(users => {
-                const items: Item[] = users.map(user => ({
-                    paginatedUser: user,
-                    user$: this.user$(user.identityId)
-                }));
-
-                return {
-                    items
-                };
-            })
-        );
-    }
-
-    private user$(identityId: string): Observable<User> {
-        return this.userService.x(identityId).pipe(
-            map(res => res.data)
-        );
-    }
 }

@@ -1,38 +1,36 @@
 <form>
-    <mat-label class="block">
-        <label for="selectedUser">
-            Users
-        </label>
-    </mat-label>
     <mat-form-field appearance="outline">
+        <span matPrefix
+              class="px-2">
+            <i-feather
+                    class="text-gray-600"
+                    name="search">
+            </i-feather>
+            </span>
+
         <input matInput
                id="selectedUser"
                aria-label="Users"
+               [placeholder]="'Search user'"
                [matAutocomplete]="auto"
                [formControl]="control">
+
         <mat-autocomplete #auto="matAutocomplete"
                           (optionSelected)="onOptionSelected($event.option.value)"
                           [displayWith]="displayFn">
             <mat-option *rxFor="let user of filteredUsers$" [value]="user" [disabled]="user.disabled">
-                    <mat-spinner *rxIf="isLoading"
-                                 diameter="50">
-                    </mat-spinner>
+                <mat-spinner *rxIf="isLoading"
+                             diameter="30">
+                </mat-spinner>
 
                 <ng-container *rxIf="!isLoading">
-                    <div class="flex flex-row items-center gap-3">
-                        <div class="relative w-8 h-8">
-                            <img *rxIf="user.profile.imageSrc"
-                                 alt="{{user.username}}"
-                                 ngSrc="{{user.profile.imageSrc}}"
-                                 fill="true"
-                                 class="object-cover rounded">
-                            <div *rxIf="!user.profile.imageSrc"
-                                 class="bg-gray-800 text-gray-200 w-8 h-8 flex items-center justify-center rounded">
-                                <span class="text-lg uppercase">{{user.username | shortName}}</span>
-                            </div>
-                        </div>
-                        <p>#{{user.username}}</p>
-                    </div>
+                    <vyf-user-list-item [user]="user">
+                        <i-feather *rxIf="user.disabled"
+                                   suffix-content
+                                   class="text-green-700"
+                                   name="user-check">
+                        </i-feather>
+                    </vyf-user-list-item>
                 </ng-container>
 
             </mat-option>
@@ -41,26 +39,17 @@
 
     <ul class="max-w-md divide-y divide-gray-200">
         <ng-container *rxFor="let user of selectedUsers$; let index = index;">
-            <li class="pb-3 sm:pb-4">
-                <div class="flex flex-row items-center gap-3">
-                    <div class="relative w-8 h-8">
-                        <img *rxIf="user.profile.imageSrc"
-                             alt="{{user.username}}"
-                             ngSrc="{{user.profile.imageSrc}}"
-                             fill="true"
-                             class="object-cover rounded">
-                        <div *rxIf="!user.profile.imageSrc"
-                             class="bg-gray-800 text-gray-200 w-8 h-8 flex items-center justify-center rounded">
-                            <span class="text-lg uppercase">{{user.username | shortName}}</span>
-                        </div>
-                    </div>
-                    <p>#{{user.username}}</p>
+            <li class="py-3 sm:pb-4">
+                <vyf-user-list-item [user]="user">
                     <button mat-flat-button
+                            suffix-content
                             type="button"
                             (click)="removeSelectedUser(index)">
-                        Remove
+                        <i-feather class="text-red-700 align-top"
+                                   name="x-octagon">
+                        </i-feather>
                     </button>
-                </div>
+                </vyf-user-list-item>
             </li>
         </ng-container>
     </ul>
