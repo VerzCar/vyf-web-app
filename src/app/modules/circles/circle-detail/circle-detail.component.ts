@@ -26,6 +26,8 @@ interface CircleDetailView {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CircleDetailComponent {
+    public readonly placeholderImageSrc = 'assets/img/placeholder-image.jpg';
+
     private readonly store = inject(Store);
     private readonly userService = inject(UserService);
 
@@ -102,7 +104,6 @@ export class CircleDetailComponent {
             return 0;
         }
         const votersCount = circle.voters.length - this.maxMembersCount;
-        console.log(votersCount, circle.voters.length);
         return votersCount > 0 ? votersCount : 0;
     }
 

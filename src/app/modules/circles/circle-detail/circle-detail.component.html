@@ -29,7 +29,7 @@
 
             <div class="relative h-[14rem] w-full">
                 <img class="object-cover"
-                     ngSrc="{{view.circle.imageSrc}}"
+                     ngSrc="{{view.circle.imageSrc.length ? view.circle.imageSrc : placeholderImageSrc}}"
                      alt="{{view.circle.name}}"
                      fill="true">
             </div>
