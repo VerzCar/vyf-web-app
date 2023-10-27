@@ -4,4 +4,19 @@
                          class="daisy-carousel-item">
         </app-circle-card>
     </ng-container>
+
+    <ng-container *rxIf="!circles.length">
+        <div class="flex flex-col justify-center items-center w-full">
+            <h5>
+                It seems like you do not have any circles.
+            </h5>
+
+            <a [routerLink]="['/circles', 'create']"
+               mat-button
+               color="accent"
+               role="button">
+                You can Create one here
+            </a>
+        </div>
+    </ng-container>
 </div>

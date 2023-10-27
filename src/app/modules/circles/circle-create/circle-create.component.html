@@ -60,7 +60,7 @@
                         </label>
                         <vyf-user-autocomplete [fetchOptionsFn]="allUsersFn$"
                                                [filteredFetchOptionsFn]="allFilteredUsersFn$"
-                        (selectedUsers)="onUsersSelected($event)">
+                                               (selectedUsers)="onUsersSelected($event)">
                         </vyf-user-autocomplete>
                     </div>
                     <div class="col-span-2 md:col-span-1 md:w-full">
@@ -74,7 +74,8 @@
                                 <input matInput
                                        id="validUntil"
                                        name="validUntil"
-                                       [matDatepicker]="picker">
+                                       [matDatepicker]="picker"
+                                       [formControl]="form.controls.validUntil">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker">
                                 </mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
