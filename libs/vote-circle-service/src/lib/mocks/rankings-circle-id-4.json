@@ -5,8 +5,6 @@
     "number": 1,
     "votes": 1,
     "placement": "NEUTRAL",
-    "circleId": 4,
-    "circle": null,
     "createdAt": "2023-10-03T21:24:56.270022+02:00",
     "updatedAt": "2023-10-03T21:24:56.270022+02:00"
   },
@@ -16,8 +14,6 @@
     "number": 1,
     "votes": 1,
     "placement": "NEUTRAL",
-    "circleId": 4,
-    "circle": null,
     "createdAt": "2023-10-03T21:24:56.270023+02:00",
     "updatedAt": "2023-10-03T21:24:56.270023+02:00"
   },
@@ -27,8 +23,6 @@
     "number": 1,
     "votes": 1,
     "placement": "NEUTRAL",
-    "circleId": 4,
-    "circle": null,
     "createdAt": "2023-10-03T21:24:56.270024+02:00",
     "updatedAt": "2023-10-03T21:24:56.270024+02:00"
   },
@@ -38,8 +32,6 @@
     "number": 1,
     "votes": 1,
     "placement": "NEUTRAL",
-    "circleId": 4,
-    "circle": null,
     "createdAt": "2023-10-03T21:24:56.270025+02:00",
     "updatedAt": "2023-10-03T21:24:56.270025+02:00"
   }

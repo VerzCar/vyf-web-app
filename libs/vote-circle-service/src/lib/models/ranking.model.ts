@@ -1,11 +1,15 @@
 export interface Ranking {
-  id: number;
-  identityId: string;
-  number: number;
-  votes: number;
-  placement: string;
-  circleId: number;
-  circle: null;
-  createdAt: Date;
-  updatedAt: Date;
+    id: number;
+    identityId: string;
+    number: number;
+    votes: number;
+    placement: Placement;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export enum Placement {
+    Neutral = 'NEUTRAL',
+    Ascending = 'ASCENDING',
+    Descending = 'DESCENDING'
 }

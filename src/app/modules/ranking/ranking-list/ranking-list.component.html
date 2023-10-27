@@ -1,0 +1,66 @@
+<div class="layout-container layout-whitespace">
+
+    <ng-container *rxLet="selectedCircle$; let circle;">
+        <div class="flex flex-col gap-4">
+
+            <section class="flex flex-row gap-2">
+                <div class="rounded-xl bg-gray-200 py-1 px-3">
+                    <p class="text-gray-950">
+                        Circle:
+                    </p>
+                </div>
+                <div class="rounded-xl bg-gray-100 py-1 px-3 flex-1 flex flex-row gap-2">
+                    <p class="text-gray-950">
+                        <a [routerLink]="['/circles', circle.id]">
+                            {{circle.name}}
+                        </a>
+                    </p>
+                    <i-feather name="arrow-right-circle"
+                               class="align-top">
+                    </i-feather>
+                </div>
+            </section>
+
+            <section id="circleMetaData"
+                     class="flex flex-row justify-between">
+                <div>
+                    <p>
+                        Need a vote
+                    </p>
+                    <div class="flex flex-row">
+                        <div class="bg-amber-500 rounded w-8 h-8">
+                        </div>
+                        <div class="bg-amber-400 rounded w-8 h-8">
+                        </div>
+                        <div class="bg-amber-300 rounded w-8 h-8">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col">
+                    <p>
+                        Valid until
+                    </p>
+                    <p>{{circle.validUntil | date}}</p>
+                    <p>{{circle.validUntil | date:'shortTime'}}</p>
+                </div>
+            </section>
+
+            <div class="self-center my-12">
+                <div class="relative h-60 w-60">
+                    <img ngSrc="/assets/img/svg/election-day.svg"
+                         priority="true"
+                         alt="election vote"
+                         fill="true"
+                         class="object-cover select-none">
+                </div>
+
+                <h5 class="text-xl text-center my-6 font-normal tracking-wide">
+                    No one has voted, <br>
+                    give a vote!
+                </h5>
+            </div>
+        </div>
+
+    </ng-container>
+</div>
