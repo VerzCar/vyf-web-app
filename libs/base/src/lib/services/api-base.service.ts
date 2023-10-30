@@ -4,6 +4,7 @@ import { Observable, retry } from 'rxjs';
 import { ApiResponse } from '../models';
 import { ApiGetOpts } from '../models/api-get-opts.model';
 import { ApiBaseMockService } from './api-base-mock.service';
+import { SseService } from './sse.service';
 
 export const BASE_API_URL = new InjectionToken<string>('Base API Url', {
     providedIn: 'any',
@@ -20,21 +21,14 @@ export abstract class ApiBaseService extends ApiBaseMockService {
     });
 
     protected readonly httpClient = inject(HttpClient);
+    private readonly sseService = inject(SseService);
     private readonly _baseUrl = inject(BASE_API_URL);
 
     protected abstract get endpointPath(): string;
 
     protected get<T>(opts?: ApiGetOpts): Observable<ApiResponse<T>> {
         let url = this.url;
-        if (opts?.ressource) {
-            url = `${url}/${opts.ressource}`;
-        }
-        if (opts?.id) {
-            url = `${url}/${opts.id}`;
-        }
-        if (opts?.path) {
-            url = `${url}/${opts.path}`;
-        }
+        url = this.adaptApiGetOptions(url, opts);
         return this.httpClient.get<ApiResponse<T>>(
             url,
             { headers: this.defaultHeaders }).pipe(
@@ -44,15 +38,7 @@ export abstract class ApiBaseService extends ApiBaseMockService {
 
     protected getAll<T>(opts?: ApiGetOpts): Observable<ApiResponse<T[]>> {
         let url = this.url;
-        if (opts?.ressource) {
-            url = `${url}/${opts.ressource}`;
-        }
-        if (opts?.id) {
-            url = `${url}/${opts.id}`;
-        }
-        if (opts?.path) {
-            url = `${url}/${opts.path}`;
-        }
+        url = this.adaptApiGetOptions(url, opts);
         return this.httpClient.get<ApiResponse<T[]>>(
             url,
             { headers: this.defaultHeaders }).pipe(
@@ -116,7 +102,24 @@ export abstract class ApiBaseService extends ApiBaseMockService {
         );
     }
 
+    protected sseEvents<T>(
+        opts?: ApiGetOpts
+    ): Observable<T> {
+        let url = this.url;
+        url = this.adaptApiGetOptions(url, opts);
+        return this.sseService.events$<T>(url);
+    }
+
     private get url(): string {
         return `${this._baseUrl}/${this.endpointPath}`;
+    }
+
+    private adaptApiGetOptions(url: string, opts?: ApiGetOpts): string {
+        if (opts?.paths) {
+            for (const path of opts.paths) {
+                url = `${url}/${path}`;
+            }
+        }
+        return url;
     }
 }

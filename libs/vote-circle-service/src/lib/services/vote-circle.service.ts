@@ -8,43 +8,48 @@ import * as rankingsCircleId04 from '../mocks/rankings-circle-id-4.json';
 import { Circle, CircleCreateRequest, CircleUpdateRequest, Ranking, VoteCreateRequest } from '../models';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class VoteCircleService extends ApiBaseService {
-  private readonly useMock = inject(BASE_API_USE_MOCK);
+    private readonly useMock = inject(BASE_API_USE_MOCK);
 
-  protected get endpointPath(): string {
-	return 'v1/api/vote-circle';
-  }
+    protected get endpointPath(): string {
+        return 'v1/api/vote-circle';
+    }
 
-  public circle(id: number): Observable<ApiResponse<Circle>> {
-	return this.useMock ? this.getMock(circleId04 as unknown as Circle) : this.get({ ressource: 'circle', id });
-  }
+    public circle(id: number): Observable<ApiResponse<Circle>> {
+        return this.useMock ? this.getMock(circleId04 as unknown as Circle) : this.get({ paths: ['circle', id] });
+    }
 
-  public circles(): Observable<ApiResponse<Circle[]>> {
-	return this.useMock ? this.getMock(circlesIdentityVerzcar as unknown as Circle[]) : this.getAll({ ressource: 'circles' });
-  }
+    public circles(): Observable<ApiResponse<Circle[]>> {
+        return this.useMock ? this.getMock(circlesIdentityVerzcar as unknown as Circle[]) : this.getAll({ paths: ['circles'] });
+    }
 
-  public createCircle(circle: CircleCreateRequest): Observable<ApiResponse<Circle>> {
-	return this.useMock ? this.createMock(circleId04 as unknown as Circle) : this.create(circle, 'circle');
-  }
+    public createCircle(circle: CircleCreateRequest): Observable<ApiResponse<Circle>> {
+        return this.useMock ? this.createMock(circleId04 as unknown as Circle) : this.create(circle, 'circle');
+    }
 
-  public updateCircle(circle: Partial<CircleUpdateRequest>): Observable<ApiResponse<Circle>> {
-	return this.useMock ? this.updateMock(circleId04 as unknown as Circle) : this.update(circle, 'circle');
-  }
+    public updateCircle(circle: Partial<CircleUpdateRequest>): Observable<ApiResponse<Circle>> {
+        return this.useMock ? this.updateMock(circleId04 as unknown as Circle) : this.update(circle, 'circle');
+    }
 
-  public createVote(voteCreate: VoteCreateRequest): Observable<ApiResponse<boolean>> {
-	return this.useMock ? this.createMock(true) : this.create<VoteCreateRequest, boolean>(voteCreate, 'vote');
-  }
+    public createVote(voteCreate: VoteCreateRequest): Observable<ApiResponse<boolean>> {
+        return this.useMock ? this.createMock(true) : this.create<VoteCreateRequest, boolean>(voteCreate, 'vote');
+    }
 
-  public rankings(circleId: number): Observable<ApiResponse<Ranking[]>> {
-	return this.useMock ? this.getMock(rankingsCircleId04 as unknown as Ranking[]) : this.get({
-	  ressource: 'rankings',
-	  id: circleId
-	});
-  }
+    public rankings(circleId: number): Observable<ApiResponse<Ranking[]>> {
+        return this.useMock ? this.getMock(rankingsCircleId04 as unknown as Ranking[]) : this.get({
+            paths: ['rankings', circleId]
+        });
+    }
 
-  public eligibleToBeInCircle(id: number): Observable<ApiResponse<boolean>> {
-	return this.useMock ? this.getMock(true) : this.get({ ressource: 'circle', id, path: 'eligible' });
-  }
+    public rankingsEvents(circleId: number): Observable<Ranking[]> {
+        return this.sseEvents({
+            paths: ['stream', 'rankings', circleId]
+        });
+    }
+
+    public eligibleToBeInCircle(id: number): Observable<ApiResponse<boolean>> {
+        return this.useMock ? this.getMock(true) : this.get({ paths: ['circle', id, 'eligible'] });
+    }
 }

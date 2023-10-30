@@ -10,8 +10,6 @@ import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { HttpClient } from "@angular/common/http";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
-export const createTranslateLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/core/');
-
 @NgModule({
   declarations: [
     LayoutComponent,
@@ -22,7 +20,11 @@ export const createTranslateLoaderFactory = (http: HttpClient) => new TranslateH
     CommonModule,
     NgxsModule.forFeature([UserState]),
     TranslateModule.forChild({
-      loader: { provide: TranslateLoader, useFactory: createTranslateLoaderFactory, deps: [HttpClient] },
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/core/'),
+        deps: [HttpClient]
+      },
       isolate: false,
       extend: true
     }),

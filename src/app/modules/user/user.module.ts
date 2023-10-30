@@ -25,9 +25,6 @@ import { UserRoutingModule } from './user-routing.module';
 import { UserState } from './user-state/user.state';
 import { UserXComponent } from './user-x/user-x.component';
 
-export const createTranslateLoaderFactory = (http: HttpClient) =>
-    new TranslateHttpLoader(http, './assets/i18n/user/');
-
 @NgModule({
     declarations: [
         UserProfileComponent,
@@ -40,7 +37,7 @@ export const createTranslateLoaderFactory = (http: HttpClient) =>
         TranslateModule.forChild({
             loader: {
                 provide: TranslateLoader,
-                useFactory: createTranslateLoaderFactory,
+                useFactory: (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/user/'),
                 deps: [HttpClient]
             },
             isolate: false,

@@ -7,20 +7,18 @@ import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxsModule } from '@ngxs/store';
-import { BASE_API_URL, BASE_API_USE_MOCK } from '@vyf/base';
+import { BASE_API_URL, BASE_API_USE_MOCK, AUTH_JWT_TOKEN_FACTORY } from '@vyf/base';
 import { Amplify } from 'aws-amplify';
 import awsconfig from '../aws-exports';
 import { environment } from '../env/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './core/auth/auth-interceptor.interceptor';
+import { authJwtTokenFactory } from './core/auth/helper';
 import { AwsCognitoService } from './core/services/aws-cognito.service';
 import { LayoutModule } from './modules/layout/layout.module';
 
 Amplify.configure(awsconfig);
-
-// AoT requires an exported function for factories
-export const createTranslateLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/core/');
 
 const globalRippleConfig: RippleGlobalOptions = {
     disabled: true,
@@ -44,7 +42,7 @@ const globalRippleConfig: RippleGlobalOptions = {
             {
                 loader: {
                     provide: TranslateLoader,
-                    useFactory: createTranslateLoaderFactory,
+                    useFactory: (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/core/'),
                     deps: [HttpClient]
                 },
                 extend: true
@@ -71,6 +69,11 @@ const globalRippleConfig: RippleGlobalOptions = {
         {
             provide: MAT_RIPPLE_GLOBAL_OPTIONS,
             useValue: globalRippleConfig
+        },
+        {
+            provide: AUTH_JWT_TOKEN_FACTORY,
+            useFactory: authJwtTokenFactory,
+            deps: [AwsCognitoService]
         }
     ],
     bootstrap: [AppComponent]

@@ -21,15 +21,15 @@ export class UserService extends ApiBaseService {
     }
 
     public x(id: string): Observable<ApiResponse<User>> {
-        return this.useMock ? this.getMock(userId02 as unknown as User) : this.get({ id });
+        return this.useMock ? this.getMock(userId02 as unknown as User) : this.get({ paths: [id] });
     }
 
     public users(): Observable<ApiResponse<UserPaginated[]>> {
-        return this.useMock ? this.getMock(users as unknown as UserPaginated[]) : this.getAll({ ressource: 'users' });
+        return this.useMock ? this.getMock(users as unknown as UserPaginated[]) : this.getAll({ paths: ['users'] });
     }
 
     public usersFiltered(username: string): Observable<ApiResponse<UserPaginated[]>> {
-        return this.useMock ? this.getMock(users as unknown as UserPaginated[]) : this.getAll({ ressource: 'users', path: username });
+        return this.useMock ? this.getMock(users as unknown as UserPaginated[]) : this.getAll({ paths: ['users', username] });
     }
 
     public uploadUserProfileImage(image: File): Observable<ApiResponse<string | null>> {
