@@ -10,6 +10,14 @@ export namespace RankingAction {
         }
     }
 
+    export class FetchRankings {
+        public static readonly type = `[${domainName}] Fetch Rankings`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public circleId: number) {
+        }
+    }
+
     export class SelectCircle {
         public static readonly type = `[${domainName}] Select Circle`;
 

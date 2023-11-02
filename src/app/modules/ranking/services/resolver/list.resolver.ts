@@ -1,12 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import {
-    Router,
-    Resolve,
-    RouterStateSnapshot,
-    ActivatedRouteSnapshot
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { catchError, EMPTY, map, Observable, of } from 'rxjs';
+import { catchError, EMPTY, map, Observable } from 'rxjs';
 import { RankingAction } from '../../ranking-state/actions/ranking.action';
 
 @Injectable({

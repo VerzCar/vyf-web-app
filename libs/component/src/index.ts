@@ -17,3 +17,6 @@ export * from './lib/submit-button/submit-button.component';
 export * from './lib/user-autocomplete/user-autocomplete.component';
 
 export * from './lib/user-list-item/user-list-item.component';
+
+export * from './lib/pipes/short-name.pipe';
+export * from './lib/pipes/trending-icon.pipe';

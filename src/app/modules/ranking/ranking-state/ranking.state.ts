@@ -1,13 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
-import { Circle, VoteCircleService, VoteCreateRequest } from '@vyf/vote-circle-service';
+import { Circle, Ranking, VoteCircleService, VoteCreateRequest } from '@vyf/vote-circle-service';
 import { map, Observable, of, tap } from 'rxjs';
 import { RankingStateModel } from '../models';
 import { RankingAction } from './actions/ranking.action';
 
 const DEFAULT_STATE: RankingStateModel = {
-    selectedCircle: undefined
+    selectedCircle: undefined,
+    rankings: undefined
 };
 
 @State<RankingStateModel>({
@@ -29,7 +30,10 @@ export class RankingState {
             return of(selectedCircle);
         }
 
-        return ctx.dispatch(new RankingAction.FetchCircle(action.circleId)).pipe(
+        return ctx.dispatch([
+            new RankingAction.FetchCircle(action.circleId),
+            new RankingAction.FetchRankings(action.circleId)
+        ]).pipe(
             map(() => ctx.getState().selectedCircle as Circle)
         );
     }
@@ -45,6 +49,17 @@ export class RankingState {
         );
     }
 
+    @Action(RankingAction.FetchRankings)
+    private fetchRankings(
+        ctx: StateContext<RankingStateModel>,
+        action: RankingAction.FetchRankings
+    ): Observable<Ranking[]> {
+        return this.voteCircleService.rankings(action.circleId).pipe(
+            map(res => res.data),
+            tap((rankings) => ctx.patchState({ rankings: rankings }))
+        );
+    }
+
     @Action(RankingAction.Vote)
     private vote(
         ctx: StateContext<RankingStateModel>,
@@ -52,7 +67,7 @@ export class RankingState {
     ): Observable<boolean> {
         const { selectedCircle } = ctx.getState();
 
-        if(!isDefined(selectedCircle)) {
+        if (!isDefined(selectedCircle)) {
             throw new Error('selected Circle is not defined');
         }
 

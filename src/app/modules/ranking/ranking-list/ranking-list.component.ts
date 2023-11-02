@@ -1,8 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Circle, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
-import { map, Observable } from 'rxjs';
+import { Circle, Ranking } from '@vyf/vote-circle-service';
+import { combineLatest, map, Observable } from 'rxjs';
 import { RankingSelectors } from '../ranking-state/ranking.selectors';
+
+interface RankingListComponentView {
+    circle: Circle;
+    rankings: Ranking[];
+}
 
 @Component({
     selector: 'app-ranking-list',
@@ -12,18 +17,18 @@ import { RankingSelectors } from '../ranking-state/ranking.selectors';
 })
 export class RankingListComponent {
     private readonly store = inject(Store);
-    private readonly vcService = inject(VoteCircleService);
 
-    public selectedCircle$: Observable<Circle>;
-    public rankings$: Observable<Ranking[]>;
+    public view$: Observable<RankingListComponentView>;
 
     constructor() {
-        this.selectedCircle$ = this.store.select(RankingSelectors.slices.selectedCircle).pipe(
-            map(circle => circle as Circle)
+        this.view$ = combineLatest([
+            this.store.select(RankingSelectors.slices.selectedCircle),
+            this.store.select(RankingSelectors.slices.rankings)
+        ]).pipe(
+            map(([circle, rankings]) => ({
+                circle: circle as Circle,
+                rankings: rankings ?? []
+            }))
         );
-
-        this.rankings$ = this.vcService.rankingsEvents(1);
-
-        this.rankings$.subscribe(ranks => console.log(ranks));
     }
 }

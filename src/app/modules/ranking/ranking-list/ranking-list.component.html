@@ -1,6 +1,6 @@
 <div class="layout-container layout-whitespace">
 
-    <ng-container *rxLet="selectedCircle$; let circle;">
+    <ng-container *rxLet="view$; let view;">
         <div class="flex flex-col gap-4">
 
             <section class="flex flex-row gap-2">
@@ -11,8 +11,8 @@
                 </div>
                 <div class="rounded-xl bg-gray-100 py-1 px-3 flex-1 flex flex-row gap-2">
                     <p class="text-gray-950">
-                        <a [routerLink]="['/circles', circle.id]">
-                            {{circle.name}}
+                        <a [routerLink]="['/circles', view.circle.id]">
+                            {{view.circle.name}}
                         </a>
                     </p>
                     <i-feather name="arrow-right-circle"
@@ -41,12 +41,24 @@
                     <p>
                         Valid until
                     </p>
-                    <p>{{circle.validUntil | date}}</p>
-                    <p>{{circle.validUntil | date:'shortTime'}}</p>
+                    <p>{{view.circle.validUntil | date}}</p>
+                    <p>{{view.circle.validUntil | date:'shortTime'}}</p>
                 </div>
             </section>
 
-            <div class="self-center my-12">
+            <ul *rxIf="view.rankings.length"
+                class="max-w-md divide-y divide-gray-200">
+                <ng-container *rxFor="let ranking of view.rankings; let index = index;">
+                    <li class="py-3 sm:pb-4">
+                        <app-list-item [ranking]="ranking"
+                                       [circle]="view.circle">
+                        </app-list-item>
+                    </li>
+                </ng-container>
+            </ul>
+
+            <section *rxIf="!view.rankings.length"
+                     class="self-center my-12">
                 <div class="relative h-60 w-60">
                     <img ngSrc="/assets/img/svg/election-day.svg"
                          priority="true"
@@ -59,7 +71,7 @@
                     No one has voted, <br>
                     give a vote!
                 </h5>
-            </div>
+            </section>
         </div>
 
     </ng-container>

@@ -1,5 +1,6 @@
-import { Circle } from '@vyf/vote-circle-service';
+import { Circle, Ranking } from '@vyf/vote-circle-service';
 
 export interface RankingStateModel {
     selectedCircle: Circle | undefined;
+    rankings: Ranking[] | undefined;
 }

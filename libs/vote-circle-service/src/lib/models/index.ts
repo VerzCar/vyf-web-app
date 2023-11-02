@@ -1,7 +1,7 @@
 export { Circle } from './circle.model';
 export { VoteCreateRequest } from './vote-create-request.model';
 export { Voter } from './voter.model';
-export { Ranking } from './ranking.model';
+export { Ranking, Placement } from './ranking.model';
 export { Commitment } from './commitment.model';
 
 export { CircleCreateRequest } from './circle-create-request.model';
