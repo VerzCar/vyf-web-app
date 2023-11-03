@@ -41,7 +41,6 @@ export class ListItemComponent implements OnInit {
     public ngOnInit(): void {
         this.view$ = this.ranking$.pipe(
             startWith(this._ranking),
-            tap(r => console.log(r)),
             switchMap(ranking =>
                 this.userService.x(ranking.identityId)
             ),

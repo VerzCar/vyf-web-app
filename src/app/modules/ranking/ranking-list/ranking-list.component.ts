@@ -6,6 +6,7 @@ import { RankingSelectors } from '../ranking-state/ranking.selectors';
 
 interface RankingListComponentView {
     circle: Circle;
+    topThreeRankings: Ranking[];
     rankings: Ranking[];
 }
 
@@ -23,10 +24,12 @@ export class RankingListComponent {
     constructor() {
         this.view$ = combineLatest([
             this.store.select(RankingSelectors.slices.selectedCircle),
+            this.store.select(RankingSelectors.slices.topThreeRankings),
             this.store.select(RankingSelectors.slices.rankings)
         ]).pipe(
-            map(([circle, rankings]) => ({
+            map(([circle, topThreeRankings, rankings]) => ({
                 circle: circle as Circle,
+                topThreeRankings: topThreeRankings ?? [],
                 rankings: rankings ?? []
             }))
         );

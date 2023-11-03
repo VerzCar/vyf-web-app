@@ -4,10 +4,12 @@ import { isDefined } from '@vyf/base';
 import { Circle, Ranking, VoteCircleService, VoteCreateRequest } from '@vyf/vote-circle-service';
 import { map, Observable, of, tap } from 'rxjs';
 import { RankingStateModel } from '../models';
+import { rankingsMock } from '../ranking-list/rankings-mock';
 import { RankingAction } from './actions/ranking.action';
 
 const DEFAULT_STATE: RankingStateModel = {
     selectedCircle: undefined,
+    topThreeRankings: undefined,
     rankings: undefined
 };
 
@@ -54,9 +56,28 @@ export class RankingState {
         ctx: StateContext<RankingStateModel>,
         action: RankingAction.FetchRankings
     ): Observable<Ranking[]> {
-        return this.voteCircleService.rankings(action.circleId).pipe(
-            map(res => res.data),
-            tap((rankings) => ctx.patchState({ rankings: rankings }))
+       // return this.voteCircleService.rankings(action.circleId)
+        return of(rankingsMock()).pipe(
+            //map(res => res.data),
+            tap((rankings) => {
+                const topThreeRankings: Ranking[] = [];
+                let countOfItemsToDelete = 0;
+                for (const [index, ranking] of rankings.entries()) {
+                    if(ranking.number === 1 || 2 || 3) {
+                        topThreeRankings.push(ranking);
+                        countOfItemsToDelete++;
+                    }
+                    if(index >= 2) {
+                        break;
+                    }
+                }
+                rankings.splice(0, countOfItemsToDelete);
+
+                ctx.patchState({
+                    topThreeRankings,
+                    rankings
+                });
+            })
         );
     }
 

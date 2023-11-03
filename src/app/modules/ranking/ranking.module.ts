@@ -5,7 +5,12 @@ import { NgxsModule } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
-import { CircleMemberComponent, ShortNamePipe, TrendingIconPipe, UserListItemComponent } from '@vyf/component';
+import {
+  CircleMemberComponent,
+  ShortNamePipe,
+  TrendingIconPipe,
+  UserListItemComponent,
+} from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/user-state/user.state';
 import { ListItemComponent } from './ranking-list/list-item/list-item.component';
@@ -14,24 +19,31 @@ import { RankingListComponent } from './ranking-list/ranking-list.component';
 import { RankingRoutingModule } from './ranking-routing.module';
 import { RankingState } from './ranking-state/ranking.state';
 import { ListResolver } from './services/resolver/list.resolver';
+import { TopThreeComponent } from './ranking-list/top-three/top-three.component';
+import { TopRankedComponent } from './ranking-list/top-three/top-ranked/top-ranked.component';
 
 @NgModule({
-    declarations: [RankingListComponent, ListItemComponent],
-    imports: [
-        CommonModule,
-        NgxsModule.forFeature([UserState, RankingState]),
-        RankingRoutingModule,
-        FeatherIconModule,
-        NgOptimizedImage,
-        CircleMemberComponent,
-        RxLet,
-        MatButtonModule,
-        RxFor,
-        UserListItemComponent,
-        RxIf,
-        ShortNamePipe,
-        TrendingIconPipe
-    ],
-    providers: [ListResolver]
+  declarations: [
+    RankingListComponent,
+    ListItemComponent,
+    TopThreeComponent,
+    TopRankedComponent,
+  ],
+  imports: [
+    CommonModule,
+    NgxsModule.forFeature([UserState, RankingState]),
+    RankingRoutingModule,
+    FeatherIconModule,
+    NgOptimizedImage,
+    CircleMemberComponent,
+    RxLet,
+    MatButtonModule,
+    RxFor,
+    UserListItemComponent,
+    RxIf,
+    ShortNamePipe,
+    TrendingIconPipe,
+  ],
+  providers: [ListResolver],
 })
 export class RankingModule {}

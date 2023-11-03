@@ -2,25 +2,24 @@
     let view;
     error: error;
     suspense: suspense;">
-    <div class="flex flex-row items-center gap-6">
+    <div class="flex flex-row items-center justify-between gap-6">
         <p class="font-semibold text-2xl text-gray-900">
             {{view.ranking.number}}
         </p>
 
         <div class="relative w-14 h-14 rounded hover:shadow hover:ring">
             <img *rxIf="view.user.profile.imageSrc"
-                 class="w-14 h-14 object-cover rounded"
+                 class="object-cover rounded"
                  ngSrc="{{view.user.profile.imageSrc}}"
                  alt="{{view.user.username}}"
-                 width="14"
-                 height="14">
+                 fill="true">
             <div *rxIf="!view.user.profile.imageSrc"
                  class="bg-gray-800 text-gray-200 w-14 h-14 flex items-center justify-center rounded">
                 <span class="text-xl uppercase">{{view.user.username | shortName}}</span>
             </div>
         </div>
 
-        <div class="flex flex-col justify-between gap-y-1 ml-4">
+        <div class="flex-2 flex flex-col justify-between gap-y-2.5 ml-4 overflow-hidden">
             <p class="text-gray-900">
                 {{view.ranking.votes}}
             </p>

@@ -46,16 +46,24 @@
                 </div>
             </section>
 
-            <ul *rxIf="view.rankings.length"
-                class="max-w-md divide-y divide-gray-200">
-                <ng-container *rxFor="let ranking of view.rankings; let index = index;">
-                    <li class="py-3 sm:pb-4">
-                        <app-list-item [ranking]="ranking"
-                                       [circle]="view.circle">
-                        </app-list-item>
-                    </li>
+            <section class="self-center max-w-lg flex flex-col gap-10">
+                <ng-container *rxIf="view.topThreeRankings.length">
+                    <app-top-three [topThreeRankings]="view.topThreeRankings"
+                                   [circle]="view.circle">
+                    </app-top-three>
                 </ng-container>
-            </ul>
+
+                <ul *rxIf="view.rankings.length"
+                    class="divide-y divide-gray-200">
+                    <ng-container *rxFor="let ranking of view.rankings; let index = index;">
+                        <li class="py-3 sm:pb-4">
+                            <app-list-item [ranking]="ranking"
+                                           [circle]="view.circle">
+                            </app-list-item>
+                        </li>
+                    </ng-container>
+                </ul>
+            </section>
 
             <section *rxIf="!view.rankings.length"
                      class="self-center my-12">
