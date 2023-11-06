@@ -33,6 +33,10 @@ export class VoteCircleService extends ApiBaseService {
         return this.useMock ? this.updateMock(circleId04 as unknown as Circle) : this.update(circle, 'circle');
     }
 
+    public uploadCircleImage(image: File, circleId: number): Observable<ApiResponse<string | null>> {
+        return this.useMock ? this.getMock('') : this.upload(image, 'circleImageFile', `upload/circle-img/${circleId}`);
+    }
+
     public createVote(voteCreate: VoteCreateRequest): Observable<ApiResponse<boolean>> {
         return this.useMock ? this.createMock(true) : this.create<VoteCreateRequest, boolean>(voteCreate, 'vote');
     }

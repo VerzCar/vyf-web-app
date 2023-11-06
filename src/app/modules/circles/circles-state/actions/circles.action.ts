@@ -35,4 +35,12 @@ export namespace CirclesAction {
         constructor(public circle: CircleCreateRequest) {
         }
     }
+
+    export class UpdateCircleImage {
+        public static readonly type = `[${domainName}] Update circle image`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public image: File) {
+        }
+    }
 }

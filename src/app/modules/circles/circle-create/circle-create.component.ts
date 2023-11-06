@@ -32,7 +32,7 @@ export class CircleCreateComponent {
 
     public onSubmit() {
         const formRawValue = this.form.getRawValue();
-        console.log(formRawValue);
+
         this.store.dispatch(new CirclesAction.CreateCircle(createCircleFormToRequest(formRawValue)))
             .pipe(
                 tap(() => this.router.navigate(['/circles']))

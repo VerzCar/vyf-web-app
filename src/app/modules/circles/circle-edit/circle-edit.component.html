@@ -7,4 +7,6 @@
     </a>
 </div>
 
-<p>circle-edit works!</p>
+<vyf-image-upload [profileImageSrc]="circleImageSrc$"
+                  (fileSelected)="onCircleImageSelected($event)">
+</vyf-image-upload>

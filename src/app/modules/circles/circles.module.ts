@@ -14,7 +14,7 @@ import { NgxsModule } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
-import { CircleMemberComponent, UserAutocompleteComponent } from '@vyf/component';
+import { CircleMemberComponent, ImageUploadComponent, UserAutocompleteComponent } from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/user-state/user.state';
 import { CircleCreateComponent } from './circle-create/circle-create.component';
@@ -62,7 +62,8 @@ import { OverviewResolver } from './services/resolver/overview.resolver';
         UserAutocompleteComponent,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        ImageUploadComponent
     ],
     providers: [DetailsResolver, EditResolver, OverviewResolver],
 })

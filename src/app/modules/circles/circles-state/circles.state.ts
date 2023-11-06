@@ -54,6 +54,30 @@ export class CirclesState implements NgxsOnInit {
         );
     }
 
+    @Action(CirclesAction.UpdateCircleImage)
+    private updateCircleImage(
+        ctx: StateContext<CirclesStateModel>,
+        action: CirclesAction.UpdateCircleImage
+    ) {
+        const selectedCircle = ctx.getState().selectedCircle;
+
+        if (!selectedCircle) {
+            return of(null);
+        }
+
+        return this.voteCircleService.uploadCircleImage(action.image, selectedCircle.id).pipe(
+            map(res => res.data),
+            tap(src => {
+                ctx.patchState({
+                    selectedCircle: {
+                        ...selectedCircle,
+                        imageSrc: src ?? ''
+                    }
+                });
+            })
+        );
+    }
+
     @Action(CirclesAction.FetchCircle)
     private fetchCircle(
         ctx: StateContext<CirclesStateModel>,
