@@ -6,7 +6,7 @@
     error: error;
     suspense: suspense;">
         <div class="flex flex-col gap-4">
-            <div class="flex flex-row items-center justify-between">
+            <section class="flex flex-row items-center justify-between">
                 <h3>
                     Your Circles
                     <span class="font-light text-base tracking-wider text-gray-600">
@@ -22,12 +22,23 @@
                     </i-feather>
                     Create Circle
                 </a>
-            </div>
+            </section>
 
             <div class="border rounded p-2">
                 <app-circles-carousel [circles]="view.circles">
                 </app-circles-carousel>
             </div>
+
+            <section>
+                <h3>
+                    Circles
+                </h3>
+                <div class="border rounded p-2">
+                    <app-circles-interest>
+                    </app-circles-interest>
+                </div>
+            </section>
+
         </div>
     </ng-container>
 

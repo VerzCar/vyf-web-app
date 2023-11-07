@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import * as circleId04 from '../mocks/circle-id-4.json';
 import * as circlesIdentityVerzcar from '../mocks/circles-identity-verzcar.json';
 import * as rankingsCircleId04 from '../mocks/rankings-circle-id-4.json';
-import { Circle, CircleCreateRequest, CircleUpdateRequest, Ranking, VoteCreateRequest } from '../models';
+import { Circle, CircleCreateRequest, CirclePaginated, CircleUpdateRequest, Ranking, VoteCreateRequest } from '../models';
 
 @Injectable({
     providedIn: 'root'
@@ -23,6 +23,14 @@ export class VoteCircleService extends ApiBaseService {
 
     public circles(): Observable<ApiResponse<Circle[]>> {
         return this.useMock ? this.getMock(circlesIdentityVerzcar as unknown as Circle[]) : this.getAll({ paths: ['circles'] });
+    }
+
+    public circlesFiltered(name: string): Observable<ApiResponse<CirclePaginated[]>> {
+        return this.useMock ? this.getMock(circlesIdentityVerzcar as unknown as CirclePaginated[]) : this.getAll({ paths: ['circles', name] });
+    }
+
+    public circlesOfInterest(): Observable<ApiResponse<CirclePaginated[]>> {
+        return this.useMock ? this.getMock(circlesIdentityVerzcar as unknown as CirclePaginated[]) : this.getAll({ paths: ['circles', 'of-interest'] });
     }
 
     public createCircle(circle: CircleCreateRequest): Observable<ApiResponse<Circle>> {

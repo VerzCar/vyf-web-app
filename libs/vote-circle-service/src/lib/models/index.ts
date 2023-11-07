@@ -1,4 +1,5 @@
 export { Circle } from './circle.model';
+export { CirclePaginated } from './circle-paginated.model';
 export { VoteCreateRequest } from './vote-create-request.model';
 export { Voter } from './voter.model';
 export { Ranking, Placement } from './ranking.model';

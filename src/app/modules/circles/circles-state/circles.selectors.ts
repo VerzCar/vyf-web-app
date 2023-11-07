@@ -1,7 +1,7 @@
 import { createPropertySelectors, createSelector } from '@ngxs/store';
 import { UserStateModel } from '../../user/models/user-state.model';
 import { UserState } from '../../user/user-state/user.state';
-import { CirclesStateModel } from '../models/circles-state.model';
+import { CirclesStateModel } from '../models';
 import { CirclesState } from './circles.state';
 
 export class CirclesSelectors {

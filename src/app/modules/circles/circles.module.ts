@@ -14,7 +14,11 @@ import { NgxsModule } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
-import { CircleMemberComponent, ImageUploadComponent, UserAutocompleteComponent } from '@vyf/component';
+import {
+  CircleMemberComponent,
+  ImageUploadComponent,
+  UserAutocompleteComponent,
+} from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/user-state/user.state';
 import { CircleCreateComponent } from './circle-create/circle-create.component';
@@ -30,41 +34,43 @@ import { CirclesState } from './circles-state/circles.state';
 import { DetailsResolver } from './services/resolver/details.resolver';
 import { EditResolver } from './services/resolver/edit.resolver';
 import { OverviewResolver } from './services/resolver/overview.resolver';
+import { CirclesInterestComponent } from './circles-overview/circles-interest/circles-interest.component';
 
 @NgModule({
-    declarations: [
-        CirclesOverviewComponent,
-        CircleDetailComponent,
-        CircleEditComponent,
-        CircleCreateComponent,
-        CircleMembersComponent,
-        CircleNotEligibleComponent,
-        CircleCardComponent,
-        CirclesCarouselComponent,
-    ],
-    imports: [
-        CommonModule,
-        NgxsModule.forFeature([UserState, CirclesState]),
-        MatButtonModule,
-        RxLet,
-        MatProgressSpinnerModule,
-        NgOptimizedImage,
-        MatIconModule,
-        RxIf,
-        RxFor,
-        CircleMemberComponent,
-        CirclesRoutingModule,
-        FeatherIconModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        TextFieldModule,
-        UserAutocompleteComponent,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatCheckboxModule,
-        ImageUploadComponent
-    ],
-    providers: [DetailsResolver, EditResolver, OverviewResolver],
+  declarations: [
+    CirclesOverviewComponent,
+    CircleDetailComponent,
+    CircleEditComponent,
+    CircleCreateComponent,
+    CircleMembersComponent,
+    CircleNotEligibleComponent,
+    CircleCardComponent,
+    CirclesCarouselComponent,
+    CirclesInterestComponent,
+  ],
+  imports: [
+    CommonModule,
+    NgxsModule.forFeature([UserState, CirclesState]),
+    MatButtonModule,
+    RxLet,
+    MatProgressSpinnerModule,
+    NgOptimizedImage,
+    MatIconModule,
+    RxIf,
+    RxFor,
+    CircleMemberComponent,
+    CirclesRoutingModule,
+    FeatherIconModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    TextFieldModule,
+    UserAutocompleteComponent,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
+    ImageUploadComponent,
+  ],
+  providers: [DetailsResolver, EditResolver, OverviewResolver],
 })
 export class CirclesModule {}

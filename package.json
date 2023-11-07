@@ -64,7 +64,6 @@
     "@typescript-eslint/parser": "^5.60.1",
     "autoprefixer": "^10.4.0",
     "cypress": "^13.0.0",
-    "daisyui": "^3.9.2",
     "eslint": "~8.46.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-cypress": "^2.13.4",

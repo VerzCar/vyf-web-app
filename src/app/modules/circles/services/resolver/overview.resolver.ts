@@ -12,7 +12,7 @@ export class OverviewResolver implements Resolve<boolean> {
     private readonly store = inject(Store);
 
     public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | never> {
-        return this.store.dispatch(new CirclesAction.FetchMyCircles()).pipe(
+        return this.store.dispatch(new CirclesAction.InitUserCircles()).pipe(
             map(() => true),
             catchError(() => {
                 this.router.navigate(['']);

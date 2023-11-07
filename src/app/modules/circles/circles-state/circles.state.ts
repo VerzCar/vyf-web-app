@@ -1,14 +1,15 @@
 import { inject, Injectable } from '@angular/core';
-import { Action, NgxsOnInit, State, StateContext } from '@ngxs/store';
+import { Action, State, StateContext } from '@ngxs/store';
 import { insertItem, patch } from '@ngxs/store/operators';
-import { Circle, VoteCircleService } from '@vyf/vote-circle-service';
+import { Circle, CirclePaginated, VoteCircleService } from '@vyf/vote-circle-service';
 import { map, Observable, of, tap } from 'rxjs';
 import { CirclesStateModel } from '../models';
 import { CirclesAction } from './actions/circles.action';
 
 const DEFAULT_STATE: CirclesStateModel = {
     myCircles: undefined,
-    selectedCircle: undefined
+    selectedCircle: undefined,
+    circlesOfInterest: undefined
 };
 
 @State<CirclesStateModel>({
@@ -16,12 +17,8 @@ const DEFAULT_STATE: CirclesStateModel = {
     defaults: DEFAULT_STATE
 })
 @Injectable()
-export class CirclesState implements NgxsOnInit {
+export class CirclesState {
     private readonly voteCircleService = inject(VoteCircleService);
-
-    public ngxsOnInit(ctx: StateContext<CirclesStateModel>): void {
-        ctx.dispatch(new CirclesAction.FetchMyCircles());
-    }
 
     @Action(CirclesAction.SelectCircle)
     private selectCircle(
@@ -78,6 +75,23 @@ export class CirclesState implements NgxsOnInit {
         );
     }
 
+    @Action(CirclesAction.InitUserCircles)
+    private initUserCircles(
+        ctx: StateContext<CirclesStateModel>,
+        action: CirclesAction.InitUserCircles
+    ): Observable<void> | undefined {
+        const { myCircles, circlesOfInterest } = ctx.getState();
+
+        if (myCircles && circlesOfInterest) {
+            return;
+        }
+
+        return ctx.dispatch([
+            new CirclesAction.FetchCircles(),
+            new CirclesAction.FetchCirclesOfInterest()
+        ])
+    }
+
     @Action(CirclesAction.FetchCircle)
     private fetchCircle(
         ctx: StateContext<CirclesStateModel>,
@@ -100,13 +114,14 @@ export class CirclesState implements NgxsOnInit {
         );
     }
 
-    @Action(CirclesAction.FetchMyCircles)
-    private fetchMyCircles(
+    @Action(CirclesAction.FetchCirclesOfInterest)
+    private fetchCirclesOfInterest(
         ctx: StateContext<CirclesStateModel>,
-        action: CirclesAction.FetchMyCircles
-    ): Observable<Circle[]> {
-        return ctx.dispatch(new CirclesAction.FetchCircles()).pipe(
-            map(() => ctx.getState().myCircles as Circle[])
+        action: CirclesAction.FetchCirclesOfInterest
+    ): Observable<CirclePaginated[]> {
+        return this.voteCircleService.circlesOfInterest().pipe(
+            map(res => res.data !== null ? res.data : []),
+            tap((circles) => ctx.patchState({ circlesOfInterest: circles }))
         );
     }
 

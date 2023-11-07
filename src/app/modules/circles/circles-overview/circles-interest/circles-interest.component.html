@@ -1,0 +1,26 @@
+<ng-container *rxLet="view$;
+    let view;
+    error: error;
+    suspense: suspense;">
+
+    <div class="flex flex-row gap-4">
+
+        <ng-container *rxFor="let circle of view.circles;">
+            <a [routerLink]="['/circles', circle.id]"
+               class="bg-gray-200 text-gray-950 rounded-2xl py-3 px-5 hover:shadow">
+                <p class="text-gray-950 font-semibold tracking-wide">
+                    {{circle.name}}
+                </p>
+            </a>
+        </ng-container>
+
+    </div>
+
+</ng-container>
+
+<ng-template #suspense>
+    <div class="flex justify-center items-center">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
+<ng-template #error>ERROR!</ng-template>

@@ -16,8 +16,12 @@ export namespace CirclesAction {
         public static readonly type = `[${domainName}] Fetch Circles`;
     }
 
-    export class FetchMyCircles {
-        public static readonly type = `[${domainName}] Fetch My Circles`;
+    export class FetchCirclesOfInterest {
+        public static readonly type = `[${domainName}] Fetch Circles of interest`;
+    }
+
+    export class InitUserCircles {
+        public static readonly type = `[${domainName}] Init Circles of user`;
     }
 
     export class SelectCircle {
