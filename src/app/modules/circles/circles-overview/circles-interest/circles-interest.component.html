@@ -3,13 +3,16 @@
     error: error;
     suspense: suspense;">
 
-    <div class="flex flex-row gap-4">
+    <div class="flex flex-row flex-wrap gap-4">
 
         <ng-container *rxFor="let circle of view.circles;">
             <a [routerLink]="['/circles', circle.id]"
-               class="bg-gray-200 text-gray-950 rounded-2xl py-3 px-5 hover:shadow">
+               class="relative bg-gray-200 text-gray-950 rounded-2xl py-3 px-5 my-2 mx-3 min-w-[8rem] text-center hover:shadow">
                 <p class="text-gray-950 font-semibold tracking-wide">
                     {{circle.name}}
+                </p>
+                <p class="text-gray-950 font-normal absolute -right-1/4 -bottom-2.5">
+                    {{circle.votersCount | shortNumber}} People
                 </p>
             </a>
         </ng-container>

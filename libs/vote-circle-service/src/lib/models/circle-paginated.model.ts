@@ -3,5 +3,6 @@ export interface CirclePaginated {
     name: string;
     description: string;
     imageSrc: string;
+    votersCount: number | null;
     active: boolean;
 }

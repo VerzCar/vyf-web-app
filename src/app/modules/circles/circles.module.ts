@@ -16,8 +16,8 @@ import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import {
   CircleMemberComponent,
-  ImageUploadComponent,
-  UserAutocompleteComponent,
+  ImageUploadComponent, ShortNumberPipe,
+  UserAutocompleteComponent
 } from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/user-state/user.state';
@@ -70,6 +70,7 @@ import { CirclesInterestComponent } from './circles-overview/circles-interest/ci
     MatNativeDateModule,
     MatCheckboxModule,
     ImageUploadComponent,
+    ShortNumberPipe
   ],
   providers: [DetailsResolver, EditResolver, OverviewResolver],
 })
