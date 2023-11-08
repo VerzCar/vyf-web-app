@@ -1,13 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
-import { isDefined } from '@vyf/base';
-import { Circle, VoteCircleService, VoteCreateRequest } from '@vyf/vote-circle-service';
-import { map, Observable, of, tap } from 'rxjs';
-import { MemberStateModel } from '../models';
+import { UserService } from '@vyf/user-service';
+import { Circle, VoteCircleService } from '@vyf/vote-circle-service';
+import { forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
+import { Member, MemberStateModel } from '../models';
 import { MemberAction } from './actions/member.action';
 
 const DEFAULT_STATE: MemberStateModel = {
-    selectedCircle: undefined
+    selectedCircle: undefined,
+    members: undefined
 };
 
 @State<MemberStateModel>({
@@ -17,6 +18,7 @@ const DEFAULT_STATE: MemberStateModel = {
 @Injectable()
 export class MemberState {
     private readonly voteCircleService = inject(VoteCircleService);
+    private readonly userService = inject(UserService);
 
     @Action(MemberAction.SelectCircle)
     private selectCircle(
@@ -32,6 +34,10 @@ export class MemberState {
         return ctx.dispatch([
             new MemberAction.FetchCircle(action.circleId)
         ]).pipe(
+            switchMap(() =>
+                forkJoin(this.mapMembers$(ctx.getState().selectedCircle as Circle))
+            ),
+            tap(members => ctx.patchState({ members })),
             map(() => ctx.getState().selectedCircle as Circle)
         );
     }
@@ -47,30 +53,14 @@ export class MemberState {
         );
     }
 
-    @Action(MemberAction.Vote)
-    private vote(
-        ctx: StateContext<MemberStateModel>,
-        action: MemberAction.Vote
-    ): Observable<boolean> {
-        const { selectedCircle } = ctx.getState();
-
-        if (!isDefined(selectedCircle)) {
-            throw new Error('selected Circle is not defined');
-        }
-
-        const voteCreateRequest: VoteCreateRequest = {
-            circleId: action.circleId,
-            elected: action.electedIdentId
-        };
-
-        return this.voteCircleService.createVote(voteCreateRequest).pipe(
-            map(res => res.data),
-            tap(success => {
-                const voters = selectedCircle.voters;
-                const foundElectedVoter = voters.find(voter => voter.voter === action.electedIdentId);
-
-            })
-        );
+    private mapMembers$(circle: Circle): Observable<Member>[] {
+        return circle.voters.map(voter =>
+            this.userService.x(voter.voter).pipe(
+                map(res => ({
+                    user: res.data,
+                    voter
+                }))
+            ));
     }
 
 }

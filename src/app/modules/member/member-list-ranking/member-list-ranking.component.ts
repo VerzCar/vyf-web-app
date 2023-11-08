@@ -1,18 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { User, UserService } from '@vyf/user-service';
-import { Circle, Voter } from '@vyf/vote-circle-service';
-import { filter, map, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { RankingAction } from '../../ranking/ranking-state/actions/ranking.action';
+import { CircleMember } from '../models';
 import { MemberSelectors } from '../state/member.selectors';
 
-interface Member {
-    user: User;
-    voter: Voter;
-}
-
-interface MemberListRankingView {
-    circle: Circle;
-    members$: Observable<Member>[];
+interface MemberListRankingView extends CircleMember {
+    canVote$: Observable<boolean>;
 }
 
 @Component({
@@ -23,32 +17,19 @@ interface MemberListRankingView {
 })
 export class MemberListRankingComponent {
     private readonly store = inject(Store);
-    private readonly userService = inject(UserService);
 
     public view$: Observable<MemberListRankingView>;
 
     constructor() {
-        this.view$ = this.store.select(MemberSelectors.slices.selectedCircle).pipe(
-            filter((circle) => circle !== undefined),
-            map((circle) => {
-                const members$ = this.members$(circle as Circle);
-                return {
-                    circle: circle as Circle,
-                    members$
-                };
-            })
+        this.view$ = this.store.select(MemberSelectors.circleMembers).pipe(
+            map(circleMembers => ({
+                ...circleMembers,
+                canVote$: this.store.select(MemberSelectors.canVote)
+            }))
         );
     }
 
-    private members$(circle: Circle): Observable<Member>[] {
-        return circle.voters.map(voter => {
-            return this.userService.x(voter.voter).pipe(
-                map(res => ({
-                    user: res.data,
-                    voter
-                } as Member))
-            );
-        });
+    public onVoted(electedId: string, circleId: number | undefined) {
+        this.store.dispatch(new RankingAction.Vote(circleId ?? 0, electedId));
     }
-
 }

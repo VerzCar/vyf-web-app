@@ -6,10 +6,10 @@ import { RankingStateModel } from '../models';
 import { RankingState } from './ranking.state';
 
 export class RankingSelectors {
-    static slices = createPropertySelectors<RankingStateModel>(RankingState);
+    public static slices = createPropertySelectors<RankingStateModel>(RankingState);
 
     @Selector([RankingSelectors.slices.selectedCircle, UserSelectors.slices.user])
-    static canVote(selectedCircle: Circle | undefined, user: User | undefined): boolean {
+    public static canVote(selectedCircle: Circle | undefined, user: User | undefined): boolean {
         if (!selectedCircle && !user) {
             return false;
         }

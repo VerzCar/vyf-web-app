@@ -11,21 +11,23 @@
         <div class="flex flex-col gap-4">
 
             <div>
-                <a [routerLink]="['/ranking', view.circle.id]"
+                <a [routerLink]="['/ranking', view.selectedCircle?.id]"
                    mat-button
                    color="accent">
                     <mat-icon>
                         arrow_back_ios
                     </mat-icon>
-                    {{view.circle.name}}
+                    {{view.selectedCircle?.name}}
                 </a>
             </div>
 
-            <ul class="max-w-md divide-y divide-gray-200">
-                <ng-container *rxFor="let member$ of view.members$;">
-                    <li class="pb-3 sm:pb-4">
-                        <vyf-circle-member [member$]="member$">
-                        </vyf-circle-member>
+            <ul class="max-w-md divide-y-4 divide-gray-300">
+                <ng-container *rxFor="let member of view.members;">
+                    <li class="py-2.5 px-2">
+                        <vyf-member-list-item [member]="member"
+                                              [canVote$]="view.canVote$"
+                        (voted)="onVoted($event, view.selectedCircle?.id)">
+                        </vyf-member-list-item>
                     </li>
                 </ng-container>
             </ul>

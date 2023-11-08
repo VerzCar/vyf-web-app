@@ -39,20 +39,30 @@ const defaultOpts: CircleMemberComponentOption = {
 };
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        CommonModule,
+        RouterLink,
+        RxLet,
+        RxIf,
+        NgOptimizedImage,
+        CommitmentIconComponent,
+        CircleMemberCommitmentPipe,
+        ShortNamePipe
+    ],
     selector: 'vyf-circle-member',
     standalone: true,
-    imports: [CommonModule, RouterLink, RxLet, RxIf, NgOptimizedImage, CommitmentIconComponent, CircleMemberCommitmentPipe, ShortNamePipe],
-    templateUrl: './circle-member.component.html',
     styleUrls: ['./circle-member.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './circle-member.component.html'
 })
 export class CircleMemberComponent implements OnInit {
-    @Input({ required: true }) public member$: Observable<Member> | undefined;
+    @Input({ required: true }) public member$!: Observable<Member>;
     @Input() public opts: Partial<CircleMemberComponentOption> = defaultOpts;
+
     public view$: Observable<CircleMemberView> | undefined;
 
     public ngOnInit(): void {
-        this.view$ = this.member$?.pipe(
+        this.view$ = this.member$.pipe(
             map(member => ({
                 member,
                 opts: {
