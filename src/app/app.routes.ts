@@ -21,6 +21,10 @@ export const appRoutes: Routes = [
         loadChildren: () => import('./modules/ranking/ranking.module').then(m => m.RankingModule)
     },
     {
+        path: Route.members,
+        loadChildren: () => import('./modules/member/member.module').then(m => m.MemberModule)
+    },
+    {
         path: '**',
         component: LayoutComponent,
         children: [

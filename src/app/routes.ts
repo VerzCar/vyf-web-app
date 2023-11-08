@@ -2,5 +2,6 @@ export const Route = {
     default: '',
     user: 'user',
     circles: 'circles',
-    ranking: 'ranking'
+    ranking: 'ranking',
+    members: 'members'
 };

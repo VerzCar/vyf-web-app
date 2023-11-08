@@ -27,14 +27,15 @@
                     <p>
                         Need a vote
                     </p>
-                    <div class="flex flex-row">
+                    <a [routerLink]="['/members/ranking', view.circle.id]"
+                            class="flex flex-row">
                         <div class="bg-amber-500 rounded w-8 h-8">
                         </div>
                         <div class="bg-amber-400 rounded w-8 h-8">
                         </div>
                         <div class="bg-amber-300 rounded w-8 h-8">
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="flex flex-col">

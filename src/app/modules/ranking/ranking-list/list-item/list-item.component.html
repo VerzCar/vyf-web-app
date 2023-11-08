@@ -21,7 +21,7 @@
 
         <div class="flex-2 flex flex-col justify-between gap-y-2.5 ml-4 overflow-hidden">
             <p class="text-gray-900">
-                {{view.ranking.votes}}
+                {{view.ranking.votes | shortNumber }}
             </p>
 
             <p class="text-gray-900">
@@ -34,7 +34,8 @@
                        name="{{view.ranking.placement | trendingIcon}}">
             </i-feather>
 
-            <button mat-flat-button
+            <button *rxIf="canVote$"
+                    mat-flat-button
                     color="accent"
                     type="button"
                     (click)="onVote(circle.id, view.ranking.identityId)">

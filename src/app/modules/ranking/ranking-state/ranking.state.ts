@@ -56,9 +56,9 @@ export class RankingState {
         ctx: StateContext<RankingStateModel>,
         action: RankingAction.FetchRankings
     ): Observable<Ranking[]> {
-       // return this.voteCircleService.rankings(action.circleId)
-        return of(rankingsMock()).pipe(
-            //map(res => res.data),
+       return this.voteCircleService.rankings(action.circleId).pipe(
+        //return of(rankingsMock()).pipe(
+            map(res => res.data),
             tap((rankings) => {
                 const topThreeRankings: Ranking[] = [];
                 let countOfItemsToDelete = 0;

@@ -4,6 +4,7 @@ import { User, UserService } from '@vyf/user-service';
 import { Circle, Ranking } from '@vyf/vote-circle-service';
 import { map, Observable, shareReplay, startWith, Subject, switchMap } from 'rxjs';
 import { RankingAction } from '../../../ranking-state/actions/ranking.action';
+import { RankingSelectors } from '../../../ranking-state/ranking.selectors';
 
 export enum TopThreePlacement {
   First,
@@ -33,6 +34,7 @@ export class TopRankedComponent implements OnInit {
   }
 
   public readonly TopThreePlacement = TopThreePlacement;
+  public readonly canVote$: Observable<boolean>;
 
   public view$: Observable<TopRankedComponentView> | undefined;
 
@@ -45,6 +47,7 @@ export class TopRankedComponent implements OnInit {
 
   constructor() {
     this.ranking$ = this.rankingSubject.asObservable();
+    this.canVote$ = this.store.select(RankingSelectors.canVote);
   }
 
   public ngOnInit(): void {

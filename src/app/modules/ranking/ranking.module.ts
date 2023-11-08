@@ -7,9 +7,9 @@ import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import {
   CircleMemberComponent,
-  ShortNamePipe,
+  ShortNamePipe, ShortNumberPipe,
   TrendingIconPipe,
-  UserListItemComponent,
+  UserListItemComponent
 } from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/user-state/user.state';
@@ -43,6 +43,7 @@ import { TopRankedComponent } from './ranking-list/top-three/top-ranked/top-rank
     RxIf,
     ShortNamePipe,
     TrendingIconPipe,
+    ShortNumberPipe
   ],
   providers: [ListResolver],
 })
