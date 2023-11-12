@@ -33,7 +33,8 @@ export class MemberState {
         }
 
         const votersFilter: Partial<CircleVotersFilter> = {
-            commitment: Commitment.Committed
+            commitment: Commitment.Committed,
+            hasBeenVoted: false
         };
 
         return ctx.dispatch([
