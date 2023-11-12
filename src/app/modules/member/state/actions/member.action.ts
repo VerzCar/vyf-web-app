@@ -1,3 +1,5 @@
+import { CircleVotersFilter } from '@vyf/vote-circle-service';
+
 const domainName = 'Member';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -7,6 +9,13 @@ export namespace MemberAction {
 
         // eslint-disable-next-line no-useless-constructor
         constructor(public circleId: number) {
+        }
+    }
+
+    export class FetchCircleVoter {
+        public static readonly type = `[${domainName}] Fetch Circle Voter`;
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public circleId: number, public filter?: Partial<CircleVotersFilter>) {
         }
     }
 

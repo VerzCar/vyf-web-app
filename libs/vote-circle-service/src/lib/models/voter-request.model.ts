@@ -1,3 +1,3 @@
 export interface VoterRequest {
-  voter: string;
+    readonly voter: string;
 }

@@ -7,25 +7,26 @@ import { CirclesAction } from '../circles-state/actions/circles.action';
 import { CirclesSelectors } from '../circles-state/circles.selectors';
 
 @Component({
-  selector: 'app-circle-edit',
-  templateUrl: './circle-edit.component.html',
-  styleUrls: ['./circle-edit.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-circle-edit',
+    templateUrl: './circle-edit.component.html',
+    styleUrls: ['./circle-edit.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CircleEditComponent {
-  public circleImageSrc$: Observable<string>;
+    public circleImageSrc$: Observable<string>;
 
-  private readonly store = inject(Store);
+    private readonly store = inject(Store);
 
-  constructor() {
-    this.circleImageSrc$ = this.store.select(CirclesSelectors.slices.selectedCircle).pipe(
-        filter(circle => isDefined(circle)),
-        map(circle => circle as Circle),
-        map(circle => circle.imageSrc),
-        shareReplay()
-    );
-  }
-  public onCircleImageSelected(image: File): void {
-    this.store.dispatch(new CirclesAction.UpdateCircleImage(image));
-  }
+    constructor() {
+        this.circleImageSrc$ = this.store.select(CirclesSelectors.slices.selectedCircle).pipe(
+            filter(circle => isDefined(circle)),
+            map(circle => circle as Circle),
+            map(circle => circle.imageSrc),
+            shareReplay()
+        );
+    }
+
+    public onCircleImageSelected(image: File): void {
+        this.store.dispatch(new CirclesAction.UpdateCircleImage(image));
+    }
 }

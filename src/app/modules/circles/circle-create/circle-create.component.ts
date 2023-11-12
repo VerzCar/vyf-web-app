@@ -11,7 +11,7 @@ import { createCircleCreateForm } from '../services/factory/forms.factory';
     selector: 'app-circle-create',
     templateUrl: './circle-create.component.html',
     styleUrls: ['./circle-create.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CircleCreateComponent {
     public readonly form = createCircleCreateForm();

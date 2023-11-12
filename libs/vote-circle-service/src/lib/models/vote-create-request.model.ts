@@ -1,4 +1,4 @@
 export interface VoteCreateRequest {
-  circleId: number;
-  elected: string;
+    readonly circleId: number;
+    readonly elected: string;
 }

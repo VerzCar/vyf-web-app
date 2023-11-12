@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { isDefined } from '@vyf/base';
 import { CircleMemberComponentOption } from '@vyf/component';
 import { User, UserService } from '@vyf/user-service';
-import { Circle, Voter } from '@vyf/vote-circle-service';
-import { filter, map, Observable } from 'rxjs';
+import { Circle, CircleVoter, Voter } from '@vyf/vote-circle-service';
+import { combineLatest, filter, map, Observable } from 'rxjs';
 import { CirclesSelectors } from '../circles-state/circles.selectors';
 
 interface Member {
@@ -50,12 +51,17 @@ export class CircleDetailComponent {
     };
 
     constructor() {
-        this.view$ = this.store.select(CirclesSelectors.slices.selectedCircle).pipe(
-            filter((circle) => circle !== undefined),
-            map((circle) => {
-                const members$ = this.circleMembers$(circle as Circle);
-                const votersCount = this.votersCount(circle as Circle);
-                const owner$ = this.owner$(circle as Circle);
+        this.view$ = combineLatest([
+            this.store.select(CirclesSelectors.slices.selectedCircle),
+            this.store.select(CirclesSelectors.slices.selectedCircleVoter)
+        ]).pipe(
+            filter(([circle, circleVoter]) => isDefined(circle) && isDefined(circleVoter)),
+            map(([c, circleVoter]) => {
+                const voters = (circleVoter as CircleVoter).voters;
+                const circle = c as Circle;
+                const members$ = this.circleMembers$(voters);
+                const votersCount = this.votersCount(voters);
+                const owner$ = this.owner$(circle.createdFrom, voters);
 
                 return {
                     circle: circle as Circle,
@@ -68,8 +74,7 @@ export class CircleDetailComponent {
         );
     }
 
-    private owner$(circle: Circle): Observable<Member> {
-        const { createdFrom, voters } = circle;
+    private owner$(createdFrom: string, voters: Voter[]): Observable<Member> {
         const circleOwnerVoter = voters.find(voter => voter.voter === createdFrom);
 
         if (!circleOwnerVoter) {
@@ -84,12 +89,12 @@ export class CircleDetailComponent {
         );
     }
 
-    private circleMembers$(circle: Circle): Observable<Member>[] {
-        if (!circle.voters.length) {
+    private circleMembers$(voters: Voter[]): Observable<Member>[] {
+        if (!voters.length) {
             return [];
         }
 
-        return circle.voters.slice(0, this.maxMembersCount).map(voter => {
+        return voters.slice(0, this.maxMembersCount).map(voter => {
             return this.userService.x(voter.voter).pipe(
                 map(res => ({
                     user: res.data,
@@ -99,11 +104,11 @@ export class CircleDetailComponent {
         });
     }
 
-    private votersCount(circle: Circle): number {
-        if (!circle.voters.length) {
+    private votersCount(voters: Voter[]): number {
+        if (!voters.length) {
             return 0;
         }
-        const votersCount = circle.voters.length - this.maxMembersCount;
+        const votersCount = voters.length - this.maxMembersCount;
         return votersCount > 0 ? votersCount : 0;
     }
 

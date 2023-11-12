@@ -1,4 +1,4 @@
-import { CircleCreateRequest } from '@vyf/vote-circle-service';
+import { CircleCreateRequest, CircleVotersFilter } from '@vyf/vote-circle-service';
 
 const domainName = 'Circles';
 
@@ -18,6 +18,13 @@ export namespace CirclesAction {
 
     export class FetchCirclesOfInterest {
         public static readonly type = `[${domainName}] Fetch Circles of interest`;
+    }
+
+    export class FetchCircleVoter {
+        public static readonly type = `[${domainName}] Fetch Circle Voter`;
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public circleId: number, public filter?: Partial<CircleVotersFilter>) {
+        }
     }
 
     export class InitUserCircles {

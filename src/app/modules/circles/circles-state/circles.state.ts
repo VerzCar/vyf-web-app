@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
 import { insertItem, patch } from '@ngxs/store/operators';
-import { Circle, CirclePaginated, VoteCircleService } from '@vyf/vote-circle-service';
+import { Circle, CirclePaginated, CircleVoter, CircleVotersFilter, VoteCircleService } from '@vyf/vote-circle-service';
 import { map, Observable, of, tap } from 'rxjs';
 import { CirclesStateModel } from '../models';
 import { CirclesAction } from './actions/circles.action';
@@ -9,6 +9,7 @@ import { CirclesAction } from './actions/circles.action';
 const DEFAULT_STATE: CirclesStateModel = {
     myCircles: undefined,
     selectedCircle: undefined,
+    selectedCircleVoter: undefined,
     circlesOfInterest: undefined
 };
 
@@ -31,7 +32,14 @@ export class CirclesState {
             return of(selectedCircle);
         }
 
-        return ctx.dispatch(new CirclesAction.FetchCircle(action.circleId)).pipe(
+        const votersFilter: Partial<CircleVotersFilter> = {
+            shouldContainUser: true
+        };
+
+        return ctx.dispatch([
+            new CirclesAction.FetchCircle(action.circleId),
+            new CirclesAction.FetchCircleVoter(action.circleId, votersFilter)
+        ]).pipe(
             map(() => ctx.getState().selectedCircle as Circle)
         );
     }
@@ -83,13 +91,13 @@ export class CirclesState {
         const { myCircles, circlesOfInterest } = ctx.getState();
 
         if (myCircles && circlesOfInterest) {
-            return;
+            return undefined;
         }
 
         return ctx.dispatch([
             new CirclesAction.FetchCircles(),
             new CirclesAction.FetchCirclesOfInterest()
-        ])
+        ]);
     }
 
     @Action(CirclesAction.FetchCircle)
@@ -122,6 +130,17 @@ export class CirclesState {
         return this.voteCircleService.circlesOfInterest().pipe(
             map(res => res.data !== null ? res.data : []),
             tap((circles) => ctx.patchState({ circlesOfInterest: circles }))
+        );
+    }
+
+    @Action(CirclesAction.FetchCircleVoter)
+    private fetchCircleVoter(
+        ctx: StateContext<CirclesStateModel>,
+        action: CirclesAction.FetchCircleVoter
+    ): Observable<CircleVoter> {
+        return this.voteCircleService.circleVoters(action.circleId, action.filter).pipe(
+            map(res => res.data),
+            tap((circleVoter) => ctx.patchState({ selectedCircleVoter: circleVoter }))
         );
     }
 

@@ -4,7 +4,6 @@ import { LayoutComponent } from '../layout/layout/layout.component';
 import { CircleCreateComponent } from './circle-create/circle-create.component';
 import { CircleDetailComponent } from './circle-detail/circle-detail.component';
 import { CircleEditComponent } from './circle-edit/circle-edit.component';
-import { CircleMembersComponent } from './circle-members/circle-members.component';
 import { CircleNotEligibleComponent } from './circle-not-eligible/circle-not-eligible.component';
 import { CirclesOverviewComponent } from './circles-overview/circles-overview.component';
 import { CircleDetailGuard } from './services/guard/circle-detail.guard';
@@ -48,13 +47,6 @@ const routes: Routes = [
                 canActivate: [CircleEditGuard],
                 resolve: {
                     _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(EditResolver).resolve(r, s)
-                }
-            },
-            {
-                path: ':id/members',
-                component: CircleMembersComponent,
-                resolve: {
-                    _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(DetailsResolver).resolve(r, s)
                 }
             }
         ]

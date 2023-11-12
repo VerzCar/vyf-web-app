@@ -15,63 +15,62 @@ import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import {
-  CircleMemberComponent,
-  ImageUploadComponent, ShortNumberPipe,
-  UserAutocompleteComponent
+    CircleMemberComponent,
+    ImageUploadComponent,
+    ShortNumberPipe,
+    UserAutocompleteComponent
 } from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/user-state/user.state';
 import { CircleCreateComponent } from './circle-create/circle-create.component';
 import { CircleDetailComponent } from './circle-detail/circle-detail.component';
 import { CircleEditComponent } from './circle-edit/circle-edit.component';
-import { CircleMembersComponent } from './circle-members/circle-members.component';
 import { CircleNotEligibleComponent } from './circle-not-eligible/circle-not-eligible.component';
 import { CircleCardComponent } from './circles-overview/circle-card/circle-card.component';
 import { CirclesCarouselComponent } from './circles-overview/circles-carousel/circles-carousel.component';
+import { CirclesInterestComponent } from './circles-overview/circles-interest/circles-interest.component';
 import { CirclesOverviewComponent } from './circles-overview/circles-overview.component';
 import { CirclesRoutingModule } from './circles-routing.module';
 import { CirclesState } from './circles-state/circles.state';
 import { DetailsResolver } from './services/resolver/details.resolver';
 import { EditResolver } from './services/resolver/edit.resolver';
 import { OverviewResolver } from './services/resolver/overview.resolver';
-import { CirclesInterestComponent } from './circles-overview/circles-interest/circles-interest.component';
 
 @NgModule({
-  declarations: [
-    CirclesOverviewComponent,
-    CircleDetailComponent,
-    CircleEditComponent,
-    CircleCreateComponent,
-    CircleMembersComponent,
-    CircleNotEligibleComponent,
-    CircleCardComponent,
-    CirclesCarouselComponent,
-    CirclesInterestComponent,
-  ],
-  imports: [
-    CommonModule,
-    NgxsModule.forFeature([UserState, CirclesState]),
-    MatButtonModule,
-    RxLet,
-    MatProgressSpinnerModule,
-    NgOptimizedImage,
-    MatIconModule,
-    RxIf,
-    RxFor,
-    CircleMemberComponent,
-    CirclesRoutingModule,
-    FeatherIconModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    TextFieldModule,
-    UserAutocompleteComponent,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCheckboxModule,
-    ImageUploadComponent,
-    ShortNumberPipe
-  ],
-  providers: [DetailsResolver, EditResolver, OverviewResolver],
+    declarations: [
+        CirclesOverviewComponent,
+        CircleDetailComponent,
+        CircleEditComponent,
+        CircleCreateComponent,
+        CircleNotEligibleComponent,
+        CircleCardComponent,
+        CirclesCarouselComponent,
+        CirclesInterestComponent
+    ],
+    imports: [
+        CommonModule,
+        NgxsModule.forFeature([UserState, CirclesState]),
+        MatButtonModule,
+        RxLet,
+        MatProgressSpinnerModule,
+        NgOptimizedImage,
+        MatIconModule,
+        RxIf,
+        RxFor,
+        CirclesRoutingModule,
+        FeatherIconModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        TextFieldModule,
+        UserAutocompleteComponent,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatCheckboxModule,
+        ImageUploadComponent,
+        ShortNumberPipe,
+        CircleMemberComponent
+    ],
+    providers: [DetailsResolver, EditResolver, OverviewResolver]
 })
 export class CirclesModule {}

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable, retry } from 'rxjs';
 import { ApiResponse } from '../models';
@@ -26,22 +26,28 @@ export abstract class ApiBaseService extends ApiBaseMockService {
 
     protected abstract get endpointPath(): string;
 
-    protected get<T>(opts?: ApiGetOpts): Observable<ApiResponse<T>> {
+    protected get<T>(
+        opts?: ApiGetOpts,
+        params?: HttpParams
+    ): Observable<ApiResponse<T>> {
         let url = this.url;
         url = this.adaptApiGetOptions(url, opts);
         return this.httpClient.get<ApiResponse<T>>(
             url,
-            { headers: this.defaultHeaders }).pipe(
+            { headers: this.defaultHeaders, params }).pipe(
             retry(this.retryCount)
         );
     }
 
-    protected getAll<T>(opts?: ApiGetOpts): Observable<ApiResponse<T[]>> {
+    protected getAll<T>(
+        opts?: ApiGetOpts,
+        params?: HttpParams
+    ): Observable<ApiResponse<T[]>> {
         let url = this.url;
         url = this.adaptApiGetOptions(url, opts);
         return this.httpClient.get<ApiResponse<T[]>>(
             url,
-            { headers: this.defaultHeaders }).pipe(
+            { headers: this.defaultHeaders, params }).pipe(
             retry(this.retryCount)
         );
     }

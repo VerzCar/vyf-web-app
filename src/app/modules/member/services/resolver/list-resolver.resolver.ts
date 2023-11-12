@@ -1,12 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import {
-    Router,
-    Resolve,
-    RouterStateSnapshot,
-    ActivatedRouteSnapshot
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { catchError, EMPTY, map, Observable, of } from 'rxjs';
+import { catchError, EMPTY, map, Observable } from 'rxjs';
 import { MemberAction } from '../../state/actions/member.action';
 
 @Injectable({
@@ -20,7 +15,7 @@ export class ListResolver implements Resolve<boolean> {
         const id = route.paramMap.get('id');
         return this.store.dispatch(new MemberAction.SelectCircle(Number(id))).pipe(
             map(() => true),
-            catchError(() => {
+            catchError((e) => {
                 this.router.navigate(['/circles']);
                 return EMPTY;
             })

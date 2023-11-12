@@ -5,23 +5,23 @@ import { MemberListRankingComponent } from './member-list-ranking/member-list-ra
 import { ListResolver } from './services/resolver/list-resolver.resolver';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: LayoutComponent,
-    children: [
-      {
-        path: 'ranking/:id',
-        component: MemberListRankingComponent,
-        resolve: {
-          _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(ListResolver).resolve(r, s)
-        }
-      }
-    ]
-  }
+    {
+        path: '',
+        component: LayoutComponent,
+        children: [
+            {
+                path: 'ranking/:id',
+                component: MemberListRankingComponent,
+                resolve: {
+                    _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(ListResolver).resolve(r, s)
+                }
+            }
+        ]
+    }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
-export class MemberRoutingModule { }
+export class MemberRoutingModule {}

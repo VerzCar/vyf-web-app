@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { ApiBaseService, ApiResponse, BASE_API_USE_MOCK } from '@vyf/base';
 import { Observable } from 'rxjs';
@@ -10,6 +11,8 @@ import {
     CircleCreateRequest,
     CirclePaginated,
     CircleUpdateRequest,
+    CircleVoter,
+    CircleVotersFilter,
     Ranking,
     VoteCreateRequest
 } from '../models';
@@ -50,6 +53,15 @@ export class VoteCircleService extends ApiBaseService {
 
     public uploadCircleImage(image: File, circleId: number): Observable<ApiResponse<string | null>> {
         return this.useMock ? this.getMock('') : this.upload(image, 'circleImageFile', `upload/circle-img/${circleId}`);
+    }
+
+    public circleVoters(circleId: number, filter?: Partial<CircleVotersFilter>): Observable<ApiResponse<CircleVoter>> {
+        let params: HttpParams | undefined = undefined;
+        if (filter) {
+            params = new HttpParams({ fromObject: filter });
+        }
+        console.log(filter);
+        return this.useMock ? this.getMock(circlesIdentityVerzcar as unknown as CircleVoter) : this.get({ paths: ['circle-voters', circleId] }, params);
     }
 
     public createVote(voteCreate: VoteCreateRequest): Observable<ApiResponse<boolean>> {

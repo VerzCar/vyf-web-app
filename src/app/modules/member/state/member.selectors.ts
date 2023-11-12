@@ -1,8 +1,5 @@
 import { createPickSelector, createPropertySelectors, createSelector, Selector } from '@ngxs/store';
-import { User } from '@vyf/user-service';
-import { Circle } from '@vyf/vote-circle-service';
-import { UserSelectors } from '../../user/user-state/user.selectors';
-import { MemberStateModel } from '../models';
+import { Member, MemberStateModel } from '../models';
 import { MemberState } from './member.state';
 
 export class MemberSelectors {
@@ -15,19 +12,12 @@ export class MemberSelectors {
         'members'
     ]);
 
-    @Selector([MemberSelectors.slices.selectedCircle, UserSelectors.slices.user])
-    public static canVote(selectedCircle: Circle | undefined, user: User | undefined): boolean {
-        if (!selectedCircle && !user) {
+    @Selector([MemberSelectors.slices.userMember])
+    public static canVote(member: Member | undefined): boolean {
+        if (!member) {
             return false;
         }
 
-        const userIdentityId = user!.identityId;
-        const userVoter = selectedCircle!.voters.find(voter => voter.voter === userIdentityId);
-
-        if (!userVoter) {
-            return false;
-        }
-
-        return userVoter.votedFor === null;
+        return member.voter.votedFor === null;
     }
 }

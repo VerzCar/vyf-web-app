@@ -1,14 +1,15 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
 import { UserService } from '@vyf/user-service';
-import { Circle, VoteCircleService } from '@vyf/vote-circle-service';
+import { Circle, CircleVotersFilter, Commitment, VoteCircleService, Voter } from '@vyf/vote-circle-service';
 import { forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { Member, MemberStateModel } from '../models';
 import { MemberAction } from './actions/member.action';
 
 const DEFAULT_STATE: MemberStateModel = {
     selectedCircle: undefined,
-    members: undefined
+    members: undefined,
+    userMember: undefined
 };
 
 @State<MemberStateModel>({
@@ -31,13 +32,14 @@ export class MemberState {
             return of(selectedCircle);
         }
 
+        const votersFilter: Partial<CircleVotersFilter> = {
+            commitment: Commitment.Committed
+        };
+
         return ctx.dispatch([
-            new MemberAction.FetchCircle(action.circleId)
+            new MemberAction.FetchCircle(action.circleId),
+            new MemberAction.FetchCircleVoter(action.circleId, votersFilter)
         ]).pipe(
-            switchMap(() =>
-                forkJoin(this.mapMembers$(ctx.getState().selectedCircle as Circle))
-            ),
-            tap(members => ctx.patchState({ members })),
             map(() => ctx.getState().selectedCircle as Circle)
         );
     }
@@ -53,14 +55,33 @@ export class MemberState {
         );
     }
 
-    private mapMembers$(circle: Circle): Observable<Member>[] {
-        return circle.voters.map(voter =>
-            this.userService.x(voter.voter).pipe(
-                map(res => ({
-                    user: res.data,
-                    voter
-                }))
-            ));
+    @Action(MemberAction.FetchCircleVoter)
+    private fetchCircleVoter(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.FetchCircleVoter
+    ): Observable<Member> {
+        return this.voteCircleService.circleVoters(action.circleId, action.filter).pipe(
+            map(res => res.data),
+            switchMap((circleVoter) =>
+                forkJoin(this.mapMembers$(circleVoter.voters)).pipe(
+                    tap(members => ctx.patchState({ members })),
+                    switchMap(() => this.mapMember$(circleVoter.userVoter)),
+                    tap(member => ctx.patchState({ userMember: member }))
+                )
+            )
+        );
     }
 
+    private mapMembers$(voters: Voter[]): Observable<Member>[] {
+        return voters.map(voter => this.mapMember$(voter));
+    }
+
+    private mapMember$(voter: Voter): Observable<Member> {
+        return this.userService.x(voter.voter).pipe(
+            map(res => ({
+                user: res.data,
+                voter
+            }))
+        );
+    }
 }

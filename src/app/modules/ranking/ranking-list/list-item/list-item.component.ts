@@ -2,9 +2,8 @@ import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angu
 import { Store } from '@ngxs/store';
 import { User, UserService } from '@vyf/user-service';
 import { Circle, Ranking } from '@vyf/vote-circle-service';
-import { map, Observable, shareReplay, startWith, Subject, switchMap, tap } from 'rxjs';
+import { map, Observable, of, shareReplay, startWith, Subject, switchMap } from 'rxjs';
 import { RankingAction } from '../../ranking-state/actions/ranking.action';
-import { RankingSelectors } from '../../ranking-state/ranking.selectors';
 
 interface ListItemComponentView {
     user: User;
@@ -38,7 +37,7 @@ export class ListItemComponent implements OnInit {
 
     constructor() {
         this.ranking$ = this.rankingSubject.asObservable();
-        this.canVote$ = this.store.select(RankingSelectors.canVote);
+        this.canVote$ = of(true); //this.store.select(RankingSelectors.canVote);
     }
 
     public ngOnInit(): void {
