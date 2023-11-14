@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { map, Observable } from 'rxjs';
-import { RankingAction } from '../../ranking/ranking-state/actions/ranking.action';
 import { CircleMember } from '../models';
+import { MemberAction } from '../state/actions/member.action';
 import { MemberSelectors } from '../state/member.selectors';
 
 interface MemberListRankingView extends CircleMember {
@@ -30,6 +30,6 @@ export class MemberListRankingComponent {
     }
 
     public onVoted(electedId: string, circleId: number | undefined) {
-        this.store.dispatch(new RankingAction.Vote(circleId ?? 0, electedId));
+        this.store.dispatch(new MemberAction.Vote(circleId ?? 0, electedId));
     }
 }

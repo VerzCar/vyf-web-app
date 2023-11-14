@@ -26,4 +26,12 @@ export namespace MemberAction {
         constructor(public circleId: number) {
         }
     }
+
+    export class Vote {
+        public static readonly type = `[${domainName}] Vote`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public circleId: number, public electedIdentId: string) {
+        }
+    }
 }

@@ -7,7 +7,6 @@ import { NgxsModule } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
 import { RxLet } from '@rx-angular/template/let';
 import { MemberListItemComponent } from '@vyf/component';
-import { RankingState } from '../ranking/ranking-state/ranking.state';
 import { MemberListCircleComponent } from './member-list-circle/member-list-circle.component';
 import { MemberListRankingComponent } from './member-list-ranking/member-list-ranking.component';
 
@@ -22,7 +21,7 @@ import { MemberState } from './state/member.state';
     imports: [
         CommonModule,
         MemberRoutingModule,
-        NgxsModule.forFeature([MemberState, RankingState]),
+        NgxsModule.forFeature([MemberState]),
         MatButtonModule,
         MatIconModule,
         MatProgressSpinnerModule,

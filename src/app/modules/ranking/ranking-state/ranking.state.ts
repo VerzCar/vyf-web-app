@@ -62,7 +62,7 @@ export class RankingState {
                 let countOfItemsToDelete = 0;
 
                 for (const [index, ranking] of rankings.entries()) {
-                    if (ranking.number === 1 || 2 || 3) {
+                    if (ranking.number === (1 || 2 || 3)) {
                         topThreeRankings.push(ranking);
                         countOfItemsToDelete++;
                     }

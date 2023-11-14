@@ -1,7 +1,15 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
+import { patch, removeItem } from '@ngxs/store/operators';
 import { UserService } from '@vyf/user-service';
-import { Circle, CircleVotersFilter, Commitment, VoteCircleService, Voter } from '@vyf/vote-circle-service';
+import {
+    Circle,
+    CircleVotersFilter,
+    Commitment,
+    VoteCircleService,
+    VoteCreateRequest,
+    Voter
+} from '@vyf/vote-circle-service';
 import { forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { Member, MemberStateModel } from '../models';
 import { MemberAction } from './actions/member.action';
@@ -42,6 +50,36 @@ export class MemberState {
             new MemberAction.FetchCircleVoter(action.circleId, votersFilter)
         ]).pipe(
             map(() => ctx.getState().selectedCircle as Circle)
+        );
+    }
+
+    @Action(MemberAction.Vote)
+    private vote(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Vote
+    ): Observable<boolean> {
+        const voteCreateRequest: VoteCreateRequest = {
+            circleId: action.circleId,
+            elected: action.electedIdentId
+        };
+
+        return this.voteCircleService.createVote(voteCreateRequest).pipe(
+            map(res => res.data),
+            tap(() => {
+                const userMember = ctx.getState().userMember as Member;
+                ctx.setState(
+                    patch<MemberStateModel>({
+                        members: removeItem<Member>(member => member.voter.voter === action.electedIdentId),
+                        userMember: {
+                            ...userMember,
+                            voter: {
+                                ...userMember!.voter,
+                                votedFor: action.electedIdentId
+                            }
+                        }
+                    })
+                );
+            })
         );
     }
 
