@@ -62,12 +62,26 @@ export class RankingState {
                 let countOfItemsToDelete = 0;
 
                 for (const [index, ranking] of rankings.entries()) {
-                    if (ranking.number === (1 || 2 || 3)) {
-                        topThreeRankings.push(ranking);
-                        countOfItemsToDelete++;
-                    }
                     if (index >= 2) {
                         break;
+                    }
+
+                    switch (ranking.number) {
+                        case 1: {
+                            topThreeRankings[0] = ranking;
+                            countOfItemsToDelete++;
+                            break;
+                        }
+                        case 2: {
+                            topThreeRankings[1] = ranking;
+                            countOfItemsToDelete++;
+                            break;
+                        }
+                        case 3: {
+                            topThreeRankings[2] = ranking;
+                            countOfItemsToDelete++;
+                            break;
+                        }
                     }
                 }
 
