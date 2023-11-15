@@ -14,3 +14,4 @@ export { AUTH_JWT_TOKEN_FACTORY } from './lib/services/sse.service';
 // services
 export { ApiBaseService } from './lib/services/api-base.service';
 export { ApiBaseMockService } from './lib/services/api-base-mock.service';
+export { AblyService } from './lib/services/ably.service';
