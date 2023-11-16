@@ -60,7 +60,6 @@ export class VoteCircleService extends ApiBaseService {
         if (filter) {
             params = new HttpParams({ fromObject: filter });
         }
-        console.log(filter);
         return this.useMock ? this.getMock(circlesIdentityVerzcar as unknown as CircleVoter) : this.get({ paths: ['circle-voters', circleId] }, params);
     }
 
@@ -71,12 +70,6 @@ export class VoteCircleService extends ApiBaseService {
     public rankings(circleId: number): Observable<ApiResponse<Ranking[] | null>> {
         return this.useMock ? this.getMock(rankingsCircleId04 as unknown as Ranking[]) : this.get({
             paths: ['rankings', circleId]
-        });
-    }
-
-    public rankingsEvents(circleId: number): Observable<Ranking[]> {
-        return this.sseEvents({
-            paths: ['stream', 'rankings', circleId]
         });
     }
 

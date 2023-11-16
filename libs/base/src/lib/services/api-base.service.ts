@@ -4,7 +4,6 @@ import { Observable, retry } from 'rxjs';
 import { ApiResponse } from '../models';
 import { ApiGetOpts } from '../models/api-get-opts.model';
 import { ApiBaseMockService } from './api-base-mock.service';
-import { SseService } from './sse.service';
 
 export const BASE_API_URL = new InjectionToken<string>('Base API Url', {
     providedIn: 'any',
@@ -21,7 +20,6 @@ export abstract class ApiBaseService extends ApiBaseMockService {
     });
 
     protected readonly httpClient = inject(HttpClient);
-    private readonly sseService = inject(SseService);
     private readonly _baseUrl = inject(BASE_API_URL);
 
     protected abstract get endpointPath(): string;
@@ -106,14 +104,6 @@ export abstract class ApiBaseService extends ApiBaseMockService {
             { headers }).pipe(
             retry(this.retryCount)
         );
-    }
-
-    protected sseEvents<T>(
-        opts?: ApiGetOpts
-    ): Observable<T> {
-        let url = this.url;
-        url = this.adaptApiGetOptions(url, opts);
-        return this.sseService.events$<T>(url);
     }
 
     private get url(): string {

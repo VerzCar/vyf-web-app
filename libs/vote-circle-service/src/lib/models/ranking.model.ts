@@ -4,6 +4,7 @@ export interface Ranking {
     number: number;
     votes: number;
     placement: Placement;
+    circleId: number;
     createdAt: Date;
     updatedAt: Date;
 }
