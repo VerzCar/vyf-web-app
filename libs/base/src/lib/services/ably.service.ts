@@ -1,18 +1,20 @@
-import { inject, Injectable, InjectionToken } from '@angular/core';
+import { inject, Injectable, InjectionToken, OnDestroy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Types } from 'ably';
 import * as Ably from 'ably';
-import { bindCallback, bindNodeCallback, from, fromEvent, Observable, of, switchMap } from 'rxjs';
+import { from, Observable, of, Subject, switchMap } from 'rxjs';
 
 export const AUTH_JWT_TOKEN_FACTORY = new InjectionToken<Observable<string>>('JWT Token request factory', {
     providedIn: 'any',
     factory: () => of('')
 });
 
+export type AblyMessage = Types.Message;
+
 @Injectable({
     providedIn: 'root'
 })
-export class AblyService {
+export class AblyService implements OnDestroy {
 
     private readonly _client: Ably.Types.RealtimePromise;
 
@@ -27,6 +29,10 @@ export class AblyService {
         this.authorize$().pipe(
             takeUntilDestroyed()
         ).subscribe();
+    }
+
+    public ngOnDestroy(): void {
+        this._client.close();
     }
 
     public connect$(): Observable<Types.ConnectionStateChange> {
@@ -47,13 +53,8 @@ export class AblyService {
         return this._client.channels.get(name);
     }
 
-    public subscribeToChannel(channel: Types.RealtimeChannelPromise) {
-        const messageCallback = (msg: Types.Message) => new Promise((resolve) => resolve(msg));
-        let message$= from(messageCallback);
-
-        return from(channel.subscribe('', messageCallback)).pipe(
-            switchMap(() => message$())
-        )
+    public subscribeToChannel(channel: Types.RealtimeChannelPromise, event: string, messageSubject: Subject<Types.Message>) {
+        return from(channel.subscribe(event, (msg) => messageSubject.next(msg)))
     }
 
     private authorize$(): Observable<Types.TokenDetails> {
