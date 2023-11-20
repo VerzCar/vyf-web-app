@@ -35,7 +35,7 @@ export class RankingSelectors {
             return [];
         }
 
-        const topThreeRankingsLength = topThreeRankings.length;
+        const topThreeRankingsLength = topThreeRankings?.length ?? 0;
         return rankings.slice(topThreeRankingsLength, rankings.length);
     }
 }

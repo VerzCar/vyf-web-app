@@ -1,7 +1,7 @@
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext, StateOperator } from '@ngxs/store';
-import { append, compose, iif as storeIif, insertItem, patch, Predicate, removeItem, updateItem } from '@ngxs/store/operators';
+import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext } from '@ngxs/store';
+import { append, compose, insertItem, patch, removeItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService } from '@vyf/base';
 import { Circle, Ranking, VoteCircleService, VoteCreateRequest } from '@vyf/vote-circle-service';
 import { debounceTime, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
@@ -126,7 +126,6 @@ export class RankingState implements NgxsOnInit {
         ctx: StateContext<RankingStateModel>,
         action: RankingAction.RankingChanged
     ) {
-
         const rankings = ctx.getState().rankings as Ranking[];
 
         const rankingsLength = rankings.length;
@@ -181,30 +180,3 @@ export class RankingState implements NgxsOnInit {
     }
 
 }
-
-const upsertItem = <T>(selector: number | Predicate<T>, upsertValue: T): StateOperator<T[]> => compose<T[]>(
-    items => <T[]>(items || []),
-    storeIif<T[]>(
-        () => Number(selector) === selector,
-        storeIif<T[]>(
-            items => Number(selector) < items.length,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            <StateOperator<T[]>>updateItem(selector, patch(upsertValue)),
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            <StateOperator<T[]>>insertItem(upsertValue, <number>selector)
-        ),
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        storeIif<T[]>(
-            items => items.some(<never>selector),
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            <StateOperator<T[]>>updateItem(selector, patch(upsertValue)),
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            <StateOperator<T[]>>insertItem(upsertValue)
-        )
-    )
-);
