@@ -1,8 +1,7 @@
 import { inject, Injectable, InjectionToken, OnDestroy } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Types } from 'ably';
 import * as Ably from 'ably';
-import { from, Observable, of, Subject, switchMap } from 'rxjs';
+import { Types } from 'ably';
+import { from, map, Observable, of, Subject, switchMap } from 'rxjs';
 
 export const AUTH_JWT_TOKEN_FACTORY = new InjectionToken<Observable<string>>('JWT Token request factory', {
     providedIn: 'any',
@@ -20,24 +19,18 @@ export class AblyService implements OnDestroy {
 
     private readonly _authJwtTokenReqFactory = inject(AUTH_JWT_TOKEN_FACTORY);
 
-    constructor() {
-        this._client = new Ably.Realtime.Promise({
-            authUrl: 'v1/api/vote-circle/token/ably',
-            autoConnect: false
-        });
+    private readonly defaultClientOptions: Types.ClientOptions = {
+        authUrl: 'v1/api/vote-circle/token/ably',
+        authMethod: 'GET',
+        autoConnect: false
+    };
 
-        this.authorize$().pipe(
-            takeUntilDestroyed()
-        ).subscribe();
+    constructor() {
+        this._client = new Ably.Realtime.Promise(this.defaultClientOptions);
     }
 
     public ngOnDestroy(): void {
         this._client.close();
-    }
-
-    public connect$(): Observable<Types.ConnectionStateChange> {
-        this._client.connect();
-        return from(this._client.connection.once('connected'));
     }
 
     public close$(): Observable<Types.ConnectionStateChange> {
@@ -54,19 +47,28 @@ export class AblyService implements OnDestroy {
     }
 
     public subscribeToChannel(channel: Types.RealtimeChannelPromise, event: string, messageSubject: Subject<Types.Message>) {
-        return from(channel.subscribe(event, (msg) => messageSubject.next(msg)))
+        return from(channel.subscribe(event, (msg) => messageSubject.next(msg)));
     }
 
-    private authorize$(): Observable<Types.TokenDetails> {
+    public authorize$(): Observable<Types.TokenDetails> {
+        console.log('authorize');
         return this._authJwtTokenReqFactory.pipe(
+            switchMap(token => {
+                if (this.stats() === 'connected') {
+                    this.close$().pipe(
+                        map(() => token)
+                    );
+                }
+
+                return of(token);
+            }),
             switchMap(token => this.authorizeFromToken$(token))
         );
     }
 
     private authorizeFromToken$(token: string): Observable<Types.TokenDetails> {
         return from(this._client.auth.authorize(undefined, {
-            authUrl: 'v1/api/vote-circle/token/ably',
-            authMethod: 'GET',
+            ...this.defaultClientOptions,
             authHeaders: {
                 'Authorization': `Bearer ${token}`
             }

@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { catchError, EMPTY, map, Observable } from 'rxjs';
-import { RankingAction } from '../../ranking-state/actions/ranking.action';
+import { RankingAction } from '../../state/actions/ranking.action';
 
 @Injectable({
     providedIn: 'root'

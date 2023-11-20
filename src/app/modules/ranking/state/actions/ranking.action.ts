@@ -41,8 +41,9 @@ export namespace RankingAction {
     }
 
     export class RankingChanged {
-        public static readonly type = `[${domainName}] Subscribe to rankings changes`;
+        public static readonly type = `[${domainName}] Ranking changed`;
 
+        // eslint-disable-next-line no-useless-constructor
         constructor(public ranking: Ranking) {
         }
     }

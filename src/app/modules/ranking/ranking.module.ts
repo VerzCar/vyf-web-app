@@ -7,20 +7,21 @@ import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import {
   CircleMemberComponent,
-  ShortNamePipe, ShortNumberPipe,
+  ShortNamePipe,
+  ShortNumberPipe,
   TrendingIconPipe,
   UserListItemComponent
 } from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
-import { UserState } from '../user/user-state/user.state';
+import { UserState } from '../user/state/user.state';
 import { ListItemComponent } from './ranking-list/list-item/list-item.component';
 import { RankingListComponent } from './ranking-list/ranking-list.component';
+import { TopRankedComponent } from './ranking-list/top-three/top-ranked/top-ranked.component';
+import { TopThreeComponent } from './ranking-list/top-three/top-three.component';
 
 import { RankingRoutingModule } from './ranking-routing.module';
-import { RankingState } from './ranking-state/ranking.state';
 import { ListResolver } from './services/resolver/list.resolver';
-import { TopThreeComponent } from './ranking-list/top-three/top-three.component';
-import { TopRankedComponent } from './ranking-list/top-three/top-ranked/top-ranked.component';
+import { RankingState } from './state/ranking.state';
 
 @NgModule({
   declarations: [

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Circle } from '@vyf/vote-circle-service';
 import { filter, map, Observable } from 'rxjs';
-import { CirclesSelectors } from '../circles-state/circles.selectors';
+import { CirclesSelectors } from '../state/circles.selectors';
 
 interface CirclesOverviewView {
     circles: Circle[];

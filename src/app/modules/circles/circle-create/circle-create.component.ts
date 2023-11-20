@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { UserService } from '@vyf/user-service';
 import { catchError, map, tap } from 'rxjs';
-import { CirclesAction } from '../circles-state/actions/circles.action';
 import { createCircleFormToRequest } from '../mapper/create-circle-form-to-request';
 import { createCircleCreateForm } from '../services/factory/forms.factory';
+import { CirclesAction } from '../state/actions/circles.action';
 
 @Component({
     selector: 'app-circle-create',

@@ -5,7 +5,7 @@ import { CircleMemberComponentOption } from '@vyf/component';
 import { User, UserService } from '@vyf/user-service';
 import { Circle, CircleVoter, Voter } from '@vyf/vote-circle-service';
 import { combineLatest, filter, map, Observable } from 'rxjs';
-import { CirclesSelectors } from '../circles-state/circles.selectors';
+import { CirclesSelectors } from '../state/circles.selectors';
 
 interface Member {
     user: User;

@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxsModule } from '@ngxs/store';
-import { UserState } from '../user/user-state/user.state';
+import { UserState } from '../user/state/user.state';
+import { FooterComponent } from './footer/footer.component';
 import { LayoutComponent } from './layout/layout.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { FooterComponent } from './footer/footer.component';
-import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
-import { HttpClient } from "@angular/common/http";
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
 @NgModule({
   declarations: [

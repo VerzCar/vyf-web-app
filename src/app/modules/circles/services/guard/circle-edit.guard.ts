@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { catchError, map, Observable, of } from 'rxjs';
-import { CirclesAction } from '../../circles-state/actions/circles.action';
-import { CirclesSelectors } from '../../circles-state/circles.selectors';
+import { CirclesAction } from '../../state/actions/circles.action';
+import { CirclesSelectors } from '../../state/circles.selectors';
 
 @Injectable({
   providedIn: 'root'

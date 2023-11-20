@@ -3,8 +3,8 @@ import { Store } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
 import { Circle } from '@vyf/vote-circle-service';
 import { filter, map, Observable, shareReplay } from 'rxjs';
-import { CirclesAction } from '../circles-state/actions/circles.action';
-import { CirclesSelectors } from '../circles-state/circles.selectors';
+import { CirclesAction } from '../state/actions/circles.action';
+import { CirclesSelectors } from '../state/circles.selectors';
 
 @Component({
     selector: 'app-circle-edit',

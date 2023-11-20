@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { Store } from '@ngxs/store';
 import { User } from '@vyf/user-service';
 import { filter, map, Observable } from 'rxjs';
-import { UserSelectors } from '../user-state/user.selectors';
+import { UserSelectors } from '../state/user.selectors';
 
 interface UserView {
   user: User;

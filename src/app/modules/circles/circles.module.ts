@@ -21,7 +21,7 @@ import {
     UserAutocompleteComponent
 } from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
-import { UserState } from '../user/user-state/user.state';
+import { UserState } from '../user/state/user.state';
 import { CircleCreateComponent } from './circle-create/circle-create.component';
 import { CircleDetailComponent } from './circle-detail/circle-detail.component';
 import { CircleEditComponent } from './circle-edit/circle-edit.component';
@@ -31,10 +31,10 @@ import { CirclesCarouselComponent } from './circles-overview/circles-carousel/ci
 import { CirclesInterestComponent } from './circles-overview/circles-interest/circles-interest.component';
 import { CirclesOverviewComponent } from './circles-overview/circles-overview.component';
 import { CirclesRoutingModule } from './circles-routing.module';
-import { CirclesState } from './circles-state/circles.state';
 import { DetailsResolver } from './services/resolver/details.resolver';
 import { EditResolver } from './services/resolver/edit.resolver';
 import { OverviewResolver } from './services/resolver/overview.resolver';
+import { CirclesState } from './state/circles.state';
 
 @NgModule({
     declarations: [

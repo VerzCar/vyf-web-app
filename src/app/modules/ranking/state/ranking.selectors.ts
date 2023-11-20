@@ -13,11 +13,7 @@ export class RankingSelectors {
             return topThreeRankings;
         }
 
-        for (const [index, ranking] of rankings.entries()) {
-            if (index >= 2) {
-                break;
-            }
-
+        for (const ranking of rankings) {
             switch (ranking.number) {
                 case 1: {
                     topThreeRankings[0] = ranking;
@@ -35,5 +31,15 @@ export class RankingSelectors {
         }
 
         return topThreeRankings;
+    }
+
+    @Selector([RankingSelectors.slices.rankings, RankingSelectors.topThreeRankings])
+    public static rankings(rankings: Ranking[] | undefined, topThreeRankings: Ranking[]): Ranking[] {
+        if (!rankings) {
+            return [];
+        }
+
+        const topThreeRankingsLength = topThreeRankings.length;
+        return rankings.slice(topThreeRankingsLength, rankings.length);
     }
 }

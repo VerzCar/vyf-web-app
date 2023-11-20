@@ -16,13 +16,18 @@ import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import { CircleMemberComponent, ImageUploadComponent, SubmitButtonComponent, UserAutocompleteComponent } from '@vyf/component';
+import {
+    CircleMemberComponent,
+    ImageUploadComponent,
+    SubmitButtonComponent,
+    UserAutocompleteComponent
+} from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
+import { UserState } from './state/user.state';
 import { UserOverviewComponent } from './user-overview/user-overview.component';
 import { UserProfileEditComponent } from './user-profile-edit/user-profile-edit.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserRoutingModule } from './user-routing.module';
-import { UserState } from './user-state/user.state';
 import { UserXComponent } from './user-x/user-x.component';
 
 @NgModule({

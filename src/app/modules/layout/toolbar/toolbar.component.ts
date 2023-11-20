@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { Route } from '../../../routes';
-import { UserSelectors } from '../../user/user-state/user.selectors';
+import { UserSelectors } from '../../user/state/user.selectors';
 
 @Component({
   selector: 'app-toolbar',
