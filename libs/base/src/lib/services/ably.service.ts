@@ -51,7 +51,6 @@ export class AblyService implements OnDestroy {
     }
 
     public authorize$(): Observable<Types.TokenDetails> {
-        console.log('authorize');
         return this._authJwtTokenReqFactory.pipe(
             switchMap(token => {
                 if (this.stats() === 'connected') {

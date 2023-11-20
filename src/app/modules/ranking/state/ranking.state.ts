@@ -1,7 +1,7 @@
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext, StateOperator } from '@ngxs/store';
-import { append, compose, iif as storeIif, insertItem, patch, Predicate, updateItem } from '@ngxs/store/operators';
+import { append, compose, iif as storeIif, insertItem, patch, Predicate, removeItem, updateItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService } from '@vyf/base';
 import { Circle, Ranking, VoteCircleService, VoteCreateRequest } from '@vyf/vote-circle-service';
 import { debounceTime, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
@@ -118,7 +118,7 @@ export class RankingState implements NgxsOnInit {
 
         const channel = this.ablyService.channel(`circle-${selectedCircle?.id}:rankings`);
 
-        return this.ablyService.subscribeToChannel(channel, 'ranking changed', this._rankingChangedMsgSubject);
+        return this.ablyService.subscribeToChannel(channel, 'ranking-changed', this._rankingChangedMsgSubject);
     }
 
     @Action(RankingAction.RankingChanged)
@@ -126,20 +126,20 @@ export class RankingState implements NgxsOnInit {
         ctx: StateContext<RankingStateModel>,
         action: RankingAction.RankingChanged
     ) {
-        console.log('ranking changed:', action.ranking);
+
         const rankings = ctx.getState().rankings as Ranking[];
 
         const rankingsLength = rankings.length;
-        const currentRankedIndex = rankings.findIndex(ranking => ranking.number === action.ranking.number);
+        const currentNumberedRankedIndex = rankings.findIndex(ranking => ranking.number === action.ranking.number);
 
         // if the ranking changed object is placed not in any of the current watched rankings
         // ignore this ranking change event if the current watched list is under the threshold
         // add it to the end of rankings
-        if (currentRankedIndex === -1 && rankingsLength >= 100) {
+        if (currentNumberedRankedIndex === -1 && rankingsLength >= 100) {
             return null;
         }
 
-        if (currentRankedIndex === -1 && rankingsLength < 100) {
+        if (currentNumberedRankedIndex === -1 && rankingsLength < 100) {
             return ctx.setState(
                 patch<RankingStateModel>({
                     rankings: append<Ranking>([action.ranking])
@@ -156,25 +156,27 @@ export class RankingState implements NgxsOnInit {
 
         const nextRankedIndex = rankings.findIndex(ranking => ranking.number === action.ranking.number + 1);
 
-        const foundRankedIndex = rankings.findIndex(ranking => ranking.identityId = action.ranking.identityId);
-
-        if (foundRankedIndex > -1) {
-            // find the current lowest ranking number that is showing in the paginated results
-            // and get the index from it of the newly ranked number is between the lowest and highest
-            // ranking numbers
-            const lowestRankingNumber = rankings.at(0)?.number ?? 0;
-            const highestRankingNumber = rankings.at(-1)?.number ?? 0;
-
-            // if it is between, update the items accordingly to insert updated ranking and switch ranks
-            if (action.ranking.number > lowestRankingNumber && action.ranking.number < highestRankingNumber) {
-
-            }
+        // position of next item for the current one could not be determined
+        // ignore change event
+        if (nextRankedIndex === -1) {
+            return null;
         }
 
         return ctx.setState(
-            patch<RankingStateModel>({
-                rankings: upsertItem<Ranking>(ranking => ranking.identityId === action.ranking.identityId, action.ranking)
-            })
+            compose<RankingStateModel>(
+                patch<RankingStateModel>({
+                    rankings: removeItem<Ranking>(ranking => ranking.identityId === action.ranking.identityId)
+                }),
+                patch<RankingStateModel>({
+                    rankings: removeItem<Ranking>(ranking => ranking.identityId === rankings[currentNumberedRankedIndex].identityId)
+                }),
+                patch<RankingStateModel>({
+                    rankings: insertItem<Ranking>(action.ranking, currentNumberedRankedIndex)
+                }),
+                patch<RankingStateModel>({
+                    rankings: insertItem<Ranking>(rankings[currentNumberedRankedIndex], nextRankedIndex)
+                })
+            )
         );
     }
 

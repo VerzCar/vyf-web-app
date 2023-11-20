@@ -13,21 +13,17 @@ export class RankingSelectors {
             return topThreeRankings;
         }
 
-        for (const ranking of rankings) {
-            switch (ranking.number) {
-                case 1: {
-                    topThreeRankings[0] = ranking;
-                    break;
-                }
-                case 2: {
-                    topThreeRankings[1] = ranking;
-                    break;
-                }
-                case 3: {
-                    topThreeRankings[2] = ranking;
-                    break;
-                }
-            }
+        // determines if they are any top ranked that the next one ranked has a lower ranked number
+        if(rankings[0].number === 1 && rankings[1].number !== 1) {
+            topThreeRankings.push(rankings[0])
+        }
+
+        if(rankings[1].number === 2 && rankings[2].number !== 2) {
+            topThreeRankings.push(rankings[1])
+        }
+
+        if(rankings[2].number === 3 && rankings[3].number !== 3) {
+            topThreeRankings.push(rankings[2])
         }
 
         return topThreeRankings;

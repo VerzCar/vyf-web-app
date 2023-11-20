@@ -28,7 +28,7 @@
                         Need a vote
                     </p>
                     <a [routerLink]="['/members/ranking', view.circle.id]"
-                            class="flex flex-row">
+                       class="flex flex-row">
                         <div class="bg-amber-500 rounded w-8 h-8">
                         </div>
                         <div class="bg-amber-400 rounded w-8 h-8">
@@ -50,7 +50,8 @@
             <section class="self-center max-w-lg flex flex-col gap-10">
                 <ng-container *rxIf="view.topThreeRankings.length">
                     <app-top-three [topThreeRankings]="view.topThreeRankings"
-                                   [circle]="view.circle">
+                                   [circle]="view.circle"
+                                   class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
                     </app-top-three>
                 </ng-container>
 
@@ -59,7 +60,8 @@
                     <ng-container *rxFor="let ranking of view.rankings; let index = index;">
                         <li class="py-3 sm:pb-4">
                             <app-list-item [ranking]="ranking"
-                                           [circle]="view.circle">
+                                           [circle]="view.circle"
+                                           class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
                             </app-list-item>
                         </li>
                     </ng-container>
