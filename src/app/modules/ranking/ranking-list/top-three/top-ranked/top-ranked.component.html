@@ -1,65 +1,46 @@
-<ng-container *rxLet="view$;
-    let view;
-    error: error;
-    suspense: suspense;">
+<div class="flex flex-col items-center"
+     [ngClass]="{'pt-12': topPlacement !== TopThreePlacement.First}">
 
-    <div class="flex flex-col items-center"
-         [ngClass]="{'pt-12': topPlacement !== TopThreePlacement.First}">
-
-        <div class="relative rounded-full"
-             [ngClass]="{
+    <div class="relative rounded-full"
+         [ngClass]="{
                  'w-36 h-36 bg-gray-100 shadow-xl': topPlacement === TopThreePlacement.First,
                  'w-24 h-24': topPlacement !== TopThreePlacement.First
                  }">
-            <img *rxIf="view.user.profile.imageSrc"
-                 class="object-cover rounded-full p-1"
-                 [ngClass]="{'p-3': topPlacement === TopThreePlacement.First}"
-                 ngSrc="{{view.user.profile.imageSrc}}"
-                 alt="{{view.user.username}}"
-                 fill="true">
-            <div *rxIf="!view.user.profile.imageSrc"
-                 class="bg-gray-800 text-gray-200 flex items-center justify-center rounded-full p-1"
-                 [ngClass]="{'w-36 h-36': topPlacement === TopThreePlacement.First, 'w-24 h-24': topPlacement !== TopThreePlacement.First}">
-                <span class="text-2xl uppercase">{{view.user.username | shortName}}</span>
-            </div>
-            <p class="absolute -top-2 right-2 text-lg font-semibold text-gray-900">
-                {{view.ranking.votes | shortNumber }}
-            </p>
+        <img *rxIf="placement.user.profile.imageSrc"
+             class="object-cover rounded-full p-1"
+             [ngClass]="{'p-3': topPlacement === TopThreePlacement.First}"
+             ngSrc="{{placement.user.profile.imageSrc}}"
+             alt="{{placement.user.username}}"
+             fill="true">
+        <div *rxIf="!placement.user.profile.imageSrc"
+             class="bg-gray-800 text-gray-200 flex items-center justify-center rounded-full p-1"
+             [ngClass]="{'w-36 h-36': topPlacement === TopThreePlacement.First, 'w-24 h-24': topPlacement !== TopThreePlacement.First}">
+            <span class="text-2xl uppercase">{{placement.user.username | shortName}}</span>
         </div>
+        <p class="absolute -top-2 right-2 text-lg font-semibold text-gray-900">
+            {{placement.ranking.votes | shortNumber }}
+        </p>
+    </div>
 
-        <p class="font-semibold text-4xl">
+    <p class="font-semibold text-4xl">
             <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500">
-                {{view.ranking.number}}
+                {{placement.ranking.number}}
             </span>
-        </p>
+    </p>
 
-        <p class="text-gray-900">
-            {{view.user.username}}
-        </p>
+    <p class="text-gray-900">
+        {{placement.user.username}}
+    </p>
 
-        <div class="flex flex-col justify-between gap-y-1 ml-4">
+    <div class="flex flex-col justify-between gap-y-1 ml-4">
 
-        </div>
-
-        <button *rxIf="canVote$"
-                mat-flat-button
-                color="accent"
-                type="button"
-                (click)="onVote(circle.id, view.ranking.identityId)">
-            vote
-        </button>
     </div>
 
-</ng-container>
-<ng-template #suspense>
-    <div role="status" class="space-y-8 animate-pulse md:space-y-0 md:space-x-8 md:flex md:items-center">
-        <div class="flex items-center justify-center w-14 h-14 bg-gray-300 rounded">
-            <svg class="w-14 h-14 text-gray-200" aria-hidden="true"
-                 xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
-            </svg>
-        </div>
-    </div>
-</ng-template>
-
-<ng-template #error>ERROR - failed to load ranking.</ng-template>
+    <button *rxIf="canVote$"
+            mat-flat-button
+            color="accent"
+            type="button"
+            (click)="onVote(circle.id, placement.ranking.identityId)">
+        vote
+    </button>
+</div>

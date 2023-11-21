@@ -3,14 +3,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext } from '@ngxs/store';
 import { append, compose, insertItem, patch, removeItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService } from '@vyf/base';
+import { UserService } from '@vyf/user-service';
 import { Circle, Ranking, VoteCircleService, VoteCreateRequest } from '@vyf/vote-circle-service';
-import { debounceTime, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
+import { debounceTime, forkJoin, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { RankingStateModel } from '../models';
+import { Placement } from '../models/placement.model';
 import { RankingAction } from './actions/ranking.action';
 
 const DEFAULT_STATE: RankingStateModel = {
     selectedCircle: undefined,
-    rankings: undefined
+    placements: undefined
 };
 
 @State<RankingStateModel>({
@@ -20,6 +22,7 @@ const DEFAULT_STATE: RankingStateModel = {
 @Injectable()
 export class RankingState implements NgxsOnInit {
     private readonly voteCircleService = inject(VoteCircleService);
+    private readonly userService = inject(UserService);
     private readonly ablyService = inject(AblyService);
     private readonly destroyRef = inject(DestroyRef);
     private readonly actions$ = inject(Actions);
@@ -82,15 +85,19 @@ export class RankingState implements NgxsOnInit {
     private fetchRankings(
         ctx: StateContext<RankingStateModel>,
         action: RankingAction.FetchRankings
-    ): Observable<Ranking[]> {
+    ): Observable<Placement[]> {
         return this.voteCircleService.rankings(action.circleId).pipe(
             //return of(rankingsMock()).pipe(
             map(res => res.data ?? []),
-            tap((rankings) => {
-                ctx.patchState({
-                    rankings
-                });
-            })
+            switchMap(rankings =>
+                forkJoin(this.mapRankings$(rankings)).pipe(
+                    tap((placements) => {
+                        ctx.patchState({
+                            placements
+                        });
+                    })
+                )
+            )
         );
     }
 
@@ -126,10 +133,10 @@ export class RankingState implements NgxsOnInit {
         ctx: StateContext<RankingStateModel>,
         action: RankingAction.RankingChanged
     ) {
-        const rankings = ctx.getState().rankings as Ranking[];
+        const placements = ctx.getState().placements as Placement[];
 
-        const rankingsLength = rankings.length;
-        const currentNumberedRankedIndex = rankings.findIndex(ranking => ranking.number === action.ranking.number);
+        const rankingsLength = placements.length;
+        const currentNumberedRankedIndex = placements.findIndex(placement => placement.ranking.number === action.ranking.number);
 
         // if the ranking changed object is placed not in any of the current watched rankings
         // ignore this ranking change event if the current watched list is under the threshold
@@ -139,21 +146,25 @@ export class RankingState implements NgxsOnInit {
         }
 
         if (currentNumberedRankedIndex === -1 && rankingsLength < 100) {
-            return ctx.setState(
-                patch<RankingStateModel>({
-                    rankings: append<Ranking>([action.ranking])
+            return this.mapRanking$(action.ranking).pipe(
+                tap(placement => {
+                    ctx.setState(
+                        patch<RankingStateModel>({
+                            placements: append<Placement>([placement])
+                        })
+                    );
                 })
-            );
+            )
         }
 
         // if the newly ranked number is higher the in the current watched rankings
         // ignore it
-        const highestRankingNumber = rankings.at(-1)?.number ?? 0;
+        const highestRankingNumber = placements.at(-1)?.ranking.number ?? 0;
         if (action.ranking.number >= highestRankingNumber) {
             return null;
         }
 
-        const nextRankedIndex = rankings.findIndex(ranking => ranking.number === action.ranking.number + 1);
+        const nextRankedIndex = placements.findIndex(placement => placement.ranking.number === action.ranking.number + 1);
 
         // position of next item for the current one could not be determined
         // ignore change event
@@ -161,21 +172,36 @@ export class RankingState implements NgxsOnInit {
             return null;
         }
 
+        const currentPlacement = placements[currentNumberedRankedIndex];
+
         return ctx.setState(
             compose<RankingStateModel>(
                 patch<RankingStateModel>({
-                    rankings: removeItem<Ranking>(ranking => ranking.identityId === action.ranking.identityId)
+                    placements: removeItem<Placement>(placement => placement.ranking.identityId === action.ranking.identityId)
                 }),
                 patch<RankingStateModel>({
-                    rankings: removeItem<Ranking>(ranking => ranking.identityId === rankings[currentNumberedRankedIndex].identityId)
+                    placements: removeItem<Placement>(placement => placement.ranking.identityId === placements[currentNumberedRankedIndex].ranking.identityId)
                 }),
                 patch<RankingStateModel>({
-                    rankings: insertItem<Ranking>(action.ranking, currentNumberedRankedIndex)
+                    placements: insertItem<Placement>(currentPlacement, currentNumberedRankedIndex)
                 }),
                 patch<RankingStateModel>({
-                    rankings: insertItem<Ranking>(rankings[currentNumberedRankedIndex], nextRankedIndex)
+                    placements: insertItem<Placement>(placements[currentNumberedRankedIndex], nextRankedIndex)
                 })
             )
+        );
+    }
+
+    private mapRankings$(rankings: Ranking[]): Observable<Placement>[] {
+        return rankings.map(ranking => this.mapRanking$(ranking))
+    }
+
+    private mapRanking$(ranking: Ranking): Observable<Placement> {
+        return this.userService.x(ranking.identityId).pipe(
+            map(res => ({
+                user: res.data,
+                ranking
+            }))
         );
     }
 

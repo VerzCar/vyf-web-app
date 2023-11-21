@@ -1,10 +1,10 @@
-<ng-container *rxFor="let ranking of topThreeRankings; let index = index;">
-    <app-top-ranked [ranking]="ranking"
+<ng-container *rxFor="let placement of topThreePlacements; let index = index;">
+    <app-top-ranked [placement]="placement"
                     [circle]="circle"
-                    [topPlacement]="ranking.number === 1 ? TopThreePlacement.First : ranking.number === 2 ? TopThreePlacement.Second : ranking.number === 3 ? TopThreePlacement.Third : TopThreePlacement.Third"
+                    [topPlacement]="placement.ranking.number === 1 ? TopThreePlacement.First : placement.ranking.number === 2 ? TopThreePlacement.Second : placement.ranking.number === 3 ? TopThreePlacement.Third : TopThreePlacement.Third"
                     [ngClass]="{
-                     'order-2': ranking.number === 1,
-                 'order-1': ranking.number === 2,
-                 'order-3': ranking.number === 3}">
+                     'order-2': placement.ranking.number === 1,
+                 'order-1': placement.ranking.number === 2,
+                 'order-3': placement.ranking.number === 3}">
     </app-top-ranked>
 </ng-container>

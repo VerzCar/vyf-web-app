@@ -1,7 +1,7 @@
 import { User } from '@vyf/user-service';
 import { Ranking } from '@vyf/vote-circle-service';
 
-export interface Ranked {
+export interface Placement {
     user: User;
     ranking: Ranking;
 }

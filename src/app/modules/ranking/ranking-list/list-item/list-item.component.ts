@@ -1,14 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { User, UserService } from '@vyf/user-service';
-import { Circle, Ranking } from '@vyf/vote-circle-service';
-import { map, Observable, of, shareReplay, startWith, Subject, switchMap } from 'rxjs';
+import { Circle } from '@vyf/vote-circle-service';
+import { Observable, of } from 'rxjs';
+import { Placement } from '../../models/placement.model';
 import { RankingAction } from '../../state/actions/ranking.action';
-
-interface ListItemComponentView {
-    user: User;
-    ranking: Ranking;
-}
 
 @Component({
     selector: 'app-list-item',
@@ -16,43 +11,16 @@ interface ListItemComponentView {
     styleUrls: ['./list-item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListItemComponent implements OnInit {
+export class ListItemComponent {
     @Input({ required: true }) public circle!: Circle;
+    @Input({ required: true }) public placement!: Placement;
 
-    @Input({ required: true })
-    public set ranking(ranking: Ranking) {
-        this._ranking = ranking;
-        this.rankingSubject.next(ranking);
-    }
-
-    public view$: Observable<ListItemComponentView> | undefined;
     public readonly canVote$: Observable<boolean>;
 
-    private _ranking!: Ranking;
-
-    private readonly rankingSubject = new Subject<Ranking>();
-    private readonly userService = inject(UserService);
     private readonly store = inject(Store);
-    private readonly ranking$: Observable<Ranking>;
 
     constructor() {
-        this.ranking$ = this.rankingSubject.asObservable();
         this.canVote$ = of(true); //this.store.select(RankingSelectors.canVote);
-    }
-
-    public ngOnInit(): void {
-        this.view$ = this.ranking$.pipe(
-            startWith(this._ranking),
-            switchMap(ranking =>
-                this.userService.x(ranking.identityId)
-            ),
-            map(res => res.data),
-            map(user => ({
-                user: user as User,
-                ranking: this._ranking
-            })),
-            shareReplay()
-        );
     }
 
     public onVote(circleId: number, electedIdentId: string) {

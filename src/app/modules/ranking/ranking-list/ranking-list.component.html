@@ -48,18 +48,18 @@
             </section>
 
             <section class="self-center max-w-lg flex flex-col gap-10">
-                <ng-container *rxIf="view.topThreeRankings.length">
-                    <app-top-three [topThreeRankings]="view.topThreeRankings"
+                <ng-container *rxIf="view.topThreePlacements.length">
+                    <app-top-three [topThreePlacements]="view.topThreePlacements"
                                    [circle]="view.circle"
                                    class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
                     </app-top-three>
                 </ng-container>
 
-                <ul *rxIf="view.rankings.length"
+                <ul *rxIf="view.placements.length"
                     class="divide-y divide-gray-200">
-                    <ng-container *rxFor="let ranking of view.rankings; let index = index;">
+                    <ng-container *rxFor="let placement of view.placements; let index = index;">
                         <li class="py-3 sm:pb-4">
-                            <app-list-item [ranking]="ranking"
+                            <app-list-item [placement]="placement"
                                            [circle]="view.circle"
                                            class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
                             </app-list-item>
@@ -68,7 +68,7 @@
                 </ul>
             </section>
 
-            <section *rxIf="!view.rankings.length && !view.topThreeRankings.length"
+            <section *rxIf="!view.placements.length && !view.topThreePlacements.length"
                      class="self-center my-12">
                 <div class="relative h-60 w-60">
                     <img ngSrc="/assets/img/svg/election-day.svg"

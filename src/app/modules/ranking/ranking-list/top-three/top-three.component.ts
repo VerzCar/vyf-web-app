@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Circle, Ranking } from '@vyf/vote-circle-service';
+import { Circle } from '@vyf/vote-circle-service';
+import { Placement } from '../../models/placement.model';
 import { TopThreePlacement } from './top-ranked/top-ranked.component';
 
 @Component({
@@ -10,7 +11,7 @@ import { TopThreePlacement } from './top-ranked/top-ranked.component';
 })
 export class TopThreeComponent {
     @Input({ required: true }) public circle!: Circle;
-    @Input({ required: true }) public topThreeRankings!: Ranking[];
+    @Input({ required: true }) public topThreePlacements!: Placement[];
 
     public readonly TopThreePlacement = TopThreePlacement;
 }

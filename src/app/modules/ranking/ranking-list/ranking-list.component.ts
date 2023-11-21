@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Circle, Ranking } from '@vyf/vote-circle-service';
+import { Circle } from '@vyf/vote-circle-service';
 import { combineLatest, map, Observable } from 'rxjs';
+import { Placement } from '../models/placement.model';
 import { RankingSelectors } from '../state/ranking.selectors';
 
 interface RankingListComponentView {
     circle: Circle;
-    topThreeRankings: Ranking[];
-    rankings: Ranking[];
+    topThreePlacements: Placement[];
+    placements: Placement[];
 }
 
 @Component({
@@ -24,13 +25,13 @@ export class RankingListComponent {
     constructor() {
         this.view$ = combineLatest([
             this.store.select(RankingSelectors.slices.selectedCircle),
-            this.store.select(RankingSelectors.topThreeRankings),
-            this.store.select(RankingSelectors.rankings)
+            this.store.select(RankingSelectors.topThreePlacements),
+            this.store.select(RankingSelectors.placements)
         ]).pipe(
             map(([circle, topThreeRankings, rankings]) => ({
                 circle: circle as Circle,
-                topThreeRankings: topThreeRankings ?? [],
-                rankings: rankings ?? []
+                topThreePlacements: topThreeRankings ?? [],
+                placements: rankings ?? []
             }))
         );
     }
