@@ -1,22 +1,22 @@
-<a [routerLink]="routerLink"
-   class="hover:shadow hover:ring">
-    <div class="flex flex-row -space-x-4">
-        <ng-container *rxFor="let user of users; let index = index;">
-            <div class="w-14 h-14 rounded border-2 border-white">
+<button (click)="onStackClicked($event)"
+        class="hover:shadow hover:ring flex flex-row">
+    <div class="flex -space-x-4">
+        <ng-container *rxFor="let user of users;">
+            <div class="relative w-10 h-10 rounded border-2 border-white">
                 <img *rxIf="user.profile.imageSrc"
                      class="object-cover rounded"
                      ngSrc="{{user.profile.imageSrc}}"
                      alt="{{user.username}}"
                      fill="true">
                 <div *rxIf="!user.profile.imageSrc"
-                     class="bg-gray-800 text-gray-200 w-14 h-14 flex items-center justify-center rounded">
+                     class="bg-gray-800 text-gray-200 absolute w-full h-full flex items-center justify-center rounded">
                     <span class="text-xl uppercase">{{user.username | shortName}}</span>
                 </div>
             </div>
         </ng-container>
     </div>
     <div *rxIf="plusCount"
-         class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded">
+         class="flex items-center justify-center w-10 h-10 text-base font-medium text-gray-950 border-2 border-white rounded">
         {{plusCount}}
     </div>
-</a>
+</button>

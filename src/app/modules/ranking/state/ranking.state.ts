@@ -4,11 +4,12 @@ import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext } 
 import { append, compose, insertItem, patch, removeItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService } from '@vyf/base';
 import { UserService } from '@vyf/user-service';
-import { Circle, Ranking, VoteCircleService, VoteCreateRequest } from '@vyf/vote-circle-service';
+import { Circle, CircleVotersFilter, Commitment, Ranking, VoteCircleService, VoteCreateRequest } from '@vyf/vote-circle-service';
 import { debounceTime, forkJoin, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
-import { RankingStateModel } from '../models';
-import { Placement } from '../models/placement.model';
+import { RankingStateModel, Placement } from '../models';
+import { MemberAction } from './actions/member.action';
 import { RankingAction } from './actions/ranking.action';
+import { MemberState } from './member.state';
 
 const DEFAULT_STATE: RankingStateModel = {
     selectedCircle: undefined,
@@ -17,7 +18,8 @@ const DEFAULT_STATE: RankingStateModel = {
 
 @State<RankingStateModel>({
     name: 'ranking',
-    defaults: DEFAULT_STATE
+    defaults: DEFAULT_STATE,
+    children: [MemberState]
 })
 @Injectable()
 export class RankingState implements NgxsOnInit {
@@ -61,9 +63,15 @@ export class RankingState implements NgxsOnInit {
             return of(selectedCircle);
         }
 
+        const votersFilter: Partial<CircleVotersFilter> = {
+            commitment: Commitment.Committed,
+            hasBeenVoted: false
+        };
+
         return ctx.dispatch([
             new RankingAction.FetchCircle(action.circleId),
-            new RankingAction.FetchRankings(action.circleId)
+            new RankingAction.FetchRankings(action.circleId),
+            new MemberAction.FilterMembers(action.circleId, votersFilter)
         ]).pipe(
             map(() => ctx.getState().selectedCircle as Circle)
         );

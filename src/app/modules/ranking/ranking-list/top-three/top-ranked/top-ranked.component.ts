@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core
 import { Store } from '@ngxs/store';
 import { Circle } from '@vyf/vote-circle-service';
 import { Observable, of } from 'rxjs';
-import { Placement } from '../../../models/placement.model';
+import { Placement } from '../../../models';
 import { RankingAction } from '../../../state/actions/ranking.action';
 
 export enum TopThreePlacement {

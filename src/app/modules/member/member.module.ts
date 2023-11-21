@@ -18,6 +18,9 @@ import { MemberState } from './state/member.state';
         MemberListRankingComponent,
         MemberListCircleComponent
     ],
+    exports: [
+        MemberListRankingComponent
+    ],
     imports: [
         CommonModule,
         MemberRoutingModule,

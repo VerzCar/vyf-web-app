@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Circle } from '@vyf/vote-circle-service';
-import { Placement } from '../../models/placement.model';
+import { Placement } from '../../models';
 import { TopThreePlacement } from './top-ranked/top-ranked.component';
 
 @Component({
