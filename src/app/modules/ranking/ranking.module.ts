@@ -6,6 +6,7 @@ import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import {
+  AvatarStackComponent,
   CircleMemberComponent,
   ShortNamePipe,
   ShortNumberPipe,
@@ -44,7 +45,8 @@ import { RankingState } from './state/ranking.state';
     RxIf,
     ShortNamePipe,
     TrendingIconPipe,
-    ShortNumberPipe
+    ShortNumberPipe,
+    AvatarStackComponent
   ],
   providers: [ListResolver],
 })

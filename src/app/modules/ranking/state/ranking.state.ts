@@ -44,7 +44,6 @@ export class RankingState implements NgxsOnInit {
         ).subscribe();
 
         this._rankingChangedMessage$.pipe(
-            tap(msg => console.log(msg)),
             map(msg => msg.data as Ranking),
             tap(ranking => ctx.dispatch(new RankingAction.RankingChanged(ranking))),
             takeUntilDestroyed(this.destroyRef)
