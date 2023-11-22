@@ -15,6 +15,7 @@ interface RankingListComponentView {
     placements: Placement[];
     previewUsers: User[];
     countOfMembersToVote: number;
+    userMember: Member;
 }
 
 @Component({
@@ -34,13 +35,15 @@ export class RankingListComponent {
             this.store.select(RankingSelectors.slices.selectedCircle),
             this.store.select(RankingSelectors.topThreePlacements),
             this.store.select(RankingSelectors.placements),
-            this.store.select(MemberSelectors.slices.members)
+            this.store.select(MemberSelectors.slices.members),
+            this.store.select(MemberSelectors.slices.userMember)
         ]).pipe(
-            map(([circle, topThreeRankings, rankings, members]) => ({
+            map(([circle, topThreeRankings, rankings, members, userMember]) => ({
                 circle: circle as Circle,
                 topThreePlacements: topThreeRankings ?? [],
                 placements: rankings ?? [],
-                ...this.mapMembersToPreview(members ?? [])
+                ...this.mapMembersToPreview(members ?? []),
+                userMember: userMember as Member
             }))
         );
     }

@@ -28,14 +28,6 @@ export namespace RankingAction {
         }
     }
 
-    export class Vote {
-        public static readonly type = `[${domainName}] Vote`;
-
-        // eslint-disable-next-line no-useless-constructor
-        constructor(public circleId: number, public electedIdentId: string) {
-        }
-    }
-
     export class SubscribeRankingsChange {
         public static readonly type = `[${domainName}] Subscribe to rankings changes`;
     }

@@ -51,11 +51,12 @@
                 </ng-container>
 
                 <ul *rxIf="view.placements.length"
-                    class="divide-y divide-gray-200">
+                    class="divide-y divide-gray-900">
                     <ng-container *rxFor="let placement of view.placements; let index = index;">
                         <li class="py-3 sm:pb-4">
                             <app-list-item [placement]="placement"
                                            [circle]="view.circle"
+                                           [hasVotedFor]="view.userMember.voter.votedFor === placement.ranking.identityId"
                                            class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
                             </app-list-item>
                         </li>

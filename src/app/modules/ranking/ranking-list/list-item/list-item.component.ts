@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Circle } from '@vyf/vote-circle-service';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Placement } from '../../models';
-import { RankingAction } from '../../state/actions/ranking.action';
+import { MemberAction } from '../../state/actions/member.action';
+import { MemberSelectors } from '../../state/member.selectors';
 
 @Component({
     selector: 'app-list-item',
@@ -14,17 +15,18 @@ import { RankingAction } from '../../state/actions/ranking.action';
 export class ListItemComponent {
     @Input({ required: true }) public circle!: Circle;
     @Input({ required: true }) public placement!: Placement;
+    @Input() public hasVotedFor = false;
 
     public readonly canVote$: Observable<boolean>;
 
     private readonly store = inject(Store);
 
     constructor() {
-        this.canVote$ = of(true); //this.store.select(RankingSelectors.canVote);
+        this.canVote$ = this.store.select(MemberSelectors.canVote);
     }
 
     public onVote(circleId: number, electedIdentId: string) {
-        this.store.dispatch(new RankingAction.Vote(circleId, electedIdentId));
+        this.store.dispatch(new MemberAction.Vote(circleId, electedIdentId));
     }
 
 }

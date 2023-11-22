@@ -15,7 +15,8 @@ export class ListResolver implements Resolve<boolean> {
         const id = route.paramMap.get('id');
         return this.store.dispatch(new RankingAction.SelectCircle(Number(id))).pipe(
             map(() => true),
-            catchError(() => {
+            catchError((e) => {
+                console.log(e);
                 this.router.navigate(['/circles']);
                 return EMPTY;
             })

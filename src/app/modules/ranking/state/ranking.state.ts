@@ -108,21 +108,6 @@ export class RankingState implements NgxsOnInit {
         );
     }
 
-    @Action(RankingAction.Vote)
-    private vote(
-        ctx: StateContext<RankingStateModel>,
-        action: RankingAction.Vote
-    ): Observable<boolean> {
-        const voteCreateRequest: VoteCreateRequest = {
-            circleId: action.circleId,
-            elected: action.electedIdentId
-        };
-
-        return this.voteCircleService.createVote(voteCreateRequest).pipe(
-            map(res => res.data)
-        );
-    }
-
     @Action(RankingAction.SubscribeRankingsChange)
     private subscribeRankingsChange(
         ctx: StateContext<RankingStateModel>,
@@ -161,7 +146,7 @@ export class RankingState implements NgxsOnInit {
                         })
                     );
                 })
-            )
+            );
         }
 
         // if the newly ranked number is higher the in the current watched rankings
@@ -175,6 +160,7 @@ export class RankingState implements NgxsOnInit {
 
         // position of next item for the current one could not be determined
         // ignore change event
+        // TODO: this is wrong as the change event could be just one update of vote count not a newly ranked member
         if (nextRankedIndex === -1) {
             return null;
         }
@@ -200,7 +186,7 @@ export class RankingState implements NgxsOnInit {
     }
 
     private mapRankings$(rankings: Ranking[]): Observable<Placement>[] {
-        return rankings.map(ranking => this.mapRanking$(ranking))
+        return rankings.map(ranking => this.mapRanking$(ranking));
     }
 
     private mapRanking$(ranking: Ranking): Observable<Placement> {

@@ -71,7 +71,7 @@ export class MemberState {
         return this.voteCircleService.circleVoters(action.circleId, action.filter).pipe(
             map(res => res.data),
             switchMap((circleVoter) =>
-                forkJoin(this.mapMembers$(circleVoter.voters)).pipe(
+                forkJoin(this.mapMembers$(circleVoter.voters ?? [])).pipe(
                     tap(members => ctx.patchState({ members })),
                     switchMap(() => this.mapMember$(circleVoter.userVoter)),
                     tap(member => ctx.patchState({ userMember: member }))
