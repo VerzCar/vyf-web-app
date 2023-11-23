@@ -1,4 +1,4 @@
-import { CircleCreateRequest, CircleVotersFilter } from '@vyf/vote-circle-service';
+import { CircleCreateRequest, CircleVotersFilter, Commitment } from '@vyf/vote-circle-service';
 
 const domainName = 'Circles';
 
@@ -52,6 +52,14 @@ export namespace CirclesAction {
 
         // eslint-disable-next-line no-useless-constructor
         constructor(public image: File) {
+        }
+    }
+
+    export class CommittedToCircle {
+        public static readonly type = `[${domainName}] Placed commitment for circle`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public circleId: number, public commitment: Commitment) {
         }
     }
 }

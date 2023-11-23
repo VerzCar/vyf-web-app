@@ -6,16 +6,7 @@ import { Observable } from 'rxjs';
 import * as circleId04 from '../mocks/circle-id-4.json';
 import * as circlesIdentityVerzcar from '../mocks/circles-identity-verzcar.json';
 import * as rankingsCircleId04 from '../mocks/rankings-circle-id-4.json';
-import {
-    Circle,
-    CircleCreateRequest,
-    CirclePaginated,
-    CircleUpdateRequest,
-    CircleVoter,
-    CircleVotersFilter,
-    Ranking,
-    VoteCreateRequest
-} from '../models';
+import { Circle, CircleCreateRequest, CirclePaginated, CircleUpdateRequest, CircleVoter, CircleVoterCommitmentRequest, CircleVotersFilter, Commitment, Ranking, VoteCreateRequest } from '../models';
 
 @Injectable({
     providedIn: 'root'
@@ -65,6 +56,10 @@ export class VoteCircleService extends ApiBaseService {
 
     public createVote(voteCreate: VoteCreateRequest): Observable<ApiResponse<boolean>> {
         return this.useMock ? this.createMock(true) : this.create<VoteCreateRequest, boolean>(voteCreate, 'vote');
+    }
+
+    public updateCommitment(circleId: number, req: CircleVoterCommitmentRequest): Observable<ApiResponse<Commitment>> {
+        return this.useMock ? this.updateMock(Commitment.Committed) : this.create<CircleVoterCommitmentRequest, Commitment>(req, `circle-voters/${circleId}/commitment`);
     }
 
     public rankings(circleId: number): Observable<ApiResponse<Ranking[] | null>> {

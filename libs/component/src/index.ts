@@ -22,6 +22,8 @@ export * from './lib/member-list-item/member-list-item.component';
 
 export * from './lib/avatar-stack/avatar-stack.component';
 
+export * from './lib/circle-commitment-action/circle-commitment-action.component';
+
 export * from './lib/pipes/short-name.pipe';
 export * from './lib/pipes/short-number.pipe';
 export * from './lib/pipes/trending-icon.pipe';

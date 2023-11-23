@@ -15,6 +15,7 @@ import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import {
+    CircleCommitmentActionComponent,
     CircleMemberComponent,
     ImageUploadComponent,
     ShortNumberPipe,
@@ -69,7 +70,8 @@ import { CirclesState } from './state/circles.state';
         MatCheckboxModule,
         ImageUploadComponent,
         ShortNumberPipe,
-        CircleMemberComponent
+        CircleMemberComponent,
+        CircleCommitmentActionComponent
     ],
     providers: [DetailsResolver, EditResolver, OverviewResolver]
 })

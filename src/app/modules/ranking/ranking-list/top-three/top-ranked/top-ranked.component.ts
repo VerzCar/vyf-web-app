@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Circle } from '@vyf/vote-circle-service';
 import { Observable } from 'rxjs';
@@ -18,22 +18,21 @@ export enum TopThreePlacement {
     styleUrls: ['./top-ranked.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TopRankedComponent {
+export class TopRankedComponent implements OnInit {
     @Input({ required: true }) public circle!: Circle;
     @Input({ required: true }) public placement!: Placement;
     @Input({ required: true }) public topPlacement!: TopThreePlacement;
 
     public readonly TopThreePlacement = TopThreePlacement;
-    public readonly canVote$: Observable<boolean>;
+    public canVote$: Observable<boolean> | undefined;
 
     private readonly store = inject(Store);
 
-    constructor() {
-        this.canVote$ = this.store.select(MemberSelectors.canVote);
+    public ngOnInit(): void {
+        this.canVote$ = this.store.select(MemberSelectors.canVote(this.placement.user.identityId));
     }
 
     public onVote(circleId: number, electedIdentId: string) {
         this.store.dispatch(new MemberAction.Vote(circleId, electedIdentId));
     }
-
 }

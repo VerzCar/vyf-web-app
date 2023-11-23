@@ -53,6 +53,9 @@
                    color="accent">
                     Go to Ranking List
                 </a>
+                <vyf-circle-commitment-action *rxIf="hasOpenCommitment$"
+                                              (commitment)="hasCommitted(view.circle.id, $event)">
+                </vyf-circle-commitment-action>
             </div>
 
             <section id="circleMetaData"

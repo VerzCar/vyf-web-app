@@ -10,3 +10,4 @@ export { CircleVotersFilter } from './circle-voters-filter.model';
 export { CircleCreateRequest } from './circle-create-request.model';
 export { CircleUpdateRequest } from './circle-update-request.model';
 export { VoterRequest } from './voter-request.model';
+export { CircleVoterCommitmentRequest } from './circle-voter-commitment-request.model';

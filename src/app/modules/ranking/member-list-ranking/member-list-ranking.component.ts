@@ -32,7 +32,7 @@ export class MemberListRankingComponent {
             map(([selectedCircle, members]) => ({
                 selectedCircle: selectedCircle as Circle,
                 members: members as Member[],
-                canVote$: this.store.select(MemberSelectors.canVote)
+                canVote$: this.store.select(MemberSelectors.canVote(''))
             }))
         );
     }

@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
 import { insertItem, patch } from '@ngxs/store/operators';
-import { Circle, CirclePaginated, CircleVoter, CircleVotersFilter, VoteCircleService } from '@vyf/vote-circle-service';
+import { Circle, CirclePaginated, CircleVoter, CircleVoterCommitmentRequest, CircleVotersFilter, Commitment, VoteCircleService, Voter } from '@vyf/vote-circle-service';
 import { map, Observable, of, tap } from 'rxjs';
 import { CirclesStateModel } from '../models';
 import { CirclesAction } from './actions/circles.action';
@@ -77,6 +77,39 @@ export class CirclesState {
                     selectedCircle: {
                         ...selectedCircle,
                         imageSrc: src ?? ''
+                    }
+                });
+            })
+        );
+    }
+
+    @Action(CirclesAction.CommittedToCircle)
+    private committedToCircle(
+        ctx: StateContext<CirclesStateModel>,
+        action: CirclesAction.CommittedToCircle
+    ): Observable<Commitment> {
+        const req: CircleVoterCommitmentRequest = {
+            commitment: action.commitment
+        };
+
+        return this.voteCircleService.updateCommitment(action.circleId, req).pipe(
+            map(res => res.data),
+            tap((commitment) => {
+                const state = ctx.getState();
+
+                const voters = [...(state.selectedCircleVoter?.voters as Voter[])];
+
+                const userVoter = voters.find(voter => voter.voter === state.selectedCircle!.createdFrom);
+
+                if (userVoter) {
+                    userVoter.commitment = commitment;
+                }
+
+                ctx.setState({
+                    ...state,
+                    selectedCircleVoter: {
+                        voters,
+                        userVoter: state.selectedCircleVoter!.userVoter
                     }
                 });
             })

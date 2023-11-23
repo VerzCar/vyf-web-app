@@ -4,7 +4,7 @@ import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext } 
 import { append, compose, insertItem, patch, removeItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService } from '@vyf/base';
 import { UserService } from '@vyf/user-service';
-import { Circle, CircleVotersFilter, Commitment, Ranking, VoteCircleService, VoteCreateRequest } from '@vyf/vote-circle-service';
+import { Circle, CircleVotersFilter, Commitment, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
 import { debounceTime, forkJoin, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { RankingStateModel, Placement } from '../models';
 import { MemberAction } from './actions/member.action';
@@ -152,17 +152,14 @@ export class RankingState implements NgxsOnInit {
         // if the newly ranked number is higher the in the current watched rankings
         // ignore it
         const highestRankingNumber = placements.at(-1)?.ranking.number ?? 0;
-        if (action.ranking.number >= highestRankingNumber) {
+        if (action.ranking.number > highestRankingNumber) {
             return null;
         }
 
-        const nextRankedIndex = placements.findIndex(placement => placement.ranking.number === action.ranking.number + 1);
+        let nextRankedIndex = placements.findIndex(placement => placement.ranking.number === action.ranking.number + 1);
 
-        // position of next item for the current one could not be determined
-        // ignore change event
-        // TODO: this is wrong as the change event could be just one update of vote count not a newly ranked member
         if (nextRankedIndex === -1) {
-            return null;
+            nextRankedIndex = rankingsLength - 1;
         }
 
         const currentPlacement = placements[currentNumberedRankedIndex];

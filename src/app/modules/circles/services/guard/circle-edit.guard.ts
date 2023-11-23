@@ -17,7 +17,7 @@ export class CircleEditGuard implements CanActivate {
 	state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 	const id = route.paramMap.get('id');
 	return this.store.dispatch(new CirclesAction.SelectCircle(Number(id))).pipe(
-	  map(() => this.store.selectSnapshot(CirclesSelectors.canEditCircle())),
+	  map(() => this.store.selectSnapshot(CirclesSelectors.canEditCircle)),
 	  catchError(() => of(this.router.parseUrl('/circles')))
 	);
   }

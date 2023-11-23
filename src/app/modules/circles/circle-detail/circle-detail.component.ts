@@ -3,8 +3,9 @@ import { Store } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
 import { CircleMemberComponentOption } from '@vyf/component';
 import { User, UserService } from '@vyf/user-service';
-import { Circle, CircleVoter, Voter } from '@vyf/vote-circle-service';
+import { Circle, CircleVoter, Commitment, Voter } from '@vyf/vote-circle-service';
 import { combineLatest, filter, map, Observable } from 'rxjs';
+import { CirclesAction } from '../state/actions/circles.action';
 import { CirclesSelectors } from '../state/circles.selectors';
 
 interface Member {
@@ -29,13 +30,6 @@ interface CircleDetailView {
 export class CircleDetailComponent {
     public readonly placeholderImageSrc = 'assets/img/placeholder-image.jpg';
 
-    private readonly store = inject(Store);
-    private readonly userService = inject(UserService);
-
-    private readonly maxMembersCount = 3;
-
-    public view$: Observable<CircleDetailView>;
-
     public readonly circleMemberComponentOption: Partial<CircleMemberComponentOption> = {
         show: {
             username: true,
@@ -49,6 +43,14 @@ export class CircleDetailComponent {
             commitment: false
         }
     };
+
+    public hasOpenCommitment$: Observable<boolean>;
+    public view$: Observable<CircleDetailView>;
+
+    private readonly store = inject(Store);
+    private readonly userService = inject(UserService);
+
+    private readonly maxMembersCount = 3;
 
     constructor() {
         this.view$ = combineLatest([
@@ -68,10 +70,16 @@ export class CircleDetailComponent {
                     owner$,
                     members$,
                     votersCount,
-                    disabled: !this.store.selectSnapshot(CirclesSelectors.canEditCircle())
+                    disabled: !this.store.selectSnapshot(CirclesSelectors.canEditCircle)
                 };
             })
         );
+
+        this.hasOpenCommitment$ = this.store.select(CirclesSelectors.hasOpenCommitment);
+    }
+
+    public hasCommitted(circleId: number, commitment: Commitment) {
+        this.store.dispatch(new CirclesAction.CommittedToCircle(circleId, commitment));
     }
 
     private owner$(createdFrom: string, voters: Voter[]): Observable<Member> {

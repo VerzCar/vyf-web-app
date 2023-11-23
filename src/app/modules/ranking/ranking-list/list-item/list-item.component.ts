@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Circle } from '@vyf/vote-circle-service';
 import { Observable } from 'rxjs';
@@ -12,21 +12,21 @@ import { MemberSelectors } from '../../state/member.selectors';
     styleUrls: ['./list-item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListItemComponent {
+export class ListItemComponent implements OnInit {
     @Input({ required: true }) public circle!: Circle;
     @Input({ required: true }) public placement!: Placement;
     @Input() public hasVotedFor = false;
 
-    public readonly canVote$: Observable<boolean>;
+    public canVote$: Observable<boolean> | undefined;
 
     private readonly store = inject(Store);
 
-    constructor() {
-        this.canVote$ = this.store.select(MemberSelectors.canVote);
+    public ngOnInit(): void {
+        this.canVote$ = this.store.select(MemberSelectors.canVote(this.placement.user.identityId));
     }
+
 
     public onVote(circleId: number, electedIdentId: string) {
         this.store.dispatch(new MemberAction.Vote(circleId, electedIdentId));
     }
-
 }
