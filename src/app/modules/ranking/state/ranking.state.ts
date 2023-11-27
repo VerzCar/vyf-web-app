@@ -9,7 +9,6 @@ import { debounceTime, forkJoin, map, Observable, of, Subject, switchMap, tap } 
 import { RankingStateModel, Placement } from '../models';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { RankingAction } from './actions/ranking.action';
-import { MemberState } from '../../../shared/state/member.state';
 
 const DEFAULT_STATE: RankingStateModel = {
     selectedCircle: undefined,
@@ -18,8 +17,7 @@ const DEFAULT_STATE: RankingStateModel = {
 
 @State<RankingStateModel>({
     name: 'ranking',
-    defaults: DEFAULT_STATE,
-    children: [MemberState]
+    defaults: DEFAULT_STATE
 })
 @Injectable()
 export class RankingState implements NgxsOnInit {
@@ -71,7 +69,7 @@ export class RankingState implements NgxsOnInit {
         return ctx.dispatch([
             new RankingAction.FetchCircle(action.circleId),
             new RankingAction.FetchRankings(action.circleId),
-            new MemberAction.FilterMembers(action.circleId, votersFilter)
+            new MemberAction.Ranking.FilterMembers(action.circleId, votersFilter)
         ]).pipe(
             map(() => ctx.getState().selectedCircle as Circle)
         );

@@ -2,11 +2,10 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
 import { CircleMemberComponentOption } from '@vyf/component';
-import { UserService } from '@vyf/user-service';
 import { Circle, Commitment } from '@vyf/vote-circle-service';
 import { combineLatest, filter, map, Observable } from 'rxjs';
 import { Member } from '../../../shared/models';
-import { CircleMemberSelectors } from '../../../shared/state/circle-member.selectors';
+import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { CirclesAction } from '../state/actions/circles.action';
 import { CirclesSelectors } from '../state/circles.selectors';
 
@@ -42,17 +41,17 @@ export class CircleDetailComponent {
     };
 
     public hasOpenCommitment$: Observable<boolean>;
+    public selectedCommitment$: Observable<Commitment | undefined>;
     public view$: Observable<CircleDetailView>;
 
     private readonly store = inject(Store);
-    private readonly userService = inject(UserService);
 
     private readonly maxMembersCount = 3;
 
     constructor() {
         this.view$ = combineLatest([
             this.store.select(CirclesSelectors.slices.selectedCircle),
-            this.store.select(CircleMemberSelectors.slices.members)
+            this.store.select(MemberSelectors.Member.slices.circleMembers)
         ]).pipe(
             filter(([circle, members]) => isDefined(circle) && isDefined(members)),
             map(([c, m]) => {
@@ -72,7 +71,10 @@ export class CircleDetailComponent {
             })
         );
 
-        this.hasOpenCommitment$ = this.store.select(CircleMemberSelectors.hasOpenCommitment);
+        this.hasOpenCommitment$ = this.store.select(MemberSelectors.CircleSelector.hasOpenCommitment);
+        this.selectedCommitment$ = this.store.select(MemberSelectors.Member.slices.circleUserMember).pipe(
+            map(member => member?.voter.commitment)
+        )
     }
 
     public hasCommitted(circleId: number, commitment: Commitment) {

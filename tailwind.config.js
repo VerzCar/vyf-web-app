@@ -20,6 +20,7 @@ module.exports = {
     },
   },
   plugins: [
+    'tailwindcss/nesting',
     require('tailwindcss-animated')
   ],
 };

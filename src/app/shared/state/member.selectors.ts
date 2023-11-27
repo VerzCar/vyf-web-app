@@ -1,27 +1,37 @@
 import { createPropertySelectors, createSelector, Selector } from '@ngxs/store';
 import { Commitment } from '@vyf/vote-circle-service';
-import { Member, MemberStateModel } from '../models';
+import { Member as MemberModel, MemberStateModel } from '../models';
 import { MemberState } from './member.state';
 
-export class MemberSelectors {
-    public static slices = createPropertySelectors<MemberStateModel>(MemberState);
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace MemberSelectors {
 
-    public static canVote(identityId: string) {
-        return createSelector([MemberSelectors.slices.userMember], (member: Member | undefined): boolean => {
-            if (identityId === member?.user.identityId) {
-                return false;
-            }
-
-            return member?.voter.votedFor === null;
-        });
+    export class Member {
+        public static slices = createPropertySelectors<MemberStateModel>(MemberState);
     }
 
-    /**
-     * Selector that determines if the current circle voter has not committed to be in circle.
-     * @returns {(selectedCircleVoter: (CircleVoter | undefined)) => boolean}
-     */
-    @Selector([MemberSelectors.slices.userMember])
-    public static hasOpenCommitment(member: Member | undefined): boolean {
-        return member?.voter.commitment === Commitment.Open;
+    export class CircleSelector {
+        /**
+         * Selector that determines if the current circle voter has not committed to be in circle.
+         * @returns {(selectedCircleVoter: (CircleVoter | undefined)) => boolean}
+         */
+        @Selector([Member.slices.circleUserMember])
+        public static hasOpenCommitment(member: MemberModel | undefined): boolean {
+            return member?.voter.commitment === Commitment.Open;
+        }
+    }
+
+    export class RankingSelector {
+        public static canVote(identityId: string) {
+            return createSelector([Member.slices.rankingUserMember], (member: MemberModel | undefined): boolean => {
+                if (identityId === member?.user.identityId) {
+                    return false;
+                }
+
+                return member?.voter.votedFor === null;
+            });
+        }
     }
 }
+
+

@@ -27,12 +27,12 @@ export class MemberListRankingComponent {
     constructor() {
         this.view$ =combineLatest([
             this.store.select(RankingSelectors.slices.selectedCircle),
-            this.store.select(MemberSelectors.slices.members)
+            this.store.select(MemberSelectors.Member.slices.rankingMembers)
         ]).pipe(
             map(([selectedCircle, members]) => ({
                 selectedCircle: selectedCircle as Circle,
                 members: members as Member[],
-                canVote$: this.store.select(MemberSelectors.canVote(''))
+                canVote$: this.store.select(MemberSelectors.RankingSelector.canVote(''))
             }))
         );
     }

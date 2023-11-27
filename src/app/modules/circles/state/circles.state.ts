@@ -1,10 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
 import { insertItem, patch } from '@ngxs/store/operators';
-import { Circle, CirclePaginated, CircleVoterCommitmentRequest, CircleVotersFilter, Commitment, VoteCircleService } from '@vyf/vote-circle-service';
-import { map, Observable, of, tap } from 'rxjs';
+import { Circle, CirclePaginated, CircleVoterCommitmentRequest, CircleVotersFilter, VoteCircleService } from '@vyf/vote-circle-service';
+import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { MemberAction } from '../../../shared/state/actions/member.action';
-import { CircleMemberState } from '../../../shared/state/circle-member.state';
 import { CirclesStateModel } from '../models';
 import { CirclesAction } from './actions/circles.action';
 
@@ -16,8 +15,7 @@ const DEFAULT_STATE: CirclesStateModel = {
 
 @State<CirclesStateModel>({
     name: 'circles',
-    defaults: DEFAULT_STATE,
-    children: [CircleMemberState]
+    defaults: DEFAULT_STATE
 })
 @Injectable()
 export class CirclesState {
@@ -40,7 +38,7 @@ export class CirclesState {
 
         return ctx.dispatch([
             new CirclesAction.FetchCircle(action.circleId),
-            new MemberAction.FilterMembers(action.circleId, votersFilter)
+            new MemberAction.Circle.FilterMembers(action.circleId, votersFilter)
         ]).pipe(
             map(() => ctx.getState().selectedCircle as Circle)
         );
@@ -89,32 +87,14 @@ export class CirclesState {
     private committedToCircle(
         ctx: StateContext<CirclesStateModel>,
         action: CirclesAction.CommittedToCircle
-    ): Observable<Commitment> {
+    ) {
         const req: CircleVoterCommitmentRequest = {
             commitment: action.commitment
         };
 
         return this.voteCircleService.updateCommitment(action.circleId, req).pipe(
             map(res => res.data),
-            // tap((commitment) => {
-            //     const state = ctx.getState();
-            //
-            //     const voters = [...(state.selectedCircleVoter?.voters as Voter[])];
-            //
-            //     const userVoter = voters.find(voter => voter.voter === state.selectedCircle!.createdFrom);
-            //
-            //     if (userVoter) {
-            //         userVoter.commitment = commitment;
-            //     }
-            //
-            //     ctx.setState({
-            //         ...state,
-            //         selectedCircleVoter: {
-            //             voters,
-            //             userVoter: state.selectedCircleVoter!.userVoter
-            //         }
-            //     });
-            // })
+            switchMap(() => ctx.dispatch(new MemberAction.Circle.Committed(action.circleId, action.commitment)))
         );
     }
 

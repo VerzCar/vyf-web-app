@@ -14,6 +14,7 @@ import { NgxsModule } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
 import {
     CircleCommitmentActionComponent,
     CircleMemberComponent,
@@ -21,7 +22,7 @@ import {
     ShortNumberPipe,
     UserAutocompleteComponent
 } from '@vyf/component';
-import { CircleMemberState } from '../../shared/state/circle-member.state';
+import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/state/user.state';
 import { CircleCreateComponent } from './circle-create/circle-create.component';
@@ -51,7 +52,7 @@ import { CirclesState } from './state/circles.state';
     ],
     imports: [
         CommonModule,
-        NgxsModule.forFeature([UserState, CirclesState, CircleMemberState]),
+        NgxsModule.forFeature([UserState, CirclesState, MemberState]),
         MatButtonModule,
         RxLet,
         MatProgressSpinnerModule,
@@ -59,6 +60,7 @@ import { CirclesState } from './state/circles.state';
         MatIconModule,
         RxIf,
         RxFor,
+        RxPush,
         CirclesRoutingModule,
         FeatherIconModule,
         ReactiveFormsModule,

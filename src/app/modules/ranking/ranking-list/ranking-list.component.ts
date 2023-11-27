@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { User } from '@vyf/user-service';
 import { Circle } from '@vyf/vote-circle-service';
-import { combineLatest, map, Observable, tap } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 import { Member } from '../../../shared/models';
 import { MemberListRankingDialogComponent } from '../member-list-ranking-dialog/member-list-ranking-dialog.component';
 import { Placement } from '../models';
@@ -36,8 +36,8 @@ export class RankingListComponent {
             this.store.select(RankingSelectors.slices.selectedCircle),
             this.store.select(RankingSelectors.topThreePlacements),
             this.store.select(RankingSelectors.placements),
-            this.store.select(MemberSelectors.slices.members),
-            this.store.select(MemberSelectors.slices.userMember)
+            this.store.select(MemberSelectors.Member.slices.rankingMembers),
+            this.store.select(MemberSelectors.Member.slices.rankingUserMember)
         ]).pipe(
             map(([circle, topThreePlacements, placements, members, userMember]) => ({
                 circle: circle as Circle,

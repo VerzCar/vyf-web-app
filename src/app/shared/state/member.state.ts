@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { Action, State, StateContext } from '@ngxs/store';
-import { patch, removeItem } from '@ngxs/store/operators';
+import { Action, State, StateContext, Store } from '@ngxs/store';
+import { patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { UserService } from '@vyf/user-service';
 import {
     VoteCircleService,
@@ -8,12 +8,15 @@ import {
     Voter
 } from '@vyf/vote-circle-service';
 import { forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
+import { UserSelectors } from '../../modules/user/state/user.selectors';
 import { Member, MemberStateModel } from '../models';
 import { MemberAction } from './actions/member.action';
 
 const DEFAULT_STATE: MemberStateModel = {
-    members: undefined,
-    userMember: undefined
+    circleMembers: undefined,
+    circleUserMember: undefined,
+    rankingMembers: undefined,
+    rankingUserMember: undefined
 };
 
 @State<MemberStateModel>({
@@ -24,13 +27,22 @@ const DEFAULT_STATE: MemberStateModel = {
 export class MemberState {
     private readonly voteCircleService = inject(VoteCircleService);
     private readonly userService = inject(UserService);
+    private readonly store = inject(Store);
 
-    @Action(MemberAction.FilterMembers)
-    private filterMembers(
+    @Action(MemberAction.Circle.FilterMembers)
+    private filterCircleMembers(
         ctx: StateContext<MemberStateModel>,
-        action: MemberAction.FilterMembers
+        action: MemberAction.Circle.FilterMembers
     ) {
-        return ctx.dispatch(new MemberAction.FetchCircleVoter(action.circleId, action.votersFilter));
+        return ctx.dispatch(new MemberAction.Circle.FetchVoter(action.circleId, action.votersFilter));
+    }
+
+    @Action(MemberAction.Ranking.FilterMembers)
+    private filterRankingMembers(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Ranking.FilterMembers
+    ) {
+        return ctx.dispatch(new MemberAction.Ranking.FetchVoter(action.circleId, action.votersFilter));
     }
 
     @Action(MemberAction.Vote)
@@ -46,11 +58,11 @@ export class MemberState {
         return this.voteCircleService.createVote(voteCreateRequest).pipe(
             map(res => res.data),
             tap(() => {
-                const userMember = ctx.getState().userMember as Member;
+                const userMember = ctx.getState().circleUserMember as Member;
                 ctx.setState(
                     patch<MemberStateModel>({
-                        members: removeItem<Member>(member => member.voter.voter === action.electedIdentId),
-                        userMember: {
+                        circleMembers: removeItem<Member>(member => member.voter.voter === action.electedIdentId),
+                        circleUserMember: {
                             ...userMember,
                             voter: {
                                 ...userMember!.voter,
@@ -63,34 +75,97 @@ export class MemberState {
         );
     }
 
-    @Action(MemberAction.FetchCircleVoter)
+    @Action(MemberAction.Circle.Committed)
+    private committedForCircle(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Circle.Committed
+    ) {
+        const user = this.store.selectSnapshot(UserSelectors.slices.user);
+
+        if (!user) {
+            throw Error('could not select current user.');
+        }
+
+        const userMember = ctx.getState().circleUserMember as Member;
+
+        return ctx.setState(
+            patch<MemberStateModel>({
+                circleMembers: updateItem<Member>(
+                    member => member.user.identityId === user.identityId,
+                    member => ({ ...member, voter: { ...member.voter, commitment: action.commitment } })
+                ),
+                circleUserMember: {
+                    ...userMember,
+                    voter: {
+                        ...userMember!.voter,
+                        commitment: action.commitment
+                    }
+                }
+            })
+        );
+    }
+
+    @Action(MemberAction.Circle.FetchVoter)
     private fetchCircleVoter(
         ctx: StateContext<MemberStateModel>,
-        action: MemberAction.FetchCircleVoter
+        action: MemberAction.Circle.FetchVoter
     ) {
         return this.voteCircleService.circleVoters(action.circleId, action.filter).pipe(
             map(res => res.data),
             switchMap(circleVoter => {
                     if (circleVoter.voters === null) {
                         return of([] as Member[]).pipe(
-                            tap(members => ctx.patchState({ members })),
+                            tap(members => ctx.patchState({ circleMembers: members })),
                             map(() => circleVoter)
                         );
                     }
 
                     return forkJoin(this.mapMembers$(circleVoter.voters)).pipe(
-                        tap(members => ctx.patchState({ members })),
+                        tap(members => ctx.patchState({ circleMembers: members })),
                         map(() => circleVoter)
                     );
                 }
             ),
             switchMap(circleVoter => {
                 if (circleVoter.userVoter === null) {
-                    return of(ctx.patchState({ userMember: undefined }));
+                    return of(ctx.patchState({ circleUserMember: undefined }));
                 }
 
                 return this.mapMember$(circleVoter.userVoter).pipe(
-                    tap(member => ctx.patchState({ userMember: member }))
+                    tap(member => ctx.patchState({ circleUserMember: member }))
+                );
+            })
+        );
+    }
+
+    @Action(MemberAction.Ranking.FetchVoter)
+    private fetchRankingVoter(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Ranking.FetchVoter
+    ) {
+        return this.voteCircleService.circleVoters(action.circleId, action.filter).pipe(
+            map(res => res.data),
+            switchMap(circleVoter => {
+                    if (circleVoter.voters === null) {
+                        return of([] as Member[]).pipe(
+                            tap(members => ctx.patchState({ rankingMembers: members })),
+                            map(() => circleVoter)
+                        );
+                    }
+
+                    return forkJoin(this.mapMembers$(circleVoter.voters)).pipe(
+                        tap(members => ctx.patchState({ rankingMembers: members })),
+                        map(() => circleVoter)
+                    );
+                }
+            ),
+            switchMap(circleVoter => {
+                if (circleVoter.userVoter === null) {
+                    return of(ctx.patchState({ rankingUserMember: undefined }));
+                }
+
+                return this.mapMember$(circleVoter.userVoter).pipe(
+                    tap(member => ctx.patchState({ rankingUserMember: member }))
                 );
             })
         );

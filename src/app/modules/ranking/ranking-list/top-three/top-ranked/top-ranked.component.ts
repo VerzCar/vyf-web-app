@@ -29,7 +29,7 @@ export class TopRankedComponent implements OnInit {
     private readonly store = inject(Store);
 
     public ngOnInit(): void {
-        this.canVote$ = this.store.select(MemberSelectors.canVote(this.placement.user.identityId));
+        this.canVote$ = this.store.select(MemberSelectors.RankingSelector.canVote(this.placement.user.identityId));
     }
 
     public onVote(circleId: number, electedIdentId: string) {

@@ -53,9 +53,14 @@
                    color="accent">
                     Go to Ranking List
                 </a>
-                <vyf-circle-commitment-action *rxIf="hasOpenCommitment$"
-                                              (commitment)="hasCommitted(view.circle.id, $event)">
-                </vyf-circle-commitment-action>
+                <div *rxIf="hasOpenCommitment$">
+                    You have been invited, give the owner the answer that you will be part of this circle.
+                </div>
+                <div class="border border-gray-400 p-2 w-1/2">
+                    <vyf-circle-commitment-action (commitment)="hasCommitted(view.circle.id, $event)"
+                                                  [selectedCommitment]="selectedCommitment$ | push">
+                    </vyf-circle-commitment-action>
+                </div>
             </div>
 
             <section id="circleMetaData"
