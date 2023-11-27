@@ -12,13 +12,4 @@ export class CirclesSelectors {
     public static canEditCircle(user: User | undefined, selectedCircle: Circle | undefined): boolean {
         return user?.identityId === selectedCircle?.createdFrom;
     }
-
-    /**
-     * Selector that determines if the current selected circle voter has not committed to be in circle.
-     * @returns {(selectedCircleVoter: (CircleVoter | undefined)) => boolean}
-     */
-    @Selector([CirclesSelectors.slices.selectedCircleVoter])
-    public static hasOpenCommitment(selectedCircleVoter: CircleVoter | undefined): boolean {
-        return selectedCircleVoter?.userVoter.commitment === Commitment.Open;
-    }
 }

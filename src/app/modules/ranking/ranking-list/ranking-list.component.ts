@@ -4,9 +4,10 @@ import { Store } from '@ngxs/store';
 import { User } from '@vyf/user-service';
 import { Circle } from '@vyf/vote-circle-service';
 import { combineLatest, map, Observable, tap } from 'rxjs';
+import { Member } from '../../../shared/models';
 import { MemberListRankingDialogComponent } from '../member-list-ranking-dialog/member-list-ranking-dialog.component';
-import { Member, Placement } from '../models';
-import { MemberSelectors } from '../state/member.selectors';
+import { Placement } from '../models';
+import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { RankingSelectors } from '../state/ranking.selectors';
 
 interface RankingListComponentView {
@@ -38,7 +39,6 @@ export class RankingListComponent {
             this.store.select(MemberSelectors.slices.members),
             this.store.select(MemberSelectors.slices.userMember)
         ]).pipe(
-            tap((c) => console.log(c)),
             map(([circle, topThreePlacements, placements, members, userMember]) => ({
                 circle: circle as Circle,
                 topThreePlacements: topThreePlacements ?? [],

@@ -64,7 +64,7 @@
                     <h3>
                         Owner
                     </h3>
-                    <vyf-circle-member [member$]="view.owner$"
+                    <vyf-circle-member [member]="view.owner"
                                        [opts]="circleMemberComponentOption">
                     </vyf-circle-member>
                 </div>
@@ -91,10 +91,10 @@
                 <h3>
                     Members
                 </h3>
-                <div *rxIf="view.members$.length; else: noMembers"
+                <div *rxIf="view.members.length; else: noMembers"
                      class="flex flex-row gap-4 items-center">
-                    <ng-container *rxFor="let member$ of view.members$;">
-                        <vyf-circle-member [member$]="member$"
+                    <ng-container *rxFor="let member of view.members;">
+                        <vyf-circle-member [member]="member"
                                            [opts]="circleMembersComponentOption">
                         </vyf-circle-member>
                     </ng-container>
@@ -102,7 +102,7 @@
                         <a [routerLink]="['/circles', view.circle.id ,'members']"
                            class="w-full h-full flex flex-col justify-center items-center">
                             <div>
-                                +{{view.votersCount}}
+                                +{{view.membersCount}}
                             </div>
                             <div>
                                 -- -- --

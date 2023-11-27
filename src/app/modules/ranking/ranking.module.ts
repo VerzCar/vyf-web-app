@@ -27,7 +27,7 @@ import { TopThreeComponent } from './ranking-list/top-three/top-three.component'
 
 import { RankingRoutingModule } from './ranking-routing.module';
 import { ListResolver } from './services/resolver/list.resolver';
-import { MemberState } from './state/member.state';
+import { MemberState } from '../../shared/state/member.state';
 import { RankingState } from './state/ranking.state';
 import { MemberListRankingDialogComponent } from './member-list-ranking-dialog/member-list-ranking-dialog.component';
 

@@ -25,11 +25,6 @@ export interface CircleMemberComponentOption {
     show: Partial<CircleMemberComponentShowOption>;
 }
 
-interface CircleMemberView {
-    member: Member;
-    opts: CircleMemberComponentOption;
-}
-
 const defaultOpts: CircleMemberComponentOption = {
     show: {
         commitmentIcon: true,
@@ -55,23 +50,21 @@ const defaultOpts: CircleMemberComponentOption = {
     styleUrls: ['./circle-member.component.scss'],
     templateUrl: './circle-member.component.html'
 })
-export class CircleMemberComponent implements OnInit {
-    @Input({ required: true }) public member$!: Observable<Member>;
-    @Input() public opts: Partial<CircleMemberComponentOption> = defaultOpts;
-
-    public view$: Observable<CircleMemberView> | undefined;
-
-    public ngOnInit(): void {
-        this.view$ = this.member$.pipe(
-            map(member => ({
-                member,
-                opts: {
-                    show: {
-                        ...defaultOpts.show,
-                        ...this.opts.show
-                    }
-                } as CircleMemberComponentOption
-            }))
-        );
+export class CircleMemberComponent {
+    @Input({ required: true }) public member!: Member;
+    @Input()
+    public set opts(options: Partial<CircleMemberComponentOption>) {
+        this._options = {
+            show: {
+            ...defaultOpts.show,
+            ...options.show
+            }
+        }
     }
+
+    public get opts(): CircleMemberComponentOption {
+        return this._options;
+    }
+
+    private _options = defaultOpts;
 }

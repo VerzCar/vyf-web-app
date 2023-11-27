@@ -1,51 +1,31 @@
-<ng-container *rxLet="view$;
-    let view;
-    error: error;
-    suspense: suspense;">
-
-    <div>
-        <a [routerLink]="['/user', view.member.user.identityId]">
-            <div class="flex flex-row gap-4">
-                <div class="relative w-14 h-14 rounded hover:shadow hover:ring">
-                    <img *rxIf="view.member.user.profile.imageSrc"
-                         class="w-14 h-14 object-cover rounded"
-                         ngSrc="{{view.member.user.profile.imageSrc}}"
-                         alt="{{view.member.user.username}}"
-                         width="14"
-                         height="14">
-                    <div *rxIf="!view.member.user.profile.imageSrc"
-                         class="bg-gray-800 text-gray-200 w-14 h-14 flex items-center justify-center rounded">
-                        <span class="text-xl uppercase">{{view.member.user.username | shortName}}</span>
-                    </div>
-                    <vyf-commitment-icon *rxIf="view.opts.show.commitmentIcon"
-                                         [commitment]="view.member.voter.commitment">
-                    </vyf-commitment-icon>
+<div>
+    <a [routerLink]="['/user', member.user.identityId]">
+        <div class="flex flex-row gap-4">
+            <div class="relative w-14 h-14 rounded hover:shadow hover:ring">
+                <img *rxIf="member.user.profile.imageSrc"
+                     class="relative object-cover rounded"
+                     ngSrc="{{member.user.profile.imageSrc}}"
+                     alt="{{member.user.username}}"
+                     fill="true">
+                <div *rxIf="!member.user.profile.imageSrc"
+                     class="bg-gray-800 text-gray-200 w-14 h-14 flex items-center justify-center rounded">
+                    <span class="text-xl uppercase">{{member.user.username | shortName}}</span>
                 </div>
-                <div *rxIf="view.opts.show.username || view.opts.show.commitment"
-                     class="flex flex-col justify-between">
-                    <p *rxIf="view.opts.show.username"
-                       class="text-gray-900 font-medium">
-                        #{{view.member.user.username}}
-                    </p>
-                    <p *rxIf="view.opts.show.commitment"
-                       class="text-gray-500 font-normal">
-                        {{view.member.voter.commitment | circleMemberCommitment}}
-                    </p>
-                </div>
+                <vyf-commitment-icon *rxIf="opts.show?.commitmentIcon"
+                                     [commitment]="member.voter.commitment">
+                </vyf-commitment-icon>
             </div>
-        </a>
-    </div>
-</ng-container>
-
-<ng-template #suspense>
-    <div role="status" class="space-y-8 animate-pulse md:space-y-0 md:space-x-8 md:flex md:items-center">
-        <div class="flex items-center justify-center w-14 h-14 bg-gray-300 rounded">
-            <svg class="w-14 h-14 text-gray-200" aria-hidden="true"
-                 xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
-            </svg>
+            <div *rxIf="opts.show?.username || opts.show?.commitment"
+                 class="flex flex-col justify-between">
+                <p *rxIf="opts.show.username"
+                   class="text-gray-900 font-medium">
+                    #{{member.user.username}}
+                </p>
+                <p *rxIf="opts.show.commitment"
+                   class="text-gray-500 font-normal">
+                    {{member.voter.commitment | circleMemberCommitment}}
+                </p>
+            </div>
         </div>
-    </div>
-</ng-template>
-
-<ng-template #error>ERROR - failed to load user.</ng-template>
+    </a>
+</div>

@@ -3,8 +3,8 @@ import { Store } from '@ngxs/store';
 import { Circle } from '@vyf/vote-circle-service';
 import { Observable } from 'rxjs';
 import { Placement } from '../../../models';
-import { MemberAction } from '../../../state/actions/member.action';
-import { MemberSelectors } from '../../../state/member.selectors';
+import { MemberAction } from '../../../../../shared/state/actions/member.action';
+import { MemberSelectors } from '../../../../../shared/state/member.selectors';
 
 export enum TopThreePlacement {
     First,

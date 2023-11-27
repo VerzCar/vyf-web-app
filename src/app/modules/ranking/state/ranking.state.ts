@@ -7,9 +7,9 @@ import { UserService } from '@vyf/user-service';
 import { Circle, CircleVotersFilter, Commitment, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
 import { debounceTime, forkJoin, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { RankingStateModel, Placement } from '../models';
-import { MemberAction } from './actions/member.action';
+import { MemberAction } from '../../../shared/state/actions/member.action';
 import { RankingAction } from './actions/ranking.action';
-import { MemberState } from './member.state';
+import { MemberState } from '../../../shared/state/member.state';
 
 const DEFAULT_STATE: RankingStateModel = {
     selectedCircle: undefined,

@@ -21,6 +21,7 @@ import {
     ShortNumberPipe,
     UserAutocompleteComponent
 } from '@vyf/component';
+import { CircleMemberState } from '../../shared/state/circle-member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/state/user.state';
 import { CircleCreateComponent } from './circle-create/circle-create.component';
@@ -50,7 +51,7 @@ import { CirclesState } from './state/circles.state';
     ],
     imports: [
         CommonModule,
-        NgxsModule.forFeature([UserState, CirclesState]),
+        NgxsModule.forFeature([UserState, CirclesState, CircleMemberState]),
         MatButtonModule,
         RxLet,
         MatProgressSpinnerModule,

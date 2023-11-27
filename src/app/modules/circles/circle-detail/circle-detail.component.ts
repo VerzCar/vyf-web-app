@@ -2,22 +2,19 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
 import { CircleMemberComponentOption } from '@vyf/component';
-import { User, UserService } from '@vyf/user-service';
-import { Circle, CircleVoter, Commitment, Voter } from '@vyf/vote-circle-service';
+import { UserService } from '@vyf/user-service';
+import { Circle, Commitment } from '@vyf/vote-circle-service';
 import { combineLatest, filter, map, Observable } from 'rxjs';
+import { Member } from '../../../shared/models';
+import { CircleMemberSelectors } from '../../../shared/state/circle-member.selectors';
 import { CirclesAction } from '../state/actions/circles.action';
 import { CirclesSelectors } from '../state/circles.selectors';
 
-interface Member {
-    user: User;
-    voter: Voter;
-}
-
 interface CircleDetailView {
     circle: Circle;
-    owner$: Observable<Member>;
-    members$: Observable<Member>[];
-    votersCount: number;
+    owner: Member;
+    members: Member[];
+    membersCount: number;
     disabled: boolean;
 }
 
@@ -55,69 +52,57 @@ export class CircleDetailComponent {
     constructor() {
         this.view$ = combineLatest([
             this.store.select(CirclesSelectors.slices.selectedCircle),
-            this.store.select(CirclesSelectors.slices.selectedCircleVoter)
+            this.store.select(CircleMemberSelectors.slices.members)
         ]).pipe(
-            filter(([circle, circleVoter]) => isDefined(circle) && isDefined(circleVoter)),
-            map(([c, circleVoter]) => {
-                const voters = (circleVoter as CircleVoter).voters;
+            filter(([circle, members]) => isDefined(circle) && isDefined(members)),
+            map(([c, m]) => {
                 const circle = c as Circle;
-                const members$ = this.circleMembers$(voters);
-                const votersCount = this.votersCount(voters);
-                const owner$ = this.owner$(circle.createdFrom, voters);
+                const members = m as Member[];
+                const circleMembers = this.circleMembers(members);
+                const membersCount = this.membersCount(members);
+                const owner = this.owner(circle.createdFrom, members);
 
                 return {
                     circle: circle as Circle,
-                    owner$,
-                    members$,
-                    votersCount,
+                    owner,
+                    members: circleMembers,
+                    membersCount,
                     disabled: !this.store.selectSnapshot(CirclesSelectors.canEditCircle)
                 };
             })
         );
 
-        this.hasOpenCommitment$ = this.store.select(CirclesSelectors.hasOpenCommitment);
+        this.hasOpenCommitment$ = this.store.select(CircleMemberSelectors.hasOpenCommitment);
     }
 
     public hasCommitted(circleId: number, commitment: Commitment) {
         this.store.dispatch(new CirclesAction.CommittedToCircle(circleId, commitment));
     }
 
-    private owner$(createdFrom: string, voters: Voter[]): Observable<Member> {
-        const circleOwnerVoter = voters.find(voter => voter.voter === createdFrom);
+    private owner(createdFrom: string, members: Member[]): Member {
+        const circleOwnerVoter = members.find(member => member.voter.voter === createdFrom);
 
         if (!circleOwnerVoter) {
-            throw Error('createFrom does not exist in circles voters');
+            throw Error('createFrom does not exist in circle voters');
         }
 
-        return this.userService.x(createdFrom).pipe(
-            map(res => ({
-                user: res.data,
-                voter: circleOwnerVoter
-            } as Member))
-        );
+        return circleOwnerVoter;
     }
 
-    private circleMembers$(voters: Voter[]): Observable<Member>[] {
-        if (!voters.length) {
+    private circleMembers(members: Member[]): Member[] {
+        if (!members.length) {
             return [];
         }
 
-        return voters.slice(0, this.maxMembersCount).map(voter => {
-            return this.userService.x(voter.voter).pipe(
-                map(res => ({
-                    user: res.data,
-                    voter
-                } as Member))
-            );
-        });
+        return members.slice(0, this.maxMembersCount);
     }
 
-    private votersCount(voters: Voter[]): number {
-        if (!voters.length) {
+    private membersCount(members: Member[]): number {
+        if (!members.length) {
             return 0;
         }
-        const votersCount = voters.length - this.maxMembersCount;
-        return votersCount > 0 ? votersCount : 0;
+        const membersCount = members.length - this.maxMembersCount;
+        return membersCount > 0 ? membersCount : 0;
     }
 
 }
