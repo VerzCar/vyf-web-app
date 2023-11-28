@@ -63,8 +63,10 @@
                                        id="validUntil"
                                        name="validUntil"
                                        [matDatepicker]="picker"
-                                       [formControl]="form.controls.validUntil">
-                                <mat-datepicker-toggle matIconSuffix [for]="picker">
+                                       [formControl]="form.controls.validUntil"
+                                [min]="minDate">
+                                <mat-datepicker-toggle matIconSuffix
+                                                       [for]="picker">
                                 </mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                             </mat-form-field>
