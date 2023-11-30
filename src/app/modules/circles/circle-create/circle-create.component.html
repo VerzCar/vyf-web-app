@@ -64,7 +64,8 @@
                                        name="validUntil"
                                        [matDatepicker]="picker"
                                        [formControl]="form.controls.validUntil"
-                                [min]="minDate">
+                                       [min]="minDate"
+                                       [max]="maxDate">
                                 <mat-datepicker-toggle matIconSuffix
                                                        [for]="picker">
                                 </mat-datepicker-toggle>
@@ -80,7 +81,7 @@
                 </div>
                 <div class="w-full flex flex-row gap-2 mt-2">
                     <a [routerLink]="['/circles']"
-                       mat-flat-button
+                       mat-stroked-button
                        color="accent"
                        role="button">
                         Cancel

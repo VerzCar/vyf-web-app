@@ -1,4 +1,4 @@
-<div class="flex flex-row items-center gap-3">
+<div class="flex flex-row items-center gap-3 w-full">
     <div class="relative w-8 h-8">
         <img *rxIf="user.profile.imageSrc"
              alt="{{user.username}}"
@@ -11,7 +11,9 @@
         </div>
     </div>
     <p>#{{user.username}}</p>
-    <ng-content select="[suffix-content]">
-    </ng-content>
+    <div class="ml-auto">
+        <ng-content select="[suffix-content]">
+        </ng-content>
+    </div>
 </div>
 

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { DateTime } from '@vyf/base';
 import { UserService } from '@vyf/user-service';
 import { catchError, map, tap } from 'rxjs';
 import { createCircleFormToRequest } from '../mapper/create-circle-form-to-request';
@@ -15,6 +16,8 @@ import { CirclesAction } from '../state/actions/circles.action';
 })
 export class CircleCreateComponent {
     public readonly form = createCircleCreateForm();
+    public readonly minDate = DateTime.Day.next();
+    public readonly maxDate = new Date(DateTime.Day.today().setFullYear(DateTime.Day.today().getFullYear() + 5));
     private readonly userService = inject(UserService);
 
     public readonly allUsersFn$ = () => this.userService.users().pipe(

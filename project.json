@@ -17,6 +17,7 @@
         "tsConfig": "./tsconfig.app.json",
         "assets": ["./src/favicon.ico", "./src/assets"],
         "styles": [
+          "libs/component/src/styles/styles.scss",
           "./src/styles.scss",
           "node_modules/@aws-amplify/ui-angular/theme.css"
         ],
