@@ -6,43 +6,40 @@ import { from, Observable, of } from 'rxjs';
 import awsconfig from '../../../aws-exports';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AwsCognitoService {
-  private readonly useMock = inject(BASE_API_USE_MOCK);
+    private readonly useMock = inject(BASE_API_USE_MOCK);
 
-  constructor() {
-	Amplify.configure(awsconfig);
-  }
+    constructor() {
+        Amplify.configure(awsconfig);
+    }
 
-  // public signUp(user: IUser): Promise<any> {
-  // return Auth.signUp({
-  //   username: user.email,
-  //   password: user.password,
-  // });
-  // }
-  //
-  // public confirmSignUp(user: IUser): Promise<any> {
-  // return Auth.confirmSignUp(user.email, user.code);
-  // }
-  //
-  // public signIn(user: IUser): Promise<any> {
-  // return Auth.signIn(user.email, user.password)
-  // 		   .then(() => {
-  // 			 this.authenticationSubject.next(true);
-  // 		   });
-  // }
-  //
-  // public signOut(): Promise<any> {
-  // return Auth.signOut()
-  // 		   .then(() => {
-  // 			 this.authenticationSubject.next(false);
-  // 		   });
-  // }
+    // public signUp(user: IUser): Promise<any> {
+    // return Auth.signUp({
+    //   username: user.email,
+    //   password: user.password,
+    // });
+    // }
+    //
+    // public confirmSignUp(user: IUser): Promise<any> {
+    // return Auth.confirmSignUp(user.email, user.code);
+    // }
+    //
+    // public signIn(user: IUser): Promise<any> {
+    // return Auth.signIn(user.email, user.password)
+    // 		   .then(() => {
+    // 			 this.authenticationSubject.next(true);
+    // 		   });
+    // }
 
-  public getCurrentSession(): Observable<CognitoUserSession> {
-	return this.useMock ? of(new CognitoUserSession({
-	  AccessToken: new CognitoAccessToken({ AccessToken: '' })
-	} as any)) : from(Auth.currentSession());
-  }
+    public signOut(): Observable<unknown> {
+        return from(Auth.signOut());
+    }
+
+    public getCurrentSession(): Observable<CognitoUserSession> {
+        return this.useMock ? of(new CognitoUserSession({
+            AccessToken: new CognitoAccessToken({ AccessToken: '' })
+        } as any)) : from(Auth.currentSession());
+    }
 }
