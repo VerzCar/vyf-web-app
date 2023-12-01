@@ -3,5 +3,15 @@
         <vyf-user-autocomplete-select [fetchOptionsFn]="allUsersFn$"
                                       [filteredFetchOptionsFn]="allFilteredUsersFn$">
         </vyf-user-autocomplete-select>
+
+        <vyf-user-autocomplete-search [fetchOptionsFn]="allUsersFn$"
+                                      [filteredFetchOptionsFn]="allFilteredUsersFn$"
+                                      (foundUsers)="searchedResult($event)">
+        </vyf-user-autocomplete-search>
+
+        <ng-container *rxFor="let user of userSearchResults">
+            <vyf-user-list-item [user]="user">
+            </vyf-user-list-item>
+        </ng-container>
     </div>
 </div>

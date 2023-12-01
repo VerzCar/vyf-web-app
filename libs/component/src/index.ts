@@ -16,6 +16,8 @@ export * from './lib/submit-button/submit-button.component';
 
 export * from './lib/user-autocomplete-select/user-autocomplete-select.component';
 
+export * from './lib/user-autocomplete-search/user-autocomplete-search.component';
+
 export * from './lib/user-list-item/user-list-item.component';
 
 export * from './lib/member-list-item/member-list-item.component';

@@ -19,8 +19,8 @@ import { RxPush } from '@rx-angular/template/push';
 import {
     CircleMemberComponent,
     ImageUploadComponent,
-    SubmitButtonComponent,
-    UserAutocompleteSelectComponent
+    SubmitButtonComponent, UserAutocompleteSearchComponent,
+    UserAutocompleteSelectComponent, UserListItemComponent
 } from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from './state/user.state';
@@ -67,7 +67,9 @@ import { UserXComponent } from './user-x/user-x.component';
         RxIf,
         RxPush,
         SubmitButtonComponent,
-        UserAutocompleteSelectComponent
+        UserAutocompleteSelectComponent,
+        UserAutocompleteSearchComponent,
+        UserListItemComponent
     ]
 })
 export class UserModule {}
