@@ -20,7 +20,7 @@ import {
     CircleMemberComponent,
     ImageUploadComponent,
     SubmitButtonComponent,
-    UserAutocompleteComponent
+    UserAutocompleteSelectComponent
 } from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from './state/user.state';
@@ -67,7 +67,7 @@ import { UserXComponent } from './user-x/user-x.component';
         RxIf,
         RxPush,
         SubmitButtonComponent,
-        UserAutocompleteComponent
+        UserAutocompleteSelectComponent
     ]
 })
 export class UserModule {}

@@ -1,15 +1,8 @@
 <div class="flex flex-row items-center gap-3 w-full">
-    <div class="relative w-8 h-8">
-        <img *rxIf="user.profile.imageSrc"
-             alt="{{user.username}}"
-             ngSrc="{{user.profile.imageSrc}}"
-             fill="true"
-             class="object-cover rounded">
-        <div *rxIf="!user.profile.imageSrc"
-             class="bg-gray-800 text-gray-200 w-8 h-8 flex items-center justify-center rounded">
-            <span class="text-lg uppercase">{{user.username | shortName}}</span>
-        </div>
-    </div>
+    <vyf-avatar-img [imageSrc]="user.profile.imageSrc"
+                    [username]="user.username"
+                    [size]="AvatarImgSize.Xs">
+    </vyf-avatar-img>
     <p>#{{user.username}}</p>
     <div class="ml-auto">
         <ng-content select="[suffix-content]">

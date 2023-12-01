@@ -11,16 +11,17 @@ import { RxIf } from '@rx-angular/template/if';
 import { UserPaginated } from '@vyf/user-service';
 import { FeatherModule } from 'angular-feather';
 import { BehaviorSubject, combineLatest, debounceTime, finalize, map, Observable, startWith, switchMap, tap } from 'rxjs';
+import { AvatarImgComponent, AvatarImgSize } from '../avatar-img/avatar-img.component';
 import { ShortNamePipe } from '../pipes/short-name.pipe';
 import { UserListItemComponent } from '../user-list-item/user-list-item.component';
 
-interface UserAutocompleteOption extends UserPaginated {
+interface UserAutocompleteSelectOption extends UserPaginated {
     disabled: boolean;
     noMatch: boolean;
 }
 
 @Component({
-    selector: 'vyf-user-autocomplete',
+    selector: 'vyf-user-autocomplete-select',
     standalone: true,
     imports: [
         MatInputModule,
@@ -35,13 +36,14 @@ interface UserAutocompleteOption extends UserPaginated {
         FeatherModule,
         MatIconModule,
         UserListItemComponent,
-        NgClass
+        NgClass,
+        AvatarImgComponent
     ],
-    templateUrl: './user-autocomplete.component.html',
-    styleUrls: ['./user-autocomplete.component.scss'],
+    templateUrl: './user-autocomplete-select.component.html',
+    styleUrls: ['./user-autocomplete-select.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserAutocompleteComponent {
+export class UserAutocompleteSelectComponent {
     @Input({ required: true }) public filteredFetchOptionsFn!: (searchTerm: string) => Observable<UserPaginated[]>;
     @Input({ required: true }) public fetchOptionsFn!: () => Observable<UserPaginated[]>;
     @Output() public selectedUsers = new EventEmitter<string[]>();
@@ -49,11 +51,12 @@ export class UserAutocompleteComponent {
     @ViewChild('userInput') private readonly userInput!: ElementRef<HTMLInputElement>;
 
     public control = new FormControl<string>('');
-    public selectedUserOptions$: Observable<UserAutocompleteOption[]>;
-    public filteredUserOptions$: Observable<UserAutocompleteOption[]>;
+    public selectedUserOptions$: Observable<UserAutocompleteSelectOption[]>;
+    public filteredUserOptions$: Observable<UserAutocompleteSelectOption[]>;
     public isLoading = false;
 
-    public readonly selectedUserOptionsSubject = new BehaviorSubject<UserAutocompleteOption[]>([]);
+    public readonly selectedUserOptionsSubject = new BehaviorSubject<UserAutocompleteSelectOption[]>([]);
+    public readonly AvatarImgSize = AvatarImgSize;
 
     constructor() {
         this.selectedUserOptions$ = this.selectedUserOptionsSubject.asObservable();
@@ -76,7 +79,7 @@ export class UserAutocompleteComponent {
         return user.username;
     }
 
-    public onOptionSelected(option: UserAutocompleteOption) {
+    public onOptionSelected(option: UserAutocompleteSelectOption) {
         if (option.disabled) {
             return;
         }
@@ -106,28 +109,28 @@ export class UserAutocompleteComponent {
 
     private mapFilteredUserOptions$(
         username: string,
-        selectedUsers: UserAutocompleteOption[]
-    ): Observable<UserAutocompleteOption[]> {
+        selectedUsers: UserAutocompleteSelectOption[]
+    ): Observable<UserAutocompleteSelectOption[]> {
         return this.filteredFetchOptionsFn(username).pipe(
             map(filteredUsers => this.createUserOptions(filteredUsers, selectedUsers)),
             finalize(() => this.isLoading = false)
         );
     }
 
-    private mapAllUserOptions$(selectedUsers: UserAutocompleteOption[]): Observable<UserAutocompleteOption[]> {
+    private mapAllUserOptions$(selectedUsers: UserAutocompleteSelectOption[]): Observable<UserAutocompleteSelectOption[]> {
         return this.fetchOptionsFn().pipe(
             map(filteredUsers => this.createUserOptions(filteredUsers, selectedUsers)),
             finalize(() => this.isLoading = false)
         );
     }
 
-    private createUserOptions(filteredUsers: UserPaginated[], selectedUsers: UserPaginated[]): UserAutocompleteOption[] {
+    private createUserOptions(filteredUsers: UserPaginated[], selectedUsers: UserPaginated[]): UserAutocompleteSelectOption[] {
         if (!filteredUsers.length) {
             return [{
                 identityId: '',
                 disabled: true,
                 noMatch: true
-            } as UserAutocompleteOption];
+            } as UserAutocompleteSelectOption];
         }
 
         const lookupUsers = [...selectedUsers];
@@ -140,7 +143,7 @@ export class UserAutocompleteComponent {
                 disabled = true;
             }
 
-            const userOption: UserAutocompleteOption = {
+            const userOption: UserAutocompleteSelectOption = {
                 ...user,
                 disabled,
                 noMatch: false

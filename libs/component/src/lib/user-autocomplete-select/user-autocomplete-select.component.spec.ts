@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UserAutocompleteComponent } from './user-autocomplete.component';
+import { UserAutocompleteSelectComponent } from './user-autocomplete-select.component';
 
 describe('UserAutocompleteComponent', () => {
-  let component: UserAutocompleteComponent;
-  let fixture: ComponentFixture<UserAutocompleteComponent>;
+  let component: UserAutocompleteSelectComponent;
+  let fixture: ComponentFixture<UserAutocompleteSelectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserAutocompleteComponent],
+      imports: [UserAutocompleteSelectComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(UserAutocompleteComponent);
+    fixture = TestBed.createComponent(UserAutocompleteSelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

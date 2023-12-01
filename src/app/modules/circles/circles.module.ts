@@ -20,7 +20,7 @@ import {
     CircleMemberComponent,
     ImageUploadComponent,
     ShortNumberPipe,
-    UserAutocompleteComponent
+    UserAutocompleteSelectComponent
 } from '@vyf/component';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
@@ -67,7 +67,7 @@ import { CirclesState } from './state/circles.state';
         MatFormFieldModule,
         MatInputModule,
         TextFieldModule,
-        UserAutocompleteComponent,
+        UserAutocompleteSelectComponent,
         MatDatepickerModule,
         MatNativeDateModule,
         MatCheckboxModule,

@@ -46,10 +46,10 @@
                         <label>
                             <span class="daisy-label-text">Voters</span>
                         </label>
-                        <vyf-user-autocomplete [fetchOptionsFn]="allUsersFn$"
+                        <vyf-user-autocomplete-select [fetchOptionsFn]="allUsersFn$"
                                                [filteredFetchOptionsFn]="allFilteredUsersFn$"
                                                (selectedUsers)="onUsersSelected($event)">
-                        </vyf-user-autocomplete>
+                        </vyf-user-autocomplete-select>
                     </div>
                     <div class="col-span-2 md:col-span-1 md:w-full">
                         <div>
