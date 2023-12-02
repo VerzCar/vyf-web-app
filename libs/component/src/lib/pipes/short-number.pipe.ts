@@ -15,7 +15,7 @@ const powers = [
     standalone: true
 })
 export class ShortNumberPipe implements PipeTransform {
-    transform(value: number | null, ...args: unknown[]): string {
+    public transform(value: number | null): string {
         if (value === null) {
             return '';
         }

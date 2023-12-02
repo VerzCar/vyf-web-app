@@ -6,7 +6,7 @@ import { Placement } from '@vyf/vote-circle-service';
     standalone: true
 })
 export class TrendingIconPipe implements PipeTransform {
-    public transform(placement: Placement, ...args: unknown[]): string {
+    public transform(placement: Placement): string {
         switch (placement) {
             case Placement.Neutral:
                 return 'minus';

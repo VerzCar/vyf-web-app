@@ -11,25 +11,25 @@ import { LayoutComponent } from './layout/layout.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
-  declarations: [
-    LayoutComponent,
-    ToolbarComponent,
-    FooterComponent
-  ],
-  imports: [
-    CommonModule,
-    NgxsModule.forFeature([UserState]),
-    TranslateModule.forChild({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/core/'),
-        deps: [HttpClient]
-      },
-      isolate: false,
-      extend: true
-    }),
-    RouterLink,
-    RouterOutlet
-  ]
+    declarations: [
+        LayoutComponent,
+        ToolbarComponent,
+        FooterComponent
+    ],
+    imports: [
+        CommonModule,
+        NgxsModule.forFeature([UserState]),
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/core/'),
+                deps: [HttpClient]
+            },
+            isolate: false,
+            extend: true
+        }),
+        RouterLink,
+        RouterOutlet
+    ]
 })
 export class LayoutModule {}

@@ -5,11 +5,13 @@ const domainName = 'Member';
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace MemberAction {
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     export namespace Circle {
         const subDomainName = 'Circle';
+
         export class FetchVoter {
             public static readonly type = `[${domainName}] - [${subDomainName}] Fetch Circle Voter`;
+
             // eslint-disable-next-line no-useless-constructor
             constructor(public circleId: number, public filter?: Partial<CircleVotersFilter>) {
             }
@@ -35,8 +37,10 @@ export namespace MemberAction {
     // eslint-disable-next-line @typescript-eslint/no-namespace
     export namespace Ranking {
         const subDomainName = 'Ranking';
+
         export class FetchVoter {
             public static readonly type = `[${domainName}] - [${subDomainName}] Fetch Circle Voter`;
+
             // eslint-disable-next-line no-useless-constructor
             constructor(public circleId: number, public filter?: Partial<CircleVotersFilter>) {
             }

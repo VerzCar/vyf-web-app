@@ -6,8 +6,8 @@ import { AblyMessage, AblyService } from '@vyf/base';
 import { UserService } from '@vyf/user-service';
 import { Circle, CircleVotersFilter, Commitment, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
 import { debounceTime, forkJoin, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
-import { RankingStateModel, Placement } from '../models';
 import { MemberAction } from '../../../shared/state/actions/member.action';
+import { Placement, RankingStateModel } from '../models';
 import { RankingAction } from './actions/ranking.action';
 
 const DEFAULT_STATE: RankingStateModel = {
@@ -32,22 +32,6 @@ export class RankingState implements NgxsOnInit {
 
     constructor() {
         this._rankingChangedMessage$ = this._rankingChangedMsgSubject.asObservable();
-    }
-
-    public ngxsOnInit(ctx: StateContext<RankingStateModel>): void {
-        this.actions$.pipe(
-            ofActionSuccessful(RankingAction.FetchRankings),
-            debounceTime(450),
-            switchMap(() => this.ablyService.authorize$()),
-            switchMap(() => ctx.dispatch(new RankingAction.SubscribeRankingsChange())),
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe();
-
-        this._rankingChangedMessage$.pipe(
-            map(msg => msg.data as Ranking),
-            tap(ranking => ctx.dispatch(new RankingAction.RankingChanged(ranking))),
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe();
     }
 
     @Action(RankingAction.SelectCircle)
@@ -108,8 +92,7 @@ export class RankingState implements NgxsOnInit {
 
     @Action(RankingAction.SubscribeRankingsChange)
     private subscribeRankingsChange(
-        ctx: StateContext<RankingStateModel>,
-        action: RankingAction.SubscribeRankingsChange
+        ctx: StateContext<RankingStateModel>
     ) {
         const { selectedCircle } = ctx.getState();
 
@@ -178,6 +161,22 @@ export class RankingState implements NgxsOnInit {
                 })
             )
         );
+    }
+
+    public ngxsOnInit(ctx: StateContext<RankingStateModel>): void {
+        this.actions$.pipe(
+            ofActionSuccessful(RankingAction.FetchRankings),
+            debounceTime(450),
+            switchMap(() => this.ablyService.authorize$()),
+            switchMap(() => ctx.dispatch(new RankingAction.SubscribeRankingsChange())),
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe();
+
+        this._rankingChangedMessage$.pipe(
+            map(msg => msg.data as Ranking),
+            tap(ranking => ctx.dispatch(new RankingAction.RankingChanged(ranking))),
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe();
     }
 
     private mapRankings$(rankings: Ranking[]): Observable<Placement>[] {

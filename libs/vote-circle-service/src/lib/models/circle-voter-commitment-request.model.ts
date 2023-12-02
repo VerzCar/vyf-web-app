@@ -1,4 +1,4 @@
-import { Commitment } from '@vyf/vote-circle-service';
+import { Commitment } from './commitment.model';
 
 export interface CircleVoterCommitmentRequest {
     commitment: Commitment;

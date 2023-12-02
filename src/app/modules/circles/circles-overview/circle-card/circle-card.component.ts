@@ -5,7 +5,7 @@ import { Circle } from '@vyf/vote-circle-service';
     selector: 'app-circle-card',
     templateUrl: './circle-card.component.html',
     styleUrls: ['./circle-card.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CircleCardComponent {
     @Input({ required: true }) public circle!: Circle;

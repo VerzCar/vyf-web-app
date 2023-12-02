@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { NgClass, NgOptimizedImage } from '@angular/common';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { RxIf } from '@rx-angular/template/if';
-import { ShortNamePipe } from '@vyf/component';
+import { ShortNamePipe } from '../pipes/short-name.pipe';
 
 export enum AvatarImgSize {
     Xs,
@@ -45,6 +45,6 @@ export class AvatarImgComponent {
     @HostBinding('class.avatar-size-sm') get sizeSm() { return this.size === AvatarImgSize.Sm; }
     @HostBinding('class.avatar-size-base') get sizeBase() { return this.size === AvatarImgSize.Base; }
     @HostBinding('class.avatar-size-lg') get sizeLg() { return this.size === AvatarImgSize.Lg; }
-    @HostBinding('class.avatar-border') get border() { return this.withBorder }
+    @HostBinding('class.avatar-border') get border() { return this.withBorder; }
 
 }

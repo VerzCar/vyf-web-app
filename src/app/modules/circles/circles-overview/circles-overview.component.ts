@@ -12,12 +12,12 @@ interface CirclesOverviewView {
     selector: 'app-circles-overview',
     templateUrl: './circles-overview.component.html',
     styleUrls: ['./circles-overview.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CirclesOverviewComponent {
-    private readonly store = inject(Store);
+    public readonly view$: Observable<CirclesOverviewView>;
 
-    public view$: Observable<CirclesOverviewView>;
+    private readonly store = inject(Store);
 
     constructor() {
         this.view$ = this.store.select(CirclesSelectors.slices.myCircles).pipe(

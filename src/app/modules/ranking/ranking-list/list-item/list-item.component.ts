@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { AvatarImgSize } from '@vyf/component';
 import { Circle } from '@vyf/vote-circle-service';
 import { Observable } from 'rxjs';
-import { Placement } from '../../models';
 import { MemberAction } from '../../../../shared/state/actions/member.action';
 import { MemberSelectors } from '../../../../shared/state/member.selectors';
+import { Placement } from '../../models';
 
 @Component({
     selector: 'app-list-item',
@@ -18,13 +19,13 @@ export class ListItemComponent implements OnInit {
     @Input() public hasVotedFor = false;
 
     public canVote$: Observable<boolean> | undefined;
+    public readonly AvatarImgSize = AvatarImgSize;
 
     private readonly store = inject(Store);
 
     public ngOnInit(): void {
         this.canVote$ = this.store.select(MemberSelectors.RankingSelector.canVote(this.placement.user.identityId));
     }
-
 
     public onVote(circleId: number, electedIdentId: string) {
         this.store.dispatch(new MemberAction.Vote(circleId, electedIdentId));

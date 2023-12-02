@@ -1,11 +1,10 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import { User } from '@vyf/user-service';
 import { Voter } from '@vyf/vote-circle-service';
-import { map, Observable } from 'rxjs';
 import { CommitmentIconComponent } from '../commitment-icon/commitment-icon.component';
 import { CircleMemberCommitmentPipe } from '../pipes/circle-member-commitment.pipe';
 import { ShortNamePipe } from '../pipes/short-name.pipe';
@@ -52,14 +51,15 @@ const defaultOpts: CircleMemberComponentOption = {
 })
 export class CircleMemberComponent {
     @Input({ required: true }) public member!: Member;
+
     @Input()
     public set opts(options: Partial<CircleMemberComponentOption>) {
         this._options = {
             show: {
-            ...defaultOpts.show,
-            ...options.show
+                ...defaultOpts.show,
+                ...options.show
             }
-        }
+        };
     }
 
     public get opts(): CircleMemberComponentOption {

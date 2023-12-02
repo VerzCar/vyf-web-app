@@ -18,7 +18,7 @@ export class UserState implements NgxsOnInit {
     private readonly userService = inject(UserService);
 
     @Action(UserAction.FetchUser)
-    private async fetchUser(ctx: StateContext<UserStateModel>, action: UserAction.FetchUser) {
+    private async fetchUser(ctx: StateContext<UserStateModel>) {
         const res = await firstValueFrom(this.userService.me());
         const user = res.data;
         return ctx.setState({ user });
@@ -60,7 +60,7 @@ export class UserState implements NgxsOnInit {
         );
     }
 
-    public async ngxsOnInit(ctx: StateContext<any>) {
+    public async ngxsOnInit(ctx: StateContext<UserStateModel>) {
         return await firstValueFrom(ctx.dispatch(new UserAction.FetchUser()));
     }
 }

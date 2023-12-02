@@ -5,9 +5,9 @@ import { User } from '@vyf/user-service';
 import { Circle } from '@vyf/vote-circle-service';
 import { combineLatest, map, Observable } from 'rxjs';
 import { Member } from '../../../shared/models';
+import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { MemberListRankingDialogComponent } from '../member-list-ranking-dialog/member-list-ranking-dialog.component';
 import { Placement } from '../models';
-import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { RankingSelectors } from '../state/ranking.selectors';
 
 interface RankingListComponentView {
@@ -26,10 +26,10 @@ interface RankingListComponentView {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RankingListComponent {
+    public readonly view$: Observable<RankingListComponentView>;
+
     private readonly store = inject(Store);
     private readonly dialog = inject(MatDialog);
-
-    public view$: Observable<RankingListComponentView>;
 
     constructor() {
         this.view$ = combineLatest([
@@ -64,7 +64,7 @@ export class RankingListComponent {
         const firstThreeMembers = members.slice(0, 3);
 
         const firsThreeUsers = firstThreeMembers.map(member => member.user);
-        const countOfMembersToVote = members.length - 3
+        const countOfMembersToVote = members.length - 3;
         return {
             previewUsers: firsThreeUsers,
             countOfMembersToVote: countOfMembersToVote > 0 ? countOfMembersToVote : 0

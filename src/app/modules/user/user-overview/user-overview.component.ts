@@ -9,6 +9,10 @@ import { catchError, map } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserOverviewComponent {
+    public userSearchResults: UserPaginated[] = [];
+
+    private readonly userService = inject(UserService);
+
     public readonly allUsersFn$ = () => this.userService.users().pipe(
         map(res => res.data),
         catchError(() => [])
@@ -19,12 +23,7 @@ export class UserOverviewComponent {
         catchError(() => [])
     );
 
-    public userSearchResults: UserPaginated[] = [];
-
-    private readonly userService = inject(UserService);
-
     public searchedResult(users: UserPaginated[]) {
         this.userSearchResults = users;
     }
-
 }

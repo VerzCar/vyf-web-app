@@ -74,7 +74,7 @@ export class CircleDetailComponent {
         this.hasOpenCommitment$ = this.store.select(MemberSelectors.CircleSelector.hasOpenCommitment);
         this.selectedCommitment$ = this.store.select(MemberSelectors.Member.slices.circleUserMember).pipe(
             map(member => member?.voter.commitment)
-        )
+        );
     }
 
     public hasCommitted(circleId: number, commitment: Commitment) {

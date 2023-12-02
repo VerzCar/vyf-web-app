@@ -1,8 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
 import { insertItem, patch } from '@ngxs/store/operators';
-import { Circle, CirclePaginated, CircleVoterCommitmentRequest, CircleVotersFilter, VoteCircleService } from '@vyf/vote-circle-service';
-import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import {
+    Circle,
+    CirclePaginated,
+    CircleVoterCommitmentRequest,
+    CircleVotersFilter,
+    VoteCircleService
+} from '@vyf/vote-circle-service';
+import { map, Observable, of, switchMap, tap } from 'rxjs';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { CirclesStateModel } from '../models';
 import { CirclesAction } from './actions/circles.action';
@@ -100,8 +106,7 @@ export class CirclesState {
 
     @Action(CirclesAction.InitUserCircles)
     private initUserCircles(
-        ctx: StateContext<CirclesStateModel>,
-        action: CirclesAction.InitUserCircles
+        ctx: StateContext<CirclesStateModel>
     ): Observable<void> | undefined {
         const { myCircles, circlesOfInterest } = ctx.getState();
 
@@ -128,8 +133,7 @@ export class CirclesState {
 
     @Action(CirclesAction.FetchCircles)
     private fetchCircles(
-        ctx: StateContext<CirclesStateModel>,
-        action: CirclesAction.FetchCircles
+        ctx: StateContext<CirclesStateModel>
     ): Observable<Circle[]> {
         return this.voteCircleService.circles().pipe(
             map(res => res.data !== null ? res.data : []),
@@ -139,8 +143,7 @@ export class CirclesState {
 
     @Action(CirclesAction.FetchCirclesOfInterest)
     private fetchCirclesOfInterest(
-        ctx: StateContext<CirclesStateModel>,
-        action: CirclesAction.FetchCirclesOfInterest
+        ctx: StateContext<CirclesStateModel>
     ): Observable<CirclePaginated[]> {
         return this.voteCircleService.circlesOfInterest().pipe(
             map(res => res.data !== null ? res.data : []),

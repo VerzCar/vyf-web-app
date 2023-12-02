@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angu
 import { Store } from '@ngxs/store';
 import { Circle } from '@vyf/vote-circle-service';
 import { Observable } from 'rxjs';
-import { Placement } from '../../../models';
 import { MemberAction } from '../../../../../shared/state/actions/member.action';
 import { MemberSelectors } from '../../../../../shared/state/member.selectors';
+import { Placement } from '../../../models';
 
 export enum TopThreePlacement {
     First,
@@ -16,7 +16,7 @@ export enum TopThreePlacement {
     selector: 'app-top-ranked',
     templateUrl: './top-ranked.component.html',
     styleUrls: ['./top-ranked.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TopRankedComponent implements OnInit {
     @Input({ required: true }) public circle!: Circle;

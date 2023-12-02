@@ -1,6 +1,5 @@
 import { createPropertySelectors, Selector } from '@ngxs/store';
-import { RankingStateModel } from '../models';
-import { Placement } from '../models';
+import { Placement, RankingStateModel } from '../models';
 import { RankingState } from './ranking.state';
 
 export class RankingSelectors {
@@ -15,16 +14,16 @@ export class RankingSelectors {
         }
 
         // determines if they are any top ranked that the next one ranked has a lower ranked number
-        if(placements.at(0)?.ranking.number === 1 && placements.at(1)?.ranking.number !== 1) {
-            topThreePlacements.push(placements[0])
+        if (placements.at(0)?.ranking.number === 1 && placements.at(1)?.ranking.number !== 1) {
+            topThreePlacements.push(placements[0]);
         }
 
-        if(placements.at(1)?.ranking.number === 2 && placements.at(2)?.ranking.number !== 2) {
-            topThreePlacements.push(placements[1])
+        if (placements.at(1)?.ranking.number === 2 && placements.at(2)?.ranking.number !== 2) {
+            topThreePlacements.push(placements[1]);
         }
 
-        if(placements.at(2)?.ranking.number === 3 && placements.at(3)?.ranking.number !== 3) {
-            topThreePlacements.push(placements[2])
+        if (placements.at(2)?.ranking.number === 3 && placements.at(3)?.ranking.number !== 3) {
+            topThreePlacements.push(placements[2]);
         }
 
         return topThreePlacements;
@@ -36,7 +35,7 @@ export class RankingSelectors {
             return [];
         }
 
-        if(!topThreePlacements.length) {
+        if (!topThreePlacements.length) {
             return placements;
         }
 

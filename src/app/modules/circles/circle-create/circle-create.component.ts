@@ -18,7 +18,10 @@ export class CircleCreateComponent {
     public readonly form = createCircleCreateForm();
     public readonly minDate = DateTime.Day.next();
     public readonly maxDate = new Date(DateTime.Day.today().setFullYear(DateTime.Day.today().getFullYear() + 5));
+
     private readonly userService = inject(UserService);
+    private readonly store = inject(Store);
+    private readonly router = inject(Router);
 
     public readonly allUsersFn$ = () => this.userService.users().pipe(
         map(res => res.data),
@@ -29,9 +32,6 @@ export class CircleCreateComponent {
         map(res => res.data),
         catchError(() => [])
     );
-
-    private readonly store = inject(Store);
-    private readonly router = inject(Router);
 
     public onSubmit() {
         const formRawValue = this.form.getRawValue();

@@ -3,8 +3,9 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { RouterLink } from '@angular/router';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
-import { ShortNamePipe } from '@vyf/component';
 import { User } from '@vyf/user-service';
+import { AvatarImgComponent, AvatarImgSize } from '../avatar-img/avatar-img.component';
+import { ShortNamePipe } from '../pipes/short-name.pipe';
 
 @Component({
     selector: 'vyf-avatar-stack',
@@ -14,7 +15,8 @@ import { User } from '@vyf/user-service';
         RxIf,
         ShortNamePipe,
         RxFor,
-        NgOptimizedImage
+        NgOptimizedImage,
+        AvatarImgComponent
     ],
     templateUrl: 'avatar-stack.component.html',
     styles: [],
@@ -24,6 +26,8 @@ export class AvatarStackComponent {
     @Input({ required: true }) users!: User[];
     @Input() plusCount: number = 0;
     @Output() stackClicked = new EventEmitter<MouseEvent>();
+
+    public readonly AvatarImgSize = AvatarImgSize;
 
     public onStackClicked(event: MouseEvent) {
         this.stackClicked.emit(event);

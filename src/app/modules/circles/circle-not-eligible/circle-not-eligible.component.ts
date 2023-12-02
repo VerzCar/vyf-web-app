@@ -4,6 +4,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     selector: 'app-circle-not-eligible',
     templateUrl: './circle-not-eligible.component.html',
     styleUrls: ['./circle-not-eligible.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CircleNotEligibleComponent {}

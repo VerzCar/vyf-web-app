@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RxIf } from '@rx-angular/template/if';
 import { RxPush } from '@rx-angular/template/push';
@@ -18,7 +18,7 @@ export class SubmitButtonComponent {
     public disabled$!: Observable<boolean>;
     public submittedSuccessfully$: Observable<boolean>;
 
-    private _formIsValid$: Observable<boolean>;
+    private readonly _formIsValid$: Observable<boolean>;
     private readonly _formIsValidSubject = new BehaviorSubject<Observable<boolean>>(of(true));
     private readonly _successSubject = new BehaviorSubject<Observable<boolean>>(of(false));
 

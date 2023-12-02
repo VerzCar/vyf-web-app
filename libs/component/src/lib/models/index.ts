@@ -1,1 +1,1 @@
-export {VyfButtonVariant} from './vyf-button-variant.model';
+export { VyfButtonVariant } from './vyf-button-variant.model';

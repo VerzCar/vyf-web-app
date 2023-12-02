@@ -10,7 +10,7 @@ import { CirclesSelectors } from '../state/circles.selectors';
     selector: 'app-circle-edit',
     templateUrl: './circle-edit.component.html',
     styleUrls: ['./circle-edit.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CircleEditComponent {
     public circleImageSrc$: Observable<string>;

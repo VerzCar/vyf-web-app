@@ -7,17 +7,9 @@
         {{placement.ranking.number}}
     </p>
 
-    <div class="relative w-14 h-14 rounded hover:shadow hover:ring">
-        <img *rxIf="placement.user.profile.imageSrc"
-             class="object-cover rounded"
-             ngSrc="{{placement.user.profile.imageSrc}}"
-             alt="{{placement.user.username}}"
-             fill="true">
-        <div *rxIf="!placement.user.profile.imageSrc"
-             class="bg-gray-800 text-gray-200 w-14 h-14 flex items-center justify-center rounded">
-            <span class="text-xl uppercase">{{placement.user.username | shortName}}</span>
-        </div>
-    </div>
+    <vyf-avatar-img [imageSrc]="placement.user.profile.imageSrc"
+                    [username]="placement.user.username">
+    </vyf-avatar-img>
 
     <div class="flex-2 flex flex-col justify-between gap-y-2.5 ml-4 overflow-hidden">
         <p class="text-gray-900">

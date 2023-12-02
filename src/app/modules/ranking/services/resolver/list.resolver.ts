@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { catchError, EMPTY, map, Observable } from 'rxjs';
 import { RankingAction } from '../../state/actions/ranking.action';
@@ -11,7 +11,7 @@ export class ListResolver implements Resolve<boolean> {
     private readonly router = inject(Router);
     private readonly store = inject(Store);
 
-    public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | never> {
+    public resolve(route: ActivatedRouteSnapshot): Observable<boolean | never> {
         const id = route.paramMap.get('id');
         return this.store.dispatch(new RankingAction.SelectCircle(Number(id))).pipe(
             map(() => true),

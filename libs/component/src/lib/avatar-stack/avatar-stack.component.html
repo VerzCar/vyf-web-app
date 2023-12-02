@@ -2,17 +2,11 @@
         class="hover:shadow hover:ring flex flex-row">
     <div class="flex -space-x-4">
         <ng-container *rxFor="let user of users;">
-            <div class="relative w-10 h-10 rounded border-2 border-white">
-                <img *rxIf="user.profile.imageSrc"
-                     class="object-cover rounded"
-                     ngSrc="{{user.profile.imageSrc}}"
-                     alt="{{user.username}}"
-                     fill="true">
-                <div *rxIf="!user.profile.imageSrc"
-                     class="bg-gray-800 text-gray-200 absolute w-full h-full flex items-center justify-center rounded">
-                    <span class="text-xl uppercase">{{user.username | shortName}}</span>
-                </div>
-            </div>
+            <vyf-avatar-img [imageSrc]="user.profile.imageSrc"
+                            [username]="user.username"
+                            [size]="AvatarImgSize.Sm"
+                            [withBorder]="true">
+            </vyf-avatar-img>
         </ng-container>
     </div>
     <div *rxIf="plusCount"

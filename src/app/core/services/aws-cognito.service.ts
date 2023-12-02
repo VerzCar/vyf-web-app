@@ -40,6 +40,6 @@ export class AwsCognitoService {
     public getCurrentSession(): Observable<CognitoUserSession> {
         return this.useMock ? of(new CognitoUserSession({
             AccessToken: new CognitoAccessToken({ AccessToken: '' })
-        } as any)) : from(Auth.currentSession());
+        } as never)) : from(Auth.currentSession());
     }
 }

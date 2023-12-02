@@ -6,7 +6,7 @@ import { Commitment } from '@vyf/vote-circle-service';
     standalone: true
 })
 export class CircleMemberCommitmentPipe implements PipeTransform {
-    public transform(commitment: Commitment, ...args: unknown[]): string {
+    public transform(commitment: Commitment): string {
         switch (commitment) {
             case Commitment.Open:
                 return 'Open Request';

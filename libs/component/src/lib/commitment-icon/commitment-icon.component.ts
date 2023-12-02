@@ -12,7 +12,7 @@ import { Commitment } from '@vyf/vote-circle-service';
 })
 export class CommitmentIconComponent {
     @Input() public commitment: Commitment = Commitment.Open;
-    @HostBinding('class.open') get open() { return this.commitment === Commitment.Open; }
-    @HostBinding('class.committed') get committed() { return this.commitment === Commitment.Committed; }
-    @HostBinding('class.rejected') get rejected() { return this.commitment === Commitment.Rejected; }
+    @HostBinding('class.open') public get open() { return this.commitment === Commitment.Open; }
+    @HostBinding('class.committed') public get committed() { return this.commitment === Commitment.Committed; }
+    @HostBinding('class.rejected') public get rejected() { return this.commitment === Commitment.Rejected; }
 }

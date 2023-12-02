@@ -1,5 +1,5 @@
 import { inject, NgModule } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterModule, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from '../layout/layout/layout.component';
 import { CircleCreateComponent } from './circle-create/circle-create.component';
 import { CircleDetailComponent } from './circle-detail/circle-detail.component';
@@ -21,7 +21,7 @@ const routes: Routes = [
                 path: '',
                 component: CirclesOverviewComponent,
                 resolve: {
-                    _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(OverviewResolver).resolve(r, s)
+                    _: () => inject(OverviewResolver).resolve()
                 }
             },
             {
@@ -38,7 +38,7 @@ const routes: Routes = [
                 component: CircleDetailComponent,
                 canActivate: [CircleDetailGuard],
                 resolve: {
-                    _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(DetailsResolver).resolve(r, s)
+                    _: (r: ActivatedRouteSnapshot) => inject(DetailsResolver).resolve(r)
                 }
             },
             {
@@ -46,7 +46,7 @@ const routes: Routes = [
                 component: CircleEditComponent,
                 canActivate: [CircleEditGuard],
                 resolve: {
-                    _: (r: ActivatedRouteSnapshot, s: RouterStateSnapshot) => inject(EditResolver).resolve(r, s)
+                    _: (r: ActivatedRouteSnapshot) => inject(EditResolver).resolve(r)
                 }
             }
         ]

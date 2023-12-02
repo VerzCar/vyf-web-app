@@ -20,9 +20,9 @@ interface MemberListRankingView {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MemberListRankingComponent {
-    private readonly store = inject(Store);
+    public readonly view$: Observable<MemberListRankingView>;
 
-    public view$: Observable<MemberListRankingView>;
+    private readonly store = inject(Store);
 
     constructor() {
         this.view$ =combineLatest([
