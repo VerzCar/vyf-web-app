@@ -5,6 +5,7 @@ import { RxIf } from '@rx-angular/template/if';
 import { User } from '@vyf/user-service';
 import { Voter } from '@vyf/vote-circle-service';
 import { Observable, of } from 'rxjs';
+import { AvatarImgComponent, AvatarImgSize } from '../avatar-img/avatar-img.component';
 import { CommitmentIconComponent } from '../commitment-icon/commitment-icon.component';
 import { CircleMemberCommitmentPipe } from '../pipes/circle-member-commitment.pipe';
 import { ShortNamePipe } from '../pipes/short-name.pipe';
@@ -35,7 +36,7 @@ const defaultOpts: MemberListItemOption = {
 @Component({
     selector: 'vyf-member-list-item',
     standalone: true,
-    imports: [ShortNamePipe, CommitmentIconComponent, RxIf, CircleMemberCommitmentPipe, NgOptimizedImage, MatButtonModule],
+    imports: [ShortNamePipe, CommitmentIconComponent, RxIf, CircleMemberCommitmentPipe, NgOptimizedImage, MatButtonModule, AvatarImgComponent],
     templateUrl: './member-list-item.component.html',
     styleUrls: ['./member-list-item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -50,4 +51,6 @@ export class MemberListItemComponent {
     public onVote(electedIdentId: string) {
         this.voted.next(electedIdentId);
     }
+
+    protected readonly AvatarImgSize = AvatarImgSize;
 }

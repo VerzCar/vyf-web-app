@@ -26,7 +26,7 @@ export enum AvatarImgSize {
         </div>
     `,
     styles: [
-        ':host{@apply relative rounded;}',
+        ':host{@apply relative rounded block;}',
         ':host{ &.avatar-size-xs{@apply w-8 h-8} }',
         ':host{ &.avatar-size-sm{@apply w-10 h-10} }',
         ':host{ &.avatar-size-base{@apply w-14 h-14} }',
