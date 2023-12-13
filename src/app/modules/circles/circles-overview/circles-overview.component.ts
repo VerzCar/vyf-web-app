@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { Circle } from '@vyf/vote-circle-service';
 import { filter, map, Observable } from 'rxjs';
+import { CircleCreateDialogComponent } from '../circle-create-dialog/circle-create-dialog.component';
 import { CirclesSelectors } from '../state/circles.selectors';
 
 interface CirclesOverviewView {
@@ -18,6 +20,7 @@ export class CirclesOverviewComponent {
     public readonly view$: Observable<CirclesOverviewView>;
 
     private readonly store = inject(Store);
+    private readonly dialog = inject(MatDialog);
 
     constructor() {
         this.view$ = this.store.select(CirclesSelectors.slices.myCircles).pipe(
@@ -26,5 +29,9 @@ export class CirclesOverviewComponent {
                 circles: circles as Circle[]
             }))
         );
+    }
+
+    public onCreateCircle() {
+        this.dialog.open(CircleCreateDialogComponent);
     }
 }

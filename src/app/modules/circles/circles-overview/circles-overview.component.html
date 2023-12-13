@@ -10,18 +10,19 @@
                 <h3>
                     Your Circles
                     <span class="font-light text-base tracking-wider text-gray-600">
-                        ({{view.circles.length}}/10)
+                        ({{ view.circles.length }}/10)
                     </span>
                 </h3>
-                <a [routerLink]="['/circles', 'create']"
-                   mat-flat-button
-                   color="accent"
-                   role="button">
+                <button mat-flat-button
+                        color="accent"
+                        role="button"
+                        type="button"
+                        (click)="onCreateCircle()">
                     <i-feather name="plus"
                                class="align-top">
                     </i-feather>
                     Create Circle
-                </a>
+                </button>
             </section>
 
             <div class="border rounded p-2">

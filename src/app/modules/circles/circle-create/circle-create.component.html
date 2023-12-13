@@ -33,9 +33,9 @@
                             <mat-form-field class="w-full"
                                             appearance="outline">
                              <textarea matInput
-                                       cdkTextareaAutosize
-                                       rows="2"
-                                       cols="30"
+                                       [cdkTextareaAutosize]="true"
+                                       [rows]="2"
+                                       [cols]="30"
                                        id="description"
                                        [formControl]="form.controls.description">
                             </textarea>

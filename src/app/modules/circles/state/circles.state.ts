@@ -50,7 +50,7 @@ export class CirclesState {
         );
     }
 
-    @Action(CirclesAction.CreateCircle)
+    @Action(CirclesAction.CreateCircle, { cancelUncompleted: true })
     private createCircle(
         ctx: StateContext<CirclesStateModel>,
         action: CirclesAction.CreateCircle

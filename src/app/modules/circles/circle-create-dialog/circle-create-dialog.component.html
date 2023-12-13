@@ -1,0 +1,53 @@
+<h1 mat-dialog-title>Create Circle</h1>
+<div mat-dialog-content>
+    <form [formGroup]="form"
+          (submit)="onSubmit()">
+        <div class="grid grid-cols-2 gap-3 items-center">
+            <div class="col-span-2">
+                <mat-label>
+                    <label for="name">
+                        Name
+                    </label>
+                </mat-label>
+                <mat-form-field class="w-full"
+                                appearance="outline">
+                    <input matInput
+                           type="text"
+                           id="name"
+                           name="name"
+                           required
+                           [formControl]="form.controls.name"/>
+                </mat-form-field>
+            </div>
+            <div class="col-span-2">
+                <mat-label>
+                    <label for="description">
+                        Description
+                    </label>
+                </mat-label>
+                <mat-form-field class="w-full"
+                                appearance="outline">
+                             <textarea matInput
+                                       [cdkTextareaAutosize]="true"
+                                       [rows]="2"
+                                       [cols]="30"
+                                       id="description"
+                                       [formControl]="form.controls.description">
+                            </textarea>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="flex flex-row gap-2 place-content-end">
+            <button mat-stroked-button
+                    type="button"
+                    (click)="close()">
+                Cancel
+            </button>
+            <vyf-submit-button [isLoading]="isLoading"
+                               [label]="'Create Circle'"
+                               [formIsValid$]="formIsValid$">
+            </vyf-submit-button>
+        </div>
+    </form>
+</div>

@@ -17,7 +17,7 @@
                 <mat-form-field class="w-full"
                                 appearance="outline">
                 <textarea matInput
-                          cdkTextareaAutosize
+                          [cdkTextareaAutosize]="true"
                           #whyVoteMeRef
                           rows="2"
                           cols="30"
@@ -42,7 +42,7 @@
                 <mat-form-field class="w-full"
                                 appearance="outline">
                 <textarea matInput
-                          cdkTextareaAutosize
+                          [cdkTextareaAutosize]="true"
                           #bioRef
                           rows="2"
                           cols="30"
@@ -65,8 +65,7 @@
                     </a>
                 </div>
 
-                <vyf-submit-button [formIsValid$]="formIsValid$"
-                                   [submitSuccess$]="success$">
+                <vyf-submit-button [formIsValid$]="formIsValid$">
                 </vyf-submit-button>
             </div>
         </div>

@@ -6,8 +6,7 @@ import { dateAfter } from '../validators/date-after.validator';
 export const createCircleCreateForm = (): FormGroup<CircleCreateForm> => new FormGroup<CircleCreateForm>({
     name: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(40)] }),
     description: new FormControl(null, [Validators.maxLength(1200)]),
-    imgSrc: new FormControl(null),
-    validUntil: new FormControl(null, [dateAfter(DateTime.Day.today())]),
+    validUntil: new FormControl(null),
     private: new FormControl(false, { nonNullable: true }),
     voters: new FormControl([], { nonNullable: true })
 });

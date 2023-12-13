@@ -3,7 +3,6 @@ import { CircleCreateRawForm } from '../models';
 
 export const createCircleFormToRequest = (rawForm: CircleCreateRawForm): CircleCreateRequest => ({
     description: rawForm.description ?? undefined,
-    imageSrc: rawForm.imgSrc ?? undefined,
     name: rawForm.name,
     private: rawForm.private,
     validUntil: rawForm.validUntil ? new Date(rawForm.validUntil) : undefined,

@@ -9,7 +9,7 @@ import { RankingSelectors } from '../state/ranking.selectors';
 
 interface MemberListRankingView {
     selectedCircle: Circle;
-    members: Member[]
+    members: Member[];
     canVote$: Observable<boolean>;
 }
 
@@ -25,7 +25,7 @@ export class MemberListRankingComponent {
     private readonly store = inject(Store);
 
     constructor() {
-        this.view$ =combineLatest([
+        this.view$ = combineLatest([
             this.store.select(RankingSelectors.slices.selectedCircle),
             this.store.select(MemberSelectors.Member.slices.rankingMembers)
         ]).pipe(
