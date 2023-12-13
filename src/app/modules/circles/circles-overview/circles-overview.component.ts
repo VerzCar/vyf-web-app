@@ -32,6 +32,6 @@ export class CirclesOverviewComponent {
     }
 
     public onCreateCircle() {
-        this.dialog.open(CircleCreateDialogComponent);
+        this.dialog.open(CircleCreateDialogComponent, { width: '600px' });
     }
 }

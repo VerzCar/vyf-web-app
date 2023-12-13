@@ -1,6 +1,6 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -8,11 +8,14 @@ import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDi
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngxs/store';
+import { RxIf } from '@rx-angular/template/if';
 import { DateTime, statusChangesToValidAndNotPending } from '@vyf/base';
 import { SubmitButtonComponent, UserAutocompleteSelectComponent } from '@vyf/component';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { UserService } from '@vyf/user-service';
+import { catchError, map, Observable, of, startWith, tap } from 'rxjs';
 import { createCircleFormToRequest } from '../mapper/create-circle-form-to-request';
 import { createCircleCreateForm } from '../services/factory/forms.factory';
+import { dateAfter } from '../services/validators/date-after.validator';
 import { CirclesAction } from '../state/actions/circles.action';
 
 @Component({
@@ -31,7 +34,8 @@ import { CirclesAction } from '../state/actions/circles.action';
         ReactiveFormsModule,
         TextFieldModule,
         UserAutocompleteSelectComponent,
-        SubmitButtonComponent
+        SubmitButtonComponent,
+        RxIf
     ],
     templateUrl: './circle-create-dialog.component.html',
     styleUrl: './circle-create-dialog.component.scss',
@@ -43,14 +47,38 @@ export class CircleCreateDialogComponent {
     public readonly maxDate = new Date(DateTime.Day.today().setFullYear(DateTime.Day.today().getFullYear() + 5));
     public readonly formIsValid$: Observable<boolean>;
 
+    public readonly allUsersFn$ = () => this.userService.users().pipe(
+        map(res => res.data),
+        catchError(() => [])
+    );
+
+    public readonly allFilteredUsersFn$ = (username: string) => this.userService.usersFiltered(username).pipe(
+        map(res => res.data),
+        catchError(() => [])
+    );
+
     public isLoading = false;
 
     private readonly dialogRef: MatDialogRef<CircleCreateDialogComponent, null> = inject(MatDialogRef<CircleCreateDialogComponent, null>);
     private readonly store = inject(Store);
-
+    private readonly userService = inject(UserService);
+//dateAfter(DateTime.Day.today())
     constructor() {
         this.formIsValid$ = statusChangesToValidAndNotPending(this.form);
-        //dateAfter(DateTime.Day.today())
+
+        this.form.statusChanges.subscribe(s => console.log(s));
+
+        this.form.controls.private.valueChanges.pipe(
+            startWith(this.form.controls.private.value),
+            tap(isPrivate => {
+                if (isPrivate) {
+                    this.form.controls.voters.addValidators([Validators.required]);
+                    this.form.updateValueAndValidity();
+                    return;
+                }
+                this.form.controls.voters.removeValidators([Validators.required]);
+            })
+        );
     }
 
     public onSubmit() {
@@ -72,5 +100,9 @@ export class CircleCreateDialogComponent {
 
     public close() {
         this.dialogRef.close(null);
+    }
+
+    public onUsersSelected(userIdentidyIds: string[]) {
+        this.form.controls.voters.patchValue(userIdentidyIds);
     }
 }

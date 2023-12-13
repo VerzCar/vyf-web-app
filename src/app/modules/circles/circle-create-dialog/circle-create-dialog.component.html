@@ -3,7 +3,7 @@
     <form [formGroup]="form"
           (submit)="onSubmit()">
         <div class="grid grid-cols-2 gap-3 items-center">
-            <div class="col-span-2">
+            <div class="col-span-2 mb-3">
                 <mat-label>
                     <label for="name">
                         Name
@@ -17,6 +17,12 @@
                            name="name"
                            required
                            [formControl]="form.controls.name"/>
+                    <mat-hint class="tracking-tight leading-tight">
+                        A Circle represents a point of interest people should be involved to be voted in there.
+                    </mat-hint>
+                    @if (form.controls.name.invalid) {
+                        <mat-error>Invalid name or non name given</mat-error>
+                    }
                 </mat-form-field>
             </div>
             <div class="col-span-2">
@@ -32,9 +38,25 @@
                                        [rows]="2"
                                        [cols]="30"
                                        id="description"
+                                       [placeholder]="'Give a representative description for what the circle is for.'"
                                        [formControl]="form.controls.description">
                             </textarea>
                 </mat-form-field>
+            </div>
+            <div class="col-span-2">
+                <mat-checkbox [formControl]="form.controls.private">
+                    Private
+                </mat-checkbox>
+            </div>
+            <div *rxIf="form.controls.private.value"
+                 class="col-span-2">
+                <label>
+                    <span class="daisy-label-text">Add some voters to the circle</span>
+                </label>
+                <vyf-user-autocomplete-select [fetchOptionsFn]="allUsersFn$"
+                                              [filteredFetchOptionsFn]="allFilteredUsersFn$"
+                                              (selectedUsers)="onUsersSelected($event)">
+                </vyf-user-autocomplete-select>
             </div>
         </div>
 
