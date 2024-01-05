@@ -105,6 +105,7 @@ export class UserAutocompleteSelectComponent {
         users.splice(index, 1);
 
         this.selectedUserOptionsSubject.next(users);
+        this.selectedUsers.emit(users.map(user => user.identityId));
     }
 
     private mapFilteredUserOptions$(

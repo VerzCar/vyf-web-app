@@ -13,6 +13,15 @@
                         Back to circles
                     </a>
                 </div>
+                <a mat-flat-button
+                   color="accent"
+                   [routerLink]="['/circles', view.circle.id, 'edit']"
+                   [disabled]="view.disabled">
+                    Edit
+                </a>
+            </div>
+
+            <div class="flex flex-row items-center justify-center">
                 <div class="flex flex-row items-center gap-4">
                     <div *rxIf="view.circle.private"
                          class="flex flex-col items-center">
@@ -22,15 +31,9 @@
                         <span class="text-gray-500 text-xs">Private</span>
                     </div>
                     <h2>
-                        {{view.circle.name}}
+                        {{ view.circle.name }}
                     </h2>
                 </div>
-                <a mat-flat-button
-                   color="accent"
-                   [routerLink]="['/circles', view.circle.id, 'edit']"
-                   [disabled]="view.disabled">
-                    Edit
-                </a>
             </div>
 
             <figure class="relative h-[16rem] w-full">
@@ -78,8 +81,8 @@
                     <h3 class="text-xl font-normal text-gray-900 mb-2">
                         Valid until
                     </h3>
-                    <p>{{view.circle.validUntil | date}}</p>
-                    <p>{{view.circle.validUntil | date:'shortTime'}}</p>
+                    <p>{{ view.circle.validUntil | date }}</p>
+                    <p>{{ view.circle.validUntil | date:'shortTime' }}</p>
                 </div>
             </section>
 
@@ -88,7 +91,7 @@
                     Description
                 </h3>
                 <p class="md:max-w-5xl">
-                    {{view.circle.description}}
+                    {{ view.circle.description }}
                 </p>
             </div>
 
@@ -107,7 +110,7 @@
                         <a [routerLink]="['/circles', view.circle.id ,'members']"
                            class="w-full h-full flex flex-col justify-center items-center">
                             <div>
-                                +{{view.membersCount}}
+                                +{{ view.membersCount }}
                             </div>
                             <div>
                                 -- -- --

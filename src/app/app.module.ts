@@ -1,6 +1,6 @@
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MAT_RIPPLE_GLOBAL_OPTIONS, RippleGlobalOptions } from '@angular/material/core';
+import { MAT_RIPPLE_GLOBAL_OPTIONS, MatNativeDateModule, RippleGlobalOptions } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
@@ -49,7 +49,8 @@ const globalRippleConfig: RippleGlobalOptions = {
             }
         ),
         LayoutModule,
-        AppRoutingModule
+        AppRoutingModule,
+        MatNativeDateModule
     ],
     providers: [
         AwsCognitoService,

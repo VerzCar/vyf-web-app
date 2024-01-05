@@ -1,5 +1,6 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -13,9 +14,9 @@ import { DateTime, statusChangesToValidAndNotPending } from '@vyf/base';
 import { SubmitButtonComponent, UserAutocompleteSelectComponent } from '@vyf/component';
 import { UserService } from '@vyf/user-service';
 import { catchError, map, Observable, of, startWith, tap } from 'rxjs';
+import { FeatherIconModule } from '../../feather-icon/feather-icon.module';
 import { createCircleFormToRequest } from '../mapper/create-circle-form-to-request';
 import { createCircleCreateForm } from '../services/factory/forms.factory';
-import { dateAfter } from '../services/validators/date-after.validator';
 import { CirclesAction } from '../state/actions/circles.action';
 
 @Component({
@@ -35,7 +36,8 @@ import { CirclesAction } from '../state/actions/circles.action';
         TextFieldModule,
         UserAutocompleteSelectComponent,
         SubmitButtonComponent,
-        RxIf
+        RxIf,
+        FeatherIconModule
     ],
     templateUrl: './circle-create-dialog.component.html',
     styleUrl: './circle-create-dialog.component.scss',
@@ -62,23 +64,23 @@ export class CircleCreateDialogComponent {
     private readonly dialogRef: MatDialogRef<CircleCreateDialogComponent, null> = inject(MatDialogRef<CircleCreateDialogComponent, null>);
     private readonly store = inject(Store);
     private readonly userService = inject(UserService);
-//dateAfter(DateTime.Day.today())
+
     constructor() {
         this.formIsValid$ = statusChangesToValidAndNotPending(this.form);
-
-        this.form.statusChanges.subscribe(s => console.log(s));
 
         this.form.controls.private.valueChanges.pipe(
             startWith(this.form.controls.private.value),
             tap(isPrivate => {
                 if (isPrivate) {
-                    this.form.controls.voters.addValidators([Validators.required]);
-                    this.form.updateValueAndValidity();
-                    return;
+                    this.form.controls.voters.addValidators([Validators.required, Validators.minLength(1)]);
+                } else {
+                    this.form.controls.voters.removeValidators([Validators.required, Validators.minLength(1)]);
                 }
-                this.form.controls.voters.removeValidators([Validators.required]);
-            })
-        );
+
+                this.form.controls.voters.updateValueAndValidity();
+            }),
+            takeUntilDestroyed()
+        ).subscribe();
     }
 
     public onSubmit() {
@@ -104,5 +106,6 @@ export class CircleCreateDialogComponent {
 
     public onUsersSelected(userIdentidyIds: string[]) {
         this.form.controls.voters.patchValue(userIdentidyIds);
+        this.form.controls.voters.updateValueAndValidity();
     }
 }

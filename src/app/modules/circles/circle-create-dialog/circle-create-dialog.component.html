@@ -2,8 +2,9 @@
 <div mat-dialog-content>
     <form [formGroup]="form"
           (submit)="onSubmit()">
-        <div class="grid grid-cols-2 gap-3 items-center">
-            <div class="col-span-2 mb-3">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
+
+            <div class="col-span-full md:col-span-2 mb-5 md:mb-3">
                 <mat-label>
                     <label for="name">
                         Name
@@ -17,7 +18,7 @@
                            name="name"
                            required
                            [formControl]="form.controls.name"/>
-                    <mat-hint class="tracking-tight leading-tight">
+                    <mat-hint class="tracking-tight leading-tight text-sm">
                         A Circle represents a point of interest people should be involved to be voted in there.
                     </mat-hint>
                     @if (form.controls.name.invalid) {
@@ -25,7 +26,8 @@
                     }
                 </mat-form-field>
             </div>
-            <div class="col-span-2">
+
+            <div class="col-span-full md:col-span-2">
                 <mat-label>
                     <label for="description">
                         Description
@@ -43,24 +45,56 @@
                             </textarea>
                 </mat-form-field>
             </div>
-            <div class="col-span-2">
-                <mat-checkbox [formControl]="form.controls.private">
-                    Private
-                </mat-checkbox>
+
+            <div class="col-span-full md:col-span-1">
+                <mat-label>
+                    <label for="validUntil">
+                        Valid until
+                    </label>
+                </mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput
+                           id="validUntil"
+                           name="validUntil"
+                           [matDatepicker]="picker"
+                           [formControl]="form.controls.validUntil"
+                           [min]="minDate"
+                           [max]="maxDate">
+                    <mat-datepicker-toggle matIconSuffix
+                                           [for]="picker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
             </div>
-            <div *rxIf="form.controls.private.value"
-                 class="col-span-2">
-                <label>
-                    <span class="daisy-label-text">Add some voters to the circle</span>
-                </label>
-                <vyf-user-autocomplete-select [fetchOptionsFn]="allUsersFn$"
-                                              [filteredFetchOptionsFn]="allFilteredUsersFn$"
-                                              (selectedUsers)="onUsersSelected($event)">
-                </vyf-user-autocomplete-select>
+
+            <div class="col-span-full md:col-span-1">
+                <div class="flex items-center">
+                    <i-feather name="lock"
+                               class="align-top text-gray-900">
+                    </i-feather>
+                    <mat-checkbox [formControl]="form.controls.private">
+                        Private
+                    </mat-checkbox>
+                </div>
             </div>
+
+            <ng-container *rxIf="form.controls.private.value">
+                <hr class="col-span-full md:col-span-2 h-px my-2 bg-gray-200 border-0">
+
+                <div class="col-span-full md:col-span-2">
+                    <label>
+                        <span class="daisy-label-text">Add some voters to the circle</span>
+                    </label>
+                    <vyf-user-autocomplete-select [fetchOptionsFn]="allUsersFn$"
+                                                  [filteredFetchOptionsFn]="allFilteredUsersFn$"
+                                                  (selectedUsers)="onUsersSelected($event)">
+                    </vyf-user-autocomplete-select>
+                </div>
+            </ng-container>
+
         </div>
 
-        <div class="flex flex-row gap-2 place-content-end">
+        <div class="flex flex-row gap-2 place-content-end mt-3 md:mt-0">
             <button mat-stroked-button
                     type="button"
                     (click)="close()">
