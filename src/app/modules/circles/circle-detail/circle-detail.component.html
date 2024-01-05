@@ -13,12 +13,13 @@
                         Back to circles
                     </a>
                 </div>
-                <a mat-flat-button
-                   color="accent"
-                   [routerLink]="['/circles', view.circle.id, 'edit']"
-                   [disabled]="view.disabled">
+                <button mat-flat-button
+                        color="accent"
+                        role="button"
+                        type="button"
+                        (click)="onOpenSettings(view)">
                     Edit
-                </a>
+                </button>
             </div>
 
             <div class="flex flex-row items-center justify-center">

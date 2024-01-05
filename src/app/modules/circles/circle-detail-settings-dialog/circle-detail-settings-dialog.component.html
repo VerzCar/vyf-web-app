@@ -1,0 +1,68 @@
+<h1 mat-dialog-title>Settings: {{ view.circle.name }}</h1>
+<div mat-dialog-content>
+
+    <mat-tab-group animationDuration="0ms">
+
+        <mat-tab label="Overview">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
+
+                <div class="col-span-full md:col-span-2 mb-5 md:mb-3">
+                    <mat-label>
+                        <label for="name">
+                            Name
+                        </label>
+                    </mat-label>
+                    <mat-form-field class="w-full"
+                                    appearance="outline">
+                        <input matInput
+                               type="text"
+                               id="name"
+                               name="name"
+                               required
+                               [formControl]="form.controls.name"/>
+                        <mat-hint class="tracking-tight leading-tight text-sm">
+                            A Circle represents a point of interest people should be involved to be voted in there.
+                        </mat-hint>
+                        @if (form.controls.name.invalid) {
+                            <mat-error>Invalid name or non name given</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+
+                <div class="col-span-full md:col-span-2">
+                    <mat-label>
+                        <label for="description">
+                            Description
+                        </label>
+                    </mat-label>
+                    <mat-form-field class="w-full"
+                                    appearance="outline">
+                             <textarea matInput
+                                       [cdkTextareaAutosize]="true"
+                                       [rows]="2"
+                                       [cols]="30"
+                                       id="description"
+                                       [placeholder]="'Give a representative description for what the circle is for.'"
+                                       [formControl]="form.controls.description">
+                            </textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Image">
+            <vyf-image-upload [profileImageSrc]="circleImageSrc$"
+                              (fileSelected)="onCircleImageSelected($event)">
+            </vyf-image-upload>
+        </mat-tab>
+
+        <mat-tab label="Members">
+            <ng-container *rxFor="let member of view.members">
+                <vyf-user-list-item [user]="member.user">
+                </vyf-user-list-item>
+            </ng-container>
+        </mat-tab>
+
+    </mat-tab-group>
+
+</div>

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
 import { CircleMemberComponentOption } from '@vyf/component';
@@ -6,6 +7,7 @@ import { Circle, Commitment } from '@vyf/vote-circle-service';
 import { combineLatest, filter, map, Observable } from 'rxjs';
 import { Member } from '../../../shared/models';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
+import { CircleDetailSettingsDialogComponent } from '../circle-detail-settings-dialog/circle-detail-settings-dialog.component';
 import { CirclesAction } from '../state/actions/circles.action';
 import { CirclesSelectors } from '../state/circles.selectors';
 
@@ -45,6 +47,7 @@ export class CircleDetailComponent {
     public view$: Observable<CircleDetailView>;
 
     private readonly store = inject(Store);
+    private readonly dialog = inject(MatDialog);
 
     private readonly maxMembersCount = 3;
 
@@ -79,6 +82,13 @@ export class CircleDetailComponent {
 
     public hasCommitted(circleId: number, commitment: Commitment) {
         this.store.dispatch(new CirclesAction.CommittedToCircle(circleId, commitment));
+    }
+
+    public onOpenSettings(view: CircleDetailView) {
+        const viewData = view;
+        viewData.members = this.store.selectSnapshot(MemberSelectors.Member.slices.circleMembers) ?? [];
+
+        this.dialog.open(CircleDetailSettingsDialogComponent, { width: '600px', data: view });
     }
 
     private owner(createdFrom: string, members: Member[]): Member {
