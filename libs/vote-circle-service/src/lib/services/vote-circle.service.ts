@@ -62,6 +62,10 @@ export class VoteCircleService extends ApiBaseService {
         return this.useMock ? this.updateMock(Commitment.Committed) : this.create<CircleVoterCommitmentRequest, Commitment>(req, `circle-voters/${circleId}/commitment`);
     }
 
+    public joinCircle(circleId: number): Observable<ApiResponse<string>> {
+        return this.useMock ? this.createMock('') : this.create<unknown, string>(null, `circle-voters/${circleId}/join`);
+    }
+
     public rankings(circleId: number): Observable<ApiResponse<Ranking[] | null>> {
         return this.useMock ? this.getMock(rankingsCircleId04 as unknown as Ranking[]) : this.get({
             paths: ['rankings', circleId]
