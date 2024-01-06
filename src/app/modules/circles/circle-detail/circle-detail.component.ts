@@ -3,18 +3,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
 import { CircleMemberComponentOption } from '@vyf/component';
+import { User } from '@vyf/user-service';
 import { Circle, Commitment } from '@vyf/vote-circle-service';
 import { combineLatest, filter, map, Observable } from 'rxjs';
 import { Member } from '../../../shared/models';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
-import { CircleDetailSettingsDialogComponent } from '../circle-detail-settings-dialog/circle-detail-settings-dialog.component';
+import { CircleDetailSettingsDialogComponent, CircleDetailSettingsDialogComponentView } from '../circle-detail-settings-dialog/circle-detail-settings-dialog.component';
 import { CirclesAction } from '../state/actions/circles.action';
 import { CirclesSelectors } from '../state/circles.selectors';
 
 interface CircleDetailView {
     circle: Circle;
     owner: Member;
-    members: Member[];
+    previewUsers: User[];
     membersCount: number;
     disabled: boolean;
 }
@@ -31,13 +32,6 @@ export class CircleDetailComponent {
     public readonly circleMemberComponentOption: Partial<CircleMemberComponentOption> = {
         show: {
             username: true,
-            commitment: false
-        }
-    };
-
-    public readonly circleMembersComponentOption: Partial<CircleMemberComponentOption> = {
-        show: {
-            username: false,
             commitment: false
         }
     };
@@ -60,15 +54,12 @@ export class CircleDetailComponent {
             map(([c, m]) => {
                 const circle = c as Circle;
                 const members = m as Member[];
-                const circleMembers = this.circleMembers(members);
-                const membersCount = this.membersCount(members);
                 const owner = this.owner(circle.createdFrom, members);
 
                 return {
                     circle: circle as Circle,
                     owner,
-                    members: circleMembers,
-                    membersCount,
+                    ...this.mapMembersToPreview(members ?? []),
                     disabled: !this.store.selectSnapshot(CirclesSelectors.canEditCircle)
                 };
             })
@@ -85,10 +76,28 @@ export class CircleDetailComponent {
     }
 
     public onOpenSettings(view: CircleDetailView) {
-        const viewData = view;
-        viewData.members = this.store.selectSnapshot(MemberSelectors.Member.slices.circleMembers) ?? [];
+        const viewData: CircleDetailSettingsDialogComponentView = {
+            circle: view.circle,
+            disabled: view.disabled,
+            members: this.store.selectSnapshot(MemberSelectors.Member.slices.circleMembers) ?? [],
+            membersCount: view.membersCount,
+            owner: view.owner
+        };
 
-        this.dialog.open(CircleDetailSettingsDialogComponent, { width: '600px', data: view });
+        this.dialog.open(CircleDetailSettingsDialogComponent, { width: '600px', data: viewData });
+    }
+
+    public onShowMembers(view: CircleDetailView) {
+        const viewData: CircleDetailSettingsDialogComponentView = {
+            circle: view.circle,
+            disabled: view.disabled,
+            members: this.store.selectSnapshot(MemberSelectors.Member.slices.circleMembers) ?? [],
+            membersCount: view.membersCount,
+            owner: view.owner,
+            selectedTabIndex: 2
+        };
+
+        this.dialog.open(CircleDetailSettingsDialogComponent, { width: '600px', data: viewData });
     }
 
     private owner(createdFrom: string, members: Member[]): Member {
@@ -101,20 +110,22 @@ export class CircleDetailComponent {
         return circleOwnerVoter;
     }
 
-    private circleMembers(members: Member[]): Member[] {
+    private mapMembersToPreview(members: Member[]): Pick<CircleDetailView, 'previewUsers' | 'membersCount'> {
         if (!members.length) {
-            return [];
+            return {
+                previewUsers: [],
+                membersCount: 0
+            };
         }
 
-        return members.slice(0, this.maxMembersCount);
-    }
+        const firstThreeMembers = members.slice(0, this.maxMembersCount);
 
-    private membersCount(members: Member[]): number {
-        if (!members.length) {
-            return 0;
-        }
-        const membersCount = members.length - this.maxMembersCount;
-        return membersCount > 0 ? membersCount : 0;
+        const firsThreeUsers = firstThreeMembers.map(member => member.user);
+        const countOfMembersToVote = members.length - this.maxMembersCount;
+        return {
+            previewUsers: firsThreeUsers,
+            membersCount: countOfMembersToVote > 0 ? countOfMembersToVote : 0
+        };
     }
 
 }

@@ -1,7 +1,9 @@
-<h1 mat-dialog-title>Settings: {{ view.circle.name }}</h1>
+<h1 mat-dialog-title>{{ view.circle.name }}</h1>
 <div mat-dialog-content>
-
-    <mat-tab-group animationDuration="0ms">
+    <mat-tab-group animationDuration="0ms"
+                   [selectedIndex]="selectedTab.value"
+                   (selectedIndexChange)="selectedTab.setValue($event)"
+                   [color]="'primary'">
 
         <mat-tab label="Overview">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
@@ -46,6 +48,10 @@
                                        [formControl]="form.controls.description">
                             </textarea>
                     </mat-form-field>
+                </div>
+
+                <div class="col-span-full md:col-span-2">
+                    <p>Created at: {{ null }}</p>
                 </div>
             </div>
         </mat-tab>

@@ -1,6 +1,6 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,12 +16,13 @@ import { createCircleCreateForm } from '../services/factory/forms.factory';
 import { CirclesAction } from '../state/actions/circles.action';
 import { CirclesSelectors } from '../state/circles.selectors';
 
-interface CircleDetailSettingsDialogComponentView {
+export interface CircleDetailSettingsDialogComponentView {
     circle: Circle;
     owner: Member;
     members: Member[];
     membersCount: number;
     disabled: boolean;
+    selectedTabIndex?: number;
 }
 
 @Component({
@@ -48,6 +49,7 @@ export class CircleDetailSettingsDialogComponent {
     public readonly view: CircleDetailSettingsDialogComponentView;
     public readonly circleImageSrc$: Observable<string>;
     public readonly form = createCircleCreateForm();
+    public readonly selectedTab = new FormControl(0);
 
     private readonly dialogRef: MatDialogRef<CircleDetailSettingsDialogComponent, null> = inject(MatDialogRef<CircleDetailSettingsDialogComponent, null>);
     private readonly circleData: CircleDetailSettingsDialogComponentView = inject(MAT_DIALOG_DATA);
@@ -65,6 +67,10 @@ export class CircleDetailSettingsDialogComponent {
 
         // TODO check if user is eligible to edit circle
         // this.store.selectSnapshot(CirclesSelectors.canEditCircle)
+
+        if (this.view?.selectedTabIndex) {
+            this.selectedTab.setValue(this.view.selectedTabIndex);
+        }
 
         this.form.patchValue(this.view.circle);
     }
