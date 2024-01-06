@@ -63,6 +63,9 @@ export class CircleDetailSettingsDialogComponent {
             shareReplay()
         );
 
+        // TODO check if user is eligible to edit circle
+        // this.store.selectSnapshot(CirclesSelectors.canEditCircle)
+
         this.form.patchValue(this.view.circle);
     }
 

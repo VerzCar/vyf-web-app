@@ -15,19 +15,11 @@ import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import {
-    CircleCommitmentActionComponent,
-    CircleMemberComponent,
-    ImageUploadComponent,
-    ShortNumberPipe,
-    UserAutocompleteSelectComponent
-} from '@vyf/component';
+import { CircleCommitmentActionComponent, CircleMemberComponent, ImageUploadComponent, ShortNumberPipe, UserAutocompleteSelectComponent } from '@vyf/component';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/state/user.state';
-import { CircleCreateComponent } from './circle-create/circle-create.component';
 import { CircleDetailComponent } from './circle-detail/circle-detail.component';
-import { CircleEditComponent } from './circle-edit/circle-edit.component';
 import { CircleNotEligibleComponent } from './circle-not-eligible/circle-not-eligible.component';
 import { CircleCardComponent } from './circles-overview/circle-card/circle-card.component';
 import { CirclesCarouselComponent } from './circles-overview/circles-carousel/circles-carousel.component';
@@ -35,7 +27,6 @@ import { CirclesInterestComponent } from './circles-overview/circles-interest/ci
 import { CirclesOverviewComponent } from './circles-overview/circles-overview.component';
 import { CirclesRoutingModule } from './circles-routing.module';
 import { DetailsResolver } from './services/resolver/details.resolver';
-import { EditResolver } from './services/resolver/edit.resolver';
 import { OverviewResolver } from './services/resolver/overview.resolver';
 import { CirclesState } from './state/circles.state';
 
@@ -43,8 +34,6 @@ import { CirclesState } from './state/circles.state';
     declarations: [
         CirclesOverviewComponent,
         CircleDetailComponent,
-        CircleEditComponent,
-        CircleCreateComponent,
         CircleNotEligibleComponent,
         CircleCardComponent,
         CirclesCarouselComponent,
@@ -76,6 +65,6 @@ import { CirclesState } from './state/circles.state';
         CircleMemberComponent,
         CircleCommitmentActionComponent
     ],
-    providers: [DetailsResolver, EditResolver, OverviewResolver]
+    providers: [DetailsResolver, OverviewResolver]
 })
 export class CirclesModule {}
