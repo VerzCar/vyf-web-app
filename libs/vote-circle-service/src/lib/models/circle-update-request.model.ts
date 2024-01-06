@@ -6,7 +6,6 @@ export interface CircleUpdateRequest {
     readonly voters?: VoterRequest[];
     readonly description?: string;
     readonly imageSrc?: string;
-    readonly private?: boolean;
     readonly delete?: boolean;
     readonly validUntil?: Date;
 }
