@@ -6,54 +6,8 @@
                    [color]="'primary'">
 
         <mat-tab label="Overview">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
-
-                <div class="col-span-full md:col-span-2 mb-5 md:mb-3">
-                    <mat-label>
-                        <label for="name">
-                            Name
-                        </label>
-                    </mat-label>
-                    <mat-form-field class="w-full"
-                                    appearance="outline">
-                        <input matInput
-                               type="text"
-                               id="name"
-                               name="name"
-                               required
-                               [formControl]="form.controls.name"/>
-                        <mat-hint class="tracking-tight leading-tight text-sm">
-                            A Circle represents a point of interest people should be involved to be voted in there.
-                        </mat-hint>
-                        @if (form.controls.name.invalid) {
-                            <mat-error>Invalid name or non name given</mat-error>
-                        }
-                    </mat-form-field>
-                </div>
-
-                <div class="col-span-full md:col-span-2">
-                    <mat-label>
-                        <label for="description">
-                            Description
-                        </label>
-                    </mat-label>
-                    <mat-form-field class="w-full"
-                                    appearance="outline">
-                             <textarea matInput
-                                       [cdkTextareaAutosize]="true"
-                                       [rows]="2"
-                                       [cols]="30"
-                                       id="description"
-                                       [placeholder]="'Give a representative description for what the circle is for.'"
-                                       [formControl]="form.controls.description">
-                            </textarea>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-span-full md:col-span-2">
-                    <p>Created at: {{ null }}</p>
-                </div>
-            </div>
+            <app-circle-detail-edit-form [circle]="view.circle">
+            </app-circle-detail-edit-form>
         </mat-tab>
 
         <mat-tab label="Image">

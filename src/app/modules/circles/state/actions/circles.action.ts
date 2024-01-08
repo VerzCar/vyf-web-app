@@ -1,4 +1,4 @@
-import { CircleCreateRequest, Commitment } from '@vyf/vote-circle-service';
+import { CircleCreateRequest, CircleUpdateRequest, Commitment } from '@vyf/vote-circle-service';
 
 const domainName = 'Circles';
 
@@ -37,6 +37,14 @@ export namespace CirclesAction {
 
         // eslint-disable-next-line no-useless-constructor
         constructor(public circle: CircleCreateRequest) {
+        }
+    }
+
+    export class UpdateCircle {
+        public static readonly type = `[${domainName}] Update Circle`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public circle: CircleUpdateRequest) {
         }
     }
 

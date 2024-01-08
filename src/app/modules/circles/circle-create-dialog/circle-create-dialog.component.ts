@@ -16,7 +16,7 @@ import { UserService } from '@vyf/user-service';
 import { catchError, map, Observable, of, startWith, tap } from 'rxjs';
 import { FeatherIconModule } from '../../feather-icon/feather-icon.module';
 import { createCircleFormToRequest } from '../mapper/create-circle-form-to-request';
-import { createCircleCreateForm } from '../services/factory/forms.factory';
+import { createCircleForm } from '../services/factory/forms.factory';
 import { CirclesAction } from '../state/actions/circles.action';
 
 @Component({
@@ -44,7 +44,7 @@ import { CirclesAction } from '../state/actions/circles.action';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CircleCreateDialogComponent {
-    public readonly form = createCircleCreateForm();
+    public readonly form = createCircleForm();
     public readonly minDate = DateTime.Day.next();
     public readonly maxDate = new Date(DateTime.Day.today().setFullYear(DateTime.Day.today().getFullYear() + 5));
     public readonly formIsValid$: Observable<boolean>;

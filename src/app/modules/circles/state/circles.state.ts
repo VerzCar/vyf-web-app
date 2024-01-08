@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
-import { insertItem, patch } from '@ngxs/store/operators';
+import { insertItem, patch, updateItem } from '@ngxs/store/operators';
 import {
     Circle,
     CirclePaginated,
@@ -8,15 +8,15 @@ import {
     CircleVotersFilter,
     VoteCircleService
 } from '@vyf/vote-circle-service';
-import { map, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { CirclesStateModel } from '../models';
 import { CirclesAction } from './actions/circles.action';
 
 const DEFAULT_STATE: CirclesStateModel = {
-    myCircles: undefined,
+    myCircles: [],
     selectedCircle: undefined,
-    circlesOfInterest: undefined
+    circlesOfInterest: []
 };
 
 @State<CirclesStateModel>({
@@ -65,6 +65,23 @@ export class CirclesState {
         );
     }
 
+    @Action(CirclesAction.UpdateCircle, { cancelUncompleted: true })
+    private updateCircle(
+        ctx: StateContext<CirclesStateModel>,
+        action: CirclesAction.UpdateCircle
+    ): Observable<Circle> {
+        return this.voteCircleService.updateCircle(action.circle).pipe(
+            map(res => res.data),
+            tap(circle => ctx.patchState({ selectedCircle: circle })),
+            tap((circle) => ctx.setState(
+                patch<CirclesStateModel>({
+                    myCircles: updateItem<Circle>(myCircle => myCircle.id === circle.id, circle)
+                })
+            )),
+            catchError(() => of())
+        );
+    }
+
     @Action(CirclesAction.UpdateCircleImage)
     private updateCircleImage(
         ctx: StateContext<CirclesStateModel>,
@@ -82,7 +99,7 @@ export class CirclesState {
                 ctx.patchState({
                     selectedCircle: {
                         ...selectedCircle,
-                        imageSrc: src ?? ''
+                        imageSrc: src ? this.srcWithAttachedTimestamp(src) : ''
                     }
                 });
             })
@@ -110,7 +127,7 @@ export class CirclesState {
     ): Observable<void> | undefined {
         const { myCircles, circlesOfInterest } = ctx.getState();
 
-        if (myCircles && circlesOfInterest) {
+        if (myCircles.length && circlesOfInterest.length) {
             return undefined;
         }
 
@@ -149,5 +166,9 @@ export class CirclesState {
             map(res => res.data !== null ? res.data : []),
             tap((circles) => ctx.patchState({ circlesOfInterest: circles }))
         );
+    }
+
+    private srcWithAttachedTimestamp(src: string): string {
+        return `${src}?timeStamp=${Date.now()}`;
     }
 }

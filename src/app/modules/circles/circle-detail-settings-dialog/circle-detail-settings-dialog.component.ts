@@ -1,9 +1,6 @@
-import { TextFieldModule } from '@angular/cdk/text-field';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Store } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
@@ -12,7 +9,7 @@ import { ImageUploadComponent, UserListItemComponent } from '@vyf/component';
 import { Circle } from '@vyf/vote-circle-service';
 import { filter, map, Observable, shareReplay } from 'rxjs';
 import { Member } from '../../../shared/models';
-import { createCircleCreateForm } from '../services/factory/forms.factory';
+import { CircleDetailEditFormComponent } from '../circle-detail-edit-form/circle-detail-edit-form.component';
 import { CirclesAction } from '../state/actions/circles.action';
 import { CirclesSelectors } from '../state/circles.selectors';
 
@@ -35,11 +32,8 @@ export interface CircleDetailSettingsDialogComponentView {
         ImageUploadComponent,
         RxFor,
         UserListItemComponent,
-        FormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        TextFieldModule,
-        ReactiveFormsModule
+        CircleDetailEditFormComponent,
+        FormsModule
     ],
     templateUrl: './circle-detail-settings-dialog.component.html',
     styleUrl: './circle-detail-settings-dialog.component.scss',
@@ -48,7 +42,6 @@ export interface CircleDetailSettingsDialogComponentView {
 export class CircleDetailSettingsDialogComponent {
     public readonly view: CircleDetailSettingsDialogComponentView;
     public readonly circleImageSrc$: Observable<string>;
-    public readonly form = createCircleCreateForm();
     public readonly selectedTab = new FormControl(0);
 
     private readonly dialogRef: MatDialogRef<CircleDetailSettingsDialogComponent, null> = inject(MatDialogRef<CircleDetailSettingsDialogComponent, null>);
@@ -65,14 +58,9 @@ export class CircleDetailSettingsDialogComponent {
             shareReplay()
         );
 
-        // TODO check if user is eligible to edit circle
-        // this.store.selectSnapshot(CirclesSelectors.canEditCircle)
-
         if (this.view?.selectedTabIndex) {
             this.selectedTab.setValue(this.view.selectedTabIndex);
         }
-
-        this.form.patchValue(this.view.circle);
     }
 
     public close() {

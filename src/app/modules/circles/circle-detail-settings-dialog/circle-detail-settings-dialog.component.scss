@@ -2,3 +2,7 @@
     z-index: 1000;
     @apply bg-white top-0 sticky border-b-2 border-b-gray-300;
 }
+
+:host ::ng-deep mat-tab-body {
+    @apply py-4;
+}

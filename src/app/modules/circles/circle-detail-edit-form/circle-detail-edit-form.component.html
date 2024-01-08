@@ -1,0 +1,69 @@
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
+
+    @if (canEditCircle) {
+        <div class="col-span-full md:col-span-2 mb-5 md:mb-3">
+            <mat-label>
+                <label for="name">
+                    Name
+                </label>
+            </mat-label>
+            <mat-form-field class="w-full"
+                            appearance="outline">
+                <input matInput
+                       type="text"
+                       id="name"
+                       name="name"
+                       required
+                       [formControl]="form.controls.name"/>
+                <mat-hint class="tracking-tight leading-tight text-sm">
+                    A Circle represents a point of interest people should be involved to be voted in there.
+                </mat-hint>
+                @if (form.controls.name.invalid) {
+                    <mat-error>Invalid name or non name given</mat-error>
+                }
+            </mat-form-field>
+        </div>
+
+        <div class="col-span-full md:col-span-2">
+            <mat-label>
+                <label for="description">
+                    Description
+                </label>
+            </mat-label>
+            <mat-form-field class="w-full"
+                            appearance="outline">
+                             <textarea matInput
+                                       [cdkTextareaAutosize]="true"
+                                       [rows]="2"
+                                       [cols]="30"
+                                       id="description"
+                                       [placeholder]="'Give a representative description for what the circle is for.'"
+                                       [formControl]="form.controls.description">
+                            </textarea>
+            </mat-form-field>
+        </div>
+    } @else {
+        <div class="col-span-full">
+            <h3>
+                Name
+            </h3>
+            <p>
+                {{ circle.name }}
+            </p>
+        </div>
+
+        <div class="col-span-full">
+            <h3>
+                Description
+            </h3>
+            <p>
+                {{ circle.description }}
+            </p>
+        </div>
+    }
+
+    <div class="col-span-full md:col-span-2">
+        <p>Created at: {{ null }}</p>
+    </div>
+</div>
+
