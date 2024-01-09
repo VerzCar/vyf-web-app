@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
-import { insertItem, patch, updateItem } from '@ngxs/store/operators';
+import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import {
     Circle,
     CirclePaginated,
@@ -76,6 +76,24 @@ export class CirclesState {
             tap((circle) => ctx.setState(
                 patch<CirclesStateModel>({
                     myCircles: updateItem<Circle>(myCircle => myCircle.id === circle.id, circle)
+                })
+            )),
+            catchError(() => of())
+        );
+    }
+
+    @Action(CirclesAction.DeleteCircle)
+    private deleteCircle(
+        ctx: StateContext<CirclesStateModel>,
+        action: CirclesAction.DeleteCircle
+    ) {
+        const selectedCircle = ctx.getState().selectedCircle as Circle;
+
+        return this.voteCircleService.deleteCircle(selectedCircle?.id).pipe(
+            tap(() => ctx.patchState({ selectedCircle: undefined })),
+            tap(() => ctx.setState(
+                patch<CirclesStateModel>({
+                    myCircles: removeItem<Circle>(myCircle => myCircle.id === selectedCircle.id)
                 })
             )),
             catchError(() => of())

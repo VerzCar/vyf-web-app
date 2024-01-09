@@ -48,6 +48,10 @@ export namespace CirclesAction {
         }
     }
 
+    export class DeleteCircle {
+        public static readonly type = `[${domainName}] Delete Circle`;
+    }
+
     export class UpdateCircleImage {
         public static readonly type = `[${domainName}] Update circle image`;
 

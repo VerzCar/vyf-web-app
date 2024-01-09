@@ -82,6 +82,20 @@ export abstract class ApiBaseService extends ApiBaseMockService {
         );
     }
 
+    protected delete<Req, Res>(
+        path?: string // additional endpoint path
+    ): Observable<ApiResponse<Res>> {
+        let url = this.url;
+        if (path) {
+            url = `${url}/${path}`;
+        }
+        return this.httpClient.delete<ApiResponse<Res>>(
+            url,
+            { headers: this.defaultHeaders }).pipe(
+            retry(this.retryCount)
+        );
+    }
+
     protected upload<Res>(
         file: File,
         fileName: string,

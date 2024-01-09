@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>{{ view.title }}</h1>
+<div mat-dialog-content>
+    {{ view.msg }}
+</div>
+
+<div class="flex flex-row gap-2 place-content-end mt-3 md:mt-0">
+    <button mat-stroked-button
+            type="button"
+            (click)="close()">
+        {{ view.cancelText ?? 'Cancel' }}
+    </button>
+    <button mat-flat-button
+            color="warn"
+            type="button"
+            (click)="confirm()">
+        {{ view.confirmText ?? 'Confirm' }}
+    </button>
+</div>

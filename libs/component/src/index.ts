@@ -28,6 +28,8 @@ export * from './lib/circle-commitment-action/circle-commitment-action.component
 
 export * from './lib/avatar-img/avatar-img.component';
 
+export * from './lib/warning-dialog/warning-dialog.component';
+
 export * from './lib/pipes/short-name.pipe';
 export * from './lib/pipes/short-number.pipe';
 export * from './lib/pipes/trending-icon.pipe';
