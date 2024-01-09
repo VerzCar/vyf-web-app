@@ -139,6 +139,17 @@ export class CirclesState {
         );
     }
 
+    @Action(CirclesAction.JoinCircle)
+    private joinCircle(
+        ctx: StateContext<CirclesStateModel>,
+        action: CirclesAction.JoinCircle
+    ) {
+        return this.voteCircleService.joinCircle(action.circleId).pipe(
+            map(res => res.data),
+            switchMap(() => ctx.dispatch(new MemberAction.Circle.Committed(action.circleId, action.commitment)))
+        );
+    }
+
     @Action(CirclesAction.InitUserCircles)
     private initUserCircles(
         ctx: StateContext<CirclesStateModel>

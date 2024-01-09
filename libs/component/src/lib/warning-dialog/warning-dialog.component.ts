@@ -22,7 +22,7 @@ export interface WarningDialogData {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WarningDialogComponent {
-    public view: WarningDialogData;
+    public readonly view: WarningDialogData;
 
     private readonly dialogRef: MatDialogRef<WarningDialogComponent, boolean> = inject(MatDialogRef<WarningDialogComponent, boolean>);
     private readonly dialogData: WarningDialogData = inject(MAT_DIALOG_DATA);

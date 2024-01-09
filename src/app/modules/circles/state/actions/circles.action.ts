@@ -67,4 +67,12 @@ export namespace CirclesAction {
         constructor(public circleId: number, public commitment: Commitment) {
         }
     }
+
+    export class JoinCircle {
+        public static readonly type = `[${domainName}] Join Circle`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public circleId: number) {
+        }
+    }
 }

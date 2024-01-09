@@ -15,7 +15,14 @@ import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import { AvatarStackComponent, CircleCommitmentActionComponent, CircleMemberComponent, ImageUploadComponent, ShortNumberPipe, UserAutocompleteSelectComponent } from '@vyf/component';
+import {
+  AvatarStackComponent,
+  CircleCommitmentActionComponent,
+  CircleMemberComponent,
+  ImageUploadComponent,
+  ShortNumberPipe,
+  UserAutocompleteSelectComponent,
+} from '@vyf/component';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/state/user.state';
@@ -29,43 +36,45 @@ import { CirclesRoutingModule } from './circles-routing.module';
 import { DetailsResolver } from './services/resolver/details.resolver';
 import { OverviewResolver } from './services/resolver/overview.resolver';
 import { CirclesState } from './state/circles.state';
+import { CircleDetailActionBarComponent } from './circle-detail-action-bar/circle-detail-action-bar.component';
 
 @NgModule({
-    declarations: [
-        CirclesOverviewComponent,
-        CircleDetailComponent,
-        CircleNotEligibleComponent,
-        CircleCardComponent,
-        CirclesCarouselComponent,
-        CirclesInterestComponent
-    ],
-    imports: [
-        CommonModule,
-        NgxsModule.forFeature([UserState, CirclesState, MemberState]),
-        MatButtonModule,
-        RxLet,
-        MatProgressSpinnerModule,
-        NgOptimizedImage,
-        MatIconModule,
-        RxIf,
-        RxFor,
-        RxPush,
-        CirclesRoutingModule,
-        FeatherIconModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        TextFieldModule,
-        UserAutocompleteSelectComponent,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatCheckboxModule,
-        ImageUploadComponent,
-        ShortNumberPipe,
-        CircleMemberComponent,
-        CircleCommitmentActionComponent,
-        AvatarStackComponent
-    ],
-    providers: [DetailsResolver, OverviewResolver]
+  declarations: [
+    CirclesOverviewComponent,
+    CircleDetailComponent,
+    CircleNotEligibleComponent,
+    CircleCardComponent,
+    CirclesCarouselComponent,
+    CirclesInterestComponent,
+    CircleDetailActionBarComponent,
+  ],
+  imports: [
+    CommonModule,
+    NgxsModule.forFeature([UserState, CirclesState, MemberState]),
+    MatButtonModule,
+    RxLet,
+    MatProgressSpinnerModule,
+    NgOptimizedImage,
+    MatIconModule,
+    RxIf,
+    RxFor,
+    RxPush,
+    CirclesRoutingModule,
+    FeatherIconModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    TextFieldModule,
+    UserAutocompleteSelectComponent,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
+    ImageUploadComponent,
+    ShortNumberPipe,
+    CircleMemberComponent,
+    CircleCommitmentActionComponent,
+    AvatarStackComponent,
+  ],
+  providers: [DetailsResolver, OverviewResolver],
 })
 export class CirclesModule {}

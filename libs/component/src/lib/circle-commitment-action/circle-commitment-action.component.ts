@@ -9,9 +9,6 @@ import { FeatherModule } from 'angular-feather';
     standalone: true,
     imports: [CommonModule, MatButtonModule, FeatherModule],
     template: `
-        <p>
-            Change your commitment for this circle:
-        </p>
         <div class="flex flex-row gap-2 items-center">
             <button mat-stroked-button
                     (click)="onCommitted()"
