@@ -49,6 +49,7 @@ export class CircleDetailSettingsDialogComponent {
     public readonly view: CircleDetailSettingsDialogComponentView;
     public readonly circleImageSrc$: Observable<string>;
     public readonly selectedTab = new FormControl(0);
+    public canEditCircle = false;
 
     private readonly dialogRef: MatDialogRef<CircleDetailSettingsDialogComponent, null> = inject(MatDialogRef<CircleDetailSettingsDialogComponent, null>);
     private readonly circleData: CircleDetailSettingsDialogComponentView = inject(MAT_DIALOG_DATA);
@@ -69,6 +70,8 @@ export class CircleDetailSettingsDialogComponent {
         if (this.view?.selectedTabIndex) {
             this.selectedTab.setValue(this.view.selectedTabIndex);
         }
+
+        this.canEditCircle = this.store.selectSnapshot(CirclesSelectors.canEditCircle);
     }
 
     public close() {

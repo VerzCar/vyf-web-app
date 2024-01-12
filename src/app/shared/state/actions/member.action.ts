@@ -1,4 +1,4 @@
-import { CircleVotersFilter, Commitment } from '@vyf/vote-circle-service';
+import { CircleVotersFilter, Commitment, Voter } from '@vyf/vote-circle-service';
 
 const domainName = 'Member';
 
@@ -60,6 +60,14 @@ export namespace MemberAction {
 
         // eslint-disable-next-line no-useless-constructor
         constructor(public circleId: number, public electedIdentId: string) {
+        }
+    }
+
+    export class Join {
+        public static readonly type = `[${domainName}] Joined circle`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public voter: Voter) {
         }
     }
 }

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext, Store } from '@ngxs/store';
-import { patch, removeItem, updateItem } from '@ngxs/store/operators';
+import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { UserService } from '@vyf/user-service';
 import { VoteCircleService, VoteCreateRequest, Voter } from '@vyf/vote-circle-service';
 import { forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
@@ -67,6 +67,30 @@ export class MemberState {
                         }
                     })
                 );
+            })
+        );
+    }
+
+    @Action(MemberAction.Join)
+    private joinedInCircle(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Join
+    ) {
+        const user = this.store.selectSnapshot(UserSelectors.slices.user);
+
+        if (!user) {
+            throw Error('could not select current user.');
+        }
+
+        const member: Member = {
+            user,
+            voter: action.voter
+        };
+
+        return ctx.setState(
+            patch<MemberStateModel>({
+                circleMembers: append<Member>([member]),
+                rankingMembers: append<Member>([member])
             })
         );
     }

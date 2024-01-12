@@ -146,7 +146,7 @@ export class CirclesState {
     ) {
         return this.voteCircleService.joinCircle(action.circleId).pipe(
             map(res => res.data),
-            switchMap(() => ctx.dispatch(new MemberAction.Circle.Committed(action.circleId, action.commitment)))
+            switchMap(voter => ctx.dispatch(new MemberAction.Join(voter)))
         );
     }
 

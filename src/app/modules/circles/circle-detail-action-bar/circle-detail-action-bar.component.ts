@@ -40,7 +40,7 @@ export class CircleDetailActionBarComponent {
     }
 
     public onJoinCircle(view: CircleDetailActionBarComponentView) {
-
+        this.store.dispatch(new CirclesAction.JoinCircle(view.circle.id));
     }
 
     public hasCommitted(circleId: number, commitment: Commitment) {
