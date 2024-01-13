@@ -1,13 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
 import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
-import {
-    Circle,
-    CirclePaginated,
-    CircleVoterCommitmentRequest,
-    CircleVotersFilter,
-    VoteCircleService
-} from '@vyf/vote-circle-service';
+import { Circle, CirclePaginated, CircleVoterCommitmentRequest, CircleVotersFilter, VoteCircleService } from '@vyf/vote-circle-service';
 import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { CirclesStateModel } from '../models';
@@ -146,7 +140,15 @@ export class CirclesState {
     ) {
         return this.voteCircleService.joinCircle(action.circleId).pipe(
             map(res => res.data),
-            switchMap(voter => ctx.dispatch(new MemberAction.Join(voter)))
+            switchMap(voter => ctx.dispatch(new MemberAction.Join(voter))),
+            tap(() => ctx.setState(
+                patch<CirclesStateModel>({
+                    circlesOfInterest: updateItem<CirclePaginated>(
+                        circle => circle.id === action.circleId,
+                        circle => ({ ...circle, votersCount: circle.votersCount ? circle.votersCount + 1 : 1 })
+                    )
+                })
+            ))
         );
     }
 
