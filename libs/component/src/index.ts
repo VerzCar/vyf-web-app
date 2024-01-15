@@ -24,8 +24,6 @@ export * from './lib/member-list-item/member-list-item.component';
 
 export * from './lib/avatar-stack/avatar-stack.component';
 
-export * from './lib/circle-commitment-action/circle-commitment-action.component';
-
 export * from './lib/avatar-img/avatar-img.component';
 
 export * from './lib/warning-dialog/warning-dialog.component';

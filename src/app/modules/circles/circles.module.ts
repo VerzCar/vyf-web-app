@@ -15,12 +15,17 @@ import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import { AvatarStackComponent, CircleCommitmentActionComponent, CircleOwnerComponent, ImageUploadComponent, ShortNumberPipe, UserAutocompleteSelectComponent } from '@vyf/component';
+import {
+    AvatarStackComponent,
+    CircleOwnerComponent,
+    ImageUploadComponent,
+    ShortNumberPipe,
+    UserAutocompleteSelectComponent
+} from '@vyf/component';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/state/user.state';
 import { CircleDetailActionBarComponent } from './circle-detail-action-bar/circle-detail-action-bar.component';
-import { CircleDetailActionItemCommitmentComponent } from './circle-detail-action-bar/circle-detail-action-item-commitment/circle-detail-action-item-commitment.component';
 import { CircleDetailActionItemJoinComponent } from './circle-detail-action-bar/circle-detail-action-item-join/circle-detail-action-item-join.component';
 import { CircleDetailComponent } from './circle-detail/circle-detail.component';
 import { CircleNotEligibleComponent } from './circle-not-eligible/circle-not-eligible.component';
@@ -42,8 +47,7 @@ import { CirclesState } from './state/circles.state';
         CirclesCarouselComponent,
         CirclesInterestComponent,
         CircleDetailActionBarComponent,
-        CircleDetailActionItemJoinComponent,
-        CircleDetailActionItemCommitmentComponent
+        CircleDetailActionItemJoinComponent
     ],
     imports: [
         CommonModule,
@@ -69,7 +73,6 @@ import { CirclesState } from './state/circles.state';
         ImageUploadComponent,
         ShortNumberPipe,
         CircleOwnerComponent,
-        CircleCommitmentActionComponent,
         AvatarStackComponent
     ],
     providers: [DetailsResolver, OverviewResolver]
