@@ -133,7 +133,7 @@ export class MemberState {
         return this.voteCircleService.circleVoters(action.circleId, action.filter).pipe(
             map(res => res.data),
             switchMap(circleVoter => {
-                if (circleVoter.voters === null) {
+                if (!circleVoter.voters.length) {
                     return of([] as Member[]).pipe(
                         tap(members => ctx.patchState({ circleMembers: members })),
                         map(() => circleVoter)
@@ -165,7 +165,7 @@ export class MemberState {
         return this.voteCircleService.circleVoters(action.circleId, action.filter).pipe(
             map(res => res.data),
             switchMap(circleVoter => {
-                if (circleVoter.voters === null) {
+                if (!circleVoter.voters) {
                     return of([] as Member[]).pipe(
                         tap(members => ctx.patchState({ rankingMembers: members })),
                         map(() => circleVoter)

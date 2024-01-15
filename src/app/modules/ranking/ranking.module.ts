@@ -8,16 +8,7 @@ import { NgxsModule } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
-import {
-    AvatarImgComponent,
-    AvatarStackComponent,
-    CircleMemberComponent,
-    MemberListItemComponent,
-    ShortNamePipe,
-    ShortNumberPipe,
-    TrendingIconPipe,
-    UserListItemComponent
-} from '@vyf/component';
+import { AvatarImgComponent, AvatarStackComponent, CircleOwnerComponent, MemberListItemComponent, ShortNamePipe, ShortNumberPipe, TrendingIconPipe, UserListItemComponent } from '@vyf/component';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/state/user.state';
@@ -47,7 +38,7 @@ import { RankingState } from './state/ranking.state';
         RankingRoutingModule,
         FeatherIconModule,
         NgOptimizedImage,
-        CircleMemberComponent,
+        CircleOwnerComponent,
         RxLet,
         MatButtonModule,
         RxFor,

@@ -6,7 +6,7 @@ export * from './lib/button-link/button-link.component';
 
 export * from './lib/models';
 
-export * from './lib/circle-member/circle-member.component';
+export * from './lib/circle-owner/circle-owner.component';
 
 export * from './lib/commitment-icon/commitment-icon.component';
 

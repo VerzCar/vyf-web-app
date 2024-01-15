@@ -18,7 +18,6 @@ import { CirclesSelectors } from '../state/circles.selectors';
 
 export interface CircleDetailSettingsDialogComponentView {
     circle: Circle;
-    owner: Member;
     members: Member[];
     membersCount: number;
     disabled: boolean;

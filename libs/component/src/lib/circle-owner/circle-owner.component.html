@@ -1,0 +1,10 @@
+<a [routerLink]="['/user', user.identityId]">
+    <div class="flex flex-row gap-4">
+        <vyf-avatar-img [imageSrc]="user.profile.imageSrc"
+                        [username]="user.username">
+        </vyf-avatar-img>
+        <p class="text-gray-900 font-medium">
+            #{{ user.username }}
+        </p>
+    </div>
+</a>

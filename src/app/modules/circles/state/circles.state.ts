@@ -1,15 +1,18 @@
 import { inject, Injectable } from '@angular/core';
-import { Action, State, StateContext } from '@ngxs/store';
+import { Action, State, StateContext, Store } from '@ngxs/store';
 import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
+import { User, UserService } from '@vyf/user-service';
 import { Circle, CirclePaginated, CircleVoterCommitmentRequest, CircleVotersFilter, VoteCircleService } from '@vyf/vote-circle-service';
 import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { MemberAction } from '../../../shared/state/actions/member.action';
+import { UserSelectors } from '../../user/state/user.selectors';
 import { CirclesStateModel } from '../models';
 import { CirclesAction } from './actions/circles.action';
 
 const DEFAULT_STATE: CirclesStateModel = {
     myCircles: [],
     selectedCircle: undefined,
+    selectedCircleOwner: undefined,
     circlesOfInterest: []
 };
 
@@ -20,6 +23,8 @@ const DEFAULT_STATE: CirclesStateModel = {
 @Injectable()
 export class CirclesState {
     private readonly voteCircleService = inject(VoteCircleService);
+    private readonly userService = inject(UserService);
+    private readonly store = inject(Store);
 
     @Action(CirclesAction.SelectCircle)
     private selectCircle(
@@ -40,7 +45,16 @@ export class CirclesState {
             new CirclesAction.FetchCircle(action.circleId),
             new MemberAction.Circle.FilterMembers(action.circleId, votersFilter)
         ]).pipe(
-            map(() => ctx.getState().selectedCircle as Circle)
+            map(() => ctx.getState().selectedCircle as Circle),
+            tap(circle => {
+                const user = this.store.selectSnapshot(UserSelectors.slices.user);
+
+                if (user && user.identityId === circle.createdFrom) {
+                    return this.selectedCircleOwnerReducer(ctx, user);
+                }
+
+                return ctx.dispatch(new CirclesAction.FetchCircleOwner(circle.createdFrom));
+            })
         );
     }
 
@@ -199,7 +213,25 @@ export class CirclesState {
         );
     }
 
+    @Action(CirclesAction.FetchCircleOwner)
+    private fetchCircleOwner(
+        ctx: StateContext<CirclesStateModel>,
+        action: CirclesAction.FetchCircleOwner
+    ): Observable<User> {
+        return this.userService.x(action.userIdentityId).pipe(
+            map(res => res.data),
+            tap(user => this.selectedCircleOwnerReducer(ctx, user))
+        );
+    }
+
     private srcWithAttachedTimestamp(src: string): string {
         return `${src}?timeStamp=${Date.now()}`;
+    }
+
+    private selectedCircleOwnerReducer(
+        ctx: StateContext<CirclesStateModel>,
+        user: User
+    ) {
+        return ctx.patchState({ selectedCircleOwner: user });
     }
 }

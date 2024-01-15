@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CircleMemberComponent } from './circle-member.component';
+import { CircleOwnerComponent } from './circle-owner.component';
 
 describe('CircleMemberComponent', () => {
-    let component: CircleMemberComponent;
-    let fixture: ComponentFixture<CircleMemberComponent>;
+    let component: CircleOwnerComponent;
+    let fixture: ComponentFixture<CircleOwnerComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [CircleMemberComponent]
+            imports: [CircleOwnerComponent]
         }).compileComponents();
 
-        fixture = TestBed.createComponent(CircleMemberComponent);
+        fixture = TestBed.createComponent(CircleOwnerComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
-import { CircleMemberComponentOption } from '@vyf/component';
 import { User } from '@vyf/user-service';
 import { Circle, Commitment } from '@vyf/vote-circle-service';
 import { combineLatest, filter, map, Observable } from 'rxjs';
@@ -14,7 +13,7 @@ import { CirclesSelectors } from '../state/circles.selectors';
 
 interface CircleDetailView {
     circle: Circle;
-    owner: Member;
+    owner: User;
     previewUsers: User[];
     membersCount: number;
     disabled: boolean;
@@ -29,13 +28,6 @@ interface CircleDetailView {
 export class CircleDetailComponent {
     public readonly placeholderImageSrc = 'assets/img/placeholder-image.jpg';
 
-    public readonly circleMemberComponentOption: Partial<CircleMemberComponentOption> = {
-        show: {
-            username: true,
-            commitment: false
-        }
-    };
-
     public hasOpenCommitment$: Observable<boolean>;
     public selectedCommitment$: Observable<Commitment | undefined>;
     public view$: Observable<CircleDetailView>;
@@ -48,17 +40,23 @@ export class CircleDetailComponent {
     constructor() {
         this.view$ = combineLatest([
             this.store.select(CirclesSelectors.slices.selectedCircle),
+            this.store.select(CirclesSelectors.slices.selectedCircleOwner),
             this.store.select(MemberSelectors.Member.slices.circleMembers)
         ]).pipe(
-            filter(([circle, members]) => isDefined(circle) && isDefined(members)),
-            map(([c, m]) => {
+            filter((
+                [
+                    circle,
+                    owner,
+                    members
+                ]
+            ) => isDefined(circle) && isDefined(owner) && isDefined(members)),
+            map(([c, owner, m]) => {
                 const circle = c as Circle;
                 const members = m as Member[];
-                const owner = this.owner(circle.createdFrom, members);
 
                 return {
                     circle: circle as Circle,
-                    owner,
+                    owner: owner as User,
                     ...this.mapMembersToPreview(members ?? []),
                     disabled: !this.store.selectSnapshot(CirclesSelectors.canEditCircle)
                 };
@@ -80,8 +78,7 @@ export class CircleDetailComponent {
             circle: view.circle,
             disabled: view.disabled,
             members: this.store.selectSnapshot(MemberSelectors.Member.slices.circleMembers) ?? [],
-            membersCount: view.membersCount,
-            owner: view.owner
+            membersCount: view.membersCount
         };
 
         this.dialog.open(CircleDetailSettingsDialogComponent, { width: '600px', data: viewData });
@@ -93,21 +90,10 @@ export class CircleDetailComponent {
             disabled: view.disabled,
             members: this.store.selectSnapshot(MemberSelectors.Member.slices.circleMembers) ?? [],
             membersCount: view.membersCount,
-            owner: view.owner,
             selectedTabIndex: 2
         };
 
         this.dialog.open(CircleDetailSettingsDialogComponent, { width: '600px', data: viewData });
-    }
-
-    private owner(createdFrom: string, members: Member[]): Member {
-        const circleOwnerVoter = members.find(member => member.voter.voter === createdFrom);
-
-        if (!circleOwnerVoter) {
-            throw Error('createFrom does not exist in circle voters');
-        }
-
-        return circleOwnerVoter;
     }
 
     private mapMembersToPreview(members: Member[]): Pick<CircleDetailView, 'previewUsers' | 'membersCount'> {

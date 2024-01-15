@@ -16,14 +16,7 @@ import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import {
-    CircleMemberComponent,
-    ImageUploadComponent,
-    SubmitButtonComponent,
-    UserAutocompleteSearchComponent,
-    UserAutocompleteSelectComponent,
-    UserListItemComponent
-} from '@vyf/component';
+import { CircleOwnerComponent, ImageUploadComponent, SubmitButtonComponent, UserAutocompleteSearchComponent, UserAutocompleteSelectComponent, UserListItemComponent } from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from './state/user.state';
 import { UserOverviewComponent } from './user-overview/user-overview.component';
@@ -61,7 +54,7 @@ import { UserXComponent } from './user-x/user-x.component';
         NgOptimizedImage,
         MatFormFieldModule,
         MatInputModule,
-        CircleMemberComponent,
+        CircleOwnerComponent,
         MatIconModule,
         RxFor,
         ImageUploadComponent,

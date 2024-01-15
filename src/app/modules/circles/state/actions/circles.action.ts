@@ -20,6 +20,14 @@ export namespace CirclesAction {
         public static readonly type = `[${domainName}] Fetch Circles of interest`;
     }
 
+    export class FetchCircleOwner {
+        public static readonly type = `[${domainName}] Fetch Circle Owner`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public userIdentityId: string) {
+        }
+    }
+
     export class InitUserCircles {
         public static readonly type = `[${domainName}] Init Circles of user`;
     }

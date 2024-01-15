@@ -11,18 +11,10 @@
                 Go to Ranking List
             </a>
         </li>
-        <li class="flex items-center space-x-2 whitespace-nowrap">
-            <i-feather name="plus-circle"
-                       class="align-top flex-shrink-0 w-3.5 h-3.5 text-gray-500">
-            </i-feather>
-            <button mat-button
-                    color="accent"
-                    role="button"
-                    type="button"
-                    (click)="onJoinCircle(view)">
-                Join Circle
-            </button>
-        </li>
+        @if (!view.isUserMemberOfCircle) {
+            <app-circle-detail-action-item-join [circleId]="view.circle.id">
+            </app-circle-detail-action-item-join>
+        }
         <li>
             <div class="flex items-center space-x-2">
                 <div class="flex-shrink-0 w-[24px]">
