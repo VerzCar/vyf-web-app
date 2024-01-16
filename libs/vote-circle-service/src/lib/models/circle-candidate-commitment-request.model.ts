@@ -1,5 +1,5 @@
 import { Commitment } from './commitment.model';
 
-export interface CircleVoterCommitmentRequest {
+export interface CircleCandidateCommitmentRequest {
     commitment: Commitment;
 }

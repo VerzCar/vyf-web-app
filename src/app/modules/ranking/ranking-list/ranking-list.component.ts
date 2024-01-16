@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { User } from '@vyf/user-service';
 import { Circle } from '@vyf/vote-circle-service';
 import { combineLatest, map, Observable } from 'rxjs';
-import { Member } from '../../../shared/models';
+import { VoterMember } from '../../../shared/models';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { MemberListRankingDialogComponent } from '../member-list-ranking-dialog/member-list-ranking-dialog.component';
 import { Placement } from '../models';
@@ -16,7 +16,7 @@ interface RankingListComponentView {
     placements: Placement[];
     previewUsers: User[];
     countOfMembersToVote: number;
-    userMember: Member;
+    userMember: VoterMember;
 }
 
 @Component({
@@ -44,7 +44,7 @@ export class RankingListComponent {
                 topThreePlacements: topThreePlacements ?? [],
                 placements: placements ?? [],
                 ...this.mapMembersToPreview(members ?? []),
-                userMember: userMember as Member
+                userMember: userMember as VoterMember
             }))
         );
     }
@@ -53,7 +53,7 @@ export class RankingListComponent {
         this.dialog.open(MemberListRankingDialogComponent);
     }
 
-    private mapMembersToPreview(members: Member[]) {
+    private mapMembersToPreview(members: VoterMember[]) {
         if (!members.length) {
             return {
                 previewUsers: [],

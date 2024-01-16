@@ -7,7 +7,7 @@ import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxsModule } from '@ngxs/store';
-import { BASE_API_URL, BASE_API_USE_MOCK, AUTH_JWT_TOKEN_FACTORY } from '@vyf/base';
+import { AUTH_JWT_TOKEN_FACTORY, BASE_API_URL } from '@vyf/base';
 import { Amplify } from 'aws-amplify';
 import awsconfig from '../aws-exports';
 import { environment } from '../env/environment';
@@ -62,10 +62,6 @@ const globalRippleConfig: RippleGlobalOptions = {
         {
             provide: BASE_API_URL,
             useValue: ''
-        },
-        {
-            provide: BASE_API_USE_MOCK,
-            useValue: false
         },
         {
             provide: MAT_RIPPLE_GLOBAL_OPTIONS,

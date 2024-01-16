@@ -53,7 +53,7 @@ export class RankingState implements NgxsOnInit {
         return ctx.dispatch([
             new RankingAction.FetchCircle(action.circleId),
             new RankingAction.FetchRankings(action.circleId),
-            new MemberAction.Ranking.FilterMembers(action.circleId, votersFilter)
+            new MemberAction.Ranking.FilterVoterMembers(action.circleId, votersFilter)
         ]).pipe(
             map(() => ctx.getState().selectedCircle as Circle)
         );

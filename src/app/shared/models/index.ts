@@ -1,2 +1,3 @@
 export { MemberStateModel } from './member-state.model';
-export { Member } from './member.model';
+export { VoterMember } from './voter-member.model';
+export { CandidateMember } from './candidate-member.model';

@@ -5,7 +5,7 @@ import { isDefined } from '@vyf/base';
 import { User } from '@vyf/user-service';
 import { Circle, Commitment } from '@vyf/vote-circle-service';
 import { combineLatest, filter, map, Observable } from 'rxjs';
-import { Member } from '../../../shared/models';
+import { VoterMember } from '../../../shared/models';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { CircleDetailSettingsDialogComponent, CircleDetailSettingsDialogComponentView } from '../circle-detail-settings-dialog/circle-detail-settings-dialog.component';
 import { CirclesAction } from '../state/actions/circles.action';
@@ -52,7 +52,7 @@ export class CircleDetailComponent {
             ) => isDefined(circle) && isDefined(owner) && isDefined(members)),
             map(([c, owner, m]) => {
                 const circle = c as Circle;
-                const members = m as Member[];
+                const members = m as VoterMember[];
 
                 return {
                     circle: circle as Circle,
@@ -96,7 +96,7 @@ export class CircleDetailComponent {
         this.dialog.open(CircleDetailSettingsDialogComponent, { width: '600px', data: viewData });
     }
 
-    private mapMembersToPreview(members: Member[]): Pick<CircleDetailView, 'previewUsers' | 'membersCount'> {
+    private mapMembersToPreview(members: VoterMember[]): Pick<CircleDetailView, 'previewUsers' | 'membersCount'> {
         if (!members.length) {
             return {
                 previewUsers: [],

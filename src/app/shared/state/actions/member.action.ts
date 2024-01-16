@@ -1,4 +1,4 @@
-import { CircleVotersFilter, Commitment, Voter } from '@vyf/vote-circle-service';
+import { Candidate, CircleCandidatesFilter, CircleVotersFilter, Commitment, Voter } from '@vyf/vote-circle-service';
 
 const domainName = 'Member';
 
@@ -17,19 +17,27 @@ export namespace MemberAction {
             }
         }
 
-        export class FilterMembers {
-            public static readonly type = `[${domainName}] - [${subDomainName}] Filter members`;
+        export class FetchCandidate {
+            public static readonly type = `[${domainName}] - [${subDomainName}] Fetch Circle Candidate`;
+
+            // eslint-disable-next-line no-useless-constructor
+            constructor(public circleId: number, public filter?: Partial<CircleCandidatesFilter>) {
+            }
+        }
+
+        export class FilterVoterMembers {
+            public static readonly type = `[${domainName}] - [${subDomainName}] Filter voter members`;
 
             // eslint-disable-next-line no-useless-constructor
             constructor(public circleId: number, public votersFilter: Partial<CircleVotersFilter>) {
             }
         }
 
-        export class Committed {
-            public static readonly type = `[${domainName}] - [${subDomainName}] Placed commitment for circle`;
+        export class FilterCandidateMembers {
+            public static readonly type = `[${domainName}] - [${subDomainName}] Filter candidate members`;
 
             // eslint-disable-next-line no-useless-constructor
-            constructor(public circleId: number, public commitment: Commitment) {
+            constructor(public circleId: number, public candidatesFilter: Partial<CircleCandidatesFilter>) {
             }
         }
     }
@@ -46,12 +54,36 @@ export namespace MemberAction {
             }
         }
 
-        export class FilterMembers {
+        export class FetchCandidate {
+            public static readonly type = `[${domainName}] - [${subDomainName}] Fetch Circle Candidate`;
+
+            // eslint-disable-next-line no-useless-constructor
+            constructor(public circleId: number, public filter?: Partial<CircleCandidatesFilter>) {
+            }
+        }
+
+        export class FilterVoterMembers {
             public static readonly type = `[${domainName}] - [${subDomainName}] Filter members`;
 
             // eslint-disable-next-line no-useless-constructor
             constructor(public circleId: number, public votersFilter: Partial<CircleVotersFilter>) {
             }
+        }
+
+        export class FilterCandidateMembers {
+            public static readonly type = `[${domainName}] - [${subDomainName}] Filter candidate members`;
+
+            // eslint-disable-next-line no-useless-constructor
+            constructor(public circleId: number, public candidatesFilter: Partial<CircleCandidatesFilter>) {
+            }
+        }
+    }
+
+    export class Committed {
+        public static readonly type = `[${domainName}] - Placed commitment for circle as candidate`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public circleId: number, public commitment: Commitment) {
         }
     }
 
@@ -63,11 +95,19 @@ export namespace MemberAction {
         }
     }
 
-    export class Join {
-        public static readonly type = `[${domainName}] Joined circle`;
+    export class JoinedAsVoter {
+        public static readonly type = `[${domainName}] Joined circle as voter`;
 
         // eslint-disable-next-line no-useless-constructor
         constructor(public voter: Voter) {
+        }
+    }
+
+    export class JoinedAsCandidate {
+        public static readonly type = `[${domainName}] Joined circle as candidate`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public candidate: Candidate) {
         }
     }
 }

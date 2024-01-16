@@ -1,10 +1,10 @@
 import { Commitment } from './commitment.model';
 
-export interface Voter {
+export interface Candidate {
     id: number;
-    voter: string;
+    candidate: string;
     commitment: Commitment;
-    votedFor: string | null;
+    votedFrom: string | null;
     createdAt: Date;
     updatedAt: Date;
 }

@@ -11,14 +11,14 @@ import { ImageUploadComponent, UserListItemComponent, WarningDialogComponent, Wa
 import { Circle } from '@vyf/vote-circle-service';
 import { FeatherModule } from 'angular-feather';
 import { filter, map, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
-import { Member } from '../../../shared/models';
+import { VoterMember } from '../../../shared/models';
 import { CircleDetailEditFormComponent } from '../circle-detail-edit-form/circle-detail-edit-form.component';
 import { CirclesAction } from '../state/actions/circles.action';
 import { CirclesSelectors } from '../state/circles.selectors';
 
 export interface CircleDetailSettingsDialogComponentView {
     circle: Circle;
-    members: Member[];
+    members: VoterMember[];
     membersCount: number;
     disabled: boolean;
     selectedTabIndex?: number;

@@ -2,14 +2,14 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Circle } from '@vyf/vote-circle-service';
 import { combineLatest, map, Observable } from 'rxjs';
-import { Member } from '../../../shared/models';
+import { VoterMember } from '../../../shared/models';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { RankingSelectors } from '../state/ranking.selectors';
 
 interface MemberListRankingView {
     selectedCircle: Circle;
-    members: Member[];
+    members: VoterMember[];
     canVote$: Observable<boolean>;
 }
 
@@ -31,7 +31,7 @@ export class MemberListRankingComponent {
         ]).pipe(
             map(([selectedCircle, members]) => ({
                 selectedCircle: selectedCircle as Circle,
-                members: members as Member[],
+                members: members as VoterMember[],
                 canVote$: this.store.select(MemberSelectors.RankingSelector.canVote(''))
             }))
         );

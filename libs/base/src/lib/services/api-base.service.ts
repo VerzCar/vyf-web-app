@@ -3,7 +3,6 @@ import { inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable, retry } from 'rxjs';
 import { ApiResponse } from '../models';
 import { ApiGetOpts } from '../models/api-get-opts.model';
-import { ApiBaseMockService } from './api-base-mock.service';
 
 export const BASE_API_URL = new InjectionToken<string>('Base API Url', {
     providedIn: 'any',
@@ -13,7 +12,7 @@ export const BASE_API_URL = new InjectionToken<string>('Base API Url', {
 @Injectable({
     providedIn: 'root'
 })
-export abstract class ApiBaseService extends ApiBaseMockService {
+export abstract class ApiBaseService {
     protected retryCount = 0;
     protected defaultHeaders = new HttpHeaders({
         'Content-Type': 'application/json; charset=utf-8'
@@ -82,7 +81,7 @@ export abstract class ApiBaseService extends ApiBaseMockService {
         );
     }
 
-    protected delete<Req, Res>(
+    protected delete<Res>(
         path?: string // additional endpoint path
     ): Observable<ApiResponse<Res>> {
         let url = this.url;
