@@ -4,4 +4,5 @@ export interface CircleCreateRawForm {
     validUntil: Date | null;
     private: boolean;
     voters: string[];
+    candidates: string[];
 }

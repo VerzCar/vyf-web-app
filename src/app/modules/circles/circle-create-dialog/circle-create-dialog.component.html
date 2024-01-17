@@ -84,11 +84,21 @@
 
                 <div class="col-span-full md:col-span-2">
                     <label>
+                        <span class="daisy-label-text">Add some candidates for the circle</span>
+                    </label>
+                    <vyf-user-autocomplete-select [fetchOptionsFn]="allUsersFn$"
+                                                  [filteredFetchOptionsFn]="allFilteredUsersFn$"
+                                                  (selectedUsers)="onCandidatesSelected($event)">
+                    </vyf-user-autocomplete-select>
+                </div>
+
+                <div class="col-span-full md:col-span-2">
+                    <label>
                         <span class="daisy-label-text">Add some voters to the circle</span>
                     </label>
                     <vyf-user-autocomplete-select [fetchOptionsFn]="allUsersFn$"
                                                   [filteredFetchOptionsFn]="allFilteredUsersFn$"
-                                                  (selectedUsers)="onUsersSelected($event)">
+                                                  (selectedUsers)="onVotersSelected($event)">
                     </vyf-user-autocomplete-select>
                 </div>
             </ng-container>

@@ -27,7 +27,7 @@ export class MemberListRankingComponent {
     constructor() {
         this.view$ = combineLatest([
             this.store.select(RankingSelectors.slices.selectedCircle),
-            this.store.select(MemberSelectors.Member.slices.rankingMembers)
+            this.store.select(MemberSelectors.Member.slices.rankingVoterMembers)
         ]).pipe(
             map(([selectedCircle, members]) => ({
                 selectedCircle: selectedCircle as Circle,

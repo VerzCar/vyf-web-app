@@ -8,5 +8,6 @@ export const createCircleForm = (): FormGroup<CircleCreateForm> => new FormGroup
     description: new FormControl(null, [Validators.maxLength(1200)]),
     validUntil: new FormControl(null, [dateAfter(DateTime.Day.today())]),
     private: new FormControl(false, { nonNullable: true }),
-    voters: new FormControl([], { nonNullable: true })
+    voters: new FormControl([], { nonNullable: true }),
+    candidates: new FormControl([], { nonNullable: true })
 });

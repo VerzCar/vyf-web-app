@@ -11,10 +11,15 @@
                 Go to Ranking List
             </a>
         </li>
-        @if (!view.isUserMemberOfCircle) {
-            <app-circle-detail-action-item-join [circleId]="view.circle.id">
+        @if (!view.isUserVoterMemberOfCircle) {
+            <app-circle-detail-action-item-join [circleId]="view.circle.id"
+                                                [subject]="'voter'">
             </app-circle-detail-action-item-join>
         }
-        <li>
+        @if (!view.isUserCandidateMemberOfCircle) {
+            <app-circle-detail-action-item-join [circleId]="view.circle.id"
+                                                [subject]="'candidate'">
+            </app-circle-detail-action-item-join>
+        }
     </ul>
 </ng-container>

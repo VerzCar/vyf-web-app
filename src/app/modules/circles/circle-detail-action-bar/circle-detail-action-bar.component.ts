@@ -10,7 +10,8 @@ export interface CircleDetailActionBarComponentView {
     circle: Circle;
     hasOpenCommitment: boolean;
     selectedCommitment: Commitment | undefined;
-    isUserMemberOfCircle: boolean;
+    isUserVoterMemberOfCircle: boolean;
+    isUserCandidateMemberOfCircle: boolean;
 }
 
 @Component({
@@ -28,21 +29,24 @@ export class CircleDetailActionBarComponent {
         this.view$ = combineLatest([
             this.store.select(CirclesSelectors.slices.selectedCircle),
             this.store.select(MemberSelectors.CircleSelector.hasOpenCommitment),
-            this.store.select(MemberSelectors.Member.slices.circleUserMember).pipe(map(member => member?.voter.commitment)),
-            this.store.select(MemberSelectors.CircleSelector.isUserMemberOfCircle)
+            this.store.select(MemberSelectors.Member.slices.circleUserVoterMember).pipe(map(member => member?.voter.commitment)),
+            this.store.select(MemberSelectors.CircleSelector.isUserVoterMemberOfCircle),
+            this.store.select(MemberSelectors.CircleSelector.isUserCandidateMemberOfCircle)
         ]).pipe(
             map((
                 [
                     circle,
                     hasOpenCommitment,
                     commitment,
-                    isUserMemberOfCircle
+                    isUserVoterMemberOfCircle,
+                    isUserCandidateMemberOfCircle
                 ]
             ) => ({
                 circle: circle as Circle,
                 hasOpenCommitment,
                 selectedCommitment: commitment,
-                isUserMemberOfCircle
+                isUserVoterMemberOfCircle,
+                isUserCandidateMemberOfCircle
             }))
         );
     }

@@ -7,6 +7,10 @@
             role="button"
             type="button"
             (click)="onJoinCircle()">
-        Join Circle
+        @if (subject === 'voter') {
+            Join Circle
+        } @else {
+            Get listed as candidate
+        }
     </button>
 </li>

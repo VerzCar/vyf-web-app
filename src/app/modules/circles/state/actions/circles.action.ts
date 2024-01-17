@@ -76,8 +76,16 @@ export namespace CirclesAction {
         }
     }
 
-    export class JoinCircle {
-        public static readonly type = `[${domainName}] Join Circle`;
+    export class JoinCircleAsVoter {
+        public static readonly type = `[${domainName}] Join Circle as voter`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public circleId: number) {
+        }
+    }
+
+    export class JoinCircleAsCandidate {
+        public static readonly type = `[${domainName}] Join Circle as candidate`;
 
         // eslint-disable-next-line no-useless-constructor
         constructor(public circleId: number) {

@@ -2,7 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext, Store } from '@ngxs/store';
 import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { User, UserService } from '@vyf/user-service';
-import { Circle, CirclePaginated, CircleVotersFilter, VoteCircleService } from '@vyf/vote-circle-service';
+import {
+    Circle,
+    CircleCandidateCommitmentRequest,
+    CircleCandidatesFilter,
+    CirclePaginated,
+    CircleVotersFilter,
+    VoteCircleService
+} from '@vyf/vote-circle-service';
 import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { UserSelectors } from '../../user/state/user.selectors';
@@ -41,9 +48,14 @@ export class CirclesState {
             shouldContainUser: true
         };
 
+        const candidatesFilter: Partial<CircleCandidatesFilter> = {
+            shouldContainUser: true
+        };
+
         return ctx.dispatch([
             new CirclesAction.FetchCircle(action.circleId),
-            new MemberAction.Circle.FilterVoterMembers(action.circleId, votersFilter)
+            new MemberAction.Circle.FilterVoterMembers(action.circleId, votersFilter),
+            new MemberAction.Circle.FilterCandidateMembers(action.circleId, candidatesFilter)
         ]).pipe(
             map(() => ctx.getState().selectedCircle as Circle),
             tap(circle => {
@@ -137,22 +149,22 @@ export class CirclesState {
         ctx: StateContext<CirclesStateModel>,
         action: CirclesAction.CommittedToCircle
     ) {
-        const req: CircleVoterCommitmentRequest = {
+        const req: CircleCandidateCommitmentRequest = {
             commitment: action.commitment
         };
 
         return this.voteCircleService.updateCommitment(action.circleId, req).pipe(
             map(res => res.data),
-            switchMap(() => ctx.dispatch(new MemberAction.Circle.Committed(action.circleId, action.commitment)))
+            switchMap(() => ctx.dispatch(new MemberAction.Committed(action.circleId, action.commitment)))
         );
     }
 
-    @Action(CirclesAction.JoinCircle)
-    private joinCircle(
+    @Action(CirclesAction.JoinCircleAsVoter)
+    private joinCircleAsVoter(
         ctx: StateContext<CirclesStateModel>,
-        action: CirclesAction.JoinCircle
+        action: CirclesAction.JoinCircleAsVoter
     ) {
-        return this.voteCircleService.joinCircle(action.circleId).pipe(
+        return this.voteCircleService.joinCircleAsVoter(action.circleId).pipe(
             map(res => res.data),
             switchMap(voter => ctx.dispatch(new MemberAction.JoinedAsVoter(voter))),
             tap(() => ctx.setState(
@@ -160,6 +172,25 @@ export class CirclesState {
                     circlesOfInterest: updateItem<CirclePaginated>(
                         circle => circle.id === action.circleId,
                         circle => ({ ...circle, votersCount: circle.votersCount ? circle.votersCount + 1 : 1 })
+                    )
+                })
+            ))
+        );
+    }
+
+    @Action(CirclesAction.JoinCircleAsCandidate)
+    private joinCircleAsCandidate(
+        ctx: StateContext<CirclesStateModel>,
+        action: CirclesAction.JoinCircleAsCandidate
+    ) {
+        return this.voteCircleService.joinCircleAsCandidate(action.circleId).pipe(
+            map(res => res.data),
+            switchMap(candidate => ctx.dispatch(new MemberAction.JoinedAsCandidate(candidate))),
+            tap(() => ctx.setState(
+                patch<CirclesStateModel>({
+                    circlesOfInterest: updateItem<CirclePaginated>(
+                        circle => circle.id === action.circleId,
+                        circle => ({ ...circle, candidatesCount: circle.candidatesCount ? circle.candidatesCount + 1 : 1 })
                     )
                 })
             ))

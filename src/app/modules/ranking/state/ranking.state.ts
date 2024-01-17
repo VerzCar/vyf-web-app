@@ -4,7 +4,7 @@ import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext } 
 import { append, compose, insertItem, patch, removeItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService } from '@vyf/base';
 import { UserService } from '@vyf/user-service';
-import { Circle, CircleVotersFilter, Commitment, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
+import { Circle, CircleVotersFilter, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
 import { debounceTime, forkJoin, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { Placement, RankingStateModel } from '../models';
@@ -46,7 +46,6 @@ export class RankingState implements NgxsOnInit {
         }
 
         const votersFilter: Partial<CircleVotersFilter> = {
-            commitment: Commitment.Committed,
             hasBeenVoted: false
         };
 

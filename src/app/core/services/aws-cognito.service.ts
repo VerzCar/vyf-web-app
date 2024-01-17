@@ -1,6 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { BASE_API_USE_MOCK } from '@vyf/base';
-import { CognitoAccessToken, CognitoUserSession } from 'amazon-cognito-identity-js';
+import { Injectable } from '@angular/core';
+import { CognitoUserSession } from 'amazon-cognito-identity-js';
 import { Amplify, Auth } from 'aws-amplify';
 import { from, Observable, of } from 'rxjs';
 import awsconfig from '../../../aws-exports';
@@ -9,8 +8,6 @@ import awsconfig from '../../../aws-exports';
     providedIn: 'root'
 })
 export class AwsCognitoService {
-    private readonly useMock = inject(BASE_API_USE_MOCK);
-
     constructor() {
         Amplify.configure(awsconfig);
     }
@@ -38,8 +35,6 @@ export class AwsCognitoService {
     }
 
     public getCurrentSession(): Observable<CognitoUserSession> {
-        return this.useMock ? of(new CognitoUserSession({
-            AccessToken: new CognitoAccessToken({ AccessToken: '' })
-        } as never)) : from(Auth.currentSession());
+        return from(Auth.currentSession());
     }
 }

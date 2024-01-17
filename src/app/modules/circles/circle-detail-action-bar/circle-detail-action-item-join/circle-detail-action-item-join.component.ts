@@ -10,9 +10,13 @@ import { CirclesAction } from '../../state/actions/circles.action';
 })
 export class CircleDetailActionItemJoinComponent {
     @Input({ required: true }) public circleId!: number;
+    @Input({ required: true }) public subject!: 'voter' | 'candidate';
     private readonly store = inject(Store);
 
     public onJoinCircle() {
-        this.store.dispatch(new CirclesAction.JoinCircle(this.circleId));
+        if (this.subject === 'voter') {
+            this.store.dispatch(new CirclesAction.JoinCircleAsVoter(this.circleId));
+        }
+        this.store.dispatch(new CirclesAction.JoinCircleAsCandidate(this.circleId));
     }
 }

@@ -6,4 +6,5 @@ export interface CircleCreateForm {
     validUntil: FormControl<Date | null>;
     private: FormControl<boolean>;
     voters: FormControl<string[]>;
+    candidates: FormControl<string[]>;
 }

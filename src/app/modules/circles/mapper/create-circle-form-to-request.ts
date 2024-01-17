@@ -1,4 +1,4 @@
-import { CircleCreateRequest, VoterRequest } from '@vyf/vote-circle-service';
+import { CandidateRequest, CircleCreateRequest, VoterRequest } from '@vyf/vote-circle-service';
 import { CircleCreateRawForm } from '../models';
 
 export const createCircleFormToRequest = (rawForm: CircleCreateRawForm): CircleCreateRequest => ({
@@ -6,9 +6,14 @@ export const createCircleFormToRequest = (rawForm: CircleCreateRawForm): CircleC
     name: rawForm.name,
     private: rawForm.private,
     validUntil: rawForm.validUntil ? new Date(rawForm.validUntil) : undefined,
-    voters: mapVoters(rawForm.voters)
+    voters: mapVoters(rawForm.voters),
+    candidates: mapCandidates(rawForm.candidates)
 });
 
 const mapVoters = (voters: string[]): VoterRequest[] => voters.map(voter => ({
     voter
+}));
+
+const mapCandidates = (candidates: string[]): CandidateRequest[] => candidates.map(candidate => ({
+    candidate
 }));

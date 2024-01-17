@@ -73,11 +73,14 @@ export class CircleCreateDialogComponent {
             tap(isPrivate => {
                 if (isPrivate) {
                     this.form.controls.voters.addValidators([Validators.required, Validators.minLength(1)]);
+                    this.form.controls.candidates.addValidators([Validators.required, Validators.minLength(1)]);
                 } else {
                     this.form.controls.voters.removeValidators([Validators.required, Validators.minLength(1)]);
+                    this.form.controls.candidates.removeValidators([Validators.required, Validators.minLength(1)]);
                 }
 
                 this.form.controls.voters.updateValueAndValidity();
+                this.form.controls.candidates.updateValueAndValidity();
             }),
             takeUntilDestroyed()
         ).subscribe();
@@ -104,7 +107,12 @@ export class CircleCreateDialogComponent {
         this.dialogRef.close(null);
     }
 
-    public onUsersSelected(userIdentidyIds: string[]) {
+    public onCandidatesSelected(userIdentidyIds: string[]) {
+        this.form.controls.candidates.patchValue(userIdentidyIds);
+        this.form.controls.candidates.updateValueAndValidity();
+    }
+
+    public onVotersSelected(userIdentidyIds: string[]) {
         this.form.controls.voters.patchValue(userIdentidyIds);
         this.form.controls.voters.updateValueAndValidity();
     }
