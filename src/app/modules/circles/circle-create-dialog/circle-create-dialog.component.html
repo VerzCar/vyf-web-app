@@ -102,19 +102,21 @@
                     </vyf-user-autocomplete-select>
                 </div>
             </ng-container>
-
-        </div>
-
-        <div class="flex flex-row gap-2 place-content-end mt-3 md:mt-0">
-            <button mat-stroked-button
-                    type="button"
-                    (click)="close()">
-                Cancel
-            </button>
-            <vyf-submit-button [isLoading]="isLoading"
-                               [label]="'Create Circle'"
-                               [formIsValid$]="formIsValid$">
-            </vyf-submit-button>
         </div>
     </form>
+</div>
+<div mat-dialog-actions
+     [align]="'end'">
+    <div class="flex flex-row gap-2 place-content-end mt-3 md:mt-0">
+        <button mat-stroked-button
+                type="button"
+                (click)="close()">
+            Cancel
+        </button>
+        <vyf-submit-button [isLoading]="isLoading"
+                           [label]="'Create Circle'"
+                           [formIsValid$]="formIsValid$"
+                           (clicked)="onSubmit()">
+        </vyf-submit-button>
+    </div>
 </div>

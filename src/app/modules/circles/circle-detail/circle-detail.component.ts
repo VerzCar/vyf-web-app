@@ -76,11 +76,7 @@ export class CircleDetailComponent {
 
     public onOpenSettings(view: CircleDetailView) {
         const viewData: CircleDetailSettingsDialogComponentView = {
-            circle: view.circle,
-            disabled: view.disabled,
-            voterMembers: this.store.selectSnapshot(MemberSelectors.Member.slices.circleVoterMembers),
-            candidateMembers: this.store.selectSnapshot(MemberSelectors.Member.slices.circleCandidateMembers),
-            membersCount: view.membersCount
+            circle: view.circle
         };
 
         this.dialog.open(CircleDetailSettingsDialogComponent, { width: '600px', data: viewData });
@@ -89,10 +85,6 @@ export class CircleDetailComponent {
     public onShowMembers(view: CircleDetailView) {
         const viewData: CircleDetailSettingsDialogComponentView = {
             circle: view.circle,
-            disabled: view.disabled,
-            voterMembers: this.store.selectSnapshot(MemberSelectors.Member.slices.circleVoterMembers),
-            candidateMembers: this.store.selectSnapshot(MemberSelectors.Member.slices.circleCandidateMembers),
-            membersCount: view.membersCount,
             selectedTabIndex: 2
         };
 

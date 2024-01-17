@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
@@ -18,6 +18,7 @@ export class SubmitButtonComponent {
 
     @Input() public isLoading = false;
     @Input() public label = '';
+    @Output() public readonly clicked = new EventEmitter<MouseEvent>();
 
     private readonly _formIsValid$: Observable<boolean>;
     private readonly _formIsValidSubject = new BehaviorSubject<Observable<boolean>>(of(true));
@@ -33,5 +34,9 @@ export class SubmitButtonComponent {
     @Input({ required: true })
     public set formIsValid$(value: Observable<boolean>) {
         this._formIsValidSubject.next(value);
+    }
+
+    public onClick(event: MouseEvent) {
+        this.clicked.emit(event);
     }
 }

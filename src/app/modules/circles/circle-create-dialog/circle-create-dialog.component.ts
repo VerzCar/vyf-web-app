@@ -44,22 +44,12 @@ import { CirclesAction } from '../state/actions/circles.action';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CircleCreateDialogComponent {
+    public isLoading = false;
+
     public readonly form = createCircleForm();
     public readonly minDate = DateTime.Day.next();
     public readonly maxDate = new Date(DateTime.Day.today().setFullYear(DateTime.Day.today().getFullYear() + 5));
     public readonly formIsValid$: Observable<boolean>;
-
-    public readonly allUsersFn$ = () => this.userService.users().pipe(
-        map(res => res.data),
-        catchError(() => [])
-    );
-
-    public readonly allFilteredUsersFn$ = (username: string) => this.userService.usersFiltered(username).pipe(
-        map(res => res.data),
-        catchError(() => [])
-    );
-
-    public isLoading = false;
 
     private readonly dialogRef: MatDialogRef<CircleCreateDialogComponent, null> = inject(MatDialogRef<CircleCreateDialogComponent, null>);
     private readonly store = inject(Store);
@@ -85,6 +75,16 @@ export class CircleCreateDialogComponent {
             takeUntilDestroyed()
         ).subscribe();
     }
+
+    public readonly allUsersFn$ = () => this.userService.users().pipe(
+        map(res => res.data),
+        catchError(() => [])
+    );
+
+    public readonly allFilteredUsersFn$ = (username: string) => this.userService.usersFiltered(username).pipe(
+        map(res => res.data),
+        catchError(() => [])
+    );
 
     public onSubmit() {
         const formRawValue = this.form.getRawValue();
