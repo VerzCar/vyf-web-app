@@ -113,6 +113,9 @@
                 (click)="close()">
             Cancel
         </button>
+        <button (click)="onSubmit()">
+            GO
+        </button>
         <vyf-submit-button [isLoading]="isLoading"
                            [label]="'Create Circle'"
                            [formIsValid$]="formIsValid$"

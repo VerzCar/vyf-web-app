@@ -12,7 +12,7 @@
                     {{ circle.name }}
                 </a>
                 <p class="backdrop-blur-sm text-gray-950 font-normal text-right">
-                    {{ circle.votersCount | shortNumber }} People
+                    {{ (circle.votersCount ?? 0) + (circle.candidatesCount ?? 0) | shortNumber }} People
                 </p>
             </div>
         </ng-container>

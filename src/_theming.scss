@@ -86,7 +86,7 @@ $vyf-web-theme: mat.define-light-theme((
                 accent: $vyf-web-accent,
                 warn: $vyf-web-warn,
         ),
-        density: 0,
+        density: -1,
 ));
 
 // global variables

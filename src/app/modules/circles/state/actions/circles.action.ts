@@ -92,3 +92,7 @@ export namespace CirclesAction {
         }
     }
 }
+
+export const CirclesErrorTrackedActions = [
+    CirclesAction.CreateCircle
+]

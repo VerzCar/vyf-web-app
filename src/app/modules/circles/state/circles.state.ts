@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext, Store } from '@ngxs/store';
 import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
+import { SnackbarService } from '@vyf/base';
+import { SnackbarSuccessComponent, SnackbarSuccessComponentData } from '@vyf/component';
 import { User, UserService } from '@vyf/user-service';
 import {
     Circle,
@@ -32,6 +34,7 @@ export class CirclesState {
     private readonly voteCircleService = inject(VoteCircleService);
     private readonly userService = inject(UserService);
     private readonly store = inject(Store);
+    private readonly snackbar = inject(SnackbarService);
 
     @Action(CirclesAction.SelectCircle)
     private selectCircle(
@@ -81,7 +84,15 @@ export class CirclesState {
                 patch<CirclesStateModel>({
                     myCircles: insertItem<Circle>(circle, 0)
                 })
-            ))
+            )),
+            tap(circle => {
+                const data: SnackbarSuccessComponentData = {
+                    message: `This is your new circle!`,
+                    linkToLabel: circle.name,
+                    linkToHref: `/circles/${circle.id}`
+                };
+                this.snackbar.openSuccess(SnackbarSuccessComponent, data);
+            })
         );
     }
 
@@ -98,6 +109,12 @@ export class CirclesState {
                     myCircles: updateItem<Circle>(myCircle => myCircle.id === circle.id, circle)
                 })
             )),
+            tap(() => {
+                const data: SnackbarSuccessComponentData = {
+                    message: 'Saved to circle.',
+                };
+                this.snackbar.openSuccess(SnackbarSuccessComponent, data);
+            }),
             catchError(() => of())
         );
     }
@@ -116,6 +133,12 @@ export class CirclesState {
                     myCircles: removeItem<Circle>(myCircle => myCircle.id === selectedCircle.id)
                 })
             )),
+            tap(() => {
+                const data: SnackbarSuccessComponentData = {
+                    message: 'Deleted circle successfully.',
+                };
+                this.snackbar.openSuccess(SnackbarSuccessComponent, data);
+            }),
             catchError(() => of())
         );
     }
@@ -140,6 +163,12 @@ export class CirclesState {
                         imageSrc: src ? this.srcWithAttachedTimestamp(src) : ''
                     }
                 });
+            }),
+            tap(() => {
+                const data: SnackbarSuccessComponentData = {
+                    message: 'Updated circle image successfully.',
+                };
+                this.snackbar.openSuccess(SnackbarSuccessComponent, data);
             })
         );
     }
@@ -174,7 +203,13 @@ export class CirclesState {
                         circle => ({ ...circle, votersCount: circle.votersCount ? circle.votersCount + 1 : 1 })
                     )
                 })
-            ))
+            )),
+            tap(() => {
+                const data: SnackbarSuccessComponentData = {
+                    message: 'You joined as a voter to the circle - Congratulations!',
+                };
+                this.snackbar.openSuccess(SnackbarSuccessComponent, data);
+            })
         );
     }
 
@@ -193,7 +228,13 @@ export class CirclesState {
                         circle => ({ ...circle, candidatesCount: circle.candidatesCount ? circle.candidatesCount + 1 : 1 })
                     )
                 })
-            ))
+            )),
+            tap(() => {
+                const data: SnackbarSuccessComponentData = {
+                    message: 'Yeah! You joined as a candidate to the circle - Congratulations!',
+                };
+                this.snackbar.openSuccess(SnackbarSuccessComponent, data);
+            })
         );
     }
 

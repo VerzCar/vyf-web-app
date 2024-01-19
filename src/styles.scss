@@ -28,7 +28,7 @@ body {
 }
 
 h2 {
-  @apply text-2xl font-semibold text-gray-900;
+    @apply text-2xl font-semibold text-gray-900;
 }
 
 h3 {
@@ -41,4 +41,20 @@ p {
 
 .layout-whitespace {
     @apply py-4 md:py-8;
+}
+
+// snackbar styling
+.mat-mdc-snack-bar-container {
+    @apply border-2 border-gray-800 rounded;
+    &.success {
+        --mdc-snackbar-container-color: #f8fafc;
+        --mat-mdc-snack-bar-button-color: #111827;
+        --mdc-snackbar-supporting-text-color: #111827;
+    }
+
+    &.error {
+        --mdc-snackbar-container-color: #f8fafc;
+        --mat-mdc-snack-bar-button-color: #111827;
+        --mdc-snackbar-supporting-text-color: #111827;
+    }
 }

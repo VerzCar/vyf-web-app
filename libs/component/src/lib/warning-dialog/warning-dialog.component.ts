@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 
 export interface WarningDialogData {
     title: string;
@@ -12,11 +12,12 @@ export interface WarningDialogData {
 @Component({
     selector: 'vyf-warning-dialog',
     standalone: true,
-  imports: [
-    MatDialogContent,
-    MatDialogTitle,
-    MatButtonModule
-  ],
+    imports: [
+        MatDialogContent,
+        MatDialogTitle,
+        MatButtonModule,
+        MatDialogActions
+    ],
     templateUrl: './warning-dialog.component.html',
     styleUrl: './warning-dialog.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

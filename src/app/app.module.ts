@@ -7,8 +7,10 @@ import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxsModule } from '@ngxs/store';
-import { AUTH_JWT_TOKEN_FACTORY, BASE_API_URL } from '@vyf/base';
+import { AUTH_JWT_TOKEN_FACTORY, BASE_API_URL, ERROR_ACTION_EXECUTOR, SnackbarService } from '@vyf/base';
+import { SnackbarErrorComponent, SnackbarErrorComponentData } from '@vyf/component';
 import { Amplify } from 'aws-amplify';
+import { ActionNotificationModule } from '../../libs/base/src/lib/services/action-notification.module';
 import awsconfig from '../aws-exports';
 import { environment } from '../env/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,6 +18,7 @@ import { AppComponent } from './app.component';
 import { AuthInterceptor } from './core/auth/auth-interceptor.interceptor';
 import { authJwtTokenFactory } from './core/auth/helper';
 import { AwsCognitoService } from './core/services/aws-cognito.service';
+import { CirclesErrorTrackedActions } from './modules/circles/state/actions/circles.action';
 import { LayoutModule } from './modules/layout/layout.module';
 
 Amplify.configure(awsconfig);
@@ -37,6 +40,11 @@ const globalRippleConfig: RippleGlobalOptions = {
         AmplifyAuthenticatorModule,
         NgxsModule.forRoot([], {
             developmentMode: !environment.production
+        }),
+        ActionNotificationModule.forRoot({
+            errorTrackedActions: [
+                ...CirclesErrorTrackedActions
+            ]
         }),
         TranslateModule.forRoot(
             {
@@ -71,6 +79,16 @@ const globalRippleConfig: RippleGlobalOptions = {
             provide: AUTH_JWT_TOKEN_FACTORY,
             useFactory: authJwtTokenFactory,
             deps: [AwsCognitoService]
+        },
+        {
+            provide: ERROR_ACTION_EXECUTOR,
+            useFactory: (snackbar: SnackbarService) => {
+                const data: SnackbarErrorComponentData = {
+                    message: 'That did not worked out, we are sorry. Please try again.'
+                };
+                snackbar.openSuccess(SnackbarErrorComponent, data);
+            },
+            deps: [SnackbarService]
         }
     ],
     bootstrap: [AppComponent]
