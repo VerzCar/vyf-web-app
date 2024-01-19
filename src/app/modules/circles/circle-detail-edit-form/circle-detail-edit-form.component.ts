@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngxs/store';
 import { Circle, CircleUpdateRequest } from '@vyf/vote-circle-service';
-import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
 import { createCircleForm } from '../services/factory/forms.factory';
 import { CirclesAction } from '../state/actions/circles.action';
 import { CirclesSelectors } from '../state/circles.selectors';
@@ -46,10 +46,10 @@ export class CircleDetailEditFormComponent implements OnInit {
             debounceTime(400),
             distinctUntilChanged(),
             filter(() => this.form.controls.name.valid),
-            switchMap(name => {
+            tap(name => {
                 const circleUpdateRequest: CircleUpdateRequest = {
                     id: this.circle.id,
-                    name
+                    name: name.trimEnd()
                 };
                 return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
             }),
@@ -62,10 +62,10 @@ export class CircleDetailEditFormComponent implements OnInit {
             debounceTime(400),
             distinctUntilChanged(),
             filter(() => this.form.controls.description.valid),
-            switchMap(description => {
+            tap(description => {
                 const circleUpdateRequest: CircleUpdateRequest = {
                     id: this.circle.id,
-                    description: description || ''
+                    description: description?.trimEnd() || ''
                 };
                 return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
             }),

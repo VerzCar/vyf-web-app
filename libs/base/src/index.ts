@@ -15,3 +15,7 @@ export { ERROR_ACTIONS, ERROR_ACTION_EXECUTOR } from './lib/services/action-noti
 export { ApiBaseService } from './lib/services/api-base.service';
 export { AblyService, AblyMessage } from './lib/services/ably.service';
 export { SnackbarService } from './lib/services/snackbar.service';
+
+// modules
+export { ActionNotificationModule } from './lib/services/action-notification.module';
+

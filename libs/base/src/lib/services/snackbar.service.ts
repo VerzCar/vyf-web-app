@@ -47,6 +47,7 @@ export class SnackbarService {
     ): MatSnackBarRef<C> {
         const config: MatSnackBarConfig = {
             data,
+            duration: 10000,
             panelClass: 'error'
         };
         return this.openFrom(component, config);
