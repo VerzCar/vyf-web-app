@@ -22,7 +22,6 @@ export class ActionNotificationService {
     private readonly actions = inject(Actions);
     private readonly errorActions = inject(ERROR_ACTIONS);
     private readonly errorActionExecutor = inject(ERROR_ACTION_EXECUTOR);
-    private readonly self = inject(ActionNotificationService);
 
     constructor() {
         console.log('called');
@@ -45,6 +44,7 @@ export class ActionNotificationService {
     };
 
     private executeErrored(actionContext: ActionContext): void {
+        console.log('execute');
         if (actionContext.error instanceof HttpErrorResponse) {
             this.errorActionExecutor();
         }
