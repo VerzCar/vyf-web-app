@@ -94,5 +94,12 @@ export namespace CirclesAction {
 }
 
 export const CirclesErrorTrackedActions = [
-    CirclesAction.CreateCircle
+    CirclesAction.CreateCircle,
+    CirclesAction.UpdateCircle,
+    CirclesAction.DeleteCircle,
+    CirclesAction.UpdateCircleImage,
+    CirclesAction.SelectCircle,
+    CirclesAction.CommittedToCircle,
+    CirclesAction.JoinCircleAsVoter,
+    CirclesAction.JoinCircleAsCandidate
 ]

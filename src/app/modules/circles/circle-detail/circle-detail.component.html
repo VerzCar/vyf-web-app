@@ -53,8 +53,7 @@
                 </div>
             </figure>
 
-            <app-circle-detail-action-bar
-                    class="col-start-1 col-span-full md:col-start-4 md:col-end-5 md:row-start-1">
+            <app-circle-detail-action-bar class="col-start-1 col-span-full md:col-start-4 md:col-end-5 md:row-start-1">
             </app-circle-detail-action-bar>
 
             <div class="col-start-1 col-span-2 row-start-3 md:col-span-1 md:row-start-2">
@@ -80,7 +79,12 @@
                     Description
                 </h3>
                 <p class="md:max-w-5xl">
-                    {{ view.circle.description }}
+                    @if (view.circle.description) {
+                        {{ view.circle.description }}
+                    } @else {
+                        <div class="my-4 min-h-10">
+                        </div>
+                    }
                 </p>
             </div>
 

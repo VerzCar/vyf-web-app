@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
-import { AwsCognitoService } from '../../../core/services/aws-cognito.service';
 import { Route } from '../../../routes';
 import { UserSelectors } from '../../user/state/user.selectors';
 
@@ -19,7 +18,6 @@ export class ToolbarComponent implements OnInit {
     public username = '';
 
     private readonly store = inject(Store);
-    private readonly awsService = inject(AwsCognitoService);
 
     public onMobileMenuClick() {
         this.isMobileMenuOpen = !this.isMobileMenuOpen;
@@ -27,9 +25,5 @@ export class ToolbarComponent implements OnInit {
 
     public ngOnInit(): void {
         this.username = this.store.selectSnapshot(UserSelectors.slices.user)?.username ?? '';
-    }
-
-    public signOut() {
-        this.awsService.signOut();
     }
 }

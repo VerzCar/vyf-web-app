@@ -16,11 +16,6 @@ module.exports = {
       flex: {
         '2': '2 2 0%'
       },
-      colors: {
-        'chevara': {
-          500: '#1fb6ff'
-        }
-      },
     },
   },
   plugins: [

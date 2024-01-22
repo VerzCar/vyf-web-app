@@ -1,4 +1,5 @@
 import { User } from '@vyf/user-service';
+import { CirclesAction } from '../../../circles/state/actions/circles.action';
 
 const domainName = 'User';
 
@@ -24,3 +25,9 @@ export namespace UserAction {
         }
     }
 }
+
+export const UserErrorTrackedActions = [
+    UserAction.FetchUser,
+    UserAction.UpdateProfileImage,
+    UserAction.UpdateUser
+]

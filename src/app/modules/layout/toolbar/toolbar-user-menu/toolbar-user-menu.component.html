@@ -1,0 +1,25 @@
+<ng-container *rxLet="view$; let view;">
+    <vyf-avatar-img [imageSrc]="view.user.profile.imageSrc"
+                    [username]="view.user.username"
+                    [size]="AvatarImgSize.Xs"
+                    [matMenuTriggerFor]="menu">
+    </vyf-avatar-img>
+
+    <mat-menu #menu="matMenu">
+        <ng-template matMenuContent>
+            <p class="text-base font-medium px-2">
+                # {{ view.user.username }}
+            </p>
+            <hr>
+            <a mat-menu-item
+               [routerLink]="['/', route.user, 'profile']"
+            class="min-h-[20px]">
+                My Profile
+            </a>
+            <button mat-menu-item
+                    (click)="signOut()">
+                Sign out
+            </button>
+        </ng-template>
+    </mat-menu>
+</ng-container>

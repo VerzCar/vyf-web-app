@@ -244,7 +244,7 @@ export class CirclesState {
     ): Observable<void> | undefined {
         const { myCircles, circlesOfInterest } = ctx.getState();
 
-        if (myCircles.length && circlesOfInterest.length) {
+        if (myCircles.length > 0 && circlesOfInterest.length > 0) {
             return undefined;
         }
 

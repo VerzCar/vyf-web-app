@@ -1,4 +1,5 @@
 import { Ranking } from '@vyf/vote-circle-service';
+import { CirclesAction } from '../../../circles/state/actions/circles.action';
 
 const domainName = 'Ranking';
 
@@ -40,3 +41,9 @@ export namespace RankingAction {
         }
     }
 }
+
+export const RankingErrorTrackedActions = [
+    RankingAction.FetchCircle,
+    RankingAction.FetchRankings,
+    RankingAction.SelectCircle
+]

@@ -14,11 +14,13 @@ import { environment } from '../env/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './core/auth/auth-interceptor.interceptor';
-import { authJwtTokenFactory } from './core/auth/helper';
 import { actionErroredFactory } from './core/factory/action-errored.factory';
+import { authJwtTokenFactory } from './core/factory/auth-jw-token.factory';
 import { AwsCognitoService } from './core/services/aws-cognito.service';
 import { CirclesErrorTrackedActions } from './modules/circles/state/actions/circles.action';
 import { LayoutModule } from './modules/layout/layout.module';
+import { RankingErrorTrackedActions } from './modules/ranking/state/actions/ranking.action';
+import { UserErrorTrackedActions } from './modules/user/state/actions/user.action';
 
 Amplify.configure(awsconfig);
 
@@ -42,7 +44,9 @@ const globalRippleConfig: RippleGlobalOptions = {
         }),
         ActionNotificationModule.forRoot({
             errorTrackedActions: [
-                ...CirclesErrorTrackedActions
+                ...CirclesErrorTrackedActions,
+                ...UserErrorTrackedActions,
+                ...RankingErrorTrackedActions
             ]
         }),
         TranslateModule.forRoot(

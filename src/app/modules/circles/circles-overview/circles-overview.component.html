@@ -10,7 +10,7 @@
                 <h3>
                     Your Circles
                     <span class="font-light text-base tracking-wider text-gray-600">
-                        ({{ view.circles.length }}/10)
+                        ({{ view.circles.length }}/{{ maxOwnCircles }})
                     </span>
                 </h3>
 
@@ -18,7 +18,8 @@
                         color="accent"
                         role="button"
                         type="button"
-                        (click)="onCreateCircle()">
+                        (click)="onCreateCircle()"
+                        [disabled]="!view.canCreate">
                     <i-feather name="plus"
                                class="align-top">
                     </i-feather>
@@ -33,7 +34,7 @@
 
             <section>
                 <h3>
-                    Circles
+                    Circles for You
                 </h3>
                 <div class="border rounded p-2">
                     <app-circles-interest>

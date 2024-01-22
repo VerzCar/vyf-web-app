@@ -58,3 +58,8 @@ p {
         --mdc-snackbar-supporting-text-color: #111827;
     }
 }
+
+// mat menu items
+.mat-mdc-menu-item {
+    min-height: 36px !important;
+}

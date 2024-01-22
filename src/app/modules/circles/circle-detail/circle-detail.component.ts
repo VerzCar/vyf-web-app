@@ -54,7 +54,7 @@ export class CircleDetailComponent {
             ) => isDefined(circle) && isDefined(owner) && isDefined(circleVoterMembers) && isDefined(circleCandidateMembers)),
             map(([c, owner, voterMembers, candidateMembers]) => {
                 const circle = c as Circle;
-
+                console.log(c, owner, voterMembers, candidateMembers);
                 return {
                     circle: circle as Circle,
                     owner: owner as User,

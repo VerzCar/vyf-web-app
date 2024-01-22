@@ -4,12 +4,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActionContext, Actions, ActionStatus, ActionType } from '@ngxs/store';
 import { filter, tap } from 'rxjs';
 
-export const ERROR_ACTIONS = new InjectionToken<Set<string>>('ERROR_ACTIONS', {
+export const ERROR_ACTIONS = new InjectionToken<Set<string>>('Actions of errors that will be tracked against failures', {
     providedIn: 'any',
     factory: () => new Set<string>()
 });
 
-export const ERROR_ACTION_EXECUTOR = new InjectionToken<(error?: HttpErrorResponse) => void>('ERROR_ACTION_EXECUTOR takes a function that will be executed if any of the provided ERROR_ACTIONS will fail.', {
+export const ERROR_ACTION_EXECUTOR = new InjectionToken<(error?: HttpErrorResponse) => void>('Takes a function that will be executed if any of the provided ERROR_ACTIONS will fail.', {
     providedIn: 'any',
     factory: () => () => {}
 });

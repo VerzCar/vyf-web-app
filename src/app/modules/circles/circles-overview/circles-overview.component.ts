@@ -8,6 +8,7 @@ import { CirclesSelectors } from '../state/circles.selectors';
 
 interface CirclesOverviewView {
     circles: Circle[];
+    canCreate: boolean;
 }
 
 @Component({
@@ -18,6 +19,7 @@ interface CirclesOverviewView {
 })
 export class CirclesOverviewComponent {
     public readonly view$: Observable<CirclesOverviewView>;
+    public readonly maxOwnCircles = 10;
 
     private readonly store = inject(Store);
     private readonly dialog = inject(MatDialog);
@@ -26,7 +28,8 @@ export class CirclesOverviewComponent {
         this.view$ = this.store.select(CirclesSelectors.slices.myCircles).pipe(
             filter((circles) => circles !== undefined),
             map(circles => ({
-                circles: circles as Circle[]
+                circles: circles as Circle[],
+                canCreate: circles.length < this.maxOwnCircles
             }))
         );
     }
