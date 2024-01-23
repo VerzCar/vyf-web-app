@@ -64,8 +64,8 @@ export class VoteCircleService extends ApiBaseService {
         return this.get({ paths: ['circle-candidates', circleId] }, params);
     }
 
-    public createVote(voteCreate: VoteCreateRequest): Observable<ApiResponse<boolean>> {
-        return this.create<VoteCreateRequest, boolean>(voteCreate, 'vote');
+    public createVote(circleId: number, voteCreate: VoteCreateRequest): Observable<ApiResponse<boolean>> {
+        return this.create<VoteCreateRequest, boolean>(voteCreate, `vote/${circleId}`);
     }
 
     public updateCommitment(circleId: number, req: CircleCandidateCommitmentRequest): Observable<ApiResponse<Commitment>> {
@@ -80,7 +80,7 @@ export class VoteCircleService extends ApiBaseService {
         return this.create<unknown, Candidate>(null, `circle-candidates/${circleId}/join`);
     }
 
-    public rankings(circleId: number): Observable<ApiResponse<Ranking[] | null>> {
+    public rankings(circleId: number): Observable<ApiResponse<Ranking[]>> {
         return this.get({
             paths: ['rankings', circleId]
         });
