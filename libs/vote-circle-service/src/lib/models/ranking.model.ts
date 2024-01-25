@@ -1,6 +1,6 @@
 export interface Ranking {
     id: number;
-    eventId: string;
+    candidateId: number;
     identityId: string;
     number: number;
     votes: number;

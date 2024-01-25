@@ -5,14 +5,14 @@ import { append, compose, insertItem, patch, removeItem } from '@ngxs/store/oper
 import { AblyMessage, AblyService } from '@vyf/base';
 import { UserService } from '@vyf/user-service';
 import { Circle, CircleVotersFilter, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
-import { debounceTime, forkJoin, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
+import { debounceTime, filter, forkJoin, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { Placement, RankingStateModel } from '../models';
 import { RankingAction } from './actions/ranking.action';
 
 const DEFAULT_STATE: RankingStateModel = {
     selectedCircle: undefined,
-    placements: undefined
+    placements: []
 };
 
 @State<RankingStateModel>({
@@ -75,8 +75,8 @@ export class RankingState implements NgxsOnInit {
         action: RankingAction.FetchRankings
     ): Observable<Placement[]> {
         return this.voteCircleService.rankings(action.circleId).pipe(
-            //return of(rankingsMock()).pipe(
-            map(res => res.data ?? []),
+            map(res => res.data),
+            filter(rankings => rankings.length > 0),
             switchMap(rankings =>
                 forkJoin(this.mapRankings$(rankings)).pipe(
                     tap((placements) => {

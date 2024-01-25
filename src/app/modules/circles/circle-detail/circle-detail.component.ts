@@ -53,10 +53,8 @@ export class CircleDetailComponent {
                 ]
             ) => isDefined(circle) && isDefined(owner) && isDefined(circleVoterMembers) && isDefined(circleCandidateMembers)),
             map(([c, owner, voterMembers, candidateMembers]) => {
-                const circle = c as Circle;
-                console.log(c, owner, voterMembers, candidateMembers);
                 return {
-                    circle: circle as Circle,
+                    circle: c as Circle,
                     owner: owner as User,
                     ...this.mapMembersToPreview(voterMembers, candidateMembers),
                     disabled: !this.store.selectSnapshot(CirclesSelectors.canEditCircle)
