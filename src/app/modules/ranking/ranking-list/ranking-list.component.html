@@ -1,48 +1,49 @@
 <div class="layout-container layout-whitespace">
 
     <ng-container *rxLet="view$; let view;">
-        <div class="flex flex-col gap-4">
+        <div class="grid grid-cols-4 gap-x-4 gap-y-6">
 
-            <section class="flex flex-row gap-2">
-                <div class="rounded-xl bg-gray-200 py-1 px-3">
-                    <p class="text-gray-950">
-                        Circle:
-                    </p>
-                </div>
-                <div class="rounded-xl bg-gray-100 py-1 px-3 flex-1 flex flex-row gap-2">
-                    <p class="text-gray-950">
-                        <a [routerLink]="['/circles', view.circle.id]">
-                            {{view.circle.name}}
-                        </a>
-                    </p>
-                    <i-feather name="arrow-right-circle"
-                               class="align-top">
-                    </i-feather>
+            <section class="col-start-1 col-span-full row-start-1">
+                <div class="flex flex-row gap-2">
+                    <div class="rounded-xl bg-gray-200 py-1 px-3">
+                        <p class="text-gray-950">
+                            Circle:
+                        </p>
+                    </div>
+                    <div class="rounded-xl bg-gray-100 py-1 px-3 flex-1 flex flex-row gap-2">
+                        <p class="text-gray-950">
+                            <a [routerLink]="['/circles', view.circle.id]">
+                                {{ view.circle.name }}
+                            </a>
+                        </p>
+                        <i-feather name="arrow-right-circle"
+                                   class="align-top">
+                        </i-feather>
+                    </div>
                 </div>
             </section>
 
-            <section id="circleMetaData"
-                     class="flex flex-row justify-between">
-                <div>
-                    <p>
-                        Need a vote
-                    </p>
-                    <vyf-avatar-stack (stackClicked)="onShowMembers()"
-                                      [users]="view.previewUsers"
-                                      [plusCount]="view.countOfMembersToVote">
-                    </vyf-avatar-stack>
-                </div>
+            <div class="col-start-1 col-span-2 row-start-2 md:col-span-1">
+                <p>
+                    Need a vote
+                </p>
+                <vyf-avatar-stack (stackClicked)="onShowMembers()"
+                                  [users]="view.previewUsers"
+                                  [plusCount]="view.membersCount">
+                </vyf-avatar-stack>
+            </div>
 
-                <div class="flex flex-col">
+            <div class="col-start-3 col-span-2 row-start-2 md:col-start-4 md:col-span-1">
+                <div class="flex flex-col place-items-end">
                     <p>
                         Valid until
                     </p>
-                    <p>{{view.circle.validUntil | date}}</p>
-                    <p>{{view.circle.validUntil | date:'shortTime'}}</p>
+                    <p>{{ view.circle.validUntil | date }}</p>
+                    <p>{{ view.circle.validUntil | date:'shortTime' }}</p>
                 </div>
-            </section>
+            </div>
 
-            <section class="self-center max-w-lg flex flex-col gap-10">
+            <section class="col-span-full row-start-3 md:col-start-2 md:col-span-2 md:row-start-2">
                 <ng-container *rxIf="view.topThreePlacements.length">
                     <app-top-three [topThreePlacements]="view.topThreePlacements"
                                    [circle]="view.circle"
@@ -56,7 +57,7 @@
                         <li class="py-3 sm:pb-4">
                             <app-list-item [placement]="placement"
                                            [circle]="view.circle"
-                                           [hasVotedFor]="view.userMember.voter.votedFor === placement.ranking.identityId"
+                                           [hasVotedFor]="view.userMember.candidate.votedFrom === placement.ranking.identityId"
                                            class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
                             </app-list-item>
                         </li>
@@ -65,7 +66,7 @@
             </section>
 
             <section *rxIf="!view.placements.length && !view.topThreePlacements.length"
-                     class="self-center my-12">
+                     class="col-span-full row-start-3 md:col-start-2 md:col-span-2 md:row-start-2">
                 <div class="relative h-60 w-60">
                     <img ngSrc="/assets/img/svg/election-day.svg"
                          priority="true"

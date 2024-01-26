@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { User } from '@vyf/user-service';
 import { Circle } from '@vyf/vote-circle-service';
 import { combineLatest, map, Observable } from 'rxjs';
-import { VoterMember } from '../../../shared/models';
+import { CandidateMember } from '../../../shared/models';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { MemberListRankingDialogComponent } from '../member-list-ranking-dialog/member-list-ranking-dialog.component';
 import { Placement } from '../models';
@@ -15,8 +15,8 @@ interface RankingListComponentView {
     topThreePlacements: Placement[];
     placements: Placement[];
     previewUsers: User[];
-    countOfMembersToVote: number;
-    userMember: VoterMember;
+    membersCount: number;
+    userMember: CandidateMember;
 }
 
 @Component({
@@ -28,6 +28,8 @@ interface RankingListComponentView {
 export class RankingListComponent {
     public readonly view$: Observable<RankingListComponentView>;
 
+    private readonly maxMembersCount = 3;
+
     private readonly store = inject(Store);
     private readonly dialog = inject(MatDialog);
 
@@ -36,15 +38,15 @@ export class RankingListComponent {
             this.store.select(RankingSelectors.slices.selectedCircle),
             this.store.select(RankingSelectors.topThreePlacements),
             this.store.select(RankingSelectors.placements),
-            this.store.select(MemberSelectors.Member.slices.rankingVoterMembers),
-            this.store.select(MemberSelectors.Member.slices.rankingUserVoterMember)
+            this.store.select(MemberSelectors.Member.slices.rankingCandidateMembers),
+            this.store.select(MemberSelectors.Member.slices.rankingUserCandidateMember)
         ]).pipe(
             map(([circle, topThreePlacements, placements, members, userMember]) => ({
                 circle: circle as Circle,
-                topThreePlacements: topThreePlacements ?? [],
-                placements: placements ?? [],
-                ...this.mapMembersToPreview(members ?? []),
-                userMember: userMember as VoterMember
+                topThreePlacements: topThreePlacements,
+                placements: placements,
+                ...this.mapMembersToPreview(members),
+                userMember: userMember as CandidateMember
             }))
         );
     }
@@ -53,21 +55,23 @@ export class RankingListComponent {
         this.dialog.open(MemberListRankingDialogComponent);
     }
 
-    private mapMembersToPreview(members: VoterMember[]) {
+    private mapMembersToPreview(
+        members: CandidateMember[]
+    ): Pick<RankingListComponentView, 'previewUsers' | 'membersCount'> {
         if (!members.length) {
             return {
                 previewUsers: [],
-                countOfMembersToVote: 0
+                membersCount: 0
             };
         }
 
-        const firstThreeMembers = members.slice(0, 3);
+        const firstThreeMembers = members.slice(0, this.maxMembersCount);
 
         const firsThreeUsers = firstThreeMembers.map(member => member.user);
-        const countOfMembersToVote = members.length - 3;
+        const countOfMembersToVote = members.length - this.maxMembersCount;
         return {
             previewUsers: firsThreeUsers,
-            countOfMembersToVote: countOfMembersToVote > 0 ? countOfMembersToVote : 0
+            membersCount: countOfMembersToVote > 0 ? countOfMembersToVote : 0
         };
     }
 }

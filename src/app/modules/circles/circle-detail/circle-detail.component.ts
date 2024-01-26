@@ -28,9 +28,9 @@ interface CircleDetailView {
 export class CircleDetailComponent {
     public readonly placeholderImageSrc = 'assets/img/placeholder-image.jpg';
 
-    public hasOpenCommitment$: Observable<boolean>;
-    public selectedCommitment$: Observable<Commitment | undefined>;
-    public view$: Observable<CircleDetailView>;
+    public readonly hasOpenCommitment$: Observable<boolean>;
+    public readonly selectedCommitment$: Observable<Commitment | undefined>;
+    public readonly view$: Observable<CircleDetailView>;
 
     private readonly store = inject(Store);
     private readonly dialog = inject(MatDialog);
