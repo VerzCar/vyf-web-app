@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MemberListRankingDialogComponent } from './member-list-ranking-dialog.component';
+import { CandidateMemberListDialogComponent } from './candidate-member-list-dialog.component';
 
 describe('MemberListRankingDialogComponent', () => {
-    let component: MemberListRankingDialogComponent;
-    let fixture: ComponentFixture<MemberListRankingDialogComponent>;
+    let component: CandidateMemberListDialogComponent;
+    let fixture: ComponentFixture<CandidateMemberListDialogComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [MemberListRankingDialogComponent]
+            declarations: [CandidateMemberListDialogComponent]
         }).compileComponents();
 
-        fixture = TestBed.createComponent(MemberListRankingDialogComponent);
+        fixture = TestBed.createComponent(CandidateMemberListDialogComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

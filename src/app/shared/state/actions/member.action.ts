@@ -91,7 +91,7 @@ export namespace MemberAction {
         public static readonly type = `[${domainName}] Vote`;
 
         // eslint-disable-next-line no-useless-constructor
-        constructor(public circleId: number, public electedIdentId: string) {
+        constructor(public circleId: number, public candidateIdentId: string) {
         }
     }
 
@@ -111,3 +111,20 @@ export namespace MemberAction {
         }
     }
 }
+
+export const MemberCircleErrorTrackedActions = [
+    MemberAction.Circle.FetchVoter,
+    MemberAction.Circle.FetchCandidate
+];
+
+export const MemberRankingErrorTrackedActions = [
+    MemberAction.Ranking.FetchVoter,
+    MemberAction.Ranking.FetchCandidate
+];
+
+export const MemberErrorTrackedActions = [
+    MemberAction.Vote,
+    MemberAction.JoinedAsCandidate,
+    MemberAction.JoinedAsVoter,
+    MemberAction.Committed
+];

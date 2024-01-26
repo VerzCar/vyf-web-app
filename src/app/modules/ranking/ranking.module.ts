@@ -8,12 +8,22 @@ import { NgxsModule } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
-import { AvatarImgComponent, AvatarStackComponent, CircleOwnerComponent, MemberListItemComponent, ShortNamePipe, ShortNumberPipe, TrendingIconPipe, UserListItemComponent } from '@vyf/component';
+import {
+    AvatarImgComponent,
+    AvatarStackComponent,
+    CircleOwnerComponent,
+    CommitmentIconComponent,
+    ShortNamePipe,
+    ShortNumberPipe,
+    TrendingIconPipe,
+    UserListItemComponent
+} from '@vyf/component';
+import { CircleMemberCommitmentPipe } from '../../../../libs/component/src/lib/pipes/circle-member-commitment.pipe';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/state/user.state';
-import { MemberListRankingDialogComponent } from './member-list-ranking-dialog/member-list-ranking-dialog.component';
-import { MemberListRankingComponent } from './member-list-ranking/member-list-ranking.component';
+import { CandidateMemberListDialogComponent } from './candidate-member-list-dialog/candidate-member-list-dialog.component';
+import { CandidateMemberListComponent } from './candidate-member-list/candidate-member-list.component';
 import { ListItemComponent } from './ranking-list/list-item/list-item.component';
 import { RankingListComponent } from './ranking-list/ranking-list.component';
 import { TopRankedComponent } from './ranking-list/top-three/top-ranked/top-ranked.component';
@@ -29,8 +39,8 @@ import { RankingState } from './state/ranking.state';
         ListItemComponent,
         TopThreeComponent,
         TopRankedComponent,
-        MemberListRankingComponent,
-        MemberListRankingDialogComponent
+        CandidateMemberListComponent,
+        CandidateMemberListDialogComponent
     ],
     imports: [
         CommonModule,
@@ -48,11 +58,12 @@ import { RankingState } from './state/ranking.state';
         TrendingIconPipe,
         ShortNumberPipe,
         AvatarStackComponent,
-        MemberListItemComponent,
         MatProgressSpinnerModule,
         MatDialogModule,
         MatIconModule,
-        AvatarImgComponent
+        AvatarImgComponent,
+        CircleMemberCommitmentPipe,
+        CommitmentIconComponent
     ],
     providers: [ListResolver]
 })

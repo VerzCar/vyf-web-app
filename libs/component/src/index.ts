@@ -20,8 +20,6 @@ export * from './lib/user-autocomplete-search/user-autocomplete-search.component
 
 export * from './lib/user-list-item/user-list-item.component';
 
-export * from './lib/member-list-item/member-list-item.component';
-
 export * from './lib/avatar-stack/avatar-stack.component';
 
 export * from './lib/avatar-img/avatar-img.component';

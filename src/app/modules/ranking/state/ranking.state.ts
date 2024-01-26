@@ -4,8 +4,8 @@ import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext } 
 import { append, compose, insertItem, patch, removeItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService } from '@vyf/base';
 import { UserService } from '@vyf/user-service';
-import { Circle, CircleCandidatesFilter, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
-import { debounceTime, filter, forkJoin, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
+import { Circle, CircleCandidatesFilter, CircleVotersFilter, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
+import { debounceTime, forkJoin, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { Placement, RankingStateModel } from '../models';
 import { RankingAction } from './actions/ranking.action';
@@ -46,13 +46,20 @@ export class RankingState implements NgxsOnInit {
         }
 
         const candidatesFilter: Partial<CircleCandidatesFilter> = {
-            hasBeenVoted: false
+            hasBeenVoted: false,
+            shouldContainUser: true
+        };
+
+        const votersFilter: Partial<CircleVotersFilter> = {
+            hasBeenVoted: false,
+            shouldContainUser: true
         };
 
         return ctx.dispatch([
             new RankingAction.FetchCircle(action.circleId),
             new RankingAction.FetchRankings(action.circleId),
-            new MemberAction.Ranking.FilterCandidateMembers(action.circleId, candidatesFilter)
+            new MemberAction.Ranking.FilterCandidateMembers(action.circleId, candidatesFilter),
+            new MemberAction.Ranking.FilterVoterMembers(action.circleId, votersFilter)
         ]).pipe(
             map(() => ctx.getState().selectedCircle as Circle)
         );
@@ -76,16 +83,17 @@ export class RankingState implements NgxsOnInit {
     ): Observable<Placement[]> {
         return this.voteCircleService.rankings(action.circleId).pipe(
             map(res => res.data),
-            filter(rankings => rankings.length > 0),
-            switchMap(rankings =>
-                forkJoin(this.mapRankings$(rankings)).pipe(
-                    tap((placements) => {
-                        ctx.patchState({
-                            placements
-                        });
-                    })
-                )
-            )
+            switchMap(rankings => {
+                if (rankings.length > 0) {
+                    return forkJoin(this.mapRankings$(rankings));
+                }
+                return of([]);
+            }),
+            tap((placements) => {
+                ctx.patchState({
+                    placements
+                });
+            })
         );
     }
 

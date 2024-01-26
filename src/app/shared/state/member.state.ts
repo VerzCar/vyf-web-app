@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext, Store } from '@ngxs/store';
-import { append, patch, updateItem } from '@ngxs/store/operators';
+import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { User, UserService } from '@vyf/user-service';
-import { Candidate, VoteCircleService, Voter } from '@vyf/vote-circle-service';
+import { Candidate, VoteCircleService, VoteCreateRequest, Voter } from '@vyf/vote-circle-service';
 import { forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { UserSelectors } from '../../modules/user/state/user.selectors';
 import { CandidateMember, MemberStateModel, VoterMember } from '../models';
@@ -61,35 +61,42 @@ export class MemberState {
         return ctx.dispatch(new MemberAction.Ranking.FetchCandidate(action.circleId, action.candidatesFilter));
     }
 
-    // @Action(MemberAction.Vote)
-    // private vote(
-    //     ctx: StateContext<MemberStateModel>,
-    //     action: MemberAction.Vote
-    // ): Observable<boolean> {
-    //     const voteCreateRequest: VoteCreateRequest = {
-    //         circleId: action.circleId,
-    //         elected: action.electedIdentId
-    //     };
-    //
-    //     return this.voteCircleService.createVote(voteCreateRequest).pipe(
-    //         map(res => res.data),
-    //         tap(() => {
-    //             const userMember = ctx.getState().circleUserMember as VoterMember;
-    //             ctx.setState(
-    //                 patch<MemberStateModel>({
-    //                     circleMembers: removeItem<VoterMember>(member => member.voter.voter === action.electedIdentId),
-    //                     circleUserMember: {
-    //                         ...userMember,
-    //                         voter: {
-    //                             ...userMember!.voter,
-    //                             votedFor: action.electedIdentId
-    //                         }
-    //                     }
-    //                 })
-    //             );
-    //         })
-    //     );
-    // }
+    @Action(MemberAction.Vote)
+    private vote(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Vote
+    ): Observable<boolean> {
+        const voteCreateRequest: VoteCreateRequest = {
+            candidateId: action.candidateIdentId
+        };
+
+        return this.voteCircleService.createVote(action.circleId, voteCreateRequest).pipe(
+            map(res => res.data),
+            tap(() => {
+                ctx.setState(
+                    patch<MemberStateModel>({
+                        rankingCandidateMembers: removeItem<CandidateMember>(member => member.candidate.candidate === action.candidateIdentId)
+                    })
+                );
+            }),
+            tap(() => {
+                const rankingUserVoterMember = ctx.getState().rankingUserVoterMember;
+                if (rankingUserVoterMember) {
+                    ctx.setState(
+                        patch<MemberStateModel>({
+                            rankingUserVoterMember: {
+                                ...rankingUserVoterMember,
+                                voter: {
+                                    ...rankingUserVoterMember.voter,
+                                    votedFor: action.candidateIdentId
+                                }
+                            }
+                        })
+                    );
+                }
+            })
+        );
+    }
 
     @Action(MemberAction.JoinedAsVoter)
     private joinedAsVoterInCircle(

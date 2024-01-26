@@ -84,18 +84,24 @@ export namespace MemberSelectors {
     export class RankingSelector {
 
         /**
-         * Determines whether a user with the given identity ID can vote.
-         *
+         * Determines if the user is a voter, if not it cannot vote at all.
+         * if the user is a voter and has already voted, it cannot vote.
+         * If the user is a voter and the given identityId is not the same as himself,
+         * he can vote.
          * @param {string} identityId - The identity ID of the user.
          * @returns {(member: (VoterMember | undefined)) => boolean} - A function that takes a voter member object and returns a boolean value indicating whether the user can vote.
          */
         public static canVote(identityId: string) {
             return createSelector([Member.slices.rankingUserVoterMember], (member: VoterMember | undefined): boolean => {
-                if (identityId === member?.user.identityId) {
+                if (!member) {
                     return false;
                 }
 
-                return member?.voter.votedFor === null;
+                if (member.voter.votedFor !== null) {
+                    return false;
+                }
+
+                return identityId !== member.user.identityId;
             });
         }
     }

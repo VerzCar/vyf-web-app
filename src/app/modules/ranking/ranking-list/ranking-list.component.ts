@@ -6,7 +6,7 @@ import { Circle } from '@vyf/vote-circle-service';
 import { combineLatest, map, Observable } from 'rxjs';
 import { CandidateMember } from '../../../shared/models';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
-import { MemberListRankingDialogComponent } from '../member-list-ranking-dialog/member-list-ranking-dialog.component';
+import { CandidateMemberListDialogComponent } from '../candidate-member-list-dialog/candidate-member-list-dialog.component';
 import { Placement } from '../models';
 import { RankingSelectors } from '../state/ranking.selectors';
 
@@ -52,7 +52,7 @@ export class RankingListComponent {
     }
 
     public onShowMembers() {
-        this.dialog.open(MemberListRankingDialogComponent);
+        this.dialog.open(CandidateMemberListDialogComponent);
     }
 
     private mapMembersToPreview(

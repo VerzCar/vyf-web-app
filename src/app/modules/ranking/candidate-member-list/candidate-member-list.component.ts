@@ -1,25 +1,25 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { isDefined } from '@vyf/base';
 import { Circle } from '@vyf/vote-circle-service';
-import { combineLatest, map, Observable } from 'rxjs';
-import { VoterMember } from '../../../shared/models';
+import { combineLatest, filter, map, Observable } from 'rxjs';
+import { CandidateMember } from '../../../shared/models';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { RankingSelectors } from '../state/ranking.selectors';
 
 interface MemberListRankingView {
     selectedCircle: Circle;
-    members: VoterMember[];
-    canVote$: Observable<boolean>;
+    members: CandidateMember[];
 }
 
 @Component({
-    selector: 'app-member-list-ranking',
-    templateUrl: './member-list-ranking.component.html',
-    styleUrls: ['./member-list-ranking.component.scss'],
+    selector: 'app-candidate-member-list',
+    templateUrl: './candidate-member-list.component.html',
+    styleUrls: ['./candidate-member-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MemberListRankingComponent {
+export class CandidateMemberListComponent {
     public readonly view$: Observable<MemberListRankingView>;
 
     private readonly store = inject(Store);
@@ -27,17 +27,21 @@ export class MemberListRankingComponent {
     constructor() {
         this.view$ = combineLatest([
             this.store.select(RankingSelectors.slices.selectedCircle),
-            this.store.select(MemberSelectors.Member.slices.rankingVoterMembers)
+            this.store.select(MemberSelectors.Member.slices.rankingCandidateMembers)
         ]).pipe(
+            filter(([selectedCircle]) => isDefined(selectedCircle)),
             map(([selectedCircle, members]) => ({
                 selectedCircle: selectedCircle as Circle,
-                members: members as VoterMember[],
-                canVote$: this.store.select(MemberSelectors.RankingSelector.canVote(''))
+                members
             }))
         );
     }
 
-    public onVoted(electedId: string, circleId: number | undefined) {
+    public canVote$(id: string): Observable<boolean> {
+        return this.store.select(MemberSelectors.RankingSelector.canVote(id));
+    }
+
+    public onVote(electedId: string, circleId: number): void {
         this.store.dispatch(new MemberAction.Vote(circleId ?? 0, electedId));
     }
 }
