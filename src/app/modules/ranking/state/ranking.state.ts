@@ -1,7 +1,7 @@
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext } from '@ngxs/store';
-import { append, compose, insertItem, patch, removeItem } from '@ngxs/store/operators';
+import { append, compose, insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService } from '@vyf/base';
 import { UserService } from '@vyf/user-service';
 import { Circle, CircleCandidatesFilter, CircleVotersFilter, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
@@ -97,8 +97,8 @@ export class RankingState implements NgxsOnInit {
         );
     }
 
-    @Action(RankingAction.SubscribeRankingsChange)
-    private subscribeRankingsChange(
+    @Action(RankingAction.SubscribeRankingsChangeEvent)
+    private subscribeRankingsChangeEvent(
         ctx: StateContext<RankingStateModel>
     ) {
         const { selectedCircle } = ctx.getState();
@@ -113,19 +113,11 @@ export class RankingState implements NgxsOnInit {
         ctx: StateContext<RankingStateModel>,
         action: RankingAction.RankingChanged
     ) {
-        const placements = ctx.getState().placements as Placement[];
+        const placements = ctx.getState().placements;
+//delete ranking member candidate from has to be voters if he has been voted
+        const rankedIndex = placements.findIndex(placement => placement.ranking.number === action.ranking.number);
 
-        const rankingsLength = placements.length;
-        const currentNumberedRankedIndex = placements.findIndex(placement => placement.ranking.number === action.ranking.number);
-
-        // if the ranking changed object is placed not in any of the current watched rankings
-        // ignore this ranking change event if the current watched list is under the threshold
-        // add it to the end of rankings
-        if (currentNumberedRankedIndex === -1 && rankingsLength >= 100) {
-            return null;
-        }
-
-        if (currentNumberedRankedIndex === -1 && rankingsLength < 100) {
+        if (rankedIndex === -1) {
             return this.mapRanking$(action.ranking).pipe(
                 tap(placement => {
                     ctx.setState(
@@ -137,34 +129,19 @@ export class RankingState implements NgxsOnInit {
             );
         }
 
-        // if the newly ranked number is higher the in the current watched rankings
-        // ignore it
-        const highestRankingNumber = placements.at(-1)?.ranking.number ?? 0;
-        if (action.ranking.number > highestRankingNumber) {
-            return null;
-        }
-
-        let nextRankedIndex = placements.findIndex(placement => placement.ranking.number === action.ranking.number + 1);
-
-        if (nextRankedIndex === -1) {
-            nextRankedIndex = rankingsLength - 1;
-        }
-
-        const currentPlacement = placements[currentNumberedRankedIndex];
-
         return ctx.setState(
             compose<RankingStateModel>(
                 patch<RankingStateModel>({
-                    placements: removeItem<Placement>(placement => placement.ranking.identityId === action.ranking.identityId)
+                    placements: removeItem<Placement>(placement => placement.ranking.id === action.ranking.id)
                 }),
                 patch<RankingStateModel>({
-                    placements: removeItem<Placement>(placement => placement.ranking.identityId === placements[currentNumberedRankedIndex].ranking.identityId)
+                    placements: insertItem<Placement>(placements[rankedIndex], rankedIndex)
                 }),
                 patch<RankingStateModel>({
-                    placements: insertItem<Placement>(currentPlacement, currentNumberedRankedIndex)
-                }),
-                patch<RankingStateModel>({
-                    placements: insertItem<Placement>(placements[currentNumberedRankedIndex], nextRankedIndex)
+                    placements: updateItem<Placement>(
+                        placement => placement.ranking.id === action.ranking.id,
+                        placement => ({ ...placement, ranking: { ...action.ranking } })
+                    )
                 })
             )
         );
@@ -175,7 +152,7 @@ export class RankingState implements NgxsOnInit {
             ofActionSuccessful(RankingAction.FetchRankings),
             debounceTime(450),
             switchMap(() => this.ablyService.authorize$()),
-            switchMap(() => ctx.dispatch(new RankingAction.SubscribeRankingsChange())),
+            switchMap(() => ctx.dispatch(new RankingAction.SubscribeRankingsChangeEvent())),
             takeUntilDestroyed(this.destroyRef)
         ).subscribe();
 

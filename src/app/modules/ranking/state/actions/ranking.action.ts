@@ -29,8 +29,8 @@ export namespace RankingAction {
         }
     }
 
-    export class SubscribeRankingsChange {
-        public static readonly type = `[${domainName}] Subscribe to rankings changes`;
+    export class SubscribeRankingsChangeEvent {
+        public static readonly type = `[${domainName}] Subscribe to rankings change event`;
     }
 
     export class RankingChanged {
