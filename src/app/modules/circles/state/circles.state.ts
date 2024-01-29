@@ -4,14 +4,7 @@ import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators
 import { SnackbarService } from '@vyf/base';
 import { SnackbarSuccessComponent, SnackbarSuccessComponentData } from '@vyf/component';
 import { User, UserService } from '@vyf/user-service';
-import {
-    Circle,
-    CircleCandidateCommitmentRequest,
-    CircleCandidatesFilter,
-    CirclePaginated,
-    CircleVotersFilter,
-    VoteCircleService
-} from '@vyf/vote-circle-service';
+import { Circle, CircleCandidateCommitmentRequest, CirclePaginated, VoteCircleService } from '@vyf/vote-circle-service';
 import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { UserSelectors } from '../../user/state/user.selectors';
@@ -47,18 +40,10 @@ export class CirclesState {
             return of(selectedCircle);
         }
 
-        const votersFilter: Partial<CircleVotersFilter> = {
-            shouldContainUser: true
-        };
-
-        const candidatesFilter: Partial<CircleCandidatesFilter> = {
-            shouldContainUser: true
-        };
-
         return ctx.dispatch([
             new CirclesAction.FetchCircle(action.circleId),
-            new MemberAction.Circle.FilterVoterMembers(action.circleId, votersFilter),
-            new MemberAction.Circle.FilterCandidateMembers(action.circleId, candidatesFilter)
+            new MemberAction.Circle.FilterVoterMembers(action.circleId),
+            new MemberAction.Circle.FilterCandidateMembers(action.circleId)
         ]).pipe(
             map(() => ctx.getState().selectedCircle as Circle),
             tap(circle => {
@@ -87,7 +72,7 @@ export class CirclesState {
             )),
             tap(circle => {
                 const data: SnackbarSuccessComponentData = {
-                    message: `This is your new circle!`,
+                    message: 'This is your new circle!',
                     linkToLabel: circle.name,
                     linkToHref: `/circles/${circle.id}`
                 };
@@ -111,7 +96,7 @@ export class CirclesState {
             )),
             tap(() => {
                 const data: SnackbarSuccessComponentData = {
-                    message: 'Saved to circle.',
+                    message: 'Saved to circle.'
                 };
                 this.snackbar.openSuccess(SnackbarSuccessComponent, data);
             }),
@@ -135,7 +120,7 @@ export class CirclesState {
             )),
             tap(() => {
                 const data: SnackbarSuccessComponentData = {
-                    message: 'Deleted circle successfully.',
+                    message: 'Deleted circle successfully.'
                 };
                 this.snackbar.openSuccess(SnackbarSuccessComponent, data);
             }),
@@ -166,7 +151,7 @@ export class CirclesState {
             }),
             tap(() => {
                 const data: SnackbarSuccessComponentData = {
-                    message: 'Updated circle image successfully.',
+                    message: 'Updated circle image successfully.'
                 };
                 this.snackbar.openSuccess(SnackbarSuccessComponent, data);
             })
@@ -206,7 +191,7 @@ export class CirclesState {
             )),
             tap(() => {
                 const data: SnackbarSuccessComponentData = {
-                    message: 'You joined as a voter to the circle - Congratulations!',
+                    message: 'You joined as a voter to the circle - Congratulations!'
                 };
                 this.snackbar.openSuccess(SnackbarSuccessComponent, data);
             })
@@ -231,7 +216,7 @@ export class CirclesState {
             )),
             tap(() => {
                 const data: SnackbarSuccessComponentData = {
-                    message: 'Yeah! You joined as a candidate to the circle - Congratulations!',
+                    message: 'Yeah! You joined as a candidate to the circle - Congratulations!'
                 };
                 this.snackbar.openSuccess(SnackbarSuccessComponent, data);
             })

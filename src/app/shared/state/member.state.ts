@@ -15,7 +15,7 @@ const DEFAULT_STATE: MemberStateModel = {
     circleUserCandidateMember: undefined,
     rankingVoterMembers: [],
     rankingUserVoterMember: undefined,
-    rankingCandidateMembers: [],
+    rankingCandidateNeedVoteMembers: [],
     rankingUserCandidateMember: undefined
 };
 
@@ -53,10 +53,10 @@ export class MemberState {
         return ctx.dispatch(new MemberAction.Ranking.FetchVoter(action.circleId, action.votersFilter));
     }
 
-    @Action(MemberAction.Ranking.FilterCandidateMembers)
+    @Action(MemberAction.Ranking.FilterCandidateNeedVoteMembers)
     private filterRankingCandidateMembers(
         ctx: StateContext<MemberStateModel>,
-        action: MemberAction.Ranking.FilterCandidateMembers
+        action: MemberAction.Ranking.FilterCandidateNeedVoteMembers
     ) {
         return ctx.dispatch(new MemberAction.Ranking.FetchCandidate(action.circleId, action.candidatesFilter));
     }
@@ -75,7 +75,7 @@ export class MemberState {
             tap(() => {
                 ctx.setState(
                     patch<MemberStateModel>({
-                        rankingCandidateMembers: removeItem<CandidateMember>(member => member.candidate.candidate === action.candidateIdentId)
+                        rankingCandidateNeedVoteMembers: removeItem<CandidateMember>(member => member.candidate.candidate === action.candidateIdentId)
                     })
                 );
             }),
@@ -132,7 +132,7 @@ export class MemberState {
         return ctx.setState(
             patch<MemberStateModel>({
                 circleCandidateMembers: append<CandidateMember>([member]),
-                rankingCandidateMembers: append<CandidateMember>([member])
+                rankingCandidateNeedVoteMembers: append<CandidateMember>([member])
             })
         );
     }
@@ -268,13 +268,13 @@ export class MemberState {
             switchMap(circleCandidate => {
                 if (!circleCandidate.candidates.length) {
                     return of([] as CandidateMember[]).pipe(
-                        tap(members => ctx.patchState({ rankingCandidateMembers: members })),
+                        tap(members => ctx.patchState({ rankingCandidateNeedVoteMembers: members })),
                         map(() => circleCandidate)
                     );
                 }
 
                 return forkJoin(this.mapCandidateMembers$(circleCandidate.candidates)).pipe(
-                    tap(members => ctx.patchState({ rankingCandidateMembers: members })),
+                    tap(members => ctx.patchState({ rankingCandidateNeedVoteMembers: members })),
                     map(() => circleCandidate)
                 );
             }),

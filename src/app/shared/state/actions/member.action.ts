@@ -29,7 +29,7 @@ export namespace MemberAction {
             public static readonly type = `[${domainName}] - [${subDomainName}] Filter voter members`;
 
             // eslint-disable-next-line no-useless-constructor
-            constructor(public circleId: number, public votersFilter: Partial<CircleVotersFilter>) {
+            constructor(public circleId: number, public votersFilter?: Partial<CircleVotersFilter>) {
             }
         }
 
@@ -37,7 +37,7 @@ export namespace MemberAction {
             public static readonly type = `[${domainName}] - [${subDomainName}] Filter candidate members`;
 
             // eslint-disable-next-line no-useless-constructor
-            constructor(public circleId: number, public candidatesFilter: Partial<CircleCandidatesFilter>) {
+            constructor(public circleId: number, public candidatesFilter?: Partial<CircleCandidatesFilter>) {
             }
         }
     }
@@ -66,15 +66,15 @@ export namespace MemberAction {
             public static readonly type = `[${domainName}] - [${subDomainName}] Filter members`;
 
             // eslint-disable-next-line no-useless-constructor
-            constructor(public circleId: number, public votersFilter: Partial<CircleVotersFilter>) {
+            constructor(public circleId: number, public votersFilter?: Partial<CircleVotersFilter>) {
             }
         }
 
-        export class FilterCandidateMembers {
-            public static readonly type = `[${domainName}] - [${subDomainName}] Filter candidate members`;
+        export class FilterCandidateNeedVoteMembers {
+            public static readonly type = `[${domainName}] - [${subDomainName}] Filter candidate need vote members`;
 
             // eslint-disable-next-line no-useless-constructor
-            constructor(public circleId: number, public candidatesFilter: Partial<CircleCandidatesFilter>) {
+            constructor(public circleId: number, public candidatesFilter?: Partial<CircleCandidatesFilter>) {
             }
         }
     }

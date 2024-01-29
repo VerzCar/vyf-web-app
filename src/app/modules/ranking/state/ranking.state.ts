@@ -4,7 +4,7 @@ import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext } 
 import { append, compose, insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService } from '@vyf/base';
 import { UserService } from '@vyf/user-service';
-import { Circle, CircleCandidatesFilter, CircleVotersFilter, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
+import { Circle, CircleCandidatesFilter, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
 import { debounceTime, forkJoin, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { Placement, RankingStateModel } from '../models';
@@ -46,20 +46,14 @@ export class RankingState implements NgxsOnInit {
         }
 
         const candidatesFilter: Partial<CircleCandidatesFilter> = {
-            hasBeenVoted: false,
-            shouldContainUser: true
-        };
-
-        const votersFilter: Partial<CircleVotersFilter> = {
-            hasBeenVoted: false,
-            shouldContainUser: true
+            hasBeenVoted: false
         };
 
         return ctx.dispatch([
             new RankingAction.FetchCircle(action.circleId),
             new RankingAction.FetchRankings(action.circleId),
-            new MemberAction.Ranking.FilterCandidateMembers(action.circleId, candidatesFilter),
-            new MemberAction.Ranking.FilterVoterMembers(action.circleId, votersFilter)
+            new MemberAction.Ranking.FilterCandidateNeedVoteMembers(action.circleId, candidatesFilter),
+            new MemberAction.Ranking.FilterVoterMembers(action.circleId)
         ]).pipe(
             map(() => ctx.getState().selectedCircle as Circle)
         );
@@ -85,7 +79,7 @@ export class RankingState implements NgxsOnInit {
             map(res => res.data),
             switchMap(rankings => {
                 if (rankings.length > 0) {
-                    return forkJoin(this.mapRankings$(rankings));
+                    return forkJoin(this.mapRankingsToPlacements$(rankings));
                 }
                 return of([]);
             }),
@@ -114,11 +108,13 @@ export class RankingState implements NgxsOnInit {
         action: RankingAction.RankingChanged
     ) {
         const placements = ctx.getState().placements;
-//delete ranking member candidate from has to be voters if he has been voted
-        const rankedIndex = placements.findIndex(placement => placement.ranking.number === action.ranking.number);
 
-        if (rankedIndex === -1) {
-            return this.mapRanking$(action.ranking).pipe(
+        const rankedNumberIndex = placements.findIndex(placement => placement.ranking.number === action.ranking.number);
+        const rankedIndex = placements.findIndex(placement => placement.ranking.id === action.ranking.id);
+
+        console.log('RANKING: ', action.ranking);
+        if (rankedNumberIndex === -1 || rankedIndex === -1) {
+            return this.mapRankingToPlacement$(action.ranking).pipe(
                 tap(placement => {
                     ctx.setState(
                         patch<RankingStateModel>({
@@ -135,7 +131,7 @@ export class RankingState implements NgxsOnInit {
                     placements: removeItem<Placement>(placement => placement.ranking.id === action.ranking.id)
                 }),
                 patch<RankingStateModel>({
-                    placements: insertItem<Placement>(placements[rankedIndex], rankedIndex)
+                    placements: insertItem<Placement>(placements[rankedIndex], rankedIndex > 0 ? rankedIndex : undefined)
                 }),
                 patch<RankingStateModel>({
                     placements: updateItem<Placement>(
@@ -163,11 +159,11 @@ export class RankingState implements NgxsOnInit {
         ).subscribe();
     }
 
-    private mapRankings$(rankings: Ranking[]): Observable<Placement>[] {
-        return rankings.map(ranking => this.mapRanking$(ranking));
+    private mapRankingsToPlacements$(rankings: Ranking[]): Observable<Placement>[] {
+        return rankings.map(ranking => this.mapRankingToPlacement$(ranking));
     }
 
-    private mapRanking$(ranking: Ranking): Observable<Placement> {
+    private mapRankingToPlacement$(ranking: Ranking): Observable<Placement> {
         return this.userService.x(ranking.identityId).pipe(
             map(res => ({
                 user: res.data,

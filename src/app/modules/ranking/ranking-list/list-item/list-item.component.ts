@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { AvatarImgSize } from '@vyf/component';
 import { Circle } from '@vyf/vote-circle-service';
 import { Observable } from 'rxjs';
 import { MemberAction } from '../../../../shared/state/actions/member.action';
@@ -19,7 +18,6 @@ export class ListItemComponent implements OnInit {
     @Input() public hasVotedFor = false;
 
     public canVote$: Observable<boolean> | undefined;
-    public readonly AvatarImgSize = AvatarImgSize;
 
     private readonly store = inject(Store);
 

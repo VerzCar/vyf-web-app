@@ -57,7 +57,7 @@
                         <li class="py-3 sm:pb-4">
                             <app-list-item [placement]="placement"
                                            [circle]="view.circle"
-                                           [hasVotedFor]="view.userMember.candidate.votedFrom === placement.ranking.identityId"
+                                           [hasVotedFor]="view.userCandidateMember?.voter?.votedFor === placement.ranking.identityId"
                                            class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
                             </app-list-item>
                         </li>

@@ -8,6 +8,6 @@ export interface MemberStateModel {
     circleUserCandidateMember: CandidateMember | undefined;
     rankingVoterMembers: VoterMember[];
     rankingUserVoterMember: VoterMember | undefined;
-    rankingCandidateMembers: CandidateMember[];
+    rankingCandidateNeedVoteMembers: CandidateMember[];
     rankingUserCandidateMember: CandidateMember | undefined;
 }

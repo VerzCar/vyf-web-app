@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { User } from '@vyf/user-service';
 import { Circle } from '@vyf/vote-circle-service';
 import { combineLatest, map, Observable } from 'rxjs';
-import { CandidateMember } from '../../../shared/models';
+import { CandidateMember, VoterMember } from '../../../shared/models';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { CandidateMemberListDialogComponent } from '../candidate-member-list-dialog/candidate-member-list-dialog.component';
 import { Placement } from '../models';
@@ -16,7 +16,7 @@ interface RankingListComponentView {
     placements: Placement[];
     previewUsers: User[];
     membersCount: number;
-    userMember: CandidateMember;
+    userCandidateMember?: VoterMember;
 }
 
 @Component({
@@ -38,15 +38,15 @@ export class RankingListComponent {
             this.store.select(RankingSelectors.slices.selectedCircle),
             this.store.select(RankingSelectors.topThreePlacements),
             this.store.select(RankingSelectors.placements),
-            this.store.select(MemberSelectors.Member.slices.rankingCandidateMembers),
-            this.store.select(MemberSelectors.Member.slices.rankingUserCandidateMember)
+            this.store.select(MemberSelectors.Member.slices.rankingCandidateNeedVoteMembers),
+            this.store.select(MemberSelectors.Member.slices.rankingUserVoterMember)
         ]).pipe(
-            map(([circle, topThreePlacements, placements, members, userMember]) => ({
+            map(([circle, topThreePlacements, placements, members, userCandidateMember]) => ({
                 circle: circle as Circle,
                 topThreePlacements: topThreePlacements,
                 placements: placements,
                 ...this.mapMembersToPreview(members),
-                userMember: userMember as CandidateMember
+                userCandidateMember
             }))
         );
     }
