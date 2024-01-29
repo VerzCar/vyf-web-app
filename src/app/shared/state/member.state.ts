@@ -17,8 +17,7 @@ const DEFAULT_STATE: MemberStateModel = {
     circleUserCandidateMember: undefined,
     rankingVoterMembers: [],
     rankingUserVoterMember: undefined,
-    rankingCandidateNeedVoteMembers: [],
-    rankingUserCandidateMember: undefined
+    rankingCandidateNeedVoteMembers: []
 };
 
 @State<MemberStateModel>({
@@ -285,15 +284,6 @@ export class MemberState {
                 return forkJoin(this.mapCandidateMembers$(circleCandidate.candidates)).pipe(
                     tap(members => ctx.patchState({ rankingCandidateNeedVoteMembers: members })),
                     map(() => circleCandidate)
-                );
-            }),
-            switchMap(circleCandidate => {
-                if (circleCandidate.userCandidate === null) {
-                    return of(ctx.patchState({ rankingUserCandidateMember: undefined }));
-                }
-
-                return this.mapCandidateMember$(circleCandidate.userCandidate).pipe(
-                    tap(member => ctx.patchState({ rankingUserCandidateMember: member }))
                 );
             })
         );

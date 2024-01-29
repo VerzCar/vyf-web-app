@@ -1,0 +1,23 @@
+<form>
+    <mat-form-field appearance="outline" class="w-full">
+        <span matPrefix
+              class="px-2">
+            <i-feather *rxIf="!isLoading"
+                       class="text-gray-600"
+                       name="search">
+            </i-feather>
+            <mat-spinner *rxIf="isLoading"
+                         diameter="30">
+            </mat-spinner>
+            </span>
+
+        <input #circleSearchInput
+               matInput
+               id="searchSircles"
+               aria-label="Circles"
+               type="search"
+               [placeholder]="'Search circle'"
+               [formControl]="control"
+               (keydown.enter)="onInputKeyEnter($event)">
+    </mat-form-field>
+</form>

@@ -53,7 +53,6 @@ export class UserAutocompleteSearchComponent {
     private mapFilteredUsers$(
         username: string
     ): Observable<UserPaginated[]> {
-        console.log(username);
         return this.filteredFetchOptionsFn(username).pipe(
             finalize(() => this.isLoading = false)
         );

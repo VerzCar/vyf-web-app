@@ -18,6 +18,8 @@ export * from './lib/user-autocomplete-select/user-autocomplete-select.component
 
 export * from './lib/user-autocomplete-search/user-autocomplete-search.component';
 
+export * from './lib/circle-autocomplete-search/circle-autocomplete-search.component';
+
 export * from './lib/user-list-item/user-list-item.component';
 
 export * from './lib/avatar-stack/avatar-stack.component';

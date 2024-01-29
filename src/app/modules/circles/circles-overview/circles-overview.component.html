@@ -42,6 +42,24 @@
                 </div>
             </section>
 
+            <vyf-circle-autocomplete-search [fetchOptionsFn]="allCirclesFn$"
+                                            [filteredFetchOptionsFn]="allFilteredCirclesFn$"
+                                            (foundCircles)="searchedResult($event)">
+            </vyf-circle-autocomplete-search>
+
+            <div class="border rounded p-2">
+                <div class="flex flex-row flex-wrap gap-4 py-5 px-3">
+                    <ng-container *rxFor="let circle of circleSearchResult">
+                        <div>
+                            <a [routerLink]="['/circles', circle.id]"
+                               class="bg-gray-100 text-gray-950 text-center font-semibold tracking-wide p-3 rounded-2xl min-w-[8rem] hover:shadow">
+                                {{ circle.name }}
+                            </a>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
         </div>
     </ng-container>
 

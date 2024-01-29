@@ -15,13 +15,7 @@ import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import {
-    AvatarStackComponent,
-    CircleOwnerComponent,
-    ImageUploadComponent,
-    ShortNumberPipe,
-    UserAutocompleteSelectComponent
-} from '@vyf/component';
+import { AvatarStackComponent, CircleAutocompleteSearchComponent, CircleOwnerComponent, ImageUploadComponent, ShortNumberPipe, UserAutocompleteSelectComponent } from '@vyf/component';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/state/user.state';
@@ -67,6 +61,7 @@ import { CirclesState } from './state/circles.state';
         MatInputModule,
         TextFieldModule,
         UserAutocompleteSelectComponent,
+        CircleAutocompleteSearchComponent,
         MatDatepickerModule,
         MatNativeDateModule,
         MatCheckboxModule,

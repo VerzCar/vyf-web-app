@@ -9,5 +9,4 @@ export interface MemberStateModel {
     rankingVoterMembers: VoterMember[];
     rankingUserVoterMember: VoterMember | undefined;
     rankingCandidateNeedVoteMembers: CandidateMember[];
-    rankingUserCandidateMember: CandidateMember | undefined;
 }
