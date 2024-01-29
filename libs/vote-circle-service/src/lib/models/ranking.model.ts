@@ -4,6 +4,7 @@ export interface Ranking {
     identityId: string;
     number: number;
     votes: number;
+    indexedOrder: number;
     placement: Placement;
     circleId: number;
     createdAt: Date;

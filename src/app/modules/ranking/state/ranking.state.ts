@@ -1,7 +1,7 @@
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext } from '@ngxs/store';
-import { append, compose, insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
+import { compose, iif, insertItem, NoInfer, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService } from '@vyf/base';
 import { UserService } from '@vyf/user-service';
 import { Circle, CircleCandidatesFilter, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
@@ -109,36 +109,25 @@ export class RankingState implements NgxsOnInit {
     ) {
         const placements = ctx.getState().placements;
 
-        const rankedNumberIndex = placements.findIndex(placement => placement.ranking.number === action.ranking.number);
+        // check if the ranking already exists in the list, if not insert it
         const rankedIndex = placements.findIndex(placement => placement.ranking.id === action.ranking.id);
 
-        console.log('RANKING: ', action.ranking);
-        if (rankedNumberIndex === -1 || rankedIndex === -1) {
-            return this.mapRankingToPlacement$(action.ranking).pipe(
-                tap(placement => {
-                    ctx.setState(
-                        patch<RankingStateModel>({
-                            placements: append<Placement>([placement])
-                        })
-                    );
-                })
-            );
-        }
+        const rankedPlacement$ = rankedIndex === -1 ? this.mapRankingToPlacement$(action.ranking) : of(placements[rankedIndex]);
 
-        return ctx.setState(
-            compose<RankingStateModel>(
-                patch<RankingStateModel>({
-                    placements: removeItem<Placement>(placement => placement.ranking.id === action.ranking.id)
-                }),
-                patch<RankingStateModel>({
-                    placements: insertItem<Placement>(placements[rankedIndex], rankedIndex > 0 ? rankedIndex : undefined)
-                }),
-                patch<RankingStateModel>({
-                    placements: updateItem<Placement>(
-                        placement => placement.ranking.id === action.ranking.id,
-                        placement => ({ ...placement, ranking: { ...action.ranking } })
+        console.log('RANKING: ', action.ranking);
+
+        return rankedPlacement$.pipe(
+            tap(placement =>
+                ctx.setState(
+                    compose<RankingStateModel>(
+                        patch<RankingStateModel>({
+                            placements: removeItem<Placement>(placement => placement.ranking.id === action.ranking.id)
+                        }),
+                        patch<RankingStateModel>({
+                            placements: insertItem<Placement>({ ...placement, ranking: { ...action.ranking } }, action.ranking.indexedOrder + 1)
+                        })
                     )
-                })
+                )
             )
         );
     }

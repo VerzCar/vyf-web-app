@@ -99,8 +99,7 @@ export class CirclesState {
                     message: 'Saved to circle.'
                 };
                 this.snackbar.openSuccess(SnackbarSuccessComponent, data);
-            }),
-            catchError(() => of())
+            })
         );
     }
 
@@ -123,8 +122,7 @@ export class CirclesState {
                     message: 'Deleted circle successfully.'
                 };
                 this.snackbar.openSuccess(SnackbarSuccessComponent, data);
-            }),
-            catchError(() => of())
+            })
         );
     }
 
@@ -169,7 +167,13 @@ export class CirclesState {
 
         return this.voteCircleService.updateCommitment(action.circleId, req).pipe(
             map(res => res.data),
-            switchMap(() => ctx.dispatch(new MemberAction.Committed(action.circleId, action.commitment)))
+            tap(() => ctx.dispatch(new MemberAction.Committed(action.circleId, action.commitment))),
+            tap(() => {
+                const data: SnackbarSuccessComponentData = {
+                    message: 'Your commitment is registered.'
+                };
+                this.snackbar.openSuccess(SnackbarSuccessComponent, data);
+            })
         );
     }
 
@@ -180,7 +184,7 @@ export class CirclesState {
     ) {
         return this.voteCircleService.joinCircleAsVoter(action.circleId).pipe(
             map(res => res.data),
-            switchMap(voter => ctx.dispatch(new MemberAction.JoinedAsVoter(voter))),
+            tap(voter => ctx.dispatch(new MemberAction.JoinedAsVoter(voter))),
             tap(() => ctx.setState(
                 patch<CirclesStateModel>({
                     circlesOfInterest: updateItem<CirclePaginated>(
@@ -205,7 +209,7 @@ export class CirclesState {
     ) {
         return this.voteCircleService.joinCircleAsCandidate(action.circleId).pipe(
             map(res => res.data),
-            switchMap(candidate => ctx.dispatch(new MemberAction.JoinedAsCandidate(candidate))),
+            tap(candidate => ctx.dispatch(new MemberAction.JoinedAsCandidate(candidate))),
             tap(() => ctx.setState(
                 patch<CirclesStateModel>({
                     circlesOfInterest: updateItem<CirclePaginated>(

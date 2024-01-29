@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, State, StateContext, Store } from '@ngxs/store';
 import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
+import { SnackbarService } from '@vyf/base';
+import { SnackbarSuccessComponent, SnackbarSuccessComponentData } from '@vyf/component';
 import { User, UserService } from '@vyf/user-service';
 import { Candidate, VoteCircleService, VoteCreateRequest, Voter } from '@vyf/vote-circle-service';
 import { forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
@@ -28,6 +30,7 @@ export class MemberState {
     private readonly voteCircleService = inject(VoteCircleService);
     private readonly userService = inject(UserService);
     private readonly store = inject(Store);
+    private readonly snackbar = inject(SnackbarService);
 
     @Action(MemberAction.Circle.FilterVoterMembers)
     private filterCircleVoterMembers(
@@ -94,6 +97,12 @@ export class MemberState {
                         })
                     );
                 }
+            }),
+            tap(() => {
+                const data: SnackbarSuccessComponentData = {
+                    message: 'Thank you! You\'re vote has been placed.'
+                };
+                this.snackbar.openSuccess(SnackbarSuccessComponent, data);
             })
         );
     }
