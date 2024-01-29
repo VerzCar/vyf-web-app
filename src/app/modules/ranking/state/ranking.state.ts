@@ -124,7 +124,7 @@ export class RankingState implements NgxsOnInit {
                             placements: removeItem<Placement>(placement => placement.ranking.id === action.ranking.id)
                         }),
                         patch<RankingStateModel>({
-                            placements: insertItem<Placement>({ ...placement, ranking: { ...action.ranking } }, action.ranking.indexedOrder + 1)
+                            placements: insertItem<Placement>({ ...placement, ranking: { ...action.ranking } }, action.ranking.indexedOrder)
                         })
                     )
                 )
