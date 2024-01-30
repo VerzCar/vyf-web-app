@@ -8,10 +8,10 @@ export class AuthInterceptor implements HttpInterceptor {
     private readonly awsCognitoService = inject(AwsCognitoService);
 
     public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-        return this.awsCognitoService.getCurrentSession().pipe(
+        return this.awsCognitoService.authSession$.pipe(
             switchMap(session => {
                 const newRequest = request.clone({
-                    headers: request.headers.append('Authorization', `Bearer ${session.getAccessToken().getJwtToken()}`)
+                    headers: request.headers.append('Authorization', `Bearer ${session.tokens?.accessToken.toString()}`)
                 });
                 return next.handle(newRequest);
             }));
