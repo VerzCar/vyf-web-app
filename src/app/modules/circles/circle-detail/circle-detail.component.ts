@@ -28,8 +28,6 @@ interface CircleDetailView {
 export class CircleDetailComponent {
     public readonly placeholderImageSrc = 'assets/img/placeholder-image.jpg';
 
-    public readonly hasOpenCommitment$: Observable<boolean>;
-    public readonly selectedCommitment$: Observable<Commitment | undefined>;
     public readonly view$: Observable<CircleDetailView>;
 
     private readonly store = inject(Store);
@@ -60,11 +58,6 @@ export class CircleDetailComponent {
                     disabled: !this.store.selectSnapshot(CirclesSelectors.canEditCircle)
                 };
             })
-        );
-
-        this.hasOpenCommitment$ = this.store.select(MemberSelectors.CircleSelector.hasOpenCommitment);
-        this.selectedCommitment$ = this.store.select(MemberSelectors.Member.slices.circleUserCandidateMember).pipe(
-            map(member => member?.candidate.commitment)
         );
     }
 

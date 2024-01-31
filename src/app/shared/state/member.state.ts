@@ -63,10 +63,10 @@ export class MemberState {
         return ctx.dispatch(new MemberAction.Ranking.FetchCandidate(action.circleId, action.candidatesFilter));
     }
 
-    @Action(MemberAction.Vote)
+    @Action(MemberAction.Ranking.Vote)
     private vote(
         ctx: StateContext<MemberStateModel>,
-        action: MemberAction.Vote
+        action: MemberAction.Ranking.Vote
     ): Observable<boolean> {
         const voteCreateRequest: VoteCreateRequest = {
             candidateId: action.candidateIdentId
@@ -140,7 +140,8 @@ export class MemberState {
         return ctx.setState(
             patch<MemberStateModel>({
                 circleCandidateMembers: append<CandidateMember>([member]),
-                rankingCandidateNeedVoteMembers: append<CandidateMember>([member])
+                rankingCandidateNeedVoteMembers: append<CandidateMember>([member]),
+                circleUserCandidateMember: member
             })
         );
     }

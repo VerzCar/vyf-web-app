@@ -1,12 +1,28 @@
 import { NgModule } from '@angular/core';
 import { FeatherModule } from 'angular-feather';
-import { ArrowRightCircle, Award, CheckCircle, CheckSquare, Edit3, List, Lock, Minus, Plus, PlusCircle, TrendingDown, TrendingUp } from 'angular-feather/icons';
+import {
+    ArrowRightCircle,
+    Award,
+    CheckCircle,
+    Check,
+    CheckSquare,
+    Edit3,
+    List,
+    Lock,
+    Minus,
+    Plus,
+    PlusCircle,
+    TrendingDown,
+    TrendingUp,
+    Slash
+} from 'angular-feather/icons';
 
 // Select some icons (use an object, not an array)
 const icons = {
     Plus,
     PlusCircle,
     CheckCircle,
+    Check,
     Edit3,
     ArrowRightCircle,
     TrendingUp,
@@ -15,7 +31,8 @@ const icons = {
     Lock,
     List,
     CheckSquare,
-    Award
+    Award,
+    Slash
 };
 
 @NgModule({

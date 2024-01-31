@@ -11,15 +11,22 @@
                 Go to Ranking List
             </a>
         </li>
-        @if (!view.isUserVoterMemberOfCircle) {
+        @if (!view.isUserVoterMemberOfCircle && !view.circle.private) {
             <app-circle-detail-action-item-join [circleId]="view.circle.id"
                                                 [subject]="'voter'">
             </app-circle-detail-action-item-join>
         }
-        @if (!view.isUserCandidateMemberOfCircle) {
+        @if (!view.isUserCandidateMemberOfCircle && !view.circle.private) {
             <app-circle-detail-action-item-join [circleId]="view.circle.id"
                                                 [subject]="'candidate'">
             </app-circle-detail-action-item-join>
         }
+
+        @if (view.isUserCandidateMemberOfCircle) {
+            <app-circle-detail-action-item-commitment [circleId]="view.circle.id"
+                                                      [commitment]="view.circleUserCandidateMember!.candidate.commitment">
+            </app-circle-detail-action-item-commitment>
+        }
+
     </ul>
 </ng-container>

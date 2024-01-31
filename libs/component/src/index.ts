@@ -8,8 +8,6 @@ export * from './lib/models';
 
 export * from './lib/circle-owner/circle-owner.component';
 
-export * from './lib/commitment-icon/commitment-icon.component';
-
 export * from './lib/image-upload/image-upload.component';
 
 export * from './lib/submit-button/submit-button.component';

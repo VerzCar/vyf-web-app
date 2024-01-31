@@ -1,0 +1,65 @@
+<li>
+    @if (commitment === Commitment.Open) {
+        <div class="flex flex-col space-y-1 md:space-y-2 whitespace-nowrap">
+            <div>
+                You're listed as candidate:
+            </div>
+
+            <button mat-stroked-button
+                    color="accent"
+                    role="button"
+                    type="button"
+                    (click)="onCommitment()">
+                Accept candidacy
+                <i-feather name="check"
+                           class="align-top flex-shrink-0 text-green-600">
+                </i-feather>
+            </button>
+
+            <button mat-stroked-button
+                    color="accent"
+                    role="button"
+                    type="button"
+                    (click)="onRejection()">
+                Reject candidacy
+                <i-feather name="slash"
+                           class="align-top flex-shrink-0 text-red-600">
+                </i-feather>
+            </button>
+        </div>
+    }
+
+    @if (commitment === Commitment.Committed) {
+        <div class="flex flex-row items-center space-x-1 md:space-x-2 whitespace-nowrap">
+
+            <div>
+                Candidacy accepted:
+            </div>
+
+            <button mat-button
+                    color="accent"
+                    role="button"
+                    type="button"
+                    (click)="onLeaveAsCandidate()">
+                Leave as candidate
+            </button>
+        </div>
+    }
+
+    @if (commitment === Commitment.Rejected) {
+        <div class="flex flex-row items-center space-x-1 md:space-x-2 whitespace-nowrap">
+
+            <div>
+                Candidacy rejected:
+            </div>
+
+            <button mat-button
+                    color="accent"
+                    role="button"
+                    type="button"
+                    (click)="onLeaveAsCandidate()">
+                Leave as candidate
+            </button>
+        </div>
+    }
+</li>

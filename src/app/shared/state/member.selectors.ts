@@ -1,6 +1,5 @@
 import { createPropertySelectors, createSelector, Selector } from '@ngxs/store';
 import { User } from '@vyf/user-service';
-import { Commitment } from '@vyf/vote-circle-service';
 import { UserSelectors } from '../../modules/user/state/user.selectors';
 import { CandidateMember, MemberStateModel, VoterMember } from '../models';
 import { MemberState } from './member.state';
@@ -13,15 +12,6 @@ export namespace MemberSelectors {
     }
 
     export class CircleSelector {
-        /**
-         * Selector that determines if the current circle candidate has not committed to be in circle.
-         * @returns true if the current circle candidate has not committed to be in circle.
-         */
-        @Selector([Member.slices.circleUserCandidateMember])
-        public static hasOpenCommitment(member: CandidateMember | undefined): boolean {
-            return member?.candidate.commitment === Commitment.Open;
-        }
-
         /**
          * Checks if a user is a voter member of a circle.
          *

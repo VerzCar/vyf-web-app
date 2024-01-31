@@ -77,6 +77,14 @@ export namespace MemberAction {
             constructor(public circleId: number, public candidatesFilter?: Partial<CircleCandidatesFilter>) {
             }
         }
+
+        export class Vote {
+            public static readonly type = `[${domainName}] Vote`;
+
+            // eslint-disable-next-line no-useless-constructor
+            constructor(public circleId: number, public candidateIdentId: string) {
+            }
+        }
     }
 
     export class Committed {
@@ -84,14 +92,6 @@ export namespace MemberAction {
 
         // eslint-disable-next-line no-useless-constructor
         constructor(public circleId: number, public commitment: Commitment) {
-        }
-    }
-
-    export class Vote {
-        public static readonly type = `[${domainName}] Vote`;
-
-        // eslint-disable-next-line no-useless-constructor
-        constructor(public circleId: number, public candidateIdentId: string) {
         }
     }
 
@@ -119,11 +119,11 @@ export const MemberCircleErrorTrackedActions = [
 
 export const MemberRankingErrorTrackedActions = [
     MemberAction.Ranking.FetchVoter,
-    MemberAction.Ranking.FetchCandidate
+    MemberAction.Ranking.FetchCandidate,
+    MemberAction.Ranking.Vote,
 ];
 
 export const MemberErrorTrackedActions = [
-    MemberAction.Vote,
     MemberAction.JoinedAsCandidate,
     MemberAction.JoinedAsVoter,
     MemberAction.Committed

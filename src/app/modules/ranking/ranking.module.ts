@@ -12,7 +12,6 @@ import {
     AvatarImgComponent,
     AvatarStackComponent,
     CircleOwnerComponent,
-    CommitmentIconComponent,
     ShortNamePipe,
     ShortNumberPipe,
     TrendingIconPipe,
@@ -62,8 +61,7 @@ import { RankingState } from './state/ranking.state';
         MatDialogModule,
         MatIconModule,
         AvatarImgComponent,
-        CircleMemberCommitmentPipe,
-        CommitmentIconComponent
+        CircleMemberCommitmentPipe
     ],
     providers: [ListResolver]
 })

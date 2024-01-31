@@ -33,6 +33,6 @@ export class TopRankedComponent implements OnInit {
     }
 
     public onVote(circleId: number, electedIdentId: string) {
-        this.store.dispatch(new MemberAction.Vote(circleId, electedIdentId));
+        this.store.dispatch(new MemberAction.Ranking.Vote(circleId, electedIdentId));
     }
 }

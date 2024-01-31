@@ -43,6 +43,6 @@ export class CandidateMemberListComponent {
     }
 
     public onVote(electedId: string, circleId: number): void {
-        this.store.dispatch(new MemberAction.Vote(circleId ?? 0, electedId));
+        this.store.dispatch(new MemberAction.Ranking.Vote(circleId ?? 0, electedId));
     }
 }
