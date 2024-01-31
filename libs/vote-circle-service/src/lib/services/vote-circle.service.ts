@@ -80,6 +80,10 @@ export class VoteCircleService extends ApiBaseService {
         return this.create<unknown, Candidate>(null, `circle-candidates/${circleId}/join`);
     }
 
+    public leaveCircleAsCandidate(circleId: number): Observable<ApiResponse<string>> {
+        return this.delete<string>(`circle-candidates/${circleId}/leave`);
+    }
+
     public rankings(circleId: number): Observable<ApiResponse<Ranking[]>> {
         return this.get({
             paths: ['rankings', circleId]

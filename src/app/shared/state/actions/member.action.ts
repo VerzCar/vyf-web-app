@@ -110,6 +110,10 @@ export namespace MemberAction {
         constructor(public candidate: Candidate) {
         }
     }
+
+    export class LeftAsCandidate {
+        public static readonly type = `[${domainName}] Left circle as candidate`;
+    }
 }
 
 export const MemberCircleErrorTrackedActions = [
@@ -120,7 +124,7 @@ export const MemberCircleErrorTrackedActions = [
 export const MemberRankingErrorTrackedActions = [
     MemberAction.Ranking.FetchVoter,
     MemberAction.Ranking.FetchCandidate,
-    MemberAction.Ranking.Vote,
+    MemberAction.Ranking.Vote
 ];
 
 export const MemberErrorTrackedActions = [

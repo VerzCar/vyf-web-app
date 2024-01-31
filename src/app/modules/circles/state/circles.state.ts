@@ -227,6 +227,22 @@ export class CirclesState {
         );
     }
 
+    @Action(CirclesAction.LeaveCircleAsCandidate)
+    private leaveCircleAsCandidate(
+        ctx: StateContext<CirclesStateModel>,
+        action: CirclesAction.LeaveCircleAsCandidate
+    ) {
+        return this.voteCircleService.leaveCircleAsCandidate(action.circleId).pipe(
+            tap(() => ctx.dispatch(new MemberAction.LeftAsCandidate())),
+            tap(() => {
+                const data: SnackbarSuccessComponentData = {
+                    message: 'You leaved as a candidate from the circle.'
+                };
+                this.snackbar.openSuccess(SnackbarSuccessComponent, data);
+            })
+        );
+    }
+
     @Action(CirclesAction.InitUserCircles)
     private initUserCircles(
         ctx: StateContext<CirclesStateModel>

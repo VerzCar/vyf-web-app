@@ -26,6 +26,6 @@ export class CircleDetailActionItemCommitmentComponent {
     }
 
     public onLeaveAsCandidate() {
-        this.store.dispatch(new CirclesAction.CommittedToCircle(this.circleId, Commitment.Rejected));
+        this.store.dispatch(new CirclesAction.LeaveCircleAsCandidate(this.circleId));
     }
 }

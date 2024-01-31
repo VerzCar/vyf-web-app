@@ -146,6 +146,25 @@ export class MemberState {
         );
     }
 
+    @Action(MemberAction.LeftAsCandidate)
+    private leftAsCandidateInCircle(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.LeftAsCandidate
+    ) {
+        const userMember = ctx.getState().circleUserCandidateMember;
+
+        if (!userMember) {
+            return;
+        }
+
+        return ctx.setState(
+            patch<MemberStateModel>({
+                circleCandidateMembers: removeItem<CandidateMember>(member => member.candidate.id === userMember.candidate.id),
+                circleUserCandidateMember: undefined
+            })
+        );
+    }
+
     @Action(MemberAction.Committed)
     private committedForCircle(
         ctx: StateContext<MemberStateModel>,
