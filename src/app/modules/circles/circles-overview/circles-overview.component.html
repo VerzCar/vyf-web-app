@@ -42,8 +42,7 @@
                 </div>
             </section>
 
-            <vyf-circle-autocomplete-search [fetchOptionsFn]="allCirclesFn$"
-                                            [filteredFetchOptionsFn]="allFilteredCirclesFn$"
+            <vyf-circle-autocomplete-search [filteredFetchOptionsFn]="allFilteredCirclesFn$"
                                             (foundCircles)="searchedResult($event)">
             </vyf-circle-autocomplete-search>
 

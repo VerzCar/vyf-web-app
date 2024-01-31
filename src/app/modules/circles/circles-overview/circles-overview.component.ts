@@ -36,11 +36,6 @@ export class CirclesOverviewComponent {
         );
     }
 
-    public readonly allCirclesFn$ = () => this.voteCircleService.circles().pipe(
-        map(res => res.data),
-        catchError(() => [])
-    );
-
     public readonly allFilteredCirclesFn$ = (name: string) => this.voteCircleService.circlesFiltered(name).pipe(
         map(res => res.data),
         catchError(() => [])

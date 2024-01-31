@@ -3,12 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
 import { User } from '@vyf/user-service';
-import { Circle, Commitment } from '@vyf/vote-circle-service';
+import { Circle } from '@vyf/vote-circle-service';
 import { combineLatest, filter, map, Observable } from 'rxjs';
 import { CandidateMember, VoterMember } from '../../../shared/models';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { CircleDetailSettingsDialogComponent, CircleDetailSettingsDialogComponentView } from '../circle-detail-settings-dialog/circle-detail-settings-dialog.component';
-import { CirclesAction } from '../state/actions/circles.action';
 import { CirclesSelectors } from '../state/circles.selectors';
 
 interface CircleDetailView {
@@ -59,10 +58,6 @@ export class CircleDetailComponent {
                 };
             })
         );
-    }
-
-    public hasCommitted(circleId: number, commitment: Commitment) {
-        this.store.dispatch(new CirclesAction.CommittedToCircle(circleId, commitment));
     }
 
     public onOpenSettings(view: CircleDetailView) {

@@ -5,8 +5,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RxIf } from '@rx-angular/template/if';
-import { Circle, CirclePaginated } from '@vyf/vote-circle-service';
-import { BehaviorSubject, debounceTime, finalize, Observable, startWith, switchMap, tap } from 'rxjs';
+import { CirclePaginated } from '@vyf/vote-circle-service';
+import { BehaviorSubject, debounceTime, Observable, of, startWith, switchMap, tap } from 'rxjs';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 
 @Component({
@@ -19,7 +19,6 @@ import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 })
 export class CircleAutocompleteSearchComponent {
     @Input({ required: true }) public filteredFetchOptionsFn!: (searchTerm: string) => Observable<CirclePaginated[]>;
-    @Input({ required: true }) public fetchOptionsFn!: () => Observable<Circle[]>;
     @Output() public foundCircles = new EventEmitter<CirclePaginated[]>();
 
     public control = new FormControl<string>('');
@@ -31,9 +30,10 @@ export class CircleAutocompleteSearchComponent {
             debounceTime(300),
             tap(() => this.isLoading.next(true)),
             switchMap(name =>
-                name ? this.mapFilteredCircles$(name) : this.mapAllCircles$()
+                name?.length ? this.mapFilteredCircles$(name) : of([])
             ),
             tap(circles => this.foundCircles.emit(circles as CirclePaginated[])),
+            tap(() => this.isLoading.next(false)),
             takeUntilDestroyed()
         ).subscribe();
     }
@@ -45,14 +45,6 @@ export class CircleAutocompleteSearchComponent {
     private mapFilteredCircles$(
         username: string
     ): Observable<CirclePaginated[]> {
-        return this.filteredFetchOptionsFn(username).pipe(
-            finalize(() => this.isLoading.next(false))
-        );
-    }
-
-    private mapAllCircles$(): Observable<Circle[]> {
-        return this.fetchOptionsFn().pipe(
-            finalize(() => this.isLoading.next(false))
-        );
+        return this.filteredFetchOptionsFn(username);
     }
 }
