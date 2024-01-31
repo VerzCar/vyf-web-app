@@ -5,25 +5,27 @@
     <ul class="divide-y-2 divide-gray-300">
         <ng-container *rxFor="let member of view.members;">
             <li class="py-2.5">
-                <div class="grid grid-cols-3 grid-rows-2 gap-2 md:gap-4">
+                <div class="grid auto-cols-max grid-rows-2 gap-2 md:gap-4"
+                     [ngClass]="{'opacity-25': member.candidate.commitment !== Commitment.Committed}">
                     <a [routerLink]="['/user', member.user.identityId]"
-                       class="col-span-1 row-start-1 row-span-2">
+                       class="col-start-1 col-end-1 row-start-1 row-span-2">
                         <vyf-avatar-img [imageSrc]="member.user.profile.imageSrc"
                                         [username]="member.user.username"
                                         class="hover:ring">
                         </vyf-avatar-img>
                     </a>
 
-                    <p class="col-span-1 row-start-1 row-span-2 text-gray-900 font-medium text-md">
-                        # {{ member.user.username }}
+                    <p class="col-span-1 row-start-1 row-span-2 w-32 text-gray-900 font-medium text-md">
+                        {{ member.user.username }}
                     </p>
 
                     <button *rxIf="canVote$(member.candidate.candidate)"
                             mat-flat-button
                             color="accent"
                             type="button"
+                            [disabled]="member.candidate.commitment === Commitment.Committed"
                             (click)="onVote(member.candidate.candidate, view.selectedCircle.id)"
-                            class="col-span-1 row-start-1 row-span-2 self-end">
+                            class="col-start-3 col-end-3 row-start-1 row-span-2 self-end">
                         Vote
                     </button>
                 </div>

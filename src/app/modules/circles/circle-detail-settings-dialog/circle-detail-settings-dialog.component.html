@@ -10,10 +10,12 @@
             </app-circle-detail-edit-form>
         </mat-tab>
 
-        <mat-tab label="Image">
-            <app-circle-detail-settings-image>
-            </app-circle-detail-settings-image>
-        </mat-tab>
+        @if (canEditCircle) {
+            <mat-tab label="Image">
+                <app-circle-detail-settings-image>
+                </app-circle-detail-settings-image>
+            </mat-tab>
+        }
 
         <mat-tab label="Members">
             <app-circle-detail-settings-members>

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
-import { Circle } from '@vyf/vote-circle-service';
+import { Circle, Commitment } from '@vyf/vote-circle-service';
 import { combineLatest, filter, map, Observable } from 'rxjs';
 import { CandidateMember } from '../../../shared/models';
 import { MemberAction } from '../../../shared/state/actions/member.action';
@@ -21,6 +21,7 @@ interface MemberListRankingView {
 })
 export class CandidateMemberListComponent {
     public readonly view$: Observable<MemberListRankingView>;
+    public readonly Commitment = Commitment;
 
     private readonly store = inject(Store);
 
