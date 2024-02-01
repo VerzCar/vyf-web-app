@@ -1,7 +1,7 @@
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext } from '@ngxs/store';
-import { compose, iif, insertItem, NoInfer, patch, removeItem, updateItem } from '@ngxs/store/operators';
+import { compose, insertItem, patch, removeItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService } from '@vyf/base';
 import { UserService } from '@vyf/user-service';
 import { Circle, CircleCandidatesFilter, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
@@ -136,7 +136,6 @@ export class RankingState implements NgxsOnInit {
         this.actions$.pipe(
             ofActionSuccessful(RankingAction.FetchRankings),
             debounceTime(450),
-            switchMap(() => this.ablyService.authorize$()),
             switchMap(() => ctx.dispatch(new RankingAction.SubscribeRankingsChangeEvent())),
             takeUntilDestroyed(this.destroyRef)
         ).subscribe();

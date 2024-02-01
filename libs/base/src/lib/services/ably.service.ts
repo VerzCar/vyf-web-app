@@ -1,4 +1,5 @@
 import { inject, Injectable, InjectionToken, OnDestroy } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import * as Ably from 'ably';
 import { Types } from 'ably';
 import { from, map, Observable, of, Subject, switchMap } from 'rxjs';
@@ -27,6 +28,9 @@ export class AblyService implements OnDestroy {
 
     constructor() {
         this._client = new Ably.Realtime.Promise(this.defaultClientOptions);
+        this.authorize$().pipe(
+            takeUntilDestroyed()
+        ).subscribe();
     }
 
     public ngOnDestroy(): void {
@@ -48,6 +52,10 @@ export class AblyService implements OnDestroy {
 
     public subscribeToChannel(channel: Types.RealtimeChannelPromise, event: string, messageSubject: Subject<Types.Message>) {
         return from(channel.subscribe(event, (msg) => messageSubject.next(msg)));
+    }
+
+    public unsubscribeFromChannel(channel: Types.RealtimeChannelPromise) {
+        channel.unsubscribe();
     }
 
     public authorize$(): Observable<Types.TokenDetails> {

@@ -5,7 +5,7 @@ import { SnackbarService } from '@vyf/base';
 import { SnackbarSuccessComponent, SnackbarSuccessComponentData } from '@vyf/component';
 import { User, UserService } from '@vyf/user-service';
 import { Circle, CircleCandidateCommitmentRequest, CirclePaginated, VoteCircleService } from '@vyf/vote-circle-service';
-import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { UserSelectors } from '../../user/state/user.selectors';
 import { CirclesStateModel } from '../models';
@@ -167,7 +167,6 @@ export class CirclesState {
 
         return this.voteCircleService.updateCommitment(action.circleId, req).pipe(
             map(res => res.data),
-            tap(() => ctx.dispatch(new MemberAction.Committed(action.circleId, action.commitment))),
             tap(() => {
                 const data: SnackbarSuccessComponentData = {
                     message: 'Your commitment is registered.'
@@ -209,7 +208,6 @@ export class CirclesState {
     ) {
         return this.voteCircleService.joinCircleAsCandidate(action.circleId).pipe(
             map(res => res.data),
-            tap(candidate => ctx.dispatch(new MemberAction.JoinedAsCandidate(candidate))),
             tap(() => ctx.setState(
                 patch<CirclesStateModel>({
                     circlesOfInterest: updateItem<CirclePaginated>(
@@ -233,7 +231,6 @@ export class CirclesState {
         action: CirclesAction.LeaveCircleAsCandidate
     ) {
         return this.voteCircleService.leaveCircleAsCandidate(action.circleId).pipe(
-            tap(() => ctx.dispatch(new MemberAction.LeftAsCandidate())),
             tap(() => {
                 const data: SnackbarSuccessComponentData = {
                     message: 'You leaved as a candidate from the circle.'
