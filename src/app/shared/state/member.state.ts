@@ -5,7 +5,7 @@ import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService, isDefined, SnackbarService } from '@vyf/base';
 import { SnackbarSuccessComponent, SnackbarSuccessComponentData } from '@vyf/component';
 import { User, UserService } from '@vyf/user-service';
-import { Candidate, CircleCandidateChangeEvent, EventOperation, VoteCircleService, VoteCreateRequest, Voter } from '@vyf/vote-circle-service';
+import { Candidate, Circle, CircleCandidateChangeEvent, EventOperation, VoteCircleService, VoteCreateRequest, Voter } from '@vyf/vote-circle-service';
 import { distinctUntilChanged, filter, forkJoin, map, Observable, of, pairwise, startWith, Subject, switchMap, tap } from 'rxjs';
 import { CirclesSelectors } from '../../modules/circles/state/circles.selectors';
 import { RankingSelectors } from '../../modules/ranking/state/ranking.selectors';
@@ -397,47 +397,19 @@ export class MemberState implements NgxsOnInit {
     }
 
     public ngxsOnInit(ctx: StateContext<MemberStateModel>): void {
-        this.store.select(CirclesSelectors.slices.selectedCircle).pipe(
-            startWith(this.store.selectSnapshot(CirclesSelectors.slices.selectedCircle)),
-            pairwise(),
-            distinctUntilChanged(),
-            filter(([, curr]) => isDefined(curr)),
-            switchMap(([prev, curr]) => {
-                    let action$: Observable<void>;
+        this.changedEvent$(
+            ctx,
+            this.store.select(CirclesSelectors.slices.selectedCircle).pipe(
+                startWith(this.store.selectSnapshot(CirclesSelectors.slices.selectedCircle))),
+            MemberAction.Ranking.SubscribeCandidateChangeEvent,
+            MemberAction.Ranking.UnsubscribeCandidateChangeEvent).subscribe();
 
-                    if (prev) {
-                        action$ = ctx.dispatch(new MemberAction.Circle.UnsubscribeCandidateChangeEvent(prev.id));
-                    } else {
-                        action$ = of(void 0);
-                    }
-
-                    return action$.pipe(map(() => [prev, curr]));
-                }
-            ),
-            switchMap(([, curr]) => ctx.dispatch(new MemberAction.Circle.SubscribeCandidateChangeEvent(curr!.id))),
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe();
-
-        this.store.select(RankingSelectors.slices.selectedCircle).pipe(
-            startWith(this.store.selectSnapshot(RankingSelectors.slices.selectedCircle)),
-            pairwise(),
-            distinctUntilChanged(),
-            filter(([, curr]) => isDefined(curr)),
-            switchMap(([prev, curr]) => {
-                    let action$: Observable<void>;
-
-                    if (prev) {
-                        action$ = ctx.dispatch(new MemberAction.Ranking.UnsubscribeCandidateChangeEvent(prev.id));
-                    } else {
-                        action$ = of(void 0);
-                    }
-
-                    return action$.pipe(map(() => [prev, curr]));
-                }
-            ),
-            switchMap(([, curr]) => ctx.dispatch(new MemberAction.Ranking.SubscribeCandidateChangeEvent(curr!.id))),
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe();
+        this.changedEvent$(
+            ctx,
+            this.store.select(RankingSelectors.slices.selectedCircle).pipe(
+                startWith(this.store.selectSnapshot(RankingSelectors.slices.selectedCircle))),
+            MemberAction.Ranking.SubscribeCandidateChangeEvent,
+            MemberAction.Ranking.UnsubscribeCandidateChangeEvent).subscribe();
 
         this._circleCandidateChangedMessage$.pipe(
             map(msg => msg.data as CircleCandidateChangeEvent),
@@ -476,6 +448,33 @@ export class MemberState implements NgxsOnInit {
                 candidate
             }))
         );
+    }
+
+    private changedEvent$(
+        ctx: StateContext<MemberStateModel>,
+        source$: Observable<Circle | undefined>,
+        subscribeAction: new (circleId: number) => MemberAction.Circle.SubscribeCandidateChangeEvent | MemberAction.Ranking.SubscribeCandidateChangeEvent,
+        unsubscribeAction: new (circleId: number) => MemberAction.Circle.UnsubscribeCandidateChangeEvent | MemberAction.Ranking.UnsubscribeCandidateChangeEvent
+    ): Observable<void> {
+        return source$.pipe(
+            startWith(this.store.selectSnapshot(RankingSelectors.slices.selectedCircle)),
+            pairwise(),
+            distinctUntilChanged(),
+            filter(([, curr]) => isDefined(curr)),
+            switchMap(([prev, curr]) => {
+                    let action$: Observable<void>;
+
+                    if (prev) {
+                        action$ = ctx.dispatch(new unsubscribeAction(prev.id));
+                    } else {
+                        action$ = of(void 0);
+                    }
+
+                    return action$.pipe(map(() => [prev, curr]));
+                }
+            ),
+            switchMap(([, curr]) => ctx.dispatch(new subscribeAction(curr!.id))),
+            takeUntilDestroyed(this.destroyRef));
     }
 
     private getCurrentUser(): User {
