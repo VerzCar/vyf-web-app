@@ -183,7 +183,6 @@ export class CirclesState {
     ) {
         return this.voteCircleService.joinCircleAsVoter(action.circleId).pipe(
             map(res => res.data),
-            tap(voter => ctx.dispatch(new MemberAction.JoinedAsVoter(voter))),
             tap(() => ctx.setState(
                 patch<CirclesStateModel>({
                     circlesOfInterest: updateItem<CirclePaginated>(
@@ -234,6 +233,21 @@ export class CirclesState {
             tap(() => {
                 const data: SnackbarSuccessComponentData = {
                     message: 'You leaved as a candidate from the circle.'
+                };
+                this.snackbar.openSuccess(SnackbarSuccessComponent, data);
+            })
+        );
+    }
+
+    @Action(CirclesAction.LeaveCircleAsVoter)
+    private leaveCircleAsVoter(
+        ctx: StateContext<CirclesStateModel>,
+        action: CirclesAction.LeaveCircleAsVoter
+    ) {
+        return this.voteCircleService.leaveCircleAsVoter(action.circleId).pipe(
+            tap(() => {
+                const data: SnackbarSuccessComponentData = {
+                    message: 'You leaved as a voter from the circle.'
                 };
                 this.snackbar.openSuccess(SnackbarSuccessComponent, data);
             })

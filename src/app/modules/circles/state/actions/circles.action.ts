@@ -99,6 +99,14 @@ export namespace CirclesAction {
         constructor(public circleId: number) {
         }
     }
+
+    export class LeaveCircleAsVoter {
+        public static readonly type = `[${domainName}] Leave Circle as voter`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public circleId: number) {
+        }
+    }
 }
 
 export const CirclesErrorTrackedActions = [

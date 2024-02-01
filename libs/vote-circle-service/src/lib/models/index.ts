@@ -16,4 +16,5 @@ export { CircleCandidate } from './circle-candidate.model';
 export { CircleCandidateCommitmentRequest } from './circle-candidate-commitment-request.model';
 export { CircleCandidatesFilter } from './circle-candidates-filter.model';
 export { CircleCandidateChangeEvent } from './circle-candidate-change-event.model';
+export { CircleVoterChangeEvent } from './circle-voter-change-event.model';
 export { EventOperation } from './event-operation.model';

@@ -5,7 +5,7 @@ import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService, isDefined, SnackbarService } from '@vyf/base';
 import { SnackbarSuccessComponent, SnackbarSuccessComponentData } from '@vyf/component';
 import { User, UserService } from '@vyf/user-service';
-import { Candidate, Circle, CircleCandidateChangeEvent, EventOperation, VoteCircleService, VoteCreateRequest, Voter } from '@vyf/vote-circle-service';
+import { Candidate, Circle, CircleCandidateChangeEvent, CircleVoterChangeEvent, EventOperation, VoteCircleService, VoteCreateRequest, Voter } from '@vyf/vote-circle-service';
 import { distinctUntilChanged, filter, forkJoin, map, Observable, of, pairwise, startWith, Subject, switchMap, tap } from 'rxjs';
 import { CirclesSelectors } from '../../modules/circles/state/circles.selectors';
 import { RankingSelectors } from '../../modules/ranking/state/ranking.selectors';
@@ -22,6 +22,13 @@ const DEFAULT_STATE: MemberStateModel = {
     rankingUserVoterMember: undefined,
     rankingCandidateNeedVoteMembers: []
 };
+
+type SubscribeCandidateChangeAction = new (circleId: number) => MemberAction.Circle.SubscribeCandidateChangeEvent | MemberAction.Ranking.SubscribeCandidateChangeEvent;
+type SubscribeVoterChangeAction = new (circleId: number) => MemberAction.Circle.SubscribeVoterChangeEvent | MemberAction.Ranking.SubscribeVoterChangeEvent;
+type UnsubscribeCandidateChangeAction = new (circleId: number) => MemberAction.Circle.UnsubscribeCandidateChangeEvent | MemberAction.Ranking.UnsubscribeCandidateChangeEvent;
+type UnsubscribeVoterChangeAction = new (circleId: number) => MemberAction.Circle.UnsubscribeVoterChangeEvent | MemberAction.Ranking.UnsubscribeVoterChangeEvent;
+type SubscribeChangeActions = [SubscribeCandidateChangeAction, SubscribeVoterChangeAction];
+type UnsubscribeChangeActions = [UnsubscribeCandidateChangeAction, UnsubscribeVoterChangeAction];
 
 @State<MemberStateModel>({
     name: 'member',
@@ -40,10 +47,16 @@ export class MemberState implements NgxsOnInit {
     private readonly _circleCandidateChangedMessage$: Observable<AblyMessage>;
     private readonly _rankingCandidateChangedMsgSubject = new Subject<AblyMessage>();
     private readonly _rankingCandidateChangedMessage$: Observable<AblyMessage>;
+    private readonly _circleVoterChangedMsgSubject = new Subject<AblyMessage>();
+    private readonly _circleVoterChangedMessage$: Observable<AblyMessage>;
+    private readonly _rankingVoterChangedMsgSubject = new Subject<AblyMessage>();
+    private readonly _rankingVoterChangedMessage$: Observable<AblyMessage>;
 
     constructor() {
         this._circleCandidateChangedMessage$ = this._circleCandidateChangedMsgSubject.asObservable();
         this._rankingCandidateChangedMessage$ = this._rankingCandidateChangedMsgSubject.asObservable();
+        this._circleVoterChangedMessage$ = this._circleVoterChangedMsgSubject.asObservable();
+        this._rankingVoterChangedMessage$ = this._rankingVoterChangedMsgSubject.asObservable();
     }
 
     @Action(MemberAction.Circle.FilterVoterMembers)
@@ -117,26 +130,6 @@ export class MemberState implements NgxsOnInit {
                     message: 'Thank you! You\'re vote has been placed.'
                 };
                 this.snackbar.openSuccess(SnackbarSuccessComponent, data);
-            })
-        );
-    }
-
-    @Action(MemberAction.JoinedAsVoter)
-    private joinedAsVoterInCircle(
-        ctx: StateContext<MemberStateModel>,
-        action: MemberAction.JoinedAsVoter
-    ) {
-        const user = this.getCurrentUser();
-
-        const member: VoterMember = {
-            user,
-            voter: action.voter
-        };
-
-        return ctx.setState(
-            patch<MemberStateModel>({
-                circleVoterMembers: append<VoterMember>([member]),
-                rankingVoterMembers: append<VoterMember>([member])
             })
         );
     }
@@ -296,6 +289,42 @@ export class MemberState implements NgxsOnInit {
         return this.ablyService.unsubscribeFromChannel(channel);
     }
 
+    @Action(MemberAction.Circle.SubscribeVoterChangeEvent)
+    private circleSubscribeVoterChangeEvent(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Circle.SubscribeVoterChangeEvent
+    ) {
+        const channel = this.ablyService.channel(`circle-${action.circleId}:voter`);
+        return this.ablyService.subscribeToChannel(channel, 'circle-voter-changed', this._circleVoterChangedMsgSubject);
+    }
+
+    @Action(MemberAction.Circle.UnsubscribeVoterChangeEvent)
+    private circleUnsubscribeVoterChangeEvent(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Circle.UnsubscribeVoterChangeEvent
+    ) {
+        const channel = this.ablyService.channel(`circle-${action.circleId}:voter`);
+        return this.ablyService.unsubscribeFromChannel(channel);
+    }
+
+    @Action(MemberAction.Ranking.SubscribeVoterChangeEvent)
+    private rankingSubscribeVoterChangeEvent(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Ranking.SubscribeVoterChangeEvent
+    ) {
+        const channel = this.ablyService.channel(`circle-${action.circleId}:voter`);
+        return this.ablyService.subscribeToChannel(channel, 'circle-voter-changed', this._rankingVoterChangedMsgSubject);
+    }
+
+    @Action(MemberAction.Ranking.UnsubscribeVoterChangeEvent)
+    private rankingUnsubscribeVoterChangeEvent(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Ranking.UnsubscribeVoterChangeEvent
+    ) {
+        const channel = this.ablyService.channel(`circle-${action.circleId}:voter`);
+        return this.ablyService.unsubscribeFromChannel(channel);
+    }
+
     @Action(MemberAction.Circle.CandidateChanged)
     private circleCandidateChanged(
         ctx: StateContext<MemberStateModel>,
@@ -396,30 +425,101 @@ export class MemberState implements NgxsOnInit {
         }
     }
 
+    @Action(MemberAction.Circle.VoterChanged)
+    private circleVoterChanged(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Circle.VoterChanged
+    ) {
+        switch (action.voterEvent.operation) {
+            case EventOperation.Created: {
+                const user = this.getCurrentUser();
+
+                const member: VoterMember = {
+                    user,
+                    voter: action.voterEvent.voter
+                };
+
+                return ctx.setState(
+                    patch<MemberStateModel>({
+                        circleVoterMembers: append<VoterMember>([member])
+                    })
+                );
+            }
+            case EventOperation.Updated: {
+                return;
+            }
+            case EventOperation.Deleted: {
+                return;
+            }
+        }
+    }
+
+    @Action(MemberAction.Ranking.VoterChanged)
+    private rankingVoterChanged(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Ranking.VoterChanged
+    ) {
+        switch (action.voterEvent.operation) {
+            case EventOperation.Created: {
+                const user = this.getCurrentUser();
+                const member: VoterMember = {
+                    user,
+                    voter: action.voterEvent.voter
+                };
+
+                return ctx.setState(
+                    patch<MemberStateModel>({
+                        rankingVoterMembers: append<VoterMember>([member])
+                    })
+                );
+            }
+            case EventOperation.Updated: {
+                return;
+            }
+            case EventOperation.Deleted: {
+                return;
+            }
+        }
+    }
+
     public ngxsOnInit(ctx: StateContext<MemberStateModel>): void {
         this.changedEvent$(
             ctx,
             this.store.select(CirclesSelectors.slices.selectedCircle).pipe(
                 startWith(this.store.selectSnapshot(CirclesSelectors.slices.selectedCircle))),
-            MemberAction.Ranking.SubscribeCandidateChangeEvent,
-            MemberAction.Ranking.UnsubscribeCandidateChangeEvent).subscribe();
+            [MemberAction.Circle.SubscribeCandidateChangeEvent, MemberAction.Circle.SubscribeVoterChangeEvent],
+            [MemberAction.Circle.UnsubscribeCandidateChangeEvent, MemberAction.Circle.UnsubscribeVoterChangeEvent]
+        ).subscribe();
 
         this.changedEvent$(
             ctx,
             this.store.select(RankingSelectors.slices.selectedCircle).pipe(
                 startWith(this.store.selectSnapshot(RankingSelectors.slices.selectedCircle))),
-            MemberAction.Ranking.SubscribeCandidateChangeEvent,
-            MemberAction.Ranking.UnsubscribeCandidateChangeEvent).subscribe();
+            [MemberAction.Ranking.SubscribeCandidateChangeEvent, MemberAction.Ranking.SubscribeVoterChangeEvent],
+            [MemberAction.Ranking.UnsubscribeCandidateChangeEvent, MemberAction.Ranking.UnsubscribeVoterChangeEvent]
+        ).subscribe();
 
         this._circleCandidateChangedMessage$.pipe(
             map(msg => msg.data as CircleCandidateChangeEvent),
-            tap(candidateEvent => ctx.dispatch(new MemberAction.Circle.CandidateChanged(candidateEvent))),
+            tap(event => ctx.dispatch(new MemberAction.Circle.CandidateChanged(event))),
             takeUntilDestroyed(this.destroyRef)
         ).subscribe();
 
         this._rankingCandidateChangedMessage$.pipe(
             map(msg => msg.data as CircleCandidateChangeEvent),
-            tap(candidateEvent => ctx.dispatch(new MemberAction.Ranking.CandidateChanged(candidateEvent))),
+            tap(event => ctx.dispatch(new MemberAction.Ranking.CandidateChanged(event))),
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe();
+
+        this._circleVoterChangedMessage$.pipe(
+            map(msg => msg.data as CircleVoterChangeEvent),
+            tap(event => ctx.dispatch(new MemberAction.Circle.VoterChanged(event))),
+            takeUntilDestroyed(this.destroyRef)
+        ).subscribe();
+
+        this._rankingVoterChangedMessage$.pipe(
+            map(msg => msg.data as CircleVoterChangeEvent),
+            tap(event => ctx.dispatch(new MemberAction.Ranking.VoterChanged(event))),
             takeUntilDestroyed(this.destroyRef)
         ).subscribe();
     }
@@ -453,8 +553,8 @@ export class MemberState implements NgxsOnInit {
     private changedEvent$(
         ctx: StateContext<MemberStateModel>,
         source$: Observable<Circle | undefined>,
-        subscribeAction: new (circleId: number) => MemberAction.Circle.SubscribeCandidateChangeEvent | MemberAction.Ranking.SubscribeCandidateChangeEvent,
-        unsubscribeAction: new (circleId: number) => MemberAction.Circle.UnsubscribeCandidateChangeEvent | MemberAction.Ranking.UnsubscribeCandidateChangeEvent
+        subscribeActions: SubscribeChangeActions,
+        unsubscribeActions: UnsubscribeChangeActions
     ): Observable<void> {
         return source$.pipe(
             startWith(this.store.selectSnapshot(RankingSelectors.slices.selectedCircle)),
@@ -465,7 +565,10 @@ export class MemberState implements NgxsOnInit {
                     let action$: Observable<void>;
 
                     if (prev) {
-                        action$ = ctx.dispatch(new unsubscribeAction(prev.id));
+                        action$ = ctx.dispatch([
+                            new unsubscribeActions[0](prev.id),
+                            new unsubscribeActions[1](prev.id)
+                        ]);
                     } else {
                         action$ = of(void 0);
                     }
@@ -473,7 +576,10 @@ export class MemberState implements NgxsOnInit {
                     return action$.pipe(map(() => [prev, curr]));
                 }
             ),
-            switchMap(([, curr]) => ctx.dispatch(new subscribeAction(curr!.id))),
+            switchMap(([, curr]) => ctx.dispatch([
+                new subscribeActions[0](curr!.id),
+                new subscribeActions[1](curr!.id)
+            ])),
             takeUntilDestroyed(this.destroyRef));
     }
 
