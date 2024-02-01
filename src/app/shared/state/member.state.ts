@@ -333,22 +333,46 @@ export class MemberState implements NgxsOnInit {
         switch (action.candidateEvent.operation) {
             case EventOperation.Created: {
                 const user = this.getCurrentUser();
-                const member: CandidateMember = {
-                    user,
-                    candidate: action.candidateEvent.candidate
-                };
+                let userMember = ctx.getState().circleUserCandidateMember;
 
-                return ctx.setState(
-                    patch<MemberStateModel>({
-                        circleCandidateMembers: append<CandidateMember>([member]),
-                        circleUserCandidateMember: member
-                    })
+                if (user.identityId === action.candidateEvent.candidate.candidate) {
+                    userMember = {
+                        user,
+                        candidate: action.candidateEvent.candidate
+                    };
+
+                    return ctx.setState(
+                        patch<MemberStateModel>({
+                            circleCandidateMembers: append<CandidateMember>([userMember]),
+                            circleUserCandidateMember: userMember
+                        })
+                    );
+                }
+
+                return this.mapCandidateMember$(action.candidateEvent.candidate).pipe(
+                    tap(member => ctx.setState(
+                        patch<MemberStateModel>({
+                            circleCandidateMembers: append<CandidateMember>([member]),
+                            circleUserCandidateMember: userMember
+                        })
+                    ))
                 );
             }
             case EventOperation.Updated: {
                 const user = this.getCurrentUser();
-                const userMember = ctx.getState().circleUserCandidateMember as CandidateMember;
                 const commitment = action.candidateEvent.candidate.commitment;
+                let userMember = ctx.getState().circleUserCandidateMember;
+
+                if (user.identityId === action.candidateEvent.candidate.candidate) {
+                    const circleUserCandidateMember = ctx.getState().circleUserCandidateMember as CandidateMember;
+                    userMember = {
+                        ...circleUserCandidateMember,
+                        candidate: {
+                            ...circleUserCandidateMember!.candidate,
+                            commitment
+                        }
+                    };
+                }
 
                 return ctx.setState(
                     patch<MemberStateModel>({
@@ -356,27 +380,22 @@ export class MemberState implements NgxsOnInit {
                             member => member.user.identityId === user.identityId,
                             member => ({ ...member, candidate: { ...member.candidate, commitment } })
                         ),
-                        circleUserCandidateMember: {
-                            ...userMember,
-                            candidate: {
-                                ...userMember!.candidate,
-                                commitment
-                            }
-                        }
+                        circleUserCandidateMember: userMember
                     })
                 );
             }
             case EventOperation.Deleted: {
-                const userMember = ctx.getState().circleUserCandidateMember;
+                const user = this.getCurrentUser();
+                let userMember = ctx.getState().circleUserCandidateMember;
 
-                if (!userMember) {
-                    return;
+                if (user.identityId === action.candidateEvent.candidate.candidate) {
+                    userMember = undefined;
                 }
 
                 return ctx.setState(
                     patch<MemberStateModel>({
-                        circleCandidateMembers: removeItem<CandidateMember>(member => member.candidate.id === userMember.candidate.id),
-                        circleUserCandidateMember: undefined
+                        circleCandidateMembers: removeItem<CandidateMember>(member => member.candidate.id === action.candidateEvent.candidate.id),
+                        circleUserCandidateMember: userMember
                     })
                 );
             }
@@ -391,15 +410,27 @@ export class MemberState implements NgxsOnInit {
         switch (action.candidateEvent.operation) {
             case EventOperation.Created: {
                 const user = this.getCurrentUser();
-                const member: CandidateMember = {
-                    user,
-                    candidate: action.candidateEvent.candidate
-                };
+                let userMember = ctx.getState().circleUserCandidateMember;
 
-                return ctx.setState(
-                    patch<MemberStateModel>({
-                        rankingCandidateNeedVoteMembers: append<CandidateMember>([member])
-                    })
+                if (user.identityId === action.candidateEvent.candidate.candidate) {
+                    userMember = {
+                        user,
+                        candidate: action.candidateEvent.candidate
+                    };
+
+                    return ctx.setState(
+                        patch<MemberStateModel>({
+                            rankingCandidateNeedVoteMembers: append<CandidateMember>([userMember])
+                        })
+                    );
+                }
+
+                return this.mapCandidateMember$(action.candidateEvent.candidate).pipe(
+                    tap(member => ctx.setState(
+                        patch<MemberStateModel>({
+                            rankingCandidateNeedVoteMembers: append<CandidateMember>([member])
+                        })
+                    ))
                 );
             }
             case EventOperation.Updated: {
@@ -433,23 +464,48 @@ export class MemberState implements NgxsOnInit {
         switch (action.voterEvent.operation) {
             case EventOperation.Created: {
                 const user = this.getCurrentUser();
+                let userMember = ctx.getState().circleUserVoterMember;
 
-                const member: VoterMember = {
-                    user,
-                    voter: action.voterEvent.voter
-                };
+                if (user.identityId === action.voterEvent.voter.voter) {
+                    userMember = {
+                        user,
+                        voter: action.voterEvent.voter
+                    };
 
-                return ctx.setState(
-                    patch<MemberStateModel>({
-                        circleVoterMembers: append<VoterMember>([member])
-                    })
+                    return ctx.setState(
+                        patch<MemberStateModel>({
+                            circleVoterMembers: append<VoterMember>([userMember]),
+                            circleUserVoterMember: userMember
+                        })
+                    );
+                }
+
+                return this.mapVoterMember$(action.voterEvent.voter).pipe(
+                    tap(member => ctx.setState(
+                        patch<MemberStateModel>({
+                            circleVoterMembers: append<VoterMember>([member]),
+                            circleUserVoterMember: userMember
+                        })
+                    ))
                 );
             }
             case EventOperation.Updated: {
                 return;
             }
             case EventOperation.Deleted: {
-                return;
+                const user = this.getCurrentUser();
+                let userMember = ctx.getState().circleUserVoterMember;
+
+                if (user.identityId === action.voterEvent.voter.voter) {
+                    userMember = undefined;
+                }
+
+                return ctx.setState(
+                    patch<MemberStateModel>({
+                        circleVoterMembers: removeItem<VoterMember>(member => member.voter.id === action.voterEvent.voter.id),
+                        circleUserVoterMember: userMember
+                    })
+                );
             }
         }
     }
@@ -462,22 +518,48 @@ export class MemberState implements NgxsOnInit {
         switch (action.voterEvent.operation) {
             case EventOperation.Created: {
                 const user = this.getCurrentUser();
-                const member: VoterMember = {
-                    user,
-                    voter: action.voterEvent.voter
-                };
+                let userMember = ctx.getState().circleUserVoterMember;
 
-                return ctx.setState(
-                    patch<MemberStateModel>({
-                        rankingVoterMembers: append<VoterMember>([member])
-                    })
+                if (user.identityId === action.voterEvent.voter.voter) {
+                    userMember = {
+                        user,
+                        voter: action.voterEvent.voter
+                    };
+
+                    return ctx.setState(
+                        patch<MemberStateModel>({
+                            rankingVoterMembers: append<VoterMember>([userMember]),
+                            rankingUserVoterMember: userMember
+                        })
+                    );
+                }
+
+                return this.mapVoterMember$(action.voterEvent.voter).pipe(
+                    tap(member => ctx.setState(
+                        patch<MemberStateModel>({
+                            rankingVoterMembers: append<VoterMember>([member]),
+                            rankingUserVoterMember: userMember
+                        })
+                    ))
                 );
             }
             case EventOperation.Updated: {
                 return;
             }
             case EventOperation.Deleted: {
-                return;
+                const user = this.getCurrentUser();
+                let userMember = ctx.getState().circleUserVoterMember;
+
+                if (user.identityId === action.voterEvent.voter.voter) {
+                    userMember = undefined;
+                }
+
+                return ctx.setState(
+                    patch<MemberStateModel>({
+                        rankingVoterMembers: removeItem<VoterMember>(member => member.voter.id === action.voterEvent.voter.id),
+                        rankingUserVoterMember: userMember
+                    })
+                );
             }
         }
     }
