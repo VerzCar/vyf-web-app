@@ -4,6 +4,7 @@ import { Circle, Commitment } from '@vyf/vote-circle-service';
 import { combineLatest, map, Observable } from 'rxjs';
 import { CandidateMember } from '../../../shared/models';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
+import { CirclesAction } from '../state/actions/circles.action';
 import { CirclesSelectors } from '../state/circles.selectors';
 
 export interface CircleDetailActionBarComponentView {
@@ -49,5 +50,9 @@ export class CircleDetailActionBarComponent {
                 isUserCandidateMemberOfCircle
             }))
         );
+    }
+
+    public onLeaveAVoter(id: number) {
+        this.store.dispatch(new CirclesAction.LeaveCircleAsVoter(id));
     }
 }

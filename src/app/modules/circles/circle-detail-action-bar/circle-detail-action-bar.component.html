@@ -15,6 +15,10 @@
             <app-circle-detail-action-item-join [circleId]="view.circle.id"
                                                 [subject]="'voter'">
             </app-circle-detail-action-item-join>
+        } @else {
+            <button (click)="onLeaveAVoter(view.circle.id)">
+                LEAVE VOter
+            </button>
         }
         @if (!view.isUserCandidateMemberOfCircle && !view.circle.private) {
             <app-circle-detail-action-item-join [circleId]="view.circle.id"

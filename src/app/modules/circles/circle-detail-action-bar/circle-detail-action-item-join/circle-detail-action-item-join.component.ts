@@ -16,7 +16,9 @@ export class CircleDetailActionItemJoinComponent {
     public onJoinCircle() {
         if (this.subject === 'voter') {
             this.store.dispatch(new CirclesAction.JoinCircleAsVoter(this.circleId));
+            return;
         }
+
         this.store.dispatch(new CirclesAction.JoinCircleAsCandidate(this.circleId));
     }
 }

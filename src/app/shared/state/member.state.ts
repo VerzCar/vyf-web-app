@@ -330,6 +330,7 @@ export class MemberState implements NgxsOnInit {
         ctx: StateContext<MemberStateModel>,
         action: MemberAction.Circle.CandidateChanged
     ) {
+        console.log('circleCandidateChanged', action.candidateEvent);
         switch (action.candidateEvent.operation) {
             case EventOperation.Created: {
                 const user = this.getCurrentUser();
@@ -461,6 +462,7 @@ export class MemberState implements NgxsOnInit {
         ctx: StateContext<MemberStateModel>,
         action: MemberAction.Circle.VoterChanged
     ) {
+        console.log('circleVoterChanged', action.voterEvent);
         switch (action.voterEvent.operation) {
             case EventOperation.Created: {
                 const user = this.getCurrentUser();
