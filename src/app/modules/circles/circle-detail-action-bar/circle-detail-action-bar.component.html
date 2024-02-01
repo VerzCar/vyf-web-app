@@ -11,15 +11,18 @@
                 Go to Ranking List
             </a>
         </li>
+
         @if (!view.isUserVoterMemberOfCircle && !view.circle.private) {
             <app-circle-detail-action-item-join [circleId]="view.circle.id"
                                                 [subject]="'voter'">
             </app-circle-detail-action-item-join>
-        } @else {
-            <button (click)="onLeaveAVoter(view.circle.id)">
-                LEAVE VOter
-            </button>
         }
+
+        @if (view.isUserVoterMemberOfCircle) {
+            <app-circle-detail-action-item-leave-voter [circleId]="view.circle.id">
+            </app-circle-detail-action-item-leave-voter>
+        }
+
         @if (!view.isUserCandidateMemberOfCircle && !view.circle.private) {
             <app-circle-detail-action-item-join [circleId]="view.circle.id"
                                                 [subject]="'candidate'">
