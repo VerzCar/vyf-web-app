@@ -1,80 +1,93 @@
 <form>
     <mat-form-field appearance="outline" class="w-full">
-        <span matPrefix
-              class="px-2">
-            <i-feather
-                    class="text-gray-600"
-                    name="search">
-            </i-feather>
-            </span>
-
-        <div aria-label="User selection"
-             class="flex flex-row flex-wrap items-center gap-2 overflow-hidden mb-1">
-            <ng-container *rxFor="let user of selectedUserOptions$; let index = index;">
-                <div class="border border-gray-500 rounded px-1">
-                    <div class="flex flex-row items-center gap-2">
-                        <vyf-avatar-img [imageSrc]="user.profile.imageSrc"
-                                        [username]="user.username"
-                                        [size]="AvatarImgSize.Xs">
-                        </vyf-avatar-img>
-                        <p>#{{user.username}}</p>
-                        <button (click)="removeSelectedUser(index)"
-                                mat-icon-button
-                                type="button"
-                                [attr.aria-label]="'remove ' + user">
-                            <i-feather class="text-red-700 align-top"
-                                       name="x-octagon">
-                            </i-feather>
-                        </button>
-                    </div>
-                </div>
-            </ng-container>
+        <div matPrefix
+             class="px-2">
+            <mat-spinner *rxIf="isLoading; else icon"
+                         diameter="24">
+            </mat-spinner>
+            <ng-template #icon>
+                <i-feather class="text-gray-600"
+                           name="search">
+                </i-feather>
+            </ng-template>
         </div>
+
+
+        @if (showSelectionInField) {
+            <div aria-label="User selection"
+                 class="flex flex-row flex-wrap items-center gap-2 overflow-hidden mb-1">
+                <ng-container *rxFor="let user of selectedUserOptions$; let index = index;">
+                    <div class="border border-gray-500 rounded px-1">
+                        <div class="flex flex-row items-center gap-2">
+                            <vyf-avatar-img [imageSrc]="user.profile.imageSrc"
+                                            [username]="user.username"
+                                            [size]="AvatarImgSize.Xs">
+                            </vyf-avatar-img>
+                            <p>#{{ user.username }}</p>
+                            <button (click)="removeSelectedInFieldUser(index)"
+                                    mat-icon-button
+                                    type="button"
+                                    [attr.aria-label]="'remove ' + user">
+                                <i-feather class="text-red-700 align-top"
+                                           name="x-octagon">
+                                </i-feather>
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        }
 
         <input #userInput
                matInput
                id="selectedUser"
                aria-label="Users"
                type="search"
-               [placeholder]="'Search user'"
+               [placeholder]="placeholder"
                [matAutocomplete]="auto"
                [formControl]="control"
                (keydown.enter)="onInputKeyEnter($event)">
 
         <mat-autocomplete #auto="matAutocomplete"
                           (optionSelected)="onOptionSelected($event.option.value)"
-                          [displayWith]="displayFn">
+                          [displayWith]="displayFn"
+                          [hideSingleSelectionIndicator]="true">
             <mat-option *rxFor="let user of filteredUserOptions$"
                         [value]="user"
-                        [disabled]="user.disabled"
+                        [disabled]="user.disabled && !removable"
                         class="user-option"
                         [ngClass]="{'disabled': user.disabled}">
-                <mat-spinner *rxIf="isLoading"
-                             diameter="30">
-                </mat-spinner>
+                <p *rxIf="user.noMatch; else: listItem;">
+                    No Results.
+                </p>
 
-                <ng-container *rxIf="!isLoading">
-                    <p *rxIf="user.noMatch; else: listItem;">
-                        No Results.
-                    </p>
-
-                    <ng-template #listItem>
-                        <vyf-user-list-item [user]="user">
-                            <i-feather *rxIf="user.disabled"
-                                       suffix-content
-                                       class="text-green-700"
+                <ng-template #listItem>
+                    <vyf-user-list-item [user]="user">
+                        <div *rxIf="user.disabled"
+                             suffix-content
+                             class="flex flex-row items-center ml-auto">
+                            <i-feather class="text-green-700 align-top"
                                        name="user-check">
                             </i-feather>
-                            <button *rxIf="!user.disabled"
+                            <button *rxIf="removable"
                                     mat-button
-                                    suffix-content
                                     color="accent"
-                                    type="button">
-                                Add
+                                    type="button"
+                                    (click)="removeUser(user)">
+                                <i-feather class="text-red-700 align-top"
+                                           name="x">
+                                </i-feather>
                             </button>
-                        </vyf-user-list-item>
-                    </ng-template>
-                </ng-container>
+                        </div>
+                        <button *rxIf="!user.disabled"
+                                mat-button
+                                suffix-content
+                                color="accent"
+                                type="button">
+                            Add
+                        </button>
+                    </vyf-user-list-item>
+                </ng-template>
 
             </mat-option>
         </mat-autocomplete>

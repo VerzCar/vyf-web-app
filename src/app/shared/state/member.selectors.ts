@@ -1,5 +1,5 @@
 import { createPropertySelectors, createSelector, Selector } from '@ngxs/store';
-import { User } from '@vyf/user-service';
+import { User, UserPaginated } from '@vyf/user-service';
 import { UserSelectors } from '../../modules/user/state/user.selectors';
 import { CandidateMember, MemberStateModel, VoterMember } from '../models';
 import { MemberState } from './member.state';
@@ -68,6 +68,24 @@ export namespace MemberSelectors {
             }
 
             return members && members.some(member => member.user.identityId === user.identityId);
+        }
+
+        @Selector([
+            Member.slices.circleVoterMembers
+        ])
+        public static voterUsers(
+            members: VoterMember[]
+        ): UserPaginated[] {
+            return members.map(member => member.user);
+        }
+
+        @Selector([
+            Member.slices.circleCandidateMembers
+        ])
+        public static candidateUsers(
+            members: CandidateMember[]
+        ): UserPaginated[] {
+            return members.map(member => member.user);
         }
     }
 

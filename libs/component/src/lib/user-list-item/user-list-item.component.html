@@ -1,10 +1,13 @@
-<div class="flex flex-row items-center gap-3 w-full">
+<div class="grid auto-cols-auto md:auto-cols-min grid-rows-1 gap-2 w-full">
     <vyf-avatar-img [imageSrc]="user.profile.imageSrc"
                     [username]="user.username"
-                    [size]="AvatarImgSize.Xs">
+                    [size]="AvatarImgSize.Xs"
+                    class="col-start-1 col-end-1">
     </vyf-avatar-img>
-    <p>#{{user.username}}</p>
-    <div class="ml-auto">
+    <p class="col-start-2 col-end-2 text-xs md:text-base">
+        #{{ user.username }}
+    </p>
+    <div class="col-start-3 col-end-3 justify-self-end ml-auto">
         <ng-content select="[suffix-content]">
         </ng-content>
     </div>

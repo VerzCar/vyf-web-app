@@ -7,4 +7,6 @@ export interface Circle {
     active: boolean;
     createdFrom: string;
     validUntil: Date;
+    createdAt: Date;
+    updatedAt: Date;
 }

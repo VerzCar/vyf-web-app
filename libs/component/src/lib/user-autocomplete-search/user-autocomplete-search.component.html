@@ -2,13 +2,14 @@
     <mat-form-field appearance="outline" class="w-full">
         <span matPrefix
               class="px-2">
-            <i-feather *rxIf="!isLoading"
-                    class="text-gray-600"
-                    name="search">
-            </i-feather>
-            <mat-spinner *rxIf="isLoading"
-                         diameter="30">
+            <mat-spinner *rxIf="isLoading; else icon"
+                         diameter="24">
             </mat-spinner>
+            <ng-template #icon>
+                <i-feather class="text-gray-600"
+                           name="search">
+                </i-feather>
+            </ng-template>
             </span>
 
         <input #userSearchInput

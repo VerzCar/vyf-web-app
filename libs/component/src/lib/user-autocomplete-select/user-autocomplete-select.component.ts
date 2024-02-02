@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { NgClass, NgOptimizedImage } from '@angular/common';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,7 +10,7 @@ import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { UserPaginated } from '@vyf/user-service';
 import { FeatherModule } from 'angular-feather';
-import { BehaviorSubject, combineLatest, debounceTime, finalize, map, Observable, startWith, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, filter, finalize, map, Observable, startWith, switchMap, tap } from 'rxjs';
 import { AvatarImgComponent, AvatarImgSize } from '../avatar-img/avatar-img.component';
 import { ShortNamePipe } from '../pipes/short-name.pipe';
 import { UserListItemComponent } from '../user-list-item/user-list-item.component';
@@ -44,16 +44,29 @@ interface UserAutocompleteSelectOption extends UserPaginated {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAutocompleteSelectComponent {
-    @Input({ required: true }) public filteredFetchOptionsFn!: (searchTerm: string) => Observable<UserPaginated[]>;
-    @Input({ required: true }) public fetchOptionsFn!: () => Observable<UserPaginated[]>;
-    @Output() public selectedUsers = new EventEmitter<string[]>();
+    @Input({ required: true })
+    public filteredFetchOptionsFn!: (searchTerm: string) => Observable<UserPaginated[]>;
+    @Input({ required: true })
+    public fetchOptionsFn!: () => Observable<UserPaginated[]>;
+    @Input()
+    public preSelectedUsers: UserPaginated[] = [];
+    @Input()
+    public showSelectionInField = true;
+    @Input()
+    public removable = false;
+    @Input()
+    public placeholder = 'Search user';
+    @Output()
+    public selectedUsers = new EventEmitter<string[]>();
+    @Output()
+    public deselectedUser = new EventEmitter<string>();
 
     @ViewChild('userInput') private readonly userInput!: ElementRef<HTMLInputElement>;
 
-    public control = new FormControl<string>('');
-    public selectedUserOptions$: Observable<UserAutocompleteSelectOption[]>;
-    public filteredUserOptions$: Observable<UserAutocompleteSelectOption[]>;
-    public isLoading = false;
+    public readonly control = new FormControl<string>('');
+    public readonly selectedUserOptions$: Observable<UserAutocompleteSelectOption[]>;
+    public readonly filteredUserOptions$: Observable<UserAutocompleteSelectOption[]>;
+    public readonly isLoading = new BehaviorSubject<boolean>(false);
 
     public readonly selectedUserOptionsSubject = new BehaviorSubject<UserAutocompleteSelectOption[]>([]);
     public readonly AvatarImgSize = AvatarImgSize;
@@ -64,11 +77,12 @@ export class UserAutocompleteSelectComponent {
         this.filteredUserOptions$ = combineLatest([
             this.control.valueChanges.pipe(
                 startWith(''),
-                debounceTime(300)
+                debounceTime(300),
+                distinctUntilChanged()
             ),
             this.selectedUserOptions$
         ]).pipe(
-            tap(() => this.isLoading = true),
+            tap(() => this.isLoading.next(true)),
             switchMap(([username, selectedUsers]) =>
                 username ? this.mapFilteredUserOptions$(username, selectedUsers) : this.mapAllUserOptions$(selectedUsers)
             )
@@ -81,6 +95,8 @@ export class UserAutocompleteSelectComponent {
 
     public onOptionSelected(option: UserAutocompleteSelectOption) {
         if (option.disabled) {
+            this.userInput.nativeElement.value = '';
+            this.control.reset('');
             return;
         }
 
@@ -99,7 +115,11 @@ export class UserAutocompleteSelectComponent {
         event.preventDefault();
     }
 
-    public removeSelectedUser(index: number): void {
+    public removeUser(user: UserAutocompleteSelectOption): void {
+        this.deselectedUser.emit(user.identityId);
+    }
+
+    public removeSelectedInFieldUser(index: number): void {
         const users = this.selectedUserOptionsSubject.getValue();
 
         users.splice(index, 1);
@@ -114,14 +134,14 @@ export class UserAutocompleteSelectComponent {
     ): Observable<UserAutocompleteSelectOption[]> {
         return this.filteredFetchOptionsFn(username).pipe(
             map(filteredUsers => this.createUserOptions(filteredUsers, selectedUsers)),
-            finalize(() => this.isLoading = false)
+            finalize(() => this.isLoading.next(false))
         );
     }
 
     private mapAllUserOptions$(selectedUsers: UserAutocompleteSelectOption[]): Observable<UserAutocompleteSelectOption[]> {
         return this.fetchOptionsFn().pipe(
             map(filteredUsers => this.createUserOptions(filteredUsers, selectedUsers)),
-            finalize(() => this.isLoading = false)
+            finalize(() => this.isLoading.next(false))
         );
     }
 
@@ -134,7 +154,7 @@ export class UserAutocompleteSelectComponent {
             } as UserAutocompleteSelectOption];
         }
 
-        const lookupUsers = [...selectedUsers];
+        const lookupUsers = [...selectedUsers, ...this.preSelectedUsers];
         return filteredUsers.map(user => {
             let disabled = false;
             const foundIndexInSelectedUsers = lookupUsers.findIndex(selectedUser => selectedUser.identityId === user.identityId);

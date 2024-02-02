@@ -7,7 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RxIf } from '@rx-angular/template/if';
 import { UserPaginated } from '@vyf/user-service';
 import { FeatherModule } from 'angular-feather';
-import { debounceTime, finalize, Observable, startWith, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, finalize, Observable, startWith, switchMap, tap } from 'rxjs';
 
 @Component({
     selector: 'vyf-user-autocomplete-search',
@@ -29,15 +29,15 @@ export class UserAutocompleteSearchComponent {
     @Input({ required: true }) public fetchOptionsFn!: () => Observable<UserPaginated[]>;
     @Output() public foundUsers = new EventEmitter<UserPaginated[]>();
 
-    public control = new FormControl<string>('');
-
-    public isLoading = false;
+    public readonly control = new FormControl<string>('');
+    public readonly isLoading = new BehaviorSubject<boolean>(false);
 
     constructor() {
         this.control.valueChanges.pipe(
             startWith(''),
             debounceTime(300),
-            tap(() => this.isLoading = true),
+            distinctUntilChanged(),
+            tap(() => this.isLoading.next(true)),
             switchMap(username =>
                 username ? this.mapFilteredUsers$(username) : this.mapAllUsers$()
             ),
@@ -54,13 +54,13 @@ export class UserAutocompleteSearchComponent {
         username: string
     ): Observable<UserPaginated[]> {
         return this.filteredFetchOptionsFn(username).pipe(
-            finalize(() => this.isLoading = false)
+            finalize(() => this.isLoading.next(false))
         );
     }
 
     private mapAllUsers$(): Observable<UserPaginated[]> {
         return this.fetchOptionsFn().pipe(
-            finalize(() => this.isLoading = false)
+            finalize(() => this.isLoading.next(false))
         );
     }
 }

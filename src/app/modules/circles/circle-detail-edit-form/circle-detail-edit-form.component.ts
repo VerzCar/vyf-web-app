@@ -1,4 +1,4 @@
-import { NgOptimizedImage } from '@angular/common';
+import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,7 +18,8 @@ import { CirclesSelectors } from '../state/circles.selectors';
         MatFormFieldModule,
         ReactiveFormsModule,
         MatInputModule,
-        NgOptimizedImage
+        NgOptimizedImage,
+        DatePipe
     ],
     templateUrl: './circle-detail-edit-form.component.html',
     styleUrl: './circle-detail-edit-form.component.scss',

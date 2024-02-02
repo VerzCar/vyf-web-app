@@ -2,6 +2,16 @@
     Candidates:
 </h3>
 
+<vyf-user-autocomplete-select [fetchOptionsFn]="allUsersFn$"
+                              [filteredFetchOptionsFn]="allFilteredUsersFn$"
+                              (selectedUsers)="onCandidatesSelected($event)"
+                              (deselectedUser)="onCandidateDeselection($event)"
+                              [placeholder]="'Search candidate'"
+                              [preSelectedUsers]="candidateUsers$ | push"
+                              [showSelectionInField]="false"
+                              [removable]="true">
+</vyf-user-autocomplete-select>
+
 <div class="flex flex-col space-y-2 mb-2">
     <ng-container *rxFor="let member of candidateMembers$">
         <vyf-user-list-item [user]="member.user">
@@ -14,6 +24,16 @@
 <h3 class="mt-3">
     Voters:
 </h3>
+
+<vyf-user-autocomplete-select [fetchOptionsFn]="allUsersFn$"
+                              [filteredFetchOptionsFn]="allFilteredUsersFn$"
+                              (selectedUsers)="onVotersSelected($event)"
+                              (deselectedUser)="onVoterDeselection($event)"
+                              [placeholder]="'Search voter'"
+                              [preSelectedUsers]="voterUsers$ | push"
+                              [showSelectionInField]="false"
+                              [removable]="true">
+</vyf-user-autocomplete-select>
 
 <div class="flex flex-col space-y-2">
     <ng-container *rxFor="let member of voterMembers$">

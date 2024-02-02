@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RxIf } from '@rx-angular/template/if';
 import { CirclePaginated } from '@vyf/vote-circle-service';
-import { BehaviorSubject, debounceTime, Observable, of, startWith, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, debounceTime, distinctUntilChanged, Observable, of, startWith, switchMap, tap } from 'rxjs';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 
 @Component({
@@ -21,13 +21,14 @@ export class CircleAutocompleteSearchComponent {
     @Input({ required: true }) public filteredFetchOptionsFn!: (searchTerm: string) => Observable<CirclePaginated[]>;
     @Output() public foundCircles = new EventEmitter<CirclePaginated[]>();
 
-    public control = new FormControl<string>('');
-    public isLoading = new BehaviorSubject<boolean>(false);
+    public readonly control = new FormControl<string>('');
+    public readonly isLoading = new BehaviorSubject<boolean>(false);
 
     constructor() {
         this.control.valueChanges.pipe(
             startWith(''),
             debounceTime(300),
+            distinctUntilChanged(),
             tap(() => this.isLoading.next(true)),
             switchMap(name =>
                 name?.length ? this.mapFilteredCircles$(name) : of([])
