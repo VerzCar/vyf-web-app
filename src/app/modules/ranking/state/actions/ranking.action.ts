@@ -1,5 +1,4 @@
-import { Ranking } from '@vyf/vote-circle-service';
-import { CirclesAction } from '../../../circles/state/actions/circles.action';
+import { RankingChangeEvent } from '@vyf/vote-circle-service';
 
 const domainName = 'Ranking';
 
@@ -37,7 +36,7 @@ export namespace RankingAction {
         public static readonly type = `[${domainName}] Ranking changed`;
 
         // eslint-disable-next-line no-useless-constructor
-        constructor(public ranking: Ranking) {
+        constructor(public rankingEvent: RankingChangeEvent) {
         }
     }
 }

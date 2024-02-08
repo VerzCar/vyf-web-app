@@ -68,6 +68,10 @@ export class VoteCircleService extends ApiBaseService {
         return this.create<VoteCreateRequest, boolean>(voteCreate, `vote/${circleId}`);
     }
 
+    public revokeVote(circleId: number): Observable<ApiResponse<boolean>> {
+        return this.create<object, boolean>({}, `vote/revoke/${circleId}`);
+    }
+
     public updateCommitment(circleId: number, req: CircleCandidateCommitmentRequest): Observable<ApiResponse<Commitment>> {
         return this.create<CircleCandidateCommitmentRequest, Commitment>(req, `circle-candidates/${circleId}/commitment`);
     }

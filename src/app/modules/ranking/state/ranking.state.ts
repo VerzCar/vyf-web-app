@@ -4,7 +4,7 @@ import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext } 
 import { compose, insertItem, patch, removeItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService } from '@vyf/base';
 import { UserService } from '@vyf/user-service';
-import { Circle, CircleCandidatesFilter, Ranking, VoteCircleService } from '@vyf/vote-circle-service';
+import { Circle, CircleCandidatesFilter, EventOperation, Ranking, RankingChangeEvent, VoteCircleService } from '@vyf/vote-circle-service';
 import { debounceTime, forkJoin, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { Placement, RankingStateModel } from '../models';
@@ -107,29 +107,42 @@ export class RankingState implements NgxsOnInit {
         ctx: StateContext<RankingStateModel>,
         action: RankingAction.RankingChanged
     ) {
-        const placements = ctx.getState().placements;
+        console.log('RANKING: ', action.rankingEvent);
 
-        // check if the ranking already exists in the list, if not insert it
-        const rankedIndex = placements.findIndex(placement => placement.ranking.id === action.ranking.id);
+        switch (action.rankingEvent.operation) {
+            case EventOperation.Created:
+            case EventOperation.Updated: {
+                const placements = ctx.getState().placements;
+                const ranking = action.rankingEvent.ranking;
 
-        const rankedPlacement$ = rankedIndex === -1 ? this.mapRankingToPlacement$(action.ranking) : of(placements[rankedIndex]);
+                // check if the placement for the ranking already exists, if not create new placement
+                const rankedIndex = placements.findIndex(placement => placement.ranking.id === ranking.id);
 
-        console.log('RANKING: ', action.ranking);
+                const rankedPlacement$ = rankedIndex === -1 ? this.mapRankingToPlacement$(ranking) : of(placements[rankedIndex]);
 
-        return rankedPlacement$.pipe(
-            tap(placement =>
-                ctx.setState(
-                    compose<RankingStateModel>(
-                        patch<RankingStateModel>({
-                            placements: removeItem<Placement>(placement => placement.ranking.id === action.ranking.id)
-                        }),
-                        patch<RankingStateModel>({
-                            placements: insertItem<Placement>({ ...placement, ranking: { ...action.ranking } }, action.ranking.indexedOrder)
-                        })
+                return rankedPlacement$.pipe(
+                    tap(placement =>
+                        ctx.setState(
+                            compose<RankingStateModel>(
+                                patch<RankingStateModel>({
+                                    placements: removeItem<Placement>(placement => placement.ranking.id === ranking.id)
+                                }),
+                                patch<RankingStateModel>({
+                                    placements: insertItem<Placement>({ ...placement, ranking: { ...ranking } }, ranking.indexedOrder)
+                                })
+                            )
+                        )
                     )
-                )
-            )
-        );
+                );
+            }
+            case EventOperation.Deleted: {
+                return ctx.setState(
+                    patch<RankingStateModel>({
+                        placements: removeItem<Placement>(placement => placement.ranking.id === action.rankingEvent.ranking.id)
+                    })
+                );
+            }
+        }
     }
 
     public ngxsOnInit(ctx: StateContext<RankingStateModel>): void {
@@ -141,7 +154,7 @@ export class RankingState implements NgxsOnInit {
         ).subscribe();
 
         this._rankingChangedMessage$.pipe(
-            map(msg => msg.data as Ranking),
+            map(msg => msg.data as RankingChangeEvent),
             tap(ranking => ctx.dispatch(new RankingAction.RankingChanged(ranking))),
             takeUntilDestroyed(this.destroyRef)
         ).subscribe();

@@ -134,6 +134,14 @@ export namespace MemberAction {
             }
         }
 
+        export class RevokeVote {
+            public static readonly type = `[${domainName}] - [${subDomainName}] Revoked Vote`;
+
+            // eslint-disable-next-line no-useless-constructor
+            constructor(public circleId: number) {
+            }
+        }
+
         export class CandidateChanged {
             public static readonly type = `[${domainName}] - [${subDomainName}] Candidate changed`;
 

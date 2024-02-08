@@ -22,6 +22,7 @@ import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/state/user.state';
 import { CandidateMemberListDialogComponent } from './candidate-member-list-dialog/candidate-member-list-dialog.component';
+import { CandidateMemberListItemComponent } from './candidate-member-list/candidate-member-list-item/candidate-member-list-item.component';
 import { CandidateMemberListComponent } from './candidate-member-list/candidate-member-list.component';
 import { ListItemComponent } from './ranking-list/list-item/list-item.component';
 import { RankingListComponent } from './ranking-list/ranking-list.component';
@@ -39,6 +40,7 @@ import { RankingState } from './state/ranking.state';
         TopThreeComponent,
         TopRankedComponent,
         CandidateMemberListComponent,
+        CandidateMemberListItemComponent,
         CandidateMemberListDialogComponent
     ],
     imports: [

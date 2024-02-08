@@ -4,6 +4,7 @@ export { VoteCreateRequest } from './vote-create-request.model';
 export { Voter } from './voter.model';
 export { CircleVoter } from './circle-voter.model';
 export { Ranking, Placement } from './ranking.model';
+export { RankingChangeEvent } from './ranking-change-event.model';
 export { Commitment } from './commitment.model';
 export { CircleVotersFilter } from './circle-voters-filter.model';
 
