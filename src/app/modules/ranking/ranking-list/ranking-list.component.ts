@@ -7,6 +7,7 @@ import { combineLatest, map, Observable } from 'rxjs';
 import { CandidateMember, VoterMember } from '../../../shared/models';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { CandidateMemberListDialogComponent } from '../candidate-member-list-dialog/candidate-member-list-dialog.component';
+import { placementTracking } from '../helper/placement-tracking';
 import { Placement } from '../models';
 import { RankingSelectors } from '../state/ranking.selectors';
 
@@ -73,5 +74,9 @@ export class RankingListComponent {
             previewUsers: firsThreeUsers,
             membersCount: countOfMembersToVote > 0 ? countOfMembersToVote : 0
         };
+    }
+
+    public placementTrackingBy(index: number, placement: Placement) {
+        return placementTracking(index, placement);
     }
 }

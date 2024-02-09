@@ -5,8 +5,10 @@ import { RxPush } from '@rx-angular/template/push';
 import { UserAutocompleteSelectComponent, UserListItemComponent } from '@vyf/component';
 import { UserPaginated, UserService } from '@vyf/user-service';
 import { catchError, map, Observable } from 'rxjs';
+import { voterMemberTracking } from '../../../../shared/helper/voter-member-tracking';
 import { CandidateMember, VoterMember } from '../../../../shared/models';
 import { MemberSelectors } from '../../../../shared/state/member.selectors';
+import { candidateMemberTracking } from '../../../../shared/helper/candidate-member-tracking';
 
 @Component({
     selector: 'app-circle-detail-settings-members',
@@ -61,5 +63,13 @@ export class CircleDetailSettingsMembersComponent {
 
     public onVoterDeselection(userIdentidyId: string) {
         console.log('remove voter');
+    }
+
+    public candidateMemberTrackingBy(index: number, member: CandidateMember): number {
+        return candidateMemberTracking(index, member);
+    }
+
+    public voterMemberTrackingBy(index: number, member: VoterMember): number {
+        return voterMemberTracking(index, member);
     }
 }

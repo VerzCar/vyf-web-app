@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Circle } from '@vyf/vote-circle-service';
 
 @Component({
@@ -9,4 +9,9 @@ import { Circle } from '@vyf/vote-circle-service';
 })
 export class CirclesCarouselComponent {
     @Input({ required: true }) public circles!: Circle[];
+    @Output() public createNewCircle = new EventEmitter<void>();
+
+    public onCreateNew() {
+        this.createNewCircle.emit();
+    }
 }

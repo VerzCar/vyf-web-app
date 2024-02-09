@@ -3,12 +3,11 @@
     error: error;
     suspense: suspense;">
     <ul class="divide-y-2 divide-gray-300">
-        @for (member of view.members; track $index) {
+        @for (member of view.members; track candidateMemberTrackingBy($index, member)) {
             <app-candidate-member-list-item [member]="member"
                                             [selectedCircle]="view.selectedCircle">
             </app-candidate-member-list-item>
         }
-
     </ul>
 </ng-container>
 

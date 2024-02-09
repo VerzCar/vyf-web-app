@@ -11,12 +11,14 @@
                 It seems like you do not have any circles.
             </h5>
 
-            <a [routerLink]="['/circles', 'create']"
-               mat-button
-               color="accent"
-               role="button">
+            <button
+                    mat-button
+                    color="accent"
+                    role="button"
+                    type="button"
+                    (click)="onCreateNew()">
                 You can Create one here
-            </a>
+            </button>
         </div>
     </ng-container>
 </div>

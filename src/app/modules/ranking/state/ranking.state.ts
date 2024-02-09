@@ -142,6 +142,9 @@ export class RankingState implements NgxsOnInit {
                     })
                 );
             }
+            case EventOperation.Repositioned: {
+                return;
+            }
         }
     }
 

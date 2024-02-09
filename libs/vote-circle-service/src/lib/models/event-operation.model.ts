@@ -1,5 +1,6 @@
 export enum EventOperation {
     Created = 'CREATED',
     Updated = 'UPDATED',
-    Deleted = 'DELETED'
+    Deleted = 'DELETED',
+    Repositioned = 'REPOSITIONED'
 }

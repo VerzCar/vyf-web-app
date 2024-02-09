@@ -18,7 +18,7 @@
                         color="accent"
                         role="button"
                         type="button"
-                        (click)="onCreateCircle()"
+                        (click)="onOpenCreateCircle()"
                         [disabled]="!view.canCreate">
                     <i-feather name="plus"
                                class="align-top">
@@ -28,7 +28,8 @@
             </section>
 
             <div class="border rounded p-2">
-                <app-circles-carousel [circles]="view.circles">
+                <app-circles-carousel [circles]="view.circles"
+                                      (createNewCircle)="onOpenCreateCircle()">
                 </app-circles-carousel>
             </div>
 

@@ -8,11 +8,11 @@ import { RxFor } from '@rx-angular/template/for';
 import { ImageUploadComponent, UserListItemComponent, WarningDialogComponent } from '@vyf/component';
 import { Circle } from '@vyf/vote-circle-service';
 import { FeatherModule } from 'angular-feather';
-import { CircleDetailEditFormComponent } from '../circle-detail-edit-form/circle-detail-edit-form.component';
 import { CirclesSelectors } from '../state/circles.selectors';
 import { CircleDetailSettingsActionsComponent } from './circle-detail-settings-actions/circle-detail-settings-actions.component';
 import { CircleDetailSettingsImageComponent } from './circle-detail-settings-image/circle-detail-settings-image.component';
 import { CircleDetailSettingsMembersComponent } from './circle-detail-settings-members/circle-detail-settings-members.component';
+import { CircleDetailSettingsOverviewComponent } from './circle-detail-settings-overview/circle-detail-settings-overview.component';
 
 export interface CircleDetailSettingsDialogComponentView {
     circle: Circle;
@@ -29,14 +29,14 @@ export interface CircleDetailSettingsDialogComponentView {
         ImageUploadComponent,
         RxFor,
         UserListItemComponent,
-        CircleDetailEditFormComponent,
         FormsModule,
         FeatherModule,
         MatButtonModule,
         WarningDialogComponent,
         CircleDetailSettingsMembersComponent,
         CircleDetailSettingsImageComponent,
-        CircleDetailSettingsActionsComponent
+        CircleDetailSettingsActionsComponent,
+        CircleDetailSettingsOverviewComponent
     ],
     templateUrl: './circle-detail-settings-dialog.component.html',
     styleUrl: './circle-detail-settings-dialog.component.scss',

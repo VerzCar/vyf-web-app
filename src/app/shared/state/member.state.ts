@@ -396,6 +396,9 @@ export class MemberState implements NgxsOnInit {
                     })
                 );
             }
+            case EventOperation.Repositioned: {
+                return;
+            }
         }
     }
 
@@ -406,6 +409,7 @@ export class MemberState implements NgxsOnInit {
     ) {
         console.log('rankingCandidateChanged', action.candidateEvent);
         switch (action.candidateEvent.operation) {
+            case EventOperation.Repositioned:
             case EventOperation.Created: {
                 const user = this.getCurrentUser();
                 let userMember = ctx.getState().circleUserCandidateMember;
@@ -534,6 +538,9 @@ export class MemberState implements NgxsOnInit {
                     })
                 );
             }
+            case EventOperation.Repositioned: {
+                return;
+            }
         }
     }
 
@@ -617,6 +624,9 @@ export class MemberState implements NgxsOnInit {
                         rankingUserVoterMember: userMember
                     })
                 );
+            }
+            case EventOperation.Repositioned: {
+                return;
             }
         }
     }

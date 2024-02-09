@@ -5,6 +5,7 @@ import { Circle } from '@vyf/vote-circle-service';
 import { combineLatest, filter, map, Observable } from 'rxjs';
 import { CandidateMember } from '../../../shared/models';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
+import { candidateMemberTracking } from '../../../shared/helper/candidate-member-tracking';
 import { RankingSelectors } from '../state/ranking.selectors';
 
 interface MemberListRankingView {
@@ -34,5 +35,9 @@ export class CandidateMemberListComponent {
                 members
             }))
         );
+    }
+
+    public candidateMemberTrackingBy(index: number, member: CandidateMember): number {
+        return candidateMemberTracking(index, member);
     }
 }

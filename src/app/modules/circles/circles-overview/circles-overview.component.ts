@@ -41,7 +41,7 @@ export class CirclesOverviewComponent {
         catchError(() => [])
     );
 
-    public onCreateCircle() {
+    public onOpenCreateCircle() {
         this.dialog.open(
             CircleCreateDialogComponent, {
                 width: '600px',

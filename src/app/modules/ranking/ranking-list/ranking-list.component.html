@@ -44,48 +44,47 @@
             </div>
 
             <section class="col-span-full row-start-3 md:col-start-2 md:col-span-2 md:row-start-2">
-                <ng-container *rxIf="view.topThreePlacements.length">
+                @if (view.topThreePlacements.length) {
                     <app-top-three [topThreePlacements]="view.topThreePlacements"
                                    [circle]="view.circle"
                                    class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
                     </app-top-three>
-                </ng-container>
+                }
 
                 <ul *rxIf="view.placements.length"
                     class="divide-y divide-gray-900">
-                    <ng-container *rxFor="let placement of view.placements; let index = index;">
-                        <li class="py-3 sm:pb-4">
-                            <app-list-item [placement]="placement"
-                                           [circle]="view.circle"
-                                           [hasVotedFor]="view.userCandidateMember?.voter?.votedFor === placement.ranking.identityId"
-                                           class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
-                            </app-list-item>
-                        </li>
-                    </ng-container>
+                    @for (placement of view.placements; track placementTrackingBy($index, placement); ) {
+                        <app-list-item [placement]="placement"
+                                       [circle]="view.circle"
+                                       [hasVotedFor]="view.userCandidateMember?.voter?.votedFor === placement.ranking.identityId"
+                                       class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
+                        </app-list-item>
+                    }
                 </ul>
             </section>
 
-            <section *rxIf="!view.placements.length && !view.topThreePlacements.length"
-                     class="col-span-full row-start-3 md:col-start-2 md:col-span-2 md:row-start-2">
-                <div class="relative h-60 w-60 mx-auto">
-                    <img ngSrc="/assets/img/svg/election-day.svg"
-                         priority="true"
-                         alt="election vote"
-                         fill="true"
-                         class="object-cover select-none">
-                </div>
+            @if (!view.placements.length && !view.topThreePlacements.length) {
+                <section class="col-span-full row-start-3 md:col-start-2 md:col-span-2 md:row-start-2">
+                    <div class="relative h-60 w-60 mx-auto">
+                        <img ngSrc="/assets/img/svg/election-day.svg"
+                             priority="true"
+                             alt="election vote"
+                             fill="true"
+                             class="object-cover select-none">
+                    </div>
 
-                <h5 class="text-xl text-center my-6 font-normal tracking-wide">
-                    No one has voted, <br>
-                    <button mat-button
-                            color="accent"
-                            role="button"
-                            type="button"
-                            (click)="onShowMembers()">
-                        give a vote!
-                    </button>
-                </h5>
-            </section>
+                    <h5 class="text-xl text-center my-6 font-normal tracking-wide">
+                        No one has voted, <br>
+                        <button mat-button
+                                color="accent"
+                                role="button"
+                                type="button"
+                                (click)="onShowMembers()">
+                            give a vote!
+                        </button>
+                    </h5>
+                </section>
+            }
         </div>
 
     </ng-container>
