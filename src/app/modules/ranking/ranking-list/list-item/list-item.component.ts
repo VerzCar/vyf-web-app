@@ -18,14 +18,20 @@ export class ListItemComponent implements OnInit {
     @Input() public hasVotedFor = false;
 
     public canVote$: Observable<boolean> | undefined;
+    public canRevokeVote$: Observable<boolean> | undefined;
 
     private readonly store = inject(Store);
 
     public ngOnInit(): void {
         this.canVote$ = this.store.select(MemberSelectors.RankingSelector.canVote(this.placement.user.identityId));
+        this.canRevokeVote$ = this.store.select(MemberSelectors.RankingSelector.canRevokeVote(this.placement.user.identityId));
     }
 
     public onVote(circleId: number, electedIdentId: string) {
         this.store.dispatch(new MemberAction.Ranking.Vote(circleId, electedIdentId));
+    }
+
+    public onRevokeVote(circleId: number, electedIdentId: string) {
+        this.store.dispatch(new MemberAction.Ranking.RevokeVote(circleId));
     }
 }

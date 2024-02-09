@@ -112,5 +112,26 @@ export namespace MemberSelectors {
                 return identityId !== member.user.identityId;
             });
         }
+
+        /**
+         * Determines if the user is a voter, if not it cannot revoke a vote at all.
+         * And if he has already placed a vote.
+         * And the placed vote id the same as the given identityId.
+         * @param {string} identityId
+         * @returns {(member: (VoterMember | undefined)) => boolean} - A function that takes a voter member object and returns a boolean value indicating whether the user can revoke a vote.
+         */
+        public static canRevokeVote(identityId: string) {
+            return createSelector([Member.slices.rankingUserVoterMember], (member: VoterMember | undefined): boolean => {
+                if (!member) {
+                    return false;
+                }
+
+                if (member.voter.votedFor === null) {
+                    return false;
+                }
+
+                return member.voter.votedFor === identityId;
+            });
+        }
     }
 }

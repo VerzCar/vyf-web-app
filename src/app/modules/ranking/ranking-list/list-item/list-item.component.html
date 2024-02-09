@@ -4,7 +4,7 @@
 
 <div class="flex flex-row items-center justify-between gap-6">
     <p class="font-semibold text-2xl text-gray-900">
-        {{placement.ranking.number}}
+        {{ placement.ranking.number }}
     </p>
 
     <vyf-avatar-img [imageSrc]="placement.user.profile.imageSrc"
@@ -13,11 +13,11 @@
 
     <div class="flex-2 flex flex-col justify-between gap-y-2.5 ml-4 overflow-hidden">
         <p class="text-gray-900">
-            {{placement.ranking.votes | shortNumber }}
+            {{ placement.ranking.votes | shortNumber }}
         </p>
 
         <p class="text-gray-900">
-            {{placement.user.username}}
+            {{ placement.user.username }}
         </p>
     </div>
 
@@ -32,6 +32,14 @@
                 type="button"
                 (click)="onVote(circle.id, placement.ranking.identityId)">
             vote
+        </button>
+
+        <button *rxIf="canRevokeVote$"
+                mat-stroked-button
+                color="accent"
+                type="button"
+                (click)="onRevokeVote(circle.id, placement.ranking.identityId)">
+            revoke vote
         </button>
     </div>
 </div>

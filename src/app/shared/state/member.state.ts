@@ -111,7 +111,23 @@ export class MemberState implements NgxsOnInit {
             }),
             tap(() => {
                 const data: SnackbarSuccessComponentData = {
-                    message: 'Thank you! You\'re vote has been placed.'
+                    message: 'Thank you! Your vote has been placed.'
+                };
+                this.snackbar.openSuccess(SnackbarSuccessComponent, data);
+            })
+        );
+    }
+
+    @Action(MemberAction.Ranking.RevokeVote)
+    private revokeVote(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Ranking.RevokeVote
+    ): Observable<boolean> {
+        return this.voteCircleService.revokeVote(action.circleId).pipe(
+            map(res => res.data),
+            tap(() => {
+                const data: SnackbarSuccessComponentData = {
+                    message: 'Your vote has been revoked.'
                 };
                 this.snackbar.openSuccess(SnackbarSuccessComponent, data);
             })

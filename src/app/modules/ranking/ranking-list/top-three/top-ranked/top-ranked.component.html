@@ -43,4 +43,12 @@
             (click)="onVote(circle.id, placement.ranking.identityId)">
         vote
     </button>
+
+    <button *rxIf="canRevokeVote$"
+            mat-stroked-button
+            color="accent"
+            type="button"
+            (click)="onRevokeVote(circle.id, placement.ranking.identityId)">
+        revoke vote
+    </button>
 </div>
