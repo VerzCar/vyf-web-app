@@ -1,7 +1,7 @@
 import { DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext } from '@ngxs/store';
-import { compose, insertItem, patch, removeItem } from '@ngxs/store/operators';
+import { Action, Actions, NgxsOnInit, ofActionSuccessful, State, StateContext, StateOperator } from '@ngxs/store';
+import { compose, insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService } from '@vyf/base';
 import { UserService } from '@vyf/user-service';
 import { Circle, CircleCandidatesFilter, EventOperation, Ranking, RankingChangeEvent, VoteCircleService } from '@vyf/vote-circle-service';
@@ -120,7 +120,7 @@ export class RankingState implements NgxsOnInit {
 
                 const rankedPlacement$ = rankedIndex === -1 ? this.mapRankingToPlacement$(ranking) : of(placements[rankedIndex]);
 
-                return rankedPlacement$.pipe(
+                rankedPlacement$.pipe(
                     tap(placement =>
                         ctx.setState(
                             compose<RankingStateModel>(
@@ -134,18 +134,51 @@ export class RankingState implements NgxsOnInit {
                         )
                     )
                 );
+                break;
             }
             case EventOperation.Deleted: {
-                return ctx.setState(
+                ctx.setState(
                     patch<RankingStateModel>({
                         placements: removeItem<Placement>(placement => placement.ranking.id === action.rankingEvent.ranking.id)
                     })
                 );
+                break;
             }
             case EventOperation.Repositioned: {
                 return;
             }
         }
+
+        const placements = ctx.getState().placements;
+        const ranking = action.rankingEvent.ranking;
+        const updateItems: StateOperator<Placement[]>[] = [];
+        const placementsLength = placements.length;
+        const startIndex = ranking.indexedOrder + 1;
+        let numberPlacement = ranking.number;
+        let votes = ranking.votes;
+        console.log(startIndex, numberPlacement);
+        for (let i = startIndex; i < placementsLength; i++) {
+            const placement = placements[i];
+            console.log(i, placement);
+            if (placement.ranking.votes < votes) {
+                votes = placement.ranking.votes;
+                const updatedPlacement = {
+                    ...placement,
+                    ranking: {
+                        ...placement.ranking,
+                        number: numberPlacement - 1
+                    }
+                };
+                numberPlacement = updatedPlacement.ranking.number;
+                updateItems.push(updateItem<Placement>(i, patch(updatedPlacement)));
+            }
+        }
+
+        ctx.setState(
+            patch({
+                placements: compose(...updateItems)
+            })
+        );
     }
 
     public ngxsOnInit(ctx: StateContext<RankingStateModel>): void {
