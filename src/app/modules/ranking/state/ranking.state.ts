@@ -120,7 +120,7 @@ export class RankingState implements NgxsOnInit {
 
                 const rankedPlacement$ = rankedIndex === -1 ? this.mapRankingToPlacement$(ranking) : of(placements[rankedIndex]);
 
-                rankedPlacement$.pipe(
+                return rankedPlacement$.pipe(
                     tap(placement =>
                         ctx.setState(
                             compose<RankingStateModel>(
@@ -132,9 +132,15 @@ export class RankingState implements NgxsOnInit {
                                 })
                             )
                         )
+                    ),
+                    tap(() =>
+                        ctx.setState(
+                            patch({
+                                placements: compose(...this.toUpdatePlacementOperators(ctx, ranking))
+                            })
+                        )
                     )
                 );
-                break;
             }
             case EventOperation.Deleted: {
                 ctx.setState(
@@ -142,43 +148,20 @@ export class RankingState implements NgxsOnInit {
                         placements: removeItem<Placement>(placement => placement.ranking.id === action.rankingEvent.ranking.id)
                     })
                 );
-                break;
+
+                // TODO: when deleted there exists no index - refactor what to do then for update of placements
+                const ranking = action.rankingEvent.ranking;
+
+                return ctx.setState(
+                    patch({
+                        placements: compose(...this.toUpdatePlacementOperators(ctx, ranking))
+                    })
+                );
             }
             case EventOperation.Repositioned: {
                 return;
             }
         }
-
-        const placements = ctx.getState().placements;
-        const ranking = action.rankingEvent.ranking;
-        const updateItems: StateOperator<Placement[]>[] = [];
-        const placementsLength = placements.length;
-        const startIndex = ranking.indexedOrder + 1;
-        let numberPlacement = ranking.number;
-        let votes = ranking.votes;
-        console.log(startIndex, numberPlacement);
-        for (let i = startIndex; i < placementsLength; i++) {
-            const placement = placements[i];
-            console.log(i, placement);
-            if (placement.ranking.votes < votes) {
-                votes = placement.ranking.votes;
-                const updatedPlacement = {
-                    ...placement,
-                    ranking: {
-                        ...placement.ranking,
-                        number: numberPlacement - 1
-                    }
-                };
-                numberPlacement = updatedPlacement.ranking.number;
-                updateItems.push(updateItem<Placement>(i, patch(updatedPlacement)));
-            }
-        }
-
-        ctx.setState(
-            patch({
-                placements: compose(...updateItems)
-            })
-        );
     }
 
     public ngxsOnInit(ctx: StateContext<RankingStateModel>): void {
@@ -207,6 +190,63 @@ export class RankingState implements NgxsOnInit {
                 ranking
             }))
         );
+    }
+
+    private toUpdatePlacementOperators(
+        ctx: StateContext<RankingStateModel>,
+        ranking: Ranking
+    ): StateOperator<Placement[]>[] {
+        const updateItems: StateOperator<Placement[]>[] = [];
+        const placements = ctx.getState().placements;
+        const placementsLength = placements.length;
+        const afterStartIndex = (ranking.indexedOrder + 1) > placementsLength ? placementsLength : ranking.indexedOrder + 1;
+
+        let numberPlacement = ranking.number;
+        let votes = ranking.votes;
+
+        // update all items after the newly inserted placement
+        for (let i = afterStartIndex; i < placementsLength; i++) {
+            const placement = placements[i];
+
+            if (placement.ranking.votes < votes) {
+                votes = placement.ranking.votes;
+                const updatedPlacement = {
+                    ...placement,
+                    ranking: {
+                        ...placement.ranking,
+                        number: numberPlacement + 1,
+                        indexedOrder: i
+                    }
+                };
+                numberPlacement = updatedPlacement.ranking.number;
+                updateItems.push(updateItem<Placement>(i, patch(updatedPlacement)));
+            }
+        }
+
+        const beforeStartIndex = (ranking.indexedOrder - 1) < 0 ? 0 : ranking.indexedOrder - 1;
+        numberPlacement = ranking.number;
+        votes = ranking.votes;
+
+        // update all items before the newly inserted placement
+        for (let i = beforeStartIndex; i >= 0; i--) {
+            const placement = placements[i];
+
+            if (placement.ranking.votes === votes) {
+                const updatedPlacement = {
+                    ...placement,
+                    ranking: {
+                        ...placement.ranking,
+                        number: numberPlacement,
+                        indexedOrder: i
+                    }
+                };
+                updateItems.push(updateItem<Placement>(i, patch(updatedPlacement)));
+            } else {
+                i = -1;
+            }
+        }
+
+        return updateItems;
     }
 
 }
