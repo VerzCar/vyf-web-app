@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { User } from '@vyf/user-service';
@@ -9,6 +10,7 @@ import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { CandidateMemberListDialogComponent } from '../candidate-member-list-dialog/candidate-member-list-dialog.component';
 import { placementTracking } from '../helper/placement-tracking';
 import { Placement } from '../models';
+import { RankingComponent } from '../ranking/ranking.component';
 import { RankingSelectors } from '../state/ranking.selectors';
 
 interface RankingListComponentView {
@@ -33,6 +35,7 @@ export class RankingListComponent {
 
     private readonly store = inject(Store);
     private readonly dialog = inject(MatDialog);
+    private readonly bottomSheet = inject(MatBottomSheet);
 
     constructor() {
         this.view$ = combineLatest([
@@ -56,6 +59,15 @@ export class RankingListComponent {
         this.dialog.open(CandidateMemberListDialogComponent);
     }
 
+    public onShowItem(placement: Placement) {
+        const data = { placement };
+        this.bottomSheet.open(RankingComponent, { data });
+    }
+
+    public placementTrackingBy(index: number, placement: Placement) {
+        return placementTracking(index, placement);
+    }
+
     private mapMembersToPreview(
         members: CandidateMember[]
     ): Pick<RankingListComponentView, 'previewUsers' | 'membersCount'> {
@@ -74,9 +86,5 @@ export class RankingListComponent {
             previewUsers: firsThreeUsers,
             membersCount: countOfMembersToVote > 0 ? countOfMembersToVote : 0
         };
-    }
-
-    public placementTrackingBy(index: number, placement: Placement) {
-        return placementTracking(index, placement);
     }
 }

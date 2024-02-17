@@ -57,6 +57,7 @@
                         <app-list-item [placement]="placement"
                                        [circle]="view.circle"
                                        [hasVotedFor]="view.userCandidateMember?.voter?.votedFor === placement.ranking.identityId"
+                                       (click)="onShowItem(placement)"
                                        class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
                         </app-list-item>
                     }
@@ -89,3 +90,4 @@
 
     </ng-container>
 </div>
+

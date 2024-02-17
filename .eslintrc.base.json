@@ -129,7 +129,7 @@
         "no-trailing-spaces": "error",
         "operator-linebreak": [
           "error",
-          "before"
+          "after"
         ],
         "space-in-parens": "error",
         "key-spacing": "error",

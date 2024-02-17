@@ -108,7 +108,6 @@ export class RankingState implements NgxsOnInit {
         action: RankingAction.RankingChanged
     ) {
         console.log('RANKING: ', action.rankingEvent);
-
         switch (action.rankingEvent.operation) {
             case EventOperation.Created:
             case EventOperation.Updated: {
@@ -143,23 +142,17 @@ export class RankingState implements NgxsOnInit {
                 );
             }
             case EventOperation.Deleted: {
-                ctx.setState(
+                return ctx.setState(
                     patch<RankingStateModel>({
                         placements: removeItem<Placement>(placement => placement.ranking.id === action.rankingEvent.ranking.id)
                     })
                 );
-
-                // TODO: when deleted there exists no index - refactor what to do then for update of placements
-                const ranking = action.rankingEvent.ranking;
-
-                return ctx.setState(
-                    patch({
-                        placements: compose(...this.toUpdatePlacementOperators(ctx, ranking))
-                    })
-                );
             }
             case EventOperation.Repositioned: {
-                return;
+                return null;
+            }
+            default: {
+                return null;
             }
         }
     }

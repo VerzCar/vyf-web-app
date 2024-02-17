@@ -397,7 +397,10 @@ export class MemberState implements NgxsOnInit {
                 );
             }
             case EventOperation.Repositioned: {
-                return;
+                return null;
+            }
+            default: {
+                return null;
             }
         }
     }
@@ -453,6 +456,9 @@ export class MemberState implements NgxsOnInit {
                         rankingCandidateNeedVoteMembers: removeItem<CandidateMember>(member => member.candidate.id === action.candidateEvent.candidate.id)
                     })
                 );
+            }
+            default: {
+                return null;
             }
         }
     }
@@ -539,7 +545,10 @@ export class MemberState implements NgxsOnInit {
                 );
             }
             case EventOperation.Repositioned: {
-                return;
+                return null;
+            }
+            default: {
+                return null;
             }
         }
     }
@@ -626,7 +635,10 @@ export class MemberState implements NgxsOnInit {
                 );
             }
             case EventOperation.Repositioned: {
-                return;
+                return null;
+            }
+            default: {
+                return null;
             }
         }
     }
@@ -711,20 +723,19 @@ export class MemberState implements NgxsOnInit {
             distinctUntilChanged(),
             filter(([, curr]) => isDefined(curr)),
             switchMap(([prev, curr]) => {
-                    let action$: Observable<void>;
+                let action$: Observable<void>;
 
-                    if (prev) {
-                        action$ = ctx.dispatch([
-                            new unsubscribeActions[0](prev.id),
-                            new unsubscribeActions[1](prev.id)
-                        ]);
-                    } else {
-                        action$ = of(void 0);
-                    }
-
-                    return action$.pipe(map(() => [prev, curr]));
+                if (prev) {
+                    action$ = ctx.dispatch([
+                        new unsubscribeActions[0](prev.id),
+                        new unsubscribeActions[1](prev.id)
+                    ]);
+                } else {
+                    action$ = of(void 0);
                 }
-            ),
+
+                return action$.pipe(map(() => [prev, curr]));
+            }),
             switchMap(([, curr]) => ctx.dispatch([
                 new subscribeActions[0](curr!.id),
                 new subscribeActions[1](curr!.id)

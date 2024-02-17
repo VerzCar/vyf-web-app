@@ -1,5 +1,6 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,16 +9,7 @@ import { NgxsModule } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
-import {
-    AvatarImgComponent,
-    AvatarStackComponent,
-    CircleOwnerComponent,
-    ShortNamePipe,
-    ShortNumberPipe,
-    TrendingIconPipe,
-    UserListItemComponent
-} from '@vyf/component';
-import { CircleMemberCommitmentPipe } from '../../../../libs/component/src/lib/pipes/circle-member-commitment.pipe';
+import { AvatarImgComponent, AvatarStackComponent, CircleOwnerComponent, ShortNamePipe, ShortNumberPipe, TrendingIconPipe, UserListItemComponent } from '@vyf/component';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/state/user.state';
@@ -30,6 +22,7 @@ import { TopRankedComponent } from './ranking-list/top-three/top-ranked/top-rank
 import { TopThreeComponent } from './ranking-list/top-three/top-three.component';
 
 import { RankingRoutingModule } from './ranking-routing.module';
+import { RankingComponent } from './ranking/ranking.component';
 import { ListResolver } from './services/resolver/list.resolver';
 import { RankingState } from './state/ranking.state';
 
@@ -41,7 +34,8 @@ import { RankingState } from './state/ranking.state';
         TopRankedComponent,
         CandidateMemberListComponent,
         CandidateMemberListItemComponent,
-        CandidateMemberListDialogComponent
+        CandidateMemberListDialogComponent,
+        RankingComponent
     ],
     imports: [
         CommonModule,
@@ -52,6 +46,7 @@ import { RankingState } from './state/ranking.state';
         CircleOwnerComponent,
         RxLet,
         MatButtonModule,
+        MatBottomSheetModule,
         RxFor,
         UserListItemComponent,
         RxIf,
@@ -62,8 +57,7 @@ import { RankingState } from './state/ranking.state';
         MatProgressSpinnerModule,
         MatDialogModule,
         MatIconModule,
-        AvatarImgComponent,
-        CircleMemberCommitmentPipe
+        AvatarImgComponent
     ],
     providers: [ListResolver]
 })
