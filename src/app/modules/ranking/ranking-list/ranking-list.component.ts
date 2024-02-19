@@ -61,7 +61,7 @@ export class RankingListComponent {
 
     public onShowItem(placement: Placement) {
         const data = { placement };
-        this.bottomSheet.open(RankingComponent, { data });
+        this.bottomSheet.open(RankingComponent, { data, closeOnNavigation: true });
     }
 
     public placementTrackingBy(index: number, placement: Placement) {

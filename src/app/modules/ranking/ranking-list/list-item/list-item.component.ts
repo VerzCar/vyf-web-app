@@ -31,7 +31,7 @@ export class ListItemComponent implements OnInit {
         this.store.dispatch(new MemberAction.Ranking.Vote(circleId, electedIdentId));
     }
 
-    public onRevokeVote(circleId: number, electedIdentId: string) {
+    public onRevokeVote(circleId: number) {
         this.store.dispatch(new MemberAction.Ranking.RevokeVote(circleId));
     }
 }
