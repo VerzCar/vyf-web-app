@@ -1,25 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
-import { User } from '@vyf/user-service';
+import { isDefined } from '@vyf/base';
 import { Circle } from '@vyf/vote-circle-service';
-import { combineLatest, map, Observable } from 'rxjs';
-import { CandidateMember, VoterMember } from '../../../shared/models';
-import { MemberSelectors } from '../../../shared/state/member.selectors';
+import { BehaviorSubject, combineLatest, filter, map, Observable, switchMap, tap } from 'rxjs';
 import { CandidateMemberListDialogComponent } from '../candidate-member-list-dialog/candidate-member-list-dialog.component';
 import { placementTracking } from '../helper/placement-tracking';
 import { Placement } from '../models';
-import { RankingComponent } from '../ranking/ranking.component';
+import { RankingAction } from '../state/actions/ranking.action';
 import { RankingSelectors } from '../state/ranking.selectors';
 
 interface RankingListComponentView {
     circle: Circle;
     topThreePlacements: Placement[];
     placements: Placement[];
-    previewUsers: User[];
-    membersCount: number;
-    userCandidateMember?: VoterMember;
 }
 
 @Component({
@@ -30,27 +24,26 @@ interface RankingListComponentView {
 })
 export class RankingListComponent {
     public readonly view$: Observable<RankingListComponentView>;
-
-    private readonly maxMembersCount = 3;
+    public readonly suspenseTrigger$ = new BehaviorSubject<void>(void 0);
 
     private readonly store = inject(Store);
     private readonly dialog = inject(MatDialog);
-    private readonly bottomSheet = inject(MatBottomSheet);
 
     constructor() {
-        this.view$ = combineLatest([
-            this.store.select(RankingSelectors.slices.selectedCircle),
-            this.store.select(RankingSelectors.topThreePlacements),
-            this.store.select(RankingSelectors.placements),
-            this.store.select(MemberSelectors.Member.slices.rankingCandidateNeedVoteMembers),
-            this.store.select(MemberSelectors.Member.slices.rankingUserVoterMember)
-        ]).pipe(
-            map(([circle, topThreePlacements, placements, members, userCandidateMember]) => ({
-                circle: circle as Circle,
-                topThreePlacements: topThreePlacements,
-                placements: placements,
-                ...this.mapMembersToPreview(members),
-                userCandidateMember
+        this.view$ = this.store.select(RankingSelectors.slices.selectedCircle).pipe(
+            tap(() => this.suspenseTrigger$.next(void 0)),
+            filter(circle => isDefined(circle)),
+            tap(circle => this.store.dispatch(new RankingAction.FetchRankings(circle!.id))),
+            switchMap(circle => combineLatest([
+                this.store.select(RankingSelectors.topThreePlacements),
+                this.store.select(RankingSelectors.placements)
+            ]).pipe(
+                map(src => [circle, ...src] as [Circle, Placement[], Placement[]])
+            )),
+            map(([circle, topThreePlacements, placements]: [Circle, Placement[], Placement[]]) => ({
+                circle,
+                topThreePlacements,
+                placements
             }))
         );
     }
@@ -59,32 +52,7 @@ export class RankingListComponent {
         this.dialog.open(CandidateMemberListDialogComponent);
     }
 
-    public onShowItem(placement: Placement) {
-        const data = { placement };
-        this.bottomSheet.open(RankingComponent, { data, closeOnNavigation: true });
-    }
-
     public placementTrackingBy(index: number, placement: Placement) {
         return placementTracking(index, placement);
-    }
-
-    private mapMembersToPreview(
-        members: CandidateMember[]
-    ): Pick<RankingListComponentView, 'previewUsers' | 'membersCount'> {
-        if (!members.length) {
-            return {
-                previewUsers: [],
-                membersCount: 0
-            };
-        }
-
-        const firstThreeMembers = members.slice(0, this.maxMembersCount);
-
-        const firsThreeUsers = firstThreeMembers.map(member => member.user);
-        const countOfMembersToVote = members.length - this.maxMembersCount;
-        return {
-            previewUsers: firsThreeUsers,
-            membersCount: countOfMembersToVote > 0 ? countOfMembersToVote : 0
-        };
     }
 }

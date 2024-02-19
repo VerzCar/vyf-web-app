@@ -1,0 +1,9 @@
+<ng-container *rxLet="view$; let view;">
+    <div class="flex flex-col place-items-end">
+        <p>
+            Valid until
+        </p>
+        <p>{{ view.circle.validUntil | date }}</p>
+        <p>{{ view.circle.validUntil | date:'shortTime' }}</p>
+    </div>
+</ng-container>

@@ -1,48 +1,23 @@
 <div class="layout-container layout-whitespace">
 
-    <ng-container *rxLet="view$; let view;">
-        <div class="grid grid-cols-4 gap-x-4 gap-y-6">
+    <div class="grid grid-cols-4 gap-x-4 gap-y-6">
 
-            <section class="col-start-1 col-span-full row-start-1">
-                <div class="flex flex-row gap-2">
-                    <div class="rounded-xl bg-gray-200 py-1 px-3">
-                        <p class="text-gray-950">
-                            Circle:
-                        </p>
-                    </div>
-                    <div class="rounded-xl bg-gray-100 py-1 px-3 flex-1 flex flex-row gap-2">
-                        <p class="text-gray-950">
-                            <a [routerLink]="['/circles', view.circle.id]">
-                                {{ view.circle.name }}
-                            </a>
-                        </p>
-                        <i-feather name="arrow-right-circle"
-                                   class="align-top">
-                        </i-feather>
-                    </div>
-                </div>
-            </section>
+        <section class="col-start-1 col-span-full row-start-1">
+            <app-ranking-select>
+            </app-ranking-select>
+        </section>
 
-            <div class="col-start-1 col-span-2 row-start-2 md:col-span-1">
-                <p>
-                    Need a vote
-                </p>
-                <vyf-avatar-stack (stackClicked)="onShowMembers()"
-                                  [users]="view.previewUsers"
-                                  [plusCount]="view.membersCount">
-                </vyf-avatar-stack>
-            </div>
+        <div class="col-start-1 col-span-2 row-start-2 md:col-span-1">
+            <app-members-need-vote>
+            </app-members-need-vote>
+        </div>
 
-            <div class="col-start-3 col-span-2 row-start-2 md:col-start-4 md:col-span-1">
-                <div class="flex flex-col place-items-end">
-                    <p>
-                        Valid until
-                    </p>
-                    <p>{{ view.circle.validUntil | date }}</p>
-                    <p>{{ view.circle.validUntil | date:'shortTime' }}</p>
-                </div>
-            </div>
+        <div class="col-start-3 col-span-2 row-start-2 md:col-start-4 md:col-span-1">
+            <app-valid-until>
+            </app-valid-until>
+        </div>
 
+        <ng-container *rxLet="view$; let view; suspense: suspense; suspenseTrigger: suspenseTrigger$;">
             <section class="col-span-full row-start-3 md:col-start-2 md:col-span-2 md:row-start-2">
                 @if (view.topThreePlacements.length) {
                     <app-top-three [topThreePlacements]="view.topThreePlacements"
@@ -52,12 +27,10 @@
                 }
 
                 <ul *rxIf="view.placements.length"
-                    class="divide-y divide-gray-900">
+                    class="divide-y divide-solid mt-2">
                     @for (placement of view.placements; track placementTrackingBy($index, placement); ) {
                         <app-list-item [placement]="placement"
                                        [circle]="view.circle"
-                                       [hasVotedFor]="view.userCandidateMember?.voter?.votedFor === placement.ranking.identityId"
-                                       (click)="onShowItem(placement)"
                                        class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
                         </app-list-item>
                     }
@@ -86,8 +59,13 @@
                     </h5>
                 </section>
             }
-        </div>
+        </ng-container>
 
-    </ng-container>
+        <ng-template #suspense>
+            <div>
+                Loading...
+            </div>
+        </ng-template>
+    </div>
 </div>
 

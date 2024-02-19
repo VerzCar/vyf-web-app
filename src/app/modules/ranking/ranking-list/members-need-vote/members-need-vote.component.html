@@ -1,0 +1,16 @@
+<p>
+    Need a vote
+</p>
+
+<ng-container *rxLet="view$; let view; suspense: suspense; suspenseTrigger: suspenseTrigger$;">
+    <vyf-avatar-stack (stackClicked)="onShowMembers()"
+                      [users]="view.previewUsers"
+                      [plusCount]="view.membersCount">
+    </vyf-avatar-stack>
+</ng-container>
+
+<ng-template #suspense>
+    <div>
+        Loading...
+    </div>
+</ng-template>

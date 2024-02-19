@@ -9,7 +9,15 @@ import { NgxsModule } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
-import { AvatarImgComponent, AvatarStackComponent, CircleOwnerComponent, ShortNamePipe, ShortNumberPipe, TrendingIconPipe, UserListItemComponent } from '@vyf/component';
+import {
+  AvatarImgComponent,
+  AvatarStackComponent,
+  CircleOwnerComponent,
+  ShortNamePipe,
+  ShortNumberPipe,
+  TrendingIconPipe,
+  UserListItemComponent,
+} from '@vyf/component';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/state/user.state';
@@ -25,40 +33,46 @@ import { RankingRoutingModule } from './ranking-routing.module';
 import { RankingComponent } from './ranking/ranking.component';
 import { ListResolver } from './services/resolver/list.resolver';
 import { RankingState } from './state/ranking.state';
+import { MembersNeedVoteComponent } from './ranking-list/members-need-vote/members-need-vote.component';
+import { RankingSelectComponent } from './ranking-list/ranking-select/ranking-select.component';
+import { ValidUntilComponent } from './ranking-list/valid-until/valid-until.component';
 
 @NgModule({
-    declarations: [
-        RankingListComponent,
-        ListItemComponent,
-        TopThreeComponent,
-        TopRankedComponent,
-        CandidateMemberListComponent,
-        CandidateMemberListItemComponent,
-        CandidateMemberListDialogComponent,
-        RankingComponent
-    ],
-    imports: [
-        CommonModule,
-        NgxsModule.forFeature([UserState, RankingState, MemberState]),
-        RankingRoutingModule,
-        FeatherIconModule,
-        NgOptimizedImage,
-        CircleOwnerComponent,
-        RxLet,
-        MatButtonModule,
-        MatBottomSheetModule,
-        RxFor,
-        UserListItemComponent,
-        RxIf,
-        ShortNamePipe,
-        TrendingIconPipe,
-        ShortNumberPipe,
-        AvatarStackComponent,
-        MatProgressSpinnerModule,
-        MatDialogModule,
-        MatIconModule,
-        AvatarImgComponent
-    ],
-    providers: [ListResolver]
+  declarations: [
+    RankingListComponent,
+    ListItemComponent,
+    TopThreeComponent,
+    TopRankedComponent,
+    CandidateMemberListComponent,
+    CandidateMemberListItemComponent,
+    CandidateMemberListDialogComponent,
+    RankingComponent,
+    MembersNeedVoteComponent,
+    RankingSelectComponent,
+    ValidUntilComponent,
+  ],
+  imports: [
+    CommonModule,
+    NgxsModule.forFeature([UserState, RankingState, MemberState]),
+    RankingRoutingModule,
+    FeatherIconModule,
+    NgOptimizedImage,
+    CircleOwnerComponent,
+    RxLet,
+    MatButtonModule,
+    MatBottomSheetModule,
+    RxFor,
+    UserListItemComponent,
+    RxIf,
+    ShortNamePipe,
+    TrendingIconPipe,
+    ShortNumberPipe,
+    AvatarStackComponent,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatIconModule,
+    AvatarImgComponent,
+  ],
+  providers: [ListResolver],
 })
 export class RankingModule {}
