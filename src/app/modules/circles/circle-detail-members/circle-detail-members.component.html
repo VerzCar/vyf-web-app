@@ -1,0 +1,28 @@
+<h3>
+    Members
+</h3>
+<ng-container *rxLet="view$; let view; suspense: suspense; suspenseTrigger: suspenseTrigger$;">
+    @if (view.previewUsers.length) {
+        <vyf-avatar-stack (stackClicked)="onShowMembers()"
+                          [users]="view.previewUsers"
+                          [plusCount]="view.membersCount">
+        </vyf-avatar-stack>
+    } @else {
+        <button mat-button
+                type="button"
+                role="button"
+                color="accent"
+                (click)="onShowMembers()">
+            <mat-icon>
+                add
+            </mat-icon>
+            There are no Members - Invite some
+        </button>
+    }
+</ng-container>
+
+<ng-template #suspense>
+    <div>
+        Loading...
+    </div>
+</ng-template>

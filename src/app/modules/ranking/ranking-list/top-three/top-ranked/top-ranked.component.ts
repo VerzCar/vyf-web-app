@@ -41,6 +41,4 @@ export class TopRankedComponent implements OnInit {
     public onRevokeVote(circleId: number, electedIdentId: string) {
         this.store.dispatch(new MemberAction.Ranking.RevokeVote(circleId));
     }
-
-
 }

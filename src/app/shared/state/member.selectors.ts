@@ -114,6 +114,21 @@ export namespace MemberSelectors {
         }
 
         /**
+         * Determines if the ranking user as voter has voted for the given identityId.
+         * @param {string} identityId
+         * @returns {(member: (VoterMember | undefined)) => boolean} true if has voted for the given id, otherwise false.
+         */
+        public static hasVotedFor(identityId: string) {
+            return createSelector([Member.slices.rankingUserVoterMember], (member: VoterMember | undefined): boolean => {
+                if (!member) {
+                    return false;
+                }
+
+                return member.voter.votedFor === identityId;
+            });
+        }
+
+        /**
          * Determines if the user is a voter, if not it cannot revoke a vote at all.
          * And if he has already placed a vote.
          * And the placed vote id the same as the given identityId.

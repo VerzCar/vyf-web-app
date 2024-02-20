@@ -89,26 +89,8 @@
             </div>
 
             <div class="col-start-1 col-span-full md:col-span-2 md:row-start-4">
-                <h3>
-                    Members
-                </h3>
-                @if (view.previewUsers.length) {
-                    <vyf-avatar-stack (stackClicked)="onShowMembers(view)"
-                                      [users]="view.previewUsers"
-                                      [plusCount]="view.membersCount">
-                    </vyf-avatar-stack>
-                } @else {
-                    <button mat-button
-                            type="button"
-                            role="button"
-                            color="accent"
-                            (click)="onShowMembers(view)">
-                        <mat-icon>
-                            add
-                        </mat-icon>
-                        There are no Members - Invite some
-                    </button>
-                }
+                <app-circle-detail-members>
+                </app-circle-detail-members>
             </div>
         </div>
     </ng-container>

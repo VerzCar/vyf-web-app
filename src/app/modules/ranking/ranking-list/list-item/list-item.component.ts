@@ -17,8 +17,8 @@ import { RankingComponent } from '../../ranking/ranking.component';
 export class ListItemComponent implements OnInit {
     @Input({ required: true }) public circle!: Circle;
     @Input({ required: true }) public placement!: Placement;
-    @Input() public hasVotedFor = false;
 
+    public hasVotedFor$: Observable<boolean> | undefined;
     public canVote$: Observable<boolean> | undefined;
     public canRevokeVote$: Observable<boolean> | undefined;
 
@@ -26,7 +26,7 @@ export class ListItemComponent implements OnInit {
     private readonly bottomSheet = inject(MatBottomSheet);
 
     public ngOnInit(): void {
-        [hasVotedFor]="view.userCandidateMember?.voter?.votedFor === placement.ranking.identityId"
+        this.hasVotedFor$ = this.store.select(MemberSelectors.RankingSelector.hasVotedFor(this.placement.ranking.identityId));
         this.canVote$ = this.store.select(MemberSelectors.RankingSelector.canVote(this.placement.user.identityId));
         this.canRevokeVote$ = this.store.select(MemberSelectors.RankingSelector.canRevokeVote(this.placement.user.identityId));
     }

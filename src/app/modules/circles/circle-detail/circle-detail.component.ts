@@ -5,7 +5,6 @@ import { isDefined } from '@vyf/base';
 import { User } from '@vyf/user-service';
 import { Circle } from '@vyf/vote-circle-service';
 import { combineLatest, filter, map, Observable } from 'rxjs';
-import { CandidateMember, VoterMember } from '../../../shared/models';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { CircleDetailSettingsDialogComponent, CircleDetailSettingsDialogComponentView } from '../circle-detail-settings-dialog/circle-detail-settings-dialog.component';
 import { CirclesSelectors } from '../state/circles.selectors';
@@ -13,8 +12,6 @@ import { CirclesSelectors } from '../state/circles.selectors';
 interface CircleDetailView {
     circle: Circle;
     owner: User;
-    previewUsers: User[];
-    membersCount: number;
     disabled: boolean;
 }
 
@@ -31,8 +28,6 @@ export class CircleDetailComponent {
 
     private readonly store = inject(Store);
     private readonly dialog = inject(MatDialog);
-
-    private readonly maxMembersCount = 3;
 
     constructor() {
         this.view$ = combineLatest([
@@ -53,7 +48,6 @@ export class CircleDetailComponent {
                 return {
                     circle: c as Circle,
                     owner: owner as User,
-                    ...this.mapMembersToPreview(voterMembers, candidateMembers),
                     disabled: !this.store.selectSnapshot(CirclesSelectors.canEditCircle)
                 };
             })
@@ -67,37 +61,4 @@ export class CircleDetailComponent {
 
         this.dialog.open(CircleDetailSettingsDialogComponent, { width: '600px', data: viewData });
     }
-
-    public onShowMembers(view: CircleDetailView) {
-        const viewData: CircleDetailSettingsDialogComponentView = {
-            circle: view.circle,
-            selectedTabIndex: 2
-        };
-
-        this.dialog.open(CircleDetailSettingsDialogComponent, { width: '600px', data: viewData });
-    }
-
-    private mapMembersToPreview(
-        voterMembers: VoterMember[],
-        candidateMembers: CandidateMember[]
-    ): Pick<CircleDetailView, 'previewUsers' | 'membersCount'> {
-        if (!voterMembers.length && !candidateMembers.length) {
-            return {
-                previewUsers: [],
-                membersCount: 0
-            };
-        }
-
-        const members = voterMembers.length ? voterMembers : candidateMembers;
-
-        const firstThreeMembers = members.slice(0, this.maxMembersCount);
-
-        const firsThreeUsers = firstThreeMembers.map(member => member.user);
-        const countOfMembersToVote = members.length - this.maxMembersCount;
-        return {
-            previewUsers: firsThreeUsers,
-            membersCount: countOfMembersToVote > 0 ? countOfMembersToVote : 0
-        };
-    }
-
 }

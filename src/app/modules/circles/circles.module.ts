@@ -40,6 +40,7 @@ import { OverviewResolver } from './services/resolver/overview.resolver';
 import { CirclesState } from './state/circles.state';
 import { CircleDetailActionItemCommitmentComponent } from './circle-detail-action-bar/circle-detail-action-item-commitment/circle-detail-action-item-commitment.component';
 import { CircleDetailActionItemLeaveVoterComponent } from './circle-detail-action-bar/circle-detail-action-item-leave-voter/circle-detail-action-item-leave-voter.component';
+import { CircleDetailMembersComponent } from './circle-detail-members/circle-detail-members.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { CircleDetailActionItemLeaveVoterComponent } from './circle-detail-actio
     CircleDetailActionItemJoinComponent,
     CircleDetailActionItemCommitmentComponent,
     CircleDetailActionItemLeaveVoterComponent,
+    CircleDetailMembersComponent,
   ],
   imports: [
     CommonModule,

@@ -6,7 +6,6 @@ import { SnackbarSuccessComponent, SnackbarSuccessComponentData } from '@vyf/com
 import { User, UserService } from '@vyf/user-service';
 import { Circle, CircleCandidateCommitmentRequest, CirclePaginated, VoteCircleService } from '@vyf/vote-circle-service';
 import { map, Observable, of, tap } from 'rxjs';
-import { MemberAction } from '../../../shared/state/actions/member.action';
 import { UserSelectors } from '../../user/state/user.selectors';
 import { CirclesStateModel } from '../models';
 import { CirclesAction } from './actions/circles.action';
@@ -40,11 +39,7 @@ export class CirclesState {
             return of(selectedCircle);
         }
 
-        return ctx.dispatch([
-            new CirclesAction.FetchCircle(action.circleId),
-            new MemberAction.Circle.FilterVoterMembers(action.circleId),
-            new MemberAction.Circle.FilterCandidateMembers(action.circleId)
-        ]).pipe(
+        return ctx.dispatch(new CirclesAction.FetchCircle(action.circleId)).pipe(
             map(() => ctx.getState().selectedCircle as Circle),
             tap(circle => {
                 const user = this.store.selectSnapshot(UserSelectors.slices.user);
