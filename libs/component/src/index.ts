@@ -30,6 +30,10 @@ export * from './lib/snackbar-success/snackbar-success.component';
 
 export * from './lib/snackbar-error/snackbar-error.component';
 
+export * from './lib/skeleton/skeleton-list/skeleton-list.component';
+
+export * from './lib/skeleton/skeleton-avatar-stack/skeleton-avatar-stack.component';
+
 export * from './lib/pipes/short-name.pipe';
 export * from './lib/pipes/short-number.pipe';
 export * from './lib/pipes/trending-icon.pipe';

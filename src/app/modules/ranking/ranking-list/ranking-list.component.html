@@ -17,8 +17,9 @@
             </app-valid-until>
         </div>
 
-        <ng-container *rxLet="view$; let view; suspense: suspense; suspenseTrigger: suspenseTrigger$;">
-            <section class="col-span-full row-start-3 md:col-start-2 md:col-span-2 md:row-start-2">
+        <section class="col-span-full row-start-3 md:col-start-2 md:col-span-2 md:row-start-2">
+            <ng-container *rxLet="view$; let view; suspense: suspense; suspenseTrigger: suspenseTrigger$;">
+
                 @if (view.topThreePlacements.length) {
                     <app-top-three [topThreePlacements]="view.topThreePlacements"
                                    [circle]="view.circle"
@@ -35,10 +36,8 @@
                         </app-list-item>
                     }
                 </ul>
-            </section>
 
-            @if (!view.placements.length && !view.topThreePlacements.length) {
-                <section class="col-span-full row-start-3 md:col-start-2 md:col-span-2 md:row-start-2">
+                @if (!view.placements.length && !view.topThreePlacements.length) {
                     <div class="relative h-60 w-60 mx-auto">
                         <img ngSrc="/assets/img/svg/election-day.svg"
                              priority="true"
@@ -57,15 +56,14 @@
                             give a vote!
                         </button>
                     </h5>
-                </section>
-            }
-        </ng-container>
+                }
+            </ng-container>
 
-        <ng-template #suspense>
-            <div>
-                Loading...
-            </div>
-        </ng-template>
+            <ng-template #suspense>
+                <vyf-skeleton-list>
+                </vyf-skeleton-list>
+            </ng-template>
+        </section>
     </div>
 </div>
 

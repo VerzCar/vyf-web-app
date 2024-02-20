@@ -14,9 +14,9 @@ import {
   AvatarStackComponent,
   CircleOwnerComponent,
   ShortNamePipe,
-  ShortNumberPipe,
+  ShortNumberPipe, SkeletonListComponent,
   TrendingIconPipe,
-  UserListItemComponent,
+  UserListItemComponent
 } from '@vyf/component';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
@@ -72,6 +72,7 @@ import { ValidUntilComponent } from './ranking-list/valid-until/valid-until.comp
     MatDialogModule,
     MatIconModule,
     AvatarImgComponent,
+    SkeletonListComponent
   ],
   providers: [ListResolver],
 })
