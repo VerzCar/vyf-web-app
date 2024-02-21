@@ -12,6 +12,10 @@ export namespace CirclesAction {
         }
     }
 
+    export class FetchUserOption {
+        public static readonly type = `[${domainName}] Fetch User Option`;
+    }
+
     export class FetchCircles {
         public static readonly type = `[${domainName}] Fetch Circles`;
     }

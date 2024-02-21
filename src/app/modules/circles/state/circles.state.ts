@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { Action, State, StateContext, Store } from '@ngxs/store';
+import { Action, NgxsOnInit, State, StateContext, Store } from '@ngxs/store';
 import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { SnackbarService } from '@vyf/base';
 import { SnackbarSuccessComponent, SnackbarSuccessComponentData } from '@vyf/component';
 import { User, UserService } from '@vyf/user-service';
-import { Circle, CircleCandidateCommitmentRequest, CirclePaginated, VoteCircleService } from '@vyf/vote-circle-service';
-import { map, Observable, of, tap } from 'rxjs';
+import { Circle, CircleCandidateCommitmentRequest, CirclePaginated, UserOption, VoteCircleService } from '@vyf/vote-circle-service';
+import { firstValueFrom, map, Observable, of, tap } from 'rxjs';
 import { UserSelectors } from '../../user/state/user.selectors';
 import { CirclesStateModel } from '../models';
 import { CirclesAction } from './actions/circles.action';
@@ -14,7 +14,8 @@ const DEFAULT_STATE: CirclesStateModel = {
     myCircles: [],
     selectedCircle: undefined,
     selectedCircleOwner: undefined,
-    circlesOfInterest: []
+    circlesOfInterest: [],
+    option: {} as UserOption
 };
 
 @State<CirclesStateModel>({
@@ -22,7 +23,7 @@ const DEFAULT_STATE: CirclesStateModel = {
     defaults: DEFAULT_STATE
 })
 @Injectable()
-export class CirclesState {
+export class CirclesState implements NgxsOnInit {
     private readonly voteCircleService = inject(VoteCircleService);
     private readonly userService = inject(UserService);
     private readonly store = inject(Store);
@@ -265,6 +266,13 @@ export class CirclesState {
         ]);
     }
 
+    @Action(CirclesAction.FetchUserOption)
+    private async fetchUserOption(ctx: StateContext<CirclesStateModel>) {
+        const res = await firstValueFrom(this.voteCircleService.userOption());
+        const userOption = res.data;
+        return ctx.patchState({ option: userOption });
+    }
+
     @Action(CirclesAction.FetchCircle)
     private fetchCircle(
         ctx: StateContext<CirclesStateModel>,
@@ -305,6 +313,10 @@ export class CirclesState {
             map(res => res.data),
             tap(user => this.selectedCircleOwnerReducer(ctx, user))
         );
+    }
+
+    public async ngxsOnInit(ctx: StateContext<CirclesStateModel>) {
+        return await firstValueFrom(ctx.dispatch(new CirclesAction.FetchUserOption()));
     }
 
     private srcWithAttachedTimestamp(src: string): string {

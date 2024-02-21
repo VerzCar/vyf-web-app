@@ -19,3 +19,4 @@ export { CircleCandidatesFilter } from './circle-candidates-filter.model';
 export { CircleCandidateChangeEvent } from './circle-candidate-change-event.model';
 export { CircleVoterChangeEvent } from './circle-voter-change-event.model';
 export { EventOperation } from './event-operation.model';
+export { UserOption } from './user-option.model';

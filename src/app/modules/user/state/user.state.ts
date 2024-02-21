@@ -1,17 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { Action, NgxsOnInit, State, StateContext } from '@ngxs/store';
 import { UserService } from '@vyf/user-service';
-import { firstValueFrom, map, of, tap } from 'rxjs';
+import { firstValueFrom, map, tap } from 'rxjs';
 import { UserStateModel } from '../models/user-state.model';
 import { UserAction } from './actions/user.action';
 
-const DEFAULT_STATE: UserStateModel = {
-    user: undefined
-};
-
 @State<UserStateModel>({
-    name: 'user',
-    defaults: DEFAULT_STATE
+    name: 'user'
 })
 @Injectable()
 export class UserState implements NgxsOnInit {
@@ -21,16 +16,12 @@ export class UserState implements NgxsOnInit {
     private async fetchUser(ctx: StateContext<UserStateModel>) {
         const res = await firstValueFrom(this.userService.me());
         const user = res.data;
-        return ctx.setState({ user });
+        return ctx.patchState({ user });
     }
 
     @Action(UserAction.UpdateProfileImage)
     private updateProfileImage(ctx: StateContext<UserStateModel>, action: UserAction.UpdateProfileImage) {
         const user = ctx.getState().user;
-
-        if (!user) {
-            return of(null);
-        }
 
         return this.userService.uploadUserProfileImage(action.image).pipe(
             map(res => res.data),

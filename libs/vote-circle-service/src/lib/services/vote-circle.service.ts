@@ -7,6 +7,7 @@ import { Circle, CircleCandidate, CircleCreateRequest, CirclePaginated, CircleUp
 import { Candidate } from '../models/candidate.model';
 import { CircleCandidateCommitmentRequest } from '../models/circle-candidate-commitment-request.model';
 import { CircleCandidatesFilter } from '../models/circle-candidates-filter.model';
+import { UserOption } from '../models/user-option.model';
 
 @Injectable({
     providedIn: 'root'
@@ -95,6 +96,12 @@ export class VoteCircleService extends ApiBaseService {
     public rankings(circleId: number): Observable<ApiResponse<Ranking[]>> {
         return this.get({
             paths: ['rankings', circleId]
+        });
+    }
+
+    public userOption(): Observable<ApiResponse<UserOption>> {
+        return this.get({
+            paths: ['user-option']
         });
     }
 
