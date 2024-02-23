@@ -29,11 +29,29 @@
 
                 <ul *rxIf="view.placements.length"
                     class="divide-y divide-solid mt-2">
-                    @for (placement of view.placements; track placementTrackingBy($index, placement); ) {
+                    @for (placement of view.placements; track placementTrackingBy(i, placement); let i = $index) {
                         <app-list-item [placement]="placement"
                                        [circle]="view.circle"
                                        class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
                         </app-list-item>
+                        @if ((i % 3) === 2) {
+                            <li class="min-h-24 max-h-60 w-full px-2 py-3 sm:pb-4 rounded border border-transparent hover:shadow hover:border hover:border-gray-300">
+                                <span class="text-gray-400">Werbung</span>
+                                <script async
+                                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2498063545767573"
+                                        crossorigin="anonymous"></script>
+                                <ins class="adsbygoogle"
+                                     style="display:block"
+                                     data-ad-format="fluid"
+                                     data-ad-layout-key="-fb+5w+4e-db+86"
+                                     data-ad-client="ca-pub-2498063545767573"
+                                     data-adtest="on"
+                                     data-ad-slot="6968659993"></ins>
+                                <script>
+                                    (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </li>
+                        }
                     }
                 </ul>
 
