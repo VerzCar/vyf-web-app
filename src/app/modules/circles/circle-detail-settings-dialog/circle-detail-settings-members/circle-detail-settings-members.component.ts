@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MatButton } from '@angular/material/button';
 import { Store } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
+import { RxIf } from '@rx-angular/template/if';
 import { RxPush } from '@rx-angular/template/push';
 import { UserAutocompleteSelectComponent, UserListItemComponent } from '@vyf/component';
 import { UserPaginated, UserService } from '@vyf/user-service';
+import { FeatherModule } from 'angular-feather';
 import { catchError, map, Observable } from 'rxjs';
 import { candidateMemberTracking } from '../../../../shared/helper/candidate-member-tracking';
 import { voterMemberTracking } from '../../../../shared/helper/voter-member-tracking';
@@ -19,7 +22,10 @@ import { CirclesSelectors } from '../../state/circles.selectors';
         UserListItemComponent,
         RxFor,
         UserAutocompleteSelectComponent,
-        RxPush
+        RxPush,
+        FeatherModule,
+        MatButton,
+        RxIf
     ],
     templateUrl: './circle-detail-settings-members.component.html',
     styleUrl: './circle-detail-settings-members.component.scss',

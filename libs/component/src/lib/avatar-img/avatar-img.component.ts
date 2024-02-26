@@ -23,7 +23,7 @@ export enum AvatarImgSize {
              fill="true">
         <div *rxIf="!imageSrc"
              class="bg-gray-800 text-gray-200 absolute w-full h-full flex items-center justify-center rounded">
-            <span class="text-xl uppercase">{{ username | shortName }}</span>
+            <span class="text-xl text-center uppercase">{{ username | shortName }}</span>
         </div>
     `,
     styles: [

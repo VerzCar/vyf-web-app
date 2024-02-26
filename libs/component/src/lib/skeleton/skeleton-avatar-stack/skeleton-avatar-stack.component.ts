@@ -8,4 +8,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     styleUrl: './skeleton-avatar-stack.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SkeletonAvatarStackComponent {}
+export class SkeletonAvatarStackComponent {
+    public itemsCount = new Array<number>(3);
+}

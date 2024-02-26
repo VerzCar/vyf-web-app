@@ -10,13 +10,13 @@ import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import {
-  AvatarImgComponent,
-  AvatarStackComponent,
-  CircleOwnerComponent,
-  ShortNamePipe,
-  ShortNumberPipe, SkeletonListComponent,
-  TrendingIconPipe,
-  UserListItemComponent
+    AvatarImgComponent,
+    AvatarStackComponent,
+    CircleOwnerComponent,
+    ShortNamePipe,
+    ShortNumberPipe, SkeletonAvatarStackComponent, SkeletonListComponent,
+    TrendingIconPipe,
+    UserListItemComponent
 } from '@vyf/component';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
@@ -51,29 +51,30 @@ import { ValidUntilComponent } from './ranking-list/valid-until/valid-until.comp
     RankingSelectComponent,
     ValidUntilComponent,
   ],
-  imports: [
-    CommonModule,
-    NgxsModule.forFeature([UserState, RankingState, MemberState]),
-    RankingRoutingModule,
-    FeatherIconModule,
-    NgOptimizedImage,
-    CircleOwnerComponent,
-    RxLet,
-    MatButtonModule,
-    MatBottomSheetModule,
-    RxFor,
-    UserListItemComponent,
-    RxIf,
-    ShortNamePipe,
-    TrendingIconPipe,
-    ShortNumberPipe,
-    AvatarStackComponent,
-    MatProgressSpinnerModule,
-    MatDialogModule,
-    MatIconModule,
-    AvatarImgComponent,
-    SkeletonListComponent
-  ],
+    imports: [
+        CommonModule,
+        NgxsModule.forFeature([UserState, RankingState, MemberState]),
+        RankingRoutingModule,
+        FeatherIconModule,
+        NgOptimizedImage,
+        CircleOwnerComponent,
+        RxLet,
+        MatButtonModule,
+        MatBottomSheetModule,
+        RxFor,
+        UserListItemComponent,
+        RxIf,
+        ShortNamePipe,
+        TrendingIconPipe,
+        ShortNumberPipe,
+        AvatarStackComponent,
+        MatProgressSpinnerModule,
+        MatDialogModule,
+        MatIconModule,
+        AvatarImgComponent,
+        SkeletonListComponent,
+        SkeletonAvatarStackComponent
+    ],
   providers: [ListResolver],
 })
 export class RankingModule {}

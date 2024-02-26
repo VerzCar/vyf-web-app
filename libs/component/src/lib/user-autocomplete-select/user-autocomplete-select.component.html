@@ -64,21 +64,23 @@
                 <ng-template #listItem>
                     <vyf-user-list-item [user]="user">
                         <div *rxIf="user.disabled"
-                             suffix-content
-                             class="flex flex-row items-center ml-auto">
+                             suffix-user-content>
                             <i-feather class="text-green-700 align-top"
                                        name="user-check">
                             </i-feather>
-                            <button *rxIf="removable"
-                                    mat-button
-                                    color="accent"
-                                    type="button"
-                                    (click)="removeUser(user)">
-                                <i-feather class="text-red-700 align-top"
-                                           name="x">
-                                </i-feather>
-                            </button>
                         </div>
+
+                        <button *rxIf="removable && user.disabled"
+                                mat-button
+                                suffix-content
+                                color="accent"
+                                type="button"
+                                (click)="removeUser(user)">
+                            <i-feather class="text-red-700 align-top"
+                                       name="x">
+                            </i-feather>
+                        </button>
+
                         <button *rxIf="addable && !user.disabled"
                                 mat-button
                                 suffix-content

@@ -35,11 +35,11 @@ export class CircleDetailMembersComponent {
         this.view$ = this.store.select(CirclesSelectors.slices.selectedCircle).pipe(
             tap(() => this.suspenseTrigger$.next(void 0)),
             filter(circle => isDefined(circle)),
-            tap(circle => this.store.dispatch([
+            switchMap(circle => this.store.dispatch([
                 new MemberAction.Circle.FilterVoterMembers(circle!.id),
                 new MemberAction.Circle.FilterCandidateMembers(circle!.id)
             ])),
-            switchMap(circle => combineLatest([
+            switchMap(() => combineLatest([
                 this.store.select(MemberSelectors.Member.slices.circleVoterMembers),
                 this.store.select(MemberSelectors.Member.slices.circleCandidateMembers)
             ])),
@@ -74,7 +74,7 @@ export class CircleDetailMembersComponent {
         const firstThreeMembers = members.slice(0, this.maxMembersCount);
 
         const firsThreeUsers = firstThreeMembers.map(member => member.user);
-        const countOfMembersToVote = members.length - this.maxMembersCount;
+        const countOfMembersToVote = (members.length + candidateMembers.length) - this.maxMembersCount;
         return {
             previewUsers: firsThreeUsers,
             membersCount: countOfMembersToVote > 0 ? countOfMembersToVote : 0
