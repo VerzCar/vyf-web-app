@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ApiBaseService, ApiResponse } from '@vyf/base';
 import { Observable } from 'rxjs';
 
-import { Circle, CircleCandidate, CircleCreateRequest, CirclePaginated, CircleUpdateRequest, CircleVoter, CircleVotersFilter, Commitment, Ranking, VoteCreateRequest, Voter } from '../models';
+import { CandidateRequest, Circle, CircleCandidate, CircleCreateRequest, CirclePaginated, CircleUpdateRequest, CircleVoter, CircleVotersFilter, Commitment, Ranking, VoteCreateRequest, Voter, VoterRequest } from '../models';
 import { Candidate } from '../models/candidate.model';
 import { CircleCandidateCommitmentRequest } from '../models/circle-candidate-commitment-request.model';
 import { CircleCandidatesFilter } from '../models/circle-candidates-filter.model';
@@ -83,6 +83,14 @@ export class VoteCircleService extends ApiBaseService {
 
     public joinCircleAsCandidate(circleId: number): Observable<ApiResponse<Candidate>> {
         return this.create<unknown, Candidate>(null, `circle-candidates/${circleId}/join`);
+    }
+
+    public addCandidateToCircle(circleId: number, req: CandidateRequest): Observable<ApiResponse<Candidate>> {
+        return this.create<CandidateRequest, Candidate>(req, `circle-candidates/${circleId}/add`);
+    }
+
+    public addVoterToCircle(circleId: number, req: VoterRequest): Observable<ApiResponse<Voter>> {
+        return this.create<VoterRequest, Voter>(req, `circle-voters/${circleId}/add`);
     }
 
     public leaveCircleAsCandidate(circleId: number): Observable<ApiResponse<string>> {

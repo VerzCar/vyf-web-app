@@ -47,11 +47,11 @@ export class MembersNeedVoteComponent {
             map(([members]) => ({
                 ...this.mapMembersToPreview(members)
             }))
-        )
+        );
     }
 
     public onShowMembers() {
-        this.dialog.open(CandidateMemberListDialogComponent);
+        this.dialog.open(CandidateMemberListDialogComponent, { closeOnNavigation: true });
     }
 
     private mapMembersToPreview(

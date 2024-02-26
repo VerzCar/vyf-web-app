@@ -5,10 +5,12 @@ import { RxPush } from '@rx-angular/template/push';
 import { UserAutocompleteSelectComponent, UserListItemComponent } from '@vyf/component';
 import { UserPaginated, UserService } from '@vyf/user-service';
 import { catchError, map, Observable } from 'rxjs';
+import { candidateMemberTracking } from '../../../../shared/helper/candidate-member-tracking';
 import { voterMemberTracking } from '../../../../shared/helper/voter-member-tracking';
 import { CandidateMember, VoterMember } from '../../../../shared/models';
 import { MemberSelectors } from '../../../../shared/state/member.selectors';
-import { candidateMemberTracking } from '../../../../shared/helper/candidate-member-tracking';
+import { CirclesAction } from '../../state/actions/circles.action';
+import { CirclesSelectors } from '../../state/circles.selectors';
 
 @Component({
     selector: 'app-circle-detail-settings-members',
@@ -28,6 +30,7 @@ export class CircleDetailSettingsMembersComponent {
     public readonly candidateMembers$: Observable<CandidateMember[]>;
     public readonly voterUsers$: Observable<UserPaginated[]>;
     public readonly candidateUsers$: Observable<UserPaginated[]>;
+    public readonly canEditCircle$: Observable<boolean>;
 
     private readonly store = inject(Store);
     private readonly userService = inject(UserService);
@@ -37,6 +40,7 @@ export class CircleDetailSettingsMembersComponent {
         this.candidateMembers$ = this.store.select(MemberSelectors.Member.slices.circleCandidateMembers);
         this.voterUsers$ = this.store.select(MemberSelectors.CircleSelector.voterUsers);
         this.candidateUsers$ = this.store.select(MemberSelectors.CircleSelector.candidateUsers);
+        this.canEditCircle$ = this.store.select(CirclesSelectors.canEditCircle);
     }
 
     public readonly allUsersFn$ = () => this.userService.users().pipe(
@@ -49,19 +53,20 @@ export class CircleDetailSettingsMembersComponent {
         catchError(() => [])
     );
 
-    public onCandidatesSelected(userIdentidyIds: string[]) {
-        console.log('add candidate');
+    public onCandidatesSelected(userIdentityId: string) {
+        const circle = this.store.selectSnapshot(CirclesSelectors.slices.selectedCircle);
+        this.store.dispatch(new CirclesAction.AddCandidate(circle?.id ?? 0, userIdentityId));
     }
 
-    public onCandidateDeselection(userIdentidyId: string) {
+    public onCandidateDeselection(userIdentityId: string) {
         console.log('remove candidate');
     }
 
-    public onVotersSelected(userIdentidyIds: string[]) {
+    public onVotersSelected(userIdentityIds: string[]) {
         console.log('add voter');
     }
 
-    public onVoterDeselection(userIdentidyId: string) {
+    public onVoterDeselection(userIdentityId: string) {
         console.log('remove voter');
     }
 

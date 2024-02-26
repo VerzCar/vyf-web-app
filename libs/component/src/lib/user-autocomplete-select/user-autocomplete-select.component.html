@@ -79,7 +79,7 @@
                                 </i-feather>
                             </button>
                         </div>
-                        <button *rxIf="!user.disabled"
+                        <button *rxIf="addable && !user.disabled"
                                 mat-button
                                 suffix-content
                                 color="accent"

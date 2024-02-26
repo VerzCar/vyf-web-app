@@ -96,6 +96,14 @@ export namespace CirclesAction {
         }
     }
 
+    export class AddCandidate {
+        public static readonly type = `[${domainName}] Add Candidate to circle`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public circleId: number, public userIdentityId: string) {
+        }
+    }
+
     export class LeaveCircleAsCandidate {
         public static readonly type = `[${domainName}] Leave Circle as candidate`;
 
@@ -120,7 +128,8 @@ export const CirclesErrorTrackedActions = [
     CirclesAction.UpdateCircleImage,
     CirclesAction.SelectCircle,
     CirclesAction.CommittedToCircle,
+    CirclesAction.AddCandidate,
     CirclesAction.JoinCircleAsVoter,
     CirclesAction.JoinCircleAsCandidate,
     CirclesAction.LeaveCircleAsCandidate
-]
+];

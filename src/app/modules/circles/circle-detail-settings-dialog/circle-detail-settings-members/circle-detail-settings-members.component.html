@@ -4,12 +4,13 @@
 
 <vyf-user-autocomplete-select [fetchOptionsFn]="allUsersFn$"
                               [filteredFetchOptionsFn]="allFilteredUsersFn$"
-                              (selectedUsers)="onCandidatesSelected($event)"
+                              (selectedUser)="onCandidatesSelected($event)"
                               (deselectedUser)="onCandidateDeselection($event)"
                               [placeholder]="'Search candidate'"
                               [preSelectedUsers]="candidateUsers$ | push"
                               [showSelectionInField]="false"
-                              [removable]="true">
+                              [removable]="canEditCircle$ | push"
+                              [addable]="canEditCircle$ | push">
 </vyf-user-autocomplete-select>
 
 <div class="flex flex-col space-y-2 mb-2">

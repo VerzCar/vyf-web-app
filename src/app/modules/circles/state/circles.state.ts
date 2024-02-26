@@ -4,7 +4,7 @@ import { insertItem, patch, removeItem, updateItem } from '@ngxs/store/operators
 import { SnackbarService } from '@vyf/base';
 import { SnackbarSuccessComponent, SnackbarSuccessComponentData } from '@vyf/component';
 import { User, UserService } from '@vyf/user-service';
-import { Circle, CircleCandidateCommitmentRequest, CirclePaginated, UserOption, VoteCircleService } from '@vyf/vote-circle-service';
+import { CandidateRequest, Circle, CircleCandidateCommitmentRequest, CirclePaginated, UserOption, VoteCircleService } from '@vyf/vote-circle-service';
 import { firstValueFrom, map, Observable, of, tap } from 'rxjs';
 import { UserSelectors } from '../../user/state/user.selectors';
 import { CirclesStateModel } from '../models';
@@ -214,6 +214,34 @@ export class CirclesState implements NgxsOnInit {
             tap(() => {
                 const data: SnackbarSuccessComponentData = {
                     message: 'Yeah! You joined as a candidate to the circle - Congratulations!'
+                };
+                this.snackbar.openSuccess(SnackbarSuccessComponent, data);
+            })
+        );
+    }
+
+    @Action(CirclesAction.AddCandidate)
+    private addCandidate(
+        ctx: StateContext<CirclesStateModel>,
+        action: CirclesAction.AddCandidate
+    ) {
+        const req: CandidateRequest = {
+            candidate: action.userIdentityId
+        };
+
+        return this.voteCircleService.addCandidateToCircle(action.circleId, req).pipe(
+            map(res => res.data),
+            tap(() => ctx.setState(
+                patch<CirclesStateModel>({
+                    circlesOfInterest: updateItem<CirclePaginated>(
+                        circle => circle.id === action.circleId,
+                        circle => ({ ...circle, candidatesCount: circle.candidatesCount ? circle.candidatesCount + 1 : 1 })
+                    )
+                })
+            )),
+            tap(() => {
+                const data: SnackbarSuccessComponentData = {
+                    message: 'You added the candidate to the circle.'
                 };
                 this.snackbar.openSuccess(SnackbarSuccessComponent, data);
             })
