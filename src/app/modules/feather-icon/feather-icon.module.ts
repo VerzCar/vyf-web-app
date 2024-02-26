@@ -15,7 +15,8 @@ import {
     TrendingDown,
     TrendingUp,
     Slash,
-    X
+    X,
+    HelpCircle
 } from 'angular-feather/icons';
 
 // Select some icons (use an object, not an array)
@@ -34,7 +35,8 @@ const icons = {
     CheckSquare,
     Award,
     Slash,
-    X
+    X,
+    HelpCircle
 };
 
 @NgModule({
