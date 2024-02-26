@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
 import { User } from '@vyf/user-service';
 import { CircleCandidatesFilter } from '@vyf/vote-circle-service';
-import { BehaviorSubject, combineLatest, filter, map, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, map, Observable, Subject, switchMap, tap } from 'rxjs';
 import { CandidateMember } from '../../../../shared/models';
 import { MemberAction } from '../../../../shared/state/actions/member.action';
 import { MemberSelectors } from '../../../../shared/state/member.selectors';
@@ -24,7 +24,7 @@ interface MembersNeedVoteComponentView {
 })
 export class MembersNeedVoteComponent {
     public readonly view$: Observable<MembersNeedVoteComponentView>;
-    public readonly suspenseTrigger$ = new BehaviorSubject<void>(void 0);
+    public readonly suspenseTrigger$ = new Subject<void>();
 
     private readonly maxMembersCount = 3;
 
@@ -33,13 +33,12 @@ export class MembersNeedVoteComponent {
 
     constructor() {
         this.view$ = this.store.select(RankingSelectors.slices.selectedCircle).pipe(
-            tap(() => this.suspenseTrigger$.next(void 0)),
             filter(circle => isDefined(circle)),
-            tap(circle => {
+            switchMap(circle => {
                 const candidatesFilter: Partial<CircleCandidatesFilter> = {
                     hasBeenVoted: false
                 };
-                this.store.dispatch(new MemberAction.Ranking.FilterCandidateNeedVoteMembers(circle!.id, candidatesFilter));
+                return this.store.dispatch(new MemberAction.Ranking.InitMembers(circle!.id, candidatesFilter));
             }),
             switchMap(() => combineLatest([
                 this.store.select(MemberSelectors.Member.slices.rankingCandidateNeedVoteMembers)

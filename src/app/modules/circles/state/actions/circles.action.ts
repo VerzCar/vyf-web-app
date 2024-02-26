@@ -104,6 +104,14 @@ export namespace CirclesAction {
         }
     }
 
+    export class AddVoter {
+        public static readonly type = `[${domainName}] Add Voter to circle`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public circleId: number, public userIdentityId: string) {
+        }
+    }
+
     export class LeaveCircleAsCandidate {
         public static readonly type = `[${domainName}] Leave Circle as candidate`;
 

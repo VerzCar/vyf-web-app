@@ -6,7 +6,6 @@ import { AblyMessage, AblyService } from '@vyf/base';
 import { UserService } from '@vyf/user-service';
 import { Circle, EventOperation, Ranking, RankingChangeEvent, VoteCircleService } from '@vyf/vote-circle-service';
 import { debounceTime, forkJoin, map, Observable, of, Subject, switchMap, tap } from 'rxjs';
-import { MemberAction } from '../../../shared/state/actions/member.action';
 import { Placement, RankingStateModel } from '../models';
 import { RankingAction } from './actions/ranking.action';
 
@@ -46,8 +45,7 @@ export class RankingState implements NgxsOnInit {
         }
 
         return ctx.dispatch(new RankingAction.FetchCircle(action.circleId)).pipe(
-            map(() => ctx.getState().selectedCircle as Circle),
-            tap(() => ctx.dispatch(new MemberAction.Ranking.FilterVoterMembers(action.circleId)))
+            map(() => ctx.getState().selectedCircle as Circle)
         );
     }
 

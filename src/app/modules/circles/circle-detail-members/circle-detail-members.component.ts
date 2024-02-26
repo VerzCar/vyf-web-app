@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
 import { User } from '@vyf/user-service';
 import { Circle } from '@vyf/vote-circle-service';
-import { BehaviorSubject, combineLatest, filter, map, Observable, switchMap, tap } from 'rxjs';
+import { combineLatest, filter, map, Observable, Subject, switchMap } from 'rxjs';
 import { CandidateMember, VoterMember } from '../../../shared/models';
 import { MemberAction } from '../../../shared/state/actions/member.action';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
@@ -24,7 +24,7 @@ interface CircleDetailMembersComponentView {
 })
 export class CircleDetailMembersComponent {
     public readonly view$: Observable<CircleDetailMembersComponentView>;
-    public readonly suspenseTrigger$ = new BehaviorSubject<void>(void 0);
+    public readonly suspenseTrigger$ = new Subject<void>();
 
     private readonly store = inject(Store);
     private readonly dialog = inject(MatDialog);
@@ -33,12 +33,8 @@ export class CircleDetailMembersComponent {
 
     constructor() {
         this.view$ = this.store.select(CirclesSelectors.slices.selectedCircle).pipe(
-            tap(() => this.suspenseTrigger$.next(void 0)),
             filter(circle => isDefined(circle)),
-            switchMap(circle => this.store.dispatch([
-                new MemberAction.Circle.FilterVoterMembers(circle!.id),
-                new MemberAction.Circle.FilterCandidateMembers(circle!.id)
-            ])),
+            switchMap(circle => this.store.dispatch(new MemberAction.Circle.InitMembers(circle!.id))),
             switchMap(() => combineLatest([
                 this.store.select(MemberSelectors.Member.slices.circleVoterMembers),
                 this.store.select(MemberSelectors.Member.slices.circleCandidateMembers)

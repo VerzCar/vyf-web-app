@@ -9,6 +9,16 @@ export namespace MemberAction {
     export namespace Circle {
         const subDomainName = 'Circle';
 
+        export class InitMembers {
+            public static readonly type = `[${domainName}] - [${subDomainName}] Init Circle Members`;
+
+            // eslint-disable-next-line no-useless-constructor
+            constructor(public circleId: number,
+                        public candidatesFilter?: Partial<CircleCandidatesFilter>,
+                        public votersFilter?: Partial<CircleVotersFilter>) {
+            }
+        }
+
         export class FetchVoter {
             public static readonly type = `[${domainName}] - [${subDomainName}] Fetch Circle Voter`;
 
@@ -93,6 +103,16 @@ export namespace MemberAction {
     // eslint-disable-next-line @typescript-eslint/no-namespace
     export namespace Ranking {
         const subDomainName = 'Ranking';
+
+        export class InitMembers {
+            public static readonly type = `[${domainName}] - [${subDomainName}] Init Ranking Members`;
+
+            // eslint-disable-next-line no-useless-constructor
+            constructor(public circleId: number,
+                        public candidatesFilter?: Partial<CircleCandidatesFilter>,
+                        public votersFilter?: Partial<CircleVotersFilter>) {
+            }
+        }
 
         export class FetchVoter {
             public static readonly type = `[${domainName}] - [${subDomainName}] Fetch Circle Voter`;

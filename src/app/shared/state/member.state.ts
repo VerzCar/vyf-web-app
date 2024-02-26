@@ -5,7 +5,16 @@ import { append, patch, removeItem, updateItem } from '@ngxs/store/operators';
 import { AblyMessage, AblyService, isDefined, SnackbarService } from '@vyf/base';
 import { SnackbarSuccessComponent, SnackbarSuccessComponentData } from '@vyf/component';
 import { User, UserService } from '@vyf/user-service';
-import { Candidate, Circle, CircleCandidateChangeEvent, CircleVoterChangeEvent, EventOperation, VoteCircleService, VoteCreateRequest, Voter } from '@vyf/vote-circle-service';
+import {
+    Candidate,
+    Circle,
+    CircleCandidateChangeEvent,
+    CircleVoterChangeEvent,
+    EventOperation,
+    VoteCircleService,
+    VoteCreateRequest,
+    Voter
+} from '@vyf/vote-circle-service';
 import { distinctUntilChanged, filter, forkJoin, map, Observable, of, pairwise, startWith, Subject, switchMap, tap } from 'rxjs';
 import { CirclesSelectors } from '../../modules/circles/state/circles.selectors';
 import { RankingSelectors } from '../../modules/ranking/state/ranking.selectors';
@@ -20,7 +29,15 @@ const DEFAULT_STATE: MemberStateModel = {
     circleUserCandidateMember: undefined,
     rankingVoterMembers: [],
     rankingUserVoterMember: undefined,
-    rankingCandidateNeedVoteMembers: []
+    rankingCandidateNeedVoteMembers: [],
+    preFetchedCircleMembers: {
+        circleId: 0,
+        fetched: false
+    },
+    preFetchedRankingMembers: {
+        circleId: 0,
+        fetched: false
+    }
 };
 
 type SubscribeCandidateChangeAction = new (circleId: number) => MemberAction.Circle.SubscribeCandidateChangeEvent | MemberAction.Ranking.SubscribeCandidateChangeEvent;
@@ -57,6 +74,80 @@ export class MemberState implements NgxsOnInit {
         this._rankingCandidateChangedMessage$ = this._rankingCandidateChangedMsgSubject.asObservable();
         this._circleVoterChangedMessage$ = this._circleVoterChangedMsgSubject.asObservable();
         this._rankingVoterChangedMessage$ = this._rankingVoterChangedMsgSubject.asObservable();
+    }
+
+    @Action(MemberAction.Circle.InitMembers)
+    private initCircleMembers(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Circle.InitMembers
+    ) {
+        const selectedCircle = this.store.selectSnapshot(CirclesSelectors.slices.selectedCircle);
+        const preFetch = ctx.getState().preFetchedCircleMembers;
+
+        if (selectedCircle && preFetch.circleId === action.circleId && preFetch.fetched) {
+            return of(true);
+        }
+
+        return ctx.dispatch([
+            new MemberAction.Circle.FilterVoterMembers(action.circleId, action.votersFilter),
+            new MemberAction.Circle.FilterCandidateMembers(action.circleId, action.candidatesFilter)
+        ]).pipe(
+            tap({
+                complete: () => {
+                    ctx.patchState({
+                        preFetchedCircleMembers: {
+                            circleId: action.circleId,
+                            fetched: true
+                        }
+                    });
+                },
+                error: () => {
+                    ctx.patchState({
+                        preFetchedCircleMembers: {
+                            circleId: action.circleId,
+                            fetched: false
+                        }
+                    });
+                }
+            })
+        );
+    }
+
+    @Action(MemberAction.Ranking.InitMembers)
+    private initRankingMembers(
+        ctx: StateContext<MemberStateModel>,
+        action: MemberAction.Circle.InitMembers
+    ) {
+        const selectedCircle = this.store.selectSnapshot(CirclesSelectors.slices.selectedCircle);
+        const preFetch = ctx.getState().preFetchedRankingMembers;
+
+        if (selectedCircle && preFetch.circleId === action.circleId && preFetch.fetched) {
+            return of(true);
+        }
+
+        return ctx.dispatch([
+            new MemberAction.Ranking.FilterVoterMembers(action.circleId, action.votersFilter),
+            new MemberAction.Ranking.FilterCandidateNeedVoteMembers(action.circleId, action.candidatesFilter)
+        ]).pipe(
+            tap({
+                complete: () => {
+                    ctx.patchState({
+                        preFetchedRankingMembers: {
+                            circleId: action.circleId,
+                            fetched: true
+                        }
+                    });
+                },
+                error: () => {
+                    ctx.patchState({
+                        preFetchedRankingMembers: {
+                            circleId: action.circleId,
+                            fetched: false
+                        }
+                    });
+                }
+            })
+        );
     }
 
     @Action(MemberAction.Circle.FilterVoterMembers)

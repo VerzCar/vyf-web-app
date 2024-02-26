@@ -9,4 +9,11 @@ export interface MemberStateModel {
     rankingVoterMembers: VoterMember[];
     rankingUserVoterMember: VoterMember | undefined;
     rankingCandidateNeedVoteMembers: CandidateMember[];
+    preFetchedCircleMembers: PreFetch;
+    preFetchedRankingMembers: PreFetch;
+}
+
+export interface PreFetch {
+    circleId: number;
+    fetched: boolean;
 }

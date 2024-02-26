@@ -59,7 +59,7 @@ export class CircleDetailSettingsMembersComponent {
         catchError(() => [])
     );
 
-    public onCandidatesSelected(userIdentityId: string) {
+    public onCandidateSelected(userIdentityId: string) {
         const circle = this.store.selectSnapshot(CirclesSelectors.slices.selectedCircle);
         this.store.dispatch(new CirclesAction.AddCandidate(circle?.id ?? 0, userIdentityId));
     }
@@ -68,8 +68,9 @@ export class CircleDetailSettingsMembersComponent {
         console.log('remove candidate');
     }
 
-    public onVotersSelected(userIdentityIds: string[]) {
-        console.log('add voter');
+    public onVoterSelected(userIdentityId: string) {
+        const circle = this.store.selectSnapshot(CirclesSelectors.slices.selectedCircle);
+        this.store.dispatch(new CirclesAction.AddVoter(circle?.id ?? 0, userIdentityId));
     }
 
     public onVoterDeselection(userIdentityId: string) {
