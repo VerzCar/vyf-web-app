@@ -1,4 +1,4 @@
-import { NgOptimizedImage } from '@angular/common';
+import { NgClass, NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RxIf } from '@rx-angular/template/if';
 import { UserPaginated } from '@vyf/user-service';
@@ -9,12 +9,13 @@ import { ShortNamePipe } from '../pipes/short-name.pipe';
 @Component({
     selector: 'vyf-user-list-item',
     standalone: true,
-    imports: [FeatherIconModule, RxIf, ShortNamePipe, NgOptimizedImage, AvatarImgComponent],
+    imports: [FeatherIconModule, RxIf, ShortNamePipe, NgOptimizedImage, AvatarImgComponent, NgClass],
     templateUrl: './user-list-item.component.html',
     styleUrls: ['./user-list-item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserListItemComponent {
     @Input({ required: true }) public user!: UserPaginated;
-    protected readonly AvatarImgSize = AvatarImgSize;
+    @Input() public highlight = false;
+    public readonly AvatarImgSize = AvatarImgSize;
 }

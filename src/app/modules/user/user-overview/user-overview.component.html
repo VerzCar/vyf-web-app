@@ -1,7 +1,8 @@
 <div class="layout-container layout-whitespace">
     <div class="flex flex-col gap-4">
         <vyf-user-autocomplete-select [fetchOptionsFn]="allUsersFn$"
-                                      [filteredFetchOptionsFn]="allFilteredUsersFn$">
+                                      [filteredFetchOptionsFn]="allFilteredUsersFn$"
+                                      [removable]="true">
         </vyf-user-autocomplete-select>
 
         <vyf-user-autocomplete-search [fetchOptionsFn]="allUsersFn$"

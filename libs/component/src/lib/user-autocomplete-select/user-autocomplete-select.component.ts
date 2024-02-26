@@ -95,8 +95,10 @@ export class UserAutocompleteSelectComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        const options = this.createUserOptions(this.preSelectedUsers, this.preSelectedUsers);
-        this.selectedUserOptionsSubject.next(options);
+        if (this.preSelectedUsers.length) {
+            const options = this.createUserOptions(this.preSelectedUsers, this.preSelectedUsers);
+            this.selectedUserOptionsSubject.next(options);
+        }
     }
 
     public displayFn(user: UserPaginated): string {
@@ -131,7 +133,15 @@ export class UserAutocompleteSelectComponent implements OnInit {
             return;
         }
 
-        this.deselectedUser.emit(user.identityId);
+        const users = this.selectedUserOptionsSubject.getValue();
+        const foundIndex = users.findIndex(userOption => userOption.identityId === user.identityId);
+
+        if (foundIndex > -1) {
+            users.splice(foundIndex, 1);
+
+            this.selectedUserOptionsSubject.next(users);
+            this.deselectedUser.emit(user.identityId);
+        }
     }
 
     public removeSelectedInFieldUser(index: number): void {
