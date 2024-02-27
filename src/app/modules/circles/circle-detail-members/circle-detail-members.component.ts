@@ -65,12 +65,12 @@ export class CircleDetailMembersComponent {
             };
         }
 
-        const members = voterMembers.length ? voterMembers : candidateMembers;
+        const members = [...voterMembers, ...candidateMembers];
 
         const firstThreeMembers = members.slice(0, this.maxMembersCount);
 
         const firsThreeUsers = firstThreeMembers.map(member => member.user);
-        const countOfMembersToVote = (members.length + candidateMembers.length) - this.maxMembersCount;
+        const countOfMembersToVote = (voterMembers.length + candidateMembers.length) - this.maxMembersCount;
         return {
             previewUsers: firsThreeUsers,
             membersCount: countOfMembersToVote > 0 ? countOfMembersToVote : 0
