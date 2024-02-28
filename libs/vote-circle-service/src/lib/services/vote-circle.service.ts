@@ -116,4 +116,13 @@ export class VoteCircleService extends ApiBaseService {
     public eligibleToBeInCircle(id: number): Observable<ApiResponse<boolean>> {
         return this.get({ paths: ['circle', id, 'eligible'] });
     }
+
+    public circleCandidateVotedBy(circleId: number, req: CandidateRequest): Observable<ApiResponse<string[]>> {
+        const params = new HttpParams({
+            fromObject: {
+                candidate: req.candidate
+            }
+        });
+        return this.get({ paths: ['circle-candidates', circleId, 'voted-by'] }, params);
+    }
 }
