@@ -14,7 +14,7 @@ import {
     AvatarStackComponent,
     CircleOwnerComponent,
     ShortNamePipe,
-    ShortNumberPipe, SkeletonAvatarStackComponent, SkeletonListComponent,
+    ShortNumberPipe, SkeletonAvatarComponent, SkeletonAvatarListComponent, SkeletonAvatarStackComponent, SkeletonListComponent,
     TrendingIconPipe,
     UserListItemComponent
 } from '@vyf/component';
@@ -73,7 +73,9 @@ import { ValidUntilComponent } from './ranking-list/valid-until/valid-until.comp
         MatIconModule,
         AvatarImgComponent,
         SkeletonListComponent,
-        SkeletonAvatarStackComponent
+        SkeletonAvatarStackComponent,
+        SkeletonAvatarComponent,
+        SkeletonAvatarListComponent
     ],
   providers: [ListResolver],
 })

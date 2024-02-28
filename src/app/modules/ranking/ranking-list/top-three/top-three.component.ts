@@ -3,7 +3,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { Circle } from '@vyf/vote-circle-service';
 import { placementTracking } from '../../helper/placement-tracking';
 import { Placement } from '../../models';
-import { RankingComponent } from '../../ranking/ranking.component';
+import { RankingComponent, RankingComponentView } from '../../ranking/ranking.component';
 import { TopThreePlacement } from './top-ranked/top-ranked.component';
 
 @Component({
@@ -24,8 +24,8 @@ export class TopThreeComponent {
         return placementTracking(index, placement);
     }
 
-    public onShowItem(placement: Placement) {
-        const data = { placement };
+    public onShowItem(placement: Placement, circle: Circle) {
+        const data: RankingComponentView = { placement, circleId: circle.id };
         this.bottomSheet.open(RankingComponent, { data, closeOnNavigation: true });
     }
 }

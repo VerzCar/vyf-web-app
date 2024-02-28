@@ -34,6 +34,10 @@ export * from './lib/skeleton/skeleton-list/skeleton-list.component';
 
 export * from './lib/skeleton/skeleton-avatar-stack/skeleton-avatar-stack.component';
 
+export * from './lib/skeleton/skeleton-avatar/skeleton-avatar.component';
+
+export * from './lib/skeleton/skeleton-avatar-list/skeleton-avatar-list.component';
+
 export * from './lib/pipes/short-name.pipe';
 export * from './lib/pipes/short-number.pipe';
 export * from './lib/pipes/trending-icon.pipe';

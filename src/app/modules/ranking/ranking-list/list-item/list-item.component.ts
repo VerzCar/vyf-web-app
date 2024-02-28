@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { MemberAction } from '../../../../shared/state/actions/member.action';
 import { MemberSelectors } from '../../../../shared/state/member.selectors';
 import { Placement } from '../../models';
-import { RankingComponent } from '../../ranking/ranking.component';
+import { RankingComponent, RankingComponentView } from '../../ranking/ranking.component';
 
 @Component({
     selector: 'app-list-item',
@@ -39,8 +39,8 @@ export class ListItemComponent implements OnInit {
         this.store.dispatch(new MemberAction.Ranking.RevokeVote(circleId));
     }
 
-    public onShowItem(placement: Placement) {
-        const data = { placement };
+    public onShowItem(placement: Placement, circle: Circle) {
+        const data: RankingComponentView = { placement, circleId: circle.id };
         this.bottomSheet.open(RankingComponent, { data, closeOnNavigation: true });
     }
 }

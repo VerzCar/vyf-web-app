@@ -47,14 +47,24 @@
         </div>
     </section>
 
+    <hr class="text-gray-600">
+
     <section class="flex flex-row justify-between gap-2">
         <div>
             <h4>
                 Voted by:
             </h4>
-            <p>
-                User X | User Y | User ABC
-            </p>
+            <div *rxLet="votedByUsers$; let users; suspense: suspense;"
+                 class="flex flex-col space-y-2 max-h-60 overflow-y-auto">
+                <ng-container *rxFor="let user of users;">
+                    <vyf-user-list-item [user]="user">
+                    </vyf-user-list-item>
+                </ng-container>
+            </div>
+            <ng-template #suspense>
+                <vyf-skeleton-avatar-list>
+                </vyf-skeleton-avatar-list>
+            </ng-template>
         </div>
 
         <div>

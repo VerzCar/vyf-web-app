@@ -5,13 +5,13 @@
 
     <div class="flex flex-row items-center justify-between gap-6">
         <p class="font-semibold text-2xl text-gray-900 hover:cursor-pointer"
-           (click)="onShowItem(placement)">
+           (click)="onShowItem(placement, circle)">
             {{ placement.ranking.number }}
         </p>
 
         <vyf-avatar-img [imageSrc]="placement.user.profile.imageSrc"
                         [username]="placement.user.username"
-                        (click)="onShowItem(placement)"
+                        (click)="onShowItem(placement, circle)"
                         class="hover:cursor-pointer">
         </vyf-avatar-img>
 
@@ -21,7 +21,7 @@
             </p>
 
             <p class="text-gray-900 hover:cursor-pointer"
-               (click)="onShowItem(placement)">
+               (click)="onShowItem(placement, circle)">
                 {{ placement.user.username }}
             </p>
         </div>
