@@ -44,8 +44,8 @@ export class CircleAutocompleteSearchComponent {
     }
 
     private mapFilteredCircles$(
-        username: string
+        name: string
     ): Observable<CirclePaginated[]> {
-        return this.filteredFetchOptionsFn(username);
+        return this.filteredFetchOptionsFn(name);
     }
 }

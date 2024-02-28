@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
-import { Circle } from '@vyf/vote-circle-service';
-import { filter, map, Observable } from 'rxjs';
+import { Circle, VoteCircleService } from '@vyf/vote-circle-service';
+import { catchError, filter, map, Observable } from 'rxjs';
 import { RankingSelectors } from '../../state/ranking.selectors';
 
 interface RankingSelectComponentView {
@@ -20,6 +20,7 @@ export class RankingSelectComponent {
     public readonly view$: Observable<RankingSelectComponentView>;
 
     private readonly store = inject(Store);
+    private readonly voteCircleService = inject(VoteCircleService);
 
     constructor() {
         this.view$ = this.store.select(RankingSelectors.slices.selectedCircle).pipe(
@@ -28,5 +29,14 @@ export class RankingSelectComponent {
                 circle: circle as Circle
             }))
         );
+    }
+
+    public readonly allFilteredCirclesFn$ = (name: string) => this.voteCircleService.circlesFiltered(name).pipe(
+        map(res => res.data),
+        catchError(() => [])
+    );
+
+    public selectedCircle(circleId: number) {
+        console.log('selected circle', circleId);
     }
 }

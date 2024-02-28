@@ -1,0 +1,45 @@
+<form>
+    <mat-form-field appearance="outline" class="w-full">
+        <div matPrefix
+             class="px-2">
+            <mat-spinner *rxIf="isLoading; else icon"
+                         diameter="24">
+            </mat-spinner>
+            <ng-template #icon>
+                <i-feather class="text-gray-600"
+                           name="search">
+                </i-feather>
+            </ng-template>
+        </div>
+
+        <input #circleInput
+               matInput
+               id="selectedCircle"
+               aria-label="Circles"
+               type="search"
+               [matAutocomplete]="auto"
+               [formControl]="control"
+               (keydown.enter)="onInputKeyEnter($event)">
+
+        <mat-autocomplete #auto="matAutocomplete"
+                          (optionSelected)="onOptionSelected($event.option.value)"
+                          [hideSingleSelectionIndicator]="true">
+            <mat-option *rxFor="let circle of filteredCircleOptions$"
+                        [value]="circle"
+                        [disabled]="circle.disabled"
+                        class="user-option"
+                        [ngClass]="{'disabled': circle.disabled}">
+                <p *rxIf="circle.noMatch; else: listItem;">
+                    No Results.
+                </p>
+
+                <ng-template #listItem>
+                    <p>
+                        {{ circle.name }}
+                    </p>
+                </ng-template>
+
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</form>

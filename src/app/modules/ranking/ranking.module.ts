@@ -11,7 +11,7 @@ import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import {
     AvatarImgComponent,
-    AvatarStackComponent,
+    AvatarStackComponent, CircleAutocompleteSearchComponent, CircleAutocompleteSelectComponent,
     CircleOwnerComponent,
     ShortNamePipe,
     ShortNumberPipe, SkeletonAvatarComponent, SkeletonAvatarListComponent, SkeletonAvatarStackComponent, SkeletonListComponent,
@@ -75,7 +75,9 @@ import { ValidUntilComponent } from './ranking-list/valid-until/valid-until.comp
         SkeletonListComponent,
         SkeletonAvatarStackComponent,
         SkeletonAvatarComponent,
-        SkeletonAvatarListComponent
+        SkeletonAvatarListComponent,
+        CircleAutocompleteSearchComponent,
+        CircleAutocompleteSelectComponent
     ],
   providers: [ListResolver],
 })

@@ -6,6 +6,10 @@
             </p>
         </div>
         <div class="rounded-xl bg-gray-100 py-1 px-3 flex-1 flex flex-row gap-2">
+            <vyf-circle-autocomplete-select [filteredFetchOptionsFn]="allFilteredCirclesFn$"
+                                            [preSelectedCircle]="view.circle"
+                                            (selectedCircleId)="selectedCircle($event)">
+            </vyf-circle-autocomplete-select>
             <p class="text-gray-950">
                 <a [routerLink]="['/circles', view.circle.id]">
                     {{ view.circle.name }}
