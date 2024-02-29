@@ -48,20 +48,18 @@ export class CircleAutocompleteSelectComponent implements OnInit {
 
     @Input()
     public set preSelectedCircle(circle: Circle | CirclePaginated | undefined) {
-        console.log(circle?.name);
         if (circle) {
-            this._preSelectedCircle = circle as CirclePaginated;
-            const options = this.createCircleOptions([this._preSelectedCircle], [this._preSelectedCircle]);
-            console.log(this.selectedCircleOptionsSubject.value, options);
+            this.selectedCircle = circle as CirclePaginated;
+            const options = this.createCircleOptions([this.selectedCircle], [this.selectedCircle]);
             // @ts-ignore
-            this.control.patchValue(this._preSelectedCircle);
+            this.control.patchValue(this.selectedCircle);
             this.selectedCircleOptionsSubject.next(options);
         }
     }
 
     @Input()
     public set previewCircles(circles: Circle[] | CirclePaginated[] | undefined) {
-        const selectedCircles = this._preSelectedCircle ? [this._preSelectedCircle] : [];
+        const selectedCircles = this.selectedCircle ? [this.selectedCircle] : [];
         const previewSelectOptions = circles?.length ? this.createCircleOptions(circles as CirclePaginated[], selectedCircles) : [];
         this._previewSelectOptionsSubject.next(previewSelectOptions);
     }
@@ -75,10 +73,13 @@ export class CircleAutocompleteSelectComponent implements OnInit {
     public readonly control = new FormControl<string>('');
     public readonly isLoading = new BehaviorSubject<boolean>(false);
     public readonly selectedCircleOptions$: Observable<CircleAutocompleteSelectOption[]>;
-    public filteredCircleOptions$!: Observable<CircleAutocompleteSelectOption[]>;
+
     public readonly selectedCircleOptionsSubject = new BehaviorSubject<CircleAutocompleteSelectOption[]>([]);
 
-    private _preSelectedCircle: CirclePaginated | undefined;
+    public showSearchField = false;
+    public filteredCircleOptions$!: Observable<CircleAutocompleteSelectOption[]>;
+    public selectedCircle: CirclePaginated | undefined;
+
     private readonly _previewSelectOptionsSubject = new BehaviorSubject<CircleAutocompleteSelectOption[]>([]);
     private readonly _previewSelectOptions$: Observable<CircleAutocompleteSelectOption[]>;
 
@@ -102,6 +103,14 @@ export class CircleAutocompleteSelectComponent implements OnInit {
             ),
             tap(() => this.isLoading.next(false))
         );
+    }
+
+    public toggleSearchBox() {
+        if (this.selectedCircle?.name) {
+            // @ts-ignore
+            this.control.patchValue(this.selectedCircle, { emitEvent: false });
+        }
+        this.showSearchField = !this.showSearchField;
     }
 
     public displayFn(circle: CirclePaginated): string {

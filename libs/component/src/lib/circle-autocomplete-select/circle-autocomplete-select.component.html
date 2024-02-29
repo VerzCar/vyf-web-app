@@ -1,47 +1,68 @@
-<mat-form-field appearance="outline"
-                class="w-full"
-                [subscriptSizing]="'dynamic'">
-    <div matPrefix
-         class="px-2">
-        <mat-spinner *rxIf="isLoading; else icon"
-                     diameter="24">
-        </mat-spinner>
-        <ng-template #icon>
-            <i-feather class="text-gray-600"
-                       name="search">
-            </i-feather>
-        </ng-template>
+@if (!showSearchField) {
+    <div class="flex flex-row items-center space-x-2">
+        <i-feather class="text-gray-600 hover:cursor-pointer"
+                   name="search"
+                   (click)="toggleSearchBox()">
+        </i-feather>
+        <p class="text-gray-950">
+            {{ this.selectedCircle?.name }}
+        </p>
     </div>
+} @else {
+    <div class="flex flex-row items-center gap-2">
+        <mat-form-field appearance="outline"
+                        class="w-full"
+                        [subscriptSizing]="'dynamic'">
+            <div matPrefix
+                 class="px-2">
+                <mat-spinner *rxIf="isLoading; else icon"
+                             diameter="24">
+                </mat-spinner>
+                <ng-template #icon>
+                    <i-feather class="text-gray-600"
+                               name="search">
+                    </i-feather>
+                </ng-template>
+            </div>
 
-    <input #circleInput
-           matInput
-           id="selectedCircle"
-           aria-label="Circles"
-           type="search"
-           [matAutocomplete]="auto"
-           [formControl]="control"
-           (keydown.enter)="onInputKeyEnter($event)">
+            <input #circleInput
+                   matInput
+                   id="selectedCircle"
+                   aria-label="Circles"
+                   type="search"
+                   [matAutocomplete]="auto"
+                   [formControl]="control"
+                   (keydown.enter)="onInputKeyEnter($event)">
 
-    <mat-autocomplete #auto="matAutocomplete"
-                      (optionSelected)="onOptionSelected($event.option.value)"
-                      [displayWith]="displayFn"
-                      [hideSingleSelectionIndicator]="true">
-        <mat-option *rxFor="let circle of filteredCircleOptions$"
-                    [value]="circle"
-                    [disabled]="circle.disabled"
-                    class="user-option"
-                    [ngClass]="{'disabled': circle.disabled}">
-            <p *rxIf="circle.noMatch; else: listItem;">
-                No Results.
-            </p>
+            <mat-autocomplete #auto="matAutocomplete"
+                              (optionSelected)="onOptionSelected($event.option.value)"
+                              [displayWith]="displayFn"
+                              [hideSingleSelectionIndicator]="true">
+                <mat-option *rxFor="let circle of filteredCircleOptions$"
+                            [value]="circle"
+                            [disabled]="circle.disabled"
+                            class="user-option"
+                            [ngClass]="{'disabled': circle.disabled}">
+                    <p *rxIf="circle.noMatch; else: listItem;">
+                        No Results.
+                    </p>
 
-            <ng-template #listItem>
-                <p [ngClass]="{'text-blue-500 underline': circle.disabled}">
-                    {{ circle.name }}
-                </p>
-            </ng-template>
+                    <ng-template #listItem>
+                        <p [ngClass]="{'text-blue-500 underline': circle.disabled}">
+                            {{ circle.name }}
+                        </p>
+                    </ng-template>
 
-        </mat-option>
-    </mat-autocomplete>
-</mat-form-field>
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <button type="button"
+                (click)="toggleSearchBox()">
+            <i-feather class="text-gray-600"
+                       name="x">
+            </i-feather>
+        </button>
+    </div>
+}
 

@@ -4,7 +4,6 @@ import { Store } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
 import { Circle, VoteCircleService } from '@vyf/vote-circle-service';
 import { catchError, filter, map, Observable } from 'rxjs';
-import { RankingAction } from '../../state/actions/ranking.action';
 import { RankingSelectors } from '../../state/ranking.selectors';
 
 interface RankingSelectComponentView {
