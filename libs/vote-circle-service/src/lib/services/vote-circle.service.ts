@@ -33,6 +33,10 @@ export class VoteCircleService extends ApiBaseService {
         return this.getAll({ paths: ['circles', 'of-interest'] });
     }
 
+    public circlesOpenCommitments(): Observable<ApiResponse<CirclePaginated[]>> {
+        return this.getAll({ paths: ['circles', 'open-commitments'] });
+    }
+
     public createCircle(circle: CircleCreateRequest): Observable<ApiResponse<Circle>> {
         return this.create(circle, 'circle');
     }

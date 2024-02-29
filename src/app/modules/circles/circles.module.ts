@@ -23,6 +23,7 @@ import {
     ShortNumberPipe, SkeletonAvatarStackComponent, SkeletonListComponent,
     UserAutocompleteSelectComponent
 } from '@vyf/component';
+import { InfoState } from '../../shared/state/info.state';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/state/user.state';
@@ -58,7 +59,7 @@ import { CircleDetailMembersComponent } from './circle-detail-members/circle-det
   ],
     imports: [
         CommonModule,
-        NgxsModule.forFeature([UserState, CirclesState, MemberState]),
+        NgxsModule.forFeature([UserState, CirclesState, MemberState, InfoState]),
         MatButtonModule,
         RxLet,
         MatProgressSpinnerModule,

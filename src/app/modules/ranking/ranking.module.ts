@@ -19,6 +19,7 @@ import {
     TrendingIconPipe,
     UserListItemComponent
 } from '@vyf/component';
+import { InfoState } from '../../shared/state/info.state';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/state/user.state';
@@ -54,7 +55,7 @@ import { ValidUntilComponent } from './ranking-list/valid-until/valid-until.comp
   ],
     imports: [
         CommonModule,
-        NgxsModule.forFeature([UserState, RankingState, MemberState]),
+        NgxsModule.forFeature([UserState, RankingState, MemberState, InfoState]),
         RankingRoutingModule,
         FeatherIconModule,
         NgOptimizedImage,
