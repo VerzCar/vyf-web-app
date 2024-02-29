@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { MatButton } from '@angular/material/button';
@@ -11,7 +11,7 @@ import { RxIf } from '@rx-angular/template/if';
 import { AvatarImgComponent, UserListItemComponent } from '@vyf/component';
 import { Circle, CirclePaginated } from '@vyf/vote-circle-service';
 import { FeatherModule } from 'angular-feather';
-import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, finalize, map, Observable, of, startWith, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, finalize, map, Observable, startWith, switchMap, tap } from 'rxjs';
 
 interface CircleAutocompleteSelectOption extends CirclePaginated {
     disabled: boolean;
@@ -43,26 +43,51 @@ interface CircleAutocompleteSelectOption extends CirclePaginated {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CircleAutocompleteSelectComponent implements OnInit {
-    @Input({ required: true }) public filteredFetchOptionsFn!: (searchTerm: string) => Observable<CirclePaginated[]>;
-    @Input({ transform: (value: Circle | CirclePaginated): CirclePaginated => value as CirclePaginated }) public preSelectedCircle?: CirclePaginated;
+    @Input({ required: true })
+    public filteredFetchOptionsFn!: (searchTerm: string) => Observable<CirclePaginated[]>;
+
+    @Input()
+    public set preSelectedCircle(circle: Circle | CirclePaginated | undefined) {
+        console.log(circle?.name);
+        if (circle) {
+            this._preSelectedCircle = circle as CirclePaginated;
+            const options = this.createCircleOptions([this._preSelectedCircle], [this._preSelectedCircle]);
+            console.log(this.selectedCircleOptionsSubject.value, options);
+            // @ts-ignore
+            this.control.patchValue(this._preSelectedCircle);
+            this.selectedCircleOptionsSubject.next(options);
+        }
+    }
+
+    @Input()
+    public set previewCircles(circles: Circle[] | CirclePaginated[] | undefined) {
+        const selectedCircles = this._preSelectedCircle ? [this._preSelectedCircle] : [];
+        const previewSelectOptions = circles?.length ? this.createCircleOptions(circles as CirclePaginated[], selectedCircles) : [];
+        this._previewSelectOptionsSubject.next(previewSelectOptions);
+    }
+
     @Output()
     public selectedCircleId = new EventEmitter<number>();
 
     @ViewChild('circleInput')
     private readonly circleInput!: ElementRef<HTMLInputElement>;
 
-    @ViewChild(MatAutocomplete)
-    private readonly matAutocomplete!: MatAutocomplete;
-
     public readonly control = new FormControl<string>('');
     public readonly isLoading = new BehaviorSubject<boolean>(false);
     public readonly selectedCircleOptions$: Observable<CircleAutocompleteSelectOption[]>;
-    public readonly filteredCircleOptions$: Observable<CircleAutocompleteSelectOption[]>;
+    public filteredCircleOptions$!: Observable<CircleAutocompleteSelectOption[]>;
     public readonly selectedCircleOptionsSubject = new BehaviorSubject<CircleAutocompleteSelectOption[]>([]);
+
+    private _preSelectedCircle: CirclePaginated | undefined;
+    private readonly _previewSelectOptionsSubject = new BehaviorSubject<CircleAutocompleteSelectOption[]>([]);
+    private readonly _previewSelectOptions$: Observable<CircleAutocompleteSelectOption[]>;
 
     constructor() {
         this.selectedCircleOptions$ = this.selectedCircleOptionsSubject.asObservable();
+        this._previewSelectOptions$ = this._previewSelectOptionsSubject.asObservable();
+    }
 
+    public ngOnInit(): void {
         this.filteredCircleOptions$ = combineLatest([
             this.control.valueChanges.pipe(
                 startWith(''),
@@ -73,18 +98,10 @@ export class CircleAutocompleteSelectComponent implements OnInit {
         ]).pipe(
             tap(() => this.isLoading.next(true)),
             switchMap(([name, selectedCircles]) =>
-                name?.length ? this.mapFilteredCircleOptions$(name, selectedCircles) : of([])
+                name?.length ? this.mapFilteredCircleOptions$(name, selectedCircles) : this.mapPreviewSelectOptions$(selectedCircles)
             ),
             tap(() => this.isLoading.next(false))
         );
-    }
-
-    public ngOnInit(): void {
-        if (this.preSelectedCircle) {
-            const options = this.createCircleOptions([this.preSelectedCircle], [this.preSelectedCircle]);
-            this.control.patchValue(this.preSelectedCircle.name);
-            this.selectedCircleOptionsSubject.next(options);
-        }
     }
 
     public displayFn(circle: CirclePaginated): string {
@@ -104,9 +121,6 @@ export class CircleAutocompleteSelectComponent implements OnInit {
         this.selectedCircleOptionsSubject.next(options);
 
         this.selectedCircleId.emit(option.id);
-
-        this.circleInput.nativeElement.value = '';
-        this.control.reset('');
     }
 
     public onInputKeyEnter(event: Event) {
@@ -120,6 +134,14 @@ export class CircleAutocompleteSelectComponent implements OnInit {
         return this.filteredFetchOptionsFn(name).pipe(
             map(filteredCircles => this.createCircleOptions(filteredCircles, selectedCircles)),
             finalize(() => this.isLoading.next(false))
+        );
+    }
+
+    private mapPreviewSelectOptions$(
+        selectedCircles: CircleAutocompleteSelectOption[]
+    ): Observable<CircleAutocompleteSelectOption[]> {
+        return this._previewSelectOptions$.pipe(
+            map(previewCircles => this.createCircleOptions(previewCircles, selectedCircles))
         );
     }
 

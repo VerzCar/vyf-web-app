@@ -1,6 +1,6 @@
 <ng-container *rxLet="view$; let view;">
     <div class="flex flex-row gap-2">
-        <div class="rounded-xl bg-gray-200 py-1 px-3">
+        <div class="rounded-xl bg-gray-200 py-1 px-3 my-auto">
             <p class="text-gray-950">
                 Circle:
             </p>
@@ -8,13 +8,10 @@
         <div class="rounded-xl bg-gray-100 py-1 px-3 flex-1 flex flex-row gap-2">
             <vyf-circle-autocomplete-select [filteredFetchOptionsFn]="allFilteredCirclesFn$"
                                             [preSelectedCircle]="view.circle"
-                                            (selectedCircleId)="selectedCircle($event)">
+                                            [previewCircles]="previewCircles$ | push"
+                                            (selectedCircleId)="selectedCircle($event)"
+                                            class="flex-1">
             </vyf-circle-autocomplete-select>
-            <p class="text-gray-950">
-                <a [routerLink]="['/circles', view.circle.id]">
-                    {{ view.circle.name }}
-                </a>
-            </p>
             <i-feather name="arrow-right-circle"
                        class="align-top">
             </i-feather>

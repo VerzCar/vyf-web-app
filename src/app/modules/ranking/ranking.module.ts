@@ -9,6 +9,7 @@ import { NgxsModule } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
+import { RxPush } from '@rx-angular/template/push';
 import {
     AvatarImgComponent,
     AvatarStackComponent, CircleAutocompleteSearchComponent, CircleAutocompleteSelectComponent,
@@ -77,7 +78,8 @@ import { ValidUntilComponent } from './ranking-list/valid-until/valid-until.comp
         SkeletonAvatarComponent,
         SkeletonAvatarListComponent,
         CircleAutocompleteSearchComponent,
-        CircleAutocompleteSelectComponent
+        CircleAutocompleteSelectComponent,
+        RxPush
     ],
   providers: [ListResolver],
 })

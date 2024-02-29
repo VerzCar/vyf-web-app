@@ -345,7 +345,7 @@ export class CirclesState implements NgxsOnInit {
         ctx: StateContext<CirclesStateModel>
     ): Observable<Circle[]> {
         return this.voteCircleService.circles().pipe(
-            map(res => res.data !== null ? res.data : []),
+            map(res => res.data),
             tap((circles) => ctx.patchState({ myCircles: circles }))
         );
     }
@@ -355,7 +355,7 @@ export class CirclesState implements NgxsOnInit {
         ctx: StateContext<CirclesStateModel>
     ): Observable<CirclePaginated[]> {
         return this.voteCircleService.circlesOfInterest().pipe(
-            map(res => res.data !== null ? res.data : []),
+            map(res => res.data),
             tap((circles) => ctx.patchState({ circlesOfInterest: circles }))
         );
     }
