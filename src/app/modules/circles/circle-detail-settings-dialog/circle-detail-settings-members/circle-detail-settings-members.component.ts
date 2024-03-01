@@ -3,9 +3,11 @@ import { MatButton } from '@angular/material/button';
 import { Store } from '@ngxs/store';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
+import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { UserAutocompleteSelectComponent, UserListItemComponent } from '@vyf/component';
 import { UserPaginated, UserService } from '@vyf/user-service';
+import { UserOption } from '@vyf/vote-circle-service';
 import { FeatherModule } from 'angular-feather';
 import { catchError, combineLatest, map, Observable } from 'rxjs';
 import { candidateMemberTracking } from '../../../../shared/helper/candidate-member-tracking';
@@ -14,6 +16,11 @@ import { CandidateMember, VoterMember } from '../../../../shared/models';
 import { MemberSelectors } from '../../../../shared/state/member.selectors';
 import { CirclesAction } from '../../state/actions/circles.action';
 import { CirclesSelectors } from '../../state/circles.selectors';
+
+interface CircleDetailSettings {
+    currentCount: number;
+    maxAllowed: number;
+}
 
 @Component({
     selector: 'app-circle-detail-settings-members',
@@ -25,7 +32,8 @@ import { CirclesSelectors } from '../../state/circles.selectors';
         RxPush,
         FeatherModule,
         MatButton,
-        RxIf
+        RxIf,
+        RxLet
     ],
     templateUrl: './circle-detail-settings-members.component.html',
     styleUrl: './circle-detail-settings-members.component.scss',
@@ -39,6 +47,8 @@ export class CircleDetailSettingsMembersComponent {
     public readonly canEditCircle$: Observable<boolean>;
     public readonly canAddCandidate$: Observable<boolean>;
     public readonly canAddVoter$: Observable<boolean>;
+    public readonly settingsCandidate$: Observable<CircleDetailSettings>;
+    public readonly settingsVoter$: Observable<CircleDetailSettings>;
 
     private readonly store = inject(Store);
     private readonly userService = inject(UserService);
@@ -83,6 +93,46 @@ export class CircleDetailSettingsMembersComponent {
                 }
 
                 return voters.length < option.maxVoters;
+            })
+        );
+
+        this.settingsCandidate$ = combineLatest([
+            this.store.select(CirclesSelectors.slices.selectedCircle),
+            this.store.select(CirclesSelectors.slices.option),
+            this.store.select(MemberSelectors.Member.slices.circleCandidateMembers)
+        ]).pipe(
+            map(([circle, option, candidates]) => {
+                if (circle?.private) {
+                    return {
+                        currentCount: candidates.length,
+                        maxAllowed: option.privateOption.maxCandidates
+                    };
+                }
+
+                return {
+                    currentCount: candidates.length,
+                    maxAllowed: option.maxCandidates
+                };
+            })
+        );
+
+        this.settingsVoter$ = combineLatest([
+            this.store.select(CirclesSelectors.slices.selectedCircle),
+            this.store.select(CirclesSelectors.slices.option),
+            this.store.select(MemberSelectors.Member.slices.circleVoterMembers)
+        ]).pipe(
+            map(([circle, option, voters]) => {
+                if (circle?.private) {
+                    return {
+                        currentCount: voters.length,
+                        maxAllowed: option.privateOption.maxVoters
+                    };
+                }
+
+                return {
+                    currentCount: voters.length,
+                    maxAllowed: option.maxVoters
+                };
             })
         );
     }

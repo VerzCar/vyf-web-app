@@ -137,7 +137,9 @@ export const CirclesErrorTrackedActions = [
     CirclesAction.SelectCircle,
     CirclesAction.CommittedToCircle,
     CirclesAction.AddCandidate,
+    CirclesAction.AddVoter,
     CirclesAction.JoinCircleAsVoter,
     CirclesAction.JoinCircleAsCandidate,
-    CirclesAction.LeaveCircleAsCandidate
+    CirclesAction.LeaveCircleAsCandidate,
+    CirclesAction.LeaveCircleAsVoter
 ];
