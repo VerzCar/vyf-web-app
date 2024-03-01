@@ -47,6 +47,8 @@ export class CircleDetailSettingsMembersComponent {
         this.voterUsers$ = this.store.select(MemberSelectors.CircleSelector.voterUsers);
         this.candidateUsers$ = this.store.select(MemberSelectors.CircleSelector.candidateUsers);
         this.canEditCircle$ = this.store.select(CirclesSelectors.canEditCircle);
+
+        // TODO: add calculation of can add by user options count of max candidates and current counts of candidates
     }
 
     public readonly allUsersFn$ = () => this.userService.users().pipe(

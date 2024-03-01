@@ -9,7 +9,7 @@
                               [placeholder]="'Search candidate'"
                               [preSelectedUsers]="candidateUsers$ | push"
                               [showSelectionInField]="false"
-                              [removable]="canEditCircle$ | push"
+                              [removable]="false"
                               [addable]="canEditCircle$ | push">
 </vyf-user-autocomplete-select>
 
@@ -33,7 +33,8 @@
                               [placeholder]="'Search voter'"
                               [preSelectedUsers]="voterUsers$ | push"
                               [showSelectionInField]="false"
-                              [removable]="true">
+                              [removable]="false"
+                              [addable]="canEditCircle$ | push">
 </vyf-user-autocomplete-select>
 
 <div class="flex flex-col space-y-2 max-h-60 overflow-y-auto">
