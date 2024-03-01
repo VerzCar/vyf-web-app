@@ -7,7 +7,7 @@ import { RxPush } from '@rx-angular/template/push';
 import { UserAutocompleteSelectComponent, UserListItemComponent } from '@vyf/component';
 import { UserPaginated, UserService } from '@vyf/user-service';
 import { FeatherModule } from 'angular-feather';
-import { catchError, map, Observable } from 'rxjs';
+import { catchError, combineLatest, map, Observable } from 'rxjs';
 import { candidateMemberTracking } from '../../../../shared/helper/candidate-member-tracking';
 import { voterMemberTracking } from '../../../../shared/helper/voter-member-tracking';
 import { CandidateMember, VoterMember } from '../../../../shared/models';
@@ -37,6 +37,8 @@ export class CircleDetailSettingsMembersComponent {
     public readonly voterUsers$: Observable<UserPaginated[]>;
     public readonly candidateUsers$: Observable<UserPaginated[]>;
     public readonly canEditCircle$: Observable<boolean>;
+    public readonly canAddCandidate$: Observable<boolean>;
+    public readonly canAddVoter$: Observable<boolean>;
 
     private readonly store = inject(Store);
     private readonly userService = inject(UserService);
@@ -47,8 +49,42 @@ export class CircleDetailSettingsMembersComponent {
         this.voterUsers$ = this.store.select(MemberSelectors.CircleSelector.voterUsers);
         this.candidateUsers$ = this.store.select(MemberSelectors.CircleSelector.candidateUsers);
         this.canEditCircle$ = this.store.select(CirclesSelectors.canEditCircle);
+        this.canAddCandidate$ = combineLatest([
+            this.store.select(CirclesSelectors.slices.selectedCircle),
+            this.store.select(CirclesSelectors.slices.option),
+            this.store.select(CirclesSelectors.canEditCircle),
+            this.store.select(MemberSelectors.Member.slices.circleCandidateMembers)
+        ]).pipe(
+            map(([circle, option, canEdit, candidates]) => {
+                if (!canEdit) {
+                    return false;
+                }
 
-        // TODO: add calculation of can add by user options count of max candidates and current counts of candidates
+                if (circle?.private) {
+                    return candidates.length < option.privateOption.maxCandidates;
+                }
+
+                return candidates.length < option.maxCandidates;
+            })
+        );
+        this.canAddVoter$ = combineLatest([
+            this.store.select(CirclesSelectors.slices.selectedCircle),
+            this.store.select(CirclesSelectors.slices.option),
+            this.store.select(CirclesSelectors.canEditCircle),
+            this.store.select(MemberSelectors.Member.slices.circleVoterMembers)
+        ]).pipe(
+            map(([circle, option, canEdit, voters]) => {
+                if (!canEdit) {
+                    return false;
+                }
+
+                if (circle?.private) {
+                    return voters.length < option.privateOption.maxVoters;
+                }
+
+                return voters.length < option.maxVoters;
+            })
+        );
     }
 
     public readonly allUsersFn$ = () => this.userService.users().pipe(

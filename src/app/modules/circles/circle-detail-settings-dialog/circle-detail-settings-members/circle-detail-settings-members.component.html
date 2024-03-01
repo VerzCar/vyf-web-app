@@ -10,7 +10,7 @@
                               [preSelectedUsers]="candidateUsers$ | push"
                               [showSelectionInField]="false"
                               [removable]="false"
-                              [addable]="canEditCircle$ | push">
+                              [addable]="canAddCandidate$ | push">
 </vyf-user-autocomplete-select>
 
 <div class="flex flex-col space-y-2 max-h-60 overflow-y-auto">
@@ -34,7 +34,7 @@
                               [preSelectedUsers]="voterUsers$ | push"
                               [showSelectionInField]="false"
                               [removable]="false"
-                              [addable]="canEditCircle$ | push">
+                              [addable]="canAddVoter$ | push">
 </vyf-user-autocomplete-select>
 
 <div class="flex flex-col space-y-2 max-h-60 overflow-y-auto">
