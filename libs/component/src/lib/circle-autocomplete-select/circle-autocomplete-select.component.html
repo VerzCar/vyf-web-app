@@ -4,9 +4,10 @@
                    name="search"
                    (click)="toggleSearchBox()">
         </i-feather>
-        <p class="text-gray-950">
+        <a [routerLink]="['/circles', this.selectedCircle?.id]"
+           class="text-gray-950 hover:text-blue-500 hover:underline">
             {{ this.selectedCircle?.name }}
-        </p>
+        </a>
     </div>
 } @else {
     <div class="flex flex-row items-center gap-2">
@@ -48,7 +49,7 @@
                     </p>
 
                     <ng-template #listItem>
-                        <p [ngClass]="{'text-blue-500 underline': circle.disabled}">
+                        <p [ngClass]="{'text-blue-500': circle.disabled}">
                             {{ circle.name }}
                         </p>
                     </ng-template>

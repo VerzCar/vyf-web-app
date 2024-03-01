@@ -21,6 +21,7 @@ import { CirclesErrorTrackedActions } from './modules/circles/state/actions/circ
 import { LayoutModule } from './modules/layout/layout.module';
 import { RankingErrorTrackedActions } from './modules/ranking/state/actions/ranking.action';
 import { UserErrorTrackedActions } from './modules/user/state/actions/user.action';
+import { UserState } from './modules/user/state/user.state';
 import { InfoErrorTrackedActions } from './shared/state/actions/info.action';
 import { MemberCircleErrorTrackedActions, MemberErrorTrackedActions, MemberRankingErrorTrackedActions } from './shared/state/actions/member.action';
 
@@ -41,7 +42,7 @@ const globalRippleConfig: RippleGlobalOptions = {
         BrowserAnimationsModule,
         HttpClientModule,
         AmplifyAuthenticatorModule,
-        NgxsModule.forRoot([], {
+        NgxsModule.forRoot([UserState], {
             developmentMode: !environment.production
         }),
         ActionNotificationModule.forRoot({

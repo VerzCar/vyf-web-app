@@ -15,7 +15,7 @@ export class OverviewResolver implements Resolve<boolean> {
         return this.store.dispatch(new CirclesAction.InitUserCircles()).pipe(
             map(() => true),
             catchError(() => {
-                this.router.navigate(['']);
+                this.router.navigate([`/`]);
                 return EMPTY;
             })
         );

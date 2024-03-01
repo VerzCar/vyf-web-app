@@ -6,6 +6,7 @@ import { MatButton } from '@angular/material/button';
 import { MatFormField, MatPrefix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { RouterLink } from '@angular/router';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { AvatarImgComponent, UserListItemComponent } from '@vyf/component';
@@ -36,7 +37,8 @@ interface CircleAutocompleteSelectOption extends CirclePaginated {
         RxFor,
         RxIf,
         UserListItemComponent,
-        NgClass
+        NgClass,
+        RouterLink
     ],
     templateUrl: './circle-autocomplete-select.component.html',
     styleUrl: './circle-autocomplete-select.component.scss',

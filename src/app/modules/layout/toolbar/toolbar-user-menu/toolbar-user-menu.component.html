@@ -13,9 +13,18 @@
             <hr>
             <a mat-menu-item
                [routerLink]="['/', route.user, 'profile']"
-            class="min-h-[20px]">
+               class="min-h-[20px]">
                 My Profile
             </a>
+            <label mat-menu-item>
+                {{ 'LANGUAGE' | translate }}
+                <select #langSelect (change)="translate.use(langSelect.value)">
+                    <option *ngFor="let lang of translate.getLangs()" [value]="lang"
+                            [selected]="lang === translate.currentLang">{{ lang }}
+                    </option>
+                </select>
+            </label>
+            <hr>
             <button mat-menu-item
                     (click)="signOut()">
                 Sign out

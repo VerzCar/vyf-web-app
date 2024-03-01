@@ -1,8 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Store } from '@ngxs/store';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Route } from '../../../routes';
-import { UserSelectors } from '../../user/state/user.selectors';
 
 @Component({
     selector: 'app-toolbar',
@@ -10,20 +7,12 @@ import { UserSelectors } from '../../user/state/user.selectors';
     styleUrls: ['./toolbar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent {
     public isMobileMenuOpen = false;
 
     public readonly route = Route;
-    public readonly translate = inject(TranslateService);
-    public username = '';
-
-    private readonly store = inject(Store);
 
     public onMobileMenuClick() {
         this.isMobileMenuOpen = !this.isMobileMenuOpen;
-    }
-
-    public ngOnInit(): void {
-        this.username = this.store.selectSnapshot(UserSelectors.slices.user)?.username ?? '';
     }
 }

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { isDefined } from '@vyf/base';
 import { AvatarImgSize } from '@vyf/component';
@@ -23,6 +24,7 @@ export class ToolbarUserMenuComponent {
     public readonly AvatarImgSize = AvatarImgSize;
     public readonly route = Route;
 
+    public readonly translate = inject(TranslateService);
     private readonly store = inject(Store);
     private readonly awsService = inject(AwsCognitoService);
 
