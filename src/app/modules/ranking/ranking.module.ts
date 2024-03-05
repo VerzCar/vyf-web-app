@@ -12,7 +12,7 @@ import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import {
     AvatarImgComponent,
-    AvatarStackComponent, CircleAutocompleteSearchComponent, CircleAutocompleteSelectComponent,
+    AvatarStackComponent, BadgeComponent, CircleAutocompleteSearchComponent, CircleAutocompleteSelectComponent,
     CircleOwnerComponent,
     ShortNamePipe,
     ShortNumberPipe, SkeletonAvatarComponent, SkeletonAvatarListComponent, SkeletonAvatarStackComponent, SkeletonListComponent,
@@ -80,7 +80,8 @@ import { ValidUntilComponent } from './ranking-list/valid-until/valid-until.comp
         SkeletonAvatarListComponent,
         CircleAutocompleteSearchComponent,
         CircleAutocompleteSelectComponent,
-        RxPush
+        RxPush,
+        BadgeComponent
     ],
   providers: [ListResolver],
 })

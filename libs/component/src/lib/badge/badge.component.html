@@ -1,0 +1,10 @@
+<span [ngClass]="badgeColorClass"
+      class="badge text-xs font-medium px-2 py-0.5 rounded inline-flex items-center gap-0.5">
+    @if (icon) {
+        <i-feather [ngClass]="badgeColor"
+                   class="animate-pulse"
+                   name="{{icon}}">
+        </i-feather>
+    }
+    {{ text }}
+</span>

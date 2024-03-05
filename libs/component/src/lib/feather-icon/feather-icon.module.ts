@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FeatherModule } from 'angular-feather';
-import { Check, PlusCircle, Search, Slash, UserCheck, XOctagon, AlertCircle, X } from 'angular-feather/icons';
+import { Check, PlusCircle, Search, Slash, UserCheck, XOctagon, AlertCircle, X, Circle} from 'angular-feather/icons';
 
 // Select some icons (use an object, not an array)
 const icons = {
@@ -11,7 +11,8 @@ const icons = {
     Check,
     Slash,
     AlertCircle,
-    X
+    X,
+    Circle
 };
 
 @NgModule({
