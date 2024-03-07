@@ -1,9 +1,25 @@
 <ng-container *rxLet="view$; let view;">
     <div class="flex flex-col place-items-end">
-        <p>
-            Valid until
-        </p>
-        <p>{{ view.circle.validUntil | date }}</p>
-        <p>{{ view.circle.validUntil | date:'shortTime' }}</p>
+        <h5 class="font-normal text-gray-900">
+            Valid
+        </h5>
+        <div class="flex flex-row divide-x divide-gray-300">
+            <div class="px-2">
+                <p class="text-sm text-gray-700">From</p>
+                <p>{{ view.circle.validFrom | date }}</p>
+                <p>{{ view.circle.validFrom | date:'shortTime' }}</p>
+            </div>
+            <div class="px-2">
+                <p class="text-sm text-gray-700">Until</p>
+                @if (view.circle.validUntil) {
+                    <p>{{ view.circle.validUntil | date }}</p>
+                    <p>{{ view.circle.validUntil | date:'shortTime' }}</p>
+                } @else {
+                    <i-feather name="minus"
+                               class="text-gray-900">
+                    </i-feather>
+                }
+            </div>
+        </div>
     </div>
 </ng-container>

@@ -64,15 +64,31 @@
                 </vyf-circle-owner>
             </div>
 
-            @if (view.circle.validUntil) {
-                <div class="col-start-3 col-span-2 md:col-span-1 md:col-start-3 md:row-start-2 place-items-end flex flex-col">
-                    <h3 class="text-xl font-normal text-gray-900 mb-2">
-                        Valid until
+            <div class="col-start-3 col-span-2 md:col-span-1 md:col-start-3 md:row-start-2 place-items-end flex flex-col">
+                <div class="flex flex-col">
+                    <h3 class="text-xl font-normal text-gray-900">
+                        Valid
                     </h3>
-                    <p>{{ view.circle.validUntil | date }}</p>
-                    <p>{{ view.circle.validUntil | date:'shortTime' }}</p>
+                    <div class="flex flex-row divide-x divide-gray-300">
+                        <div class="px-2">
+                            <p class="text-sm text-gray-700">From</p>
+                            <p>{{ view.circle.validFrom | date }}</p>
+                            <p>{{ view.circle.validFrom | date:'shortTime' }}</p>
+                        </div>
+                        <div class="px-2">
+                            <p class="text-sm text-gray-700">Until</p>
+                            @if (view.circle.validUntil) {
+                                <p>{{ view.circle.validUntil | date }}</p>
+                                <p>{{ view.circle.validUntil | date:'shortTime' }}</p>
+                            } @else {
+                                <i-feather name="minus"
+                                           class="text-gray-900">
+                                </i-feather>
+                            }
+                        </div>
+                    </div>
                 </div>
-            }
+            </div>
 
             <div class="col-start-1 col-span-full md:col-span-2 md:row-start-3">
                 <h3>

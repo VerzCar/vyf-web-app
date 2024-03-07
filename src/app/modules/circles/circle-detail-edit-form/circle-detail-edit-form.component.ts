@@ -2,7 +2,7 @@ import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDatepicker, MatDatepickerInput, MatDatepickerToggle } from '@angular/material/datepicker';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngxs/store';
@@ -23,8 +23,7 @@ import { CirclesSelectors } from '../state/circles.selectors';
         NgOptimizedImage,
         DatePipe,
         MatDatepicker,
-        MatDatepickerInput,
-        MatDatepickerToggle
+        MatDatepickerModule
     ],
     templateUrl: './circle-detail-edit-form.component.html',
     styleUrl: './circle-detail-edit-form.component.scss',
@@ -57,11 +56,13 @@ export class CircleDetailEditFormComponent implements OnInit {
         this.form.controls.name.valueChanges.pipe(
             debounceTime(400),
             distinctUntilChanged(),
-            filter(() => this.form.controls.name.valid),
+            filter(() => this.form.valid),
             tap(name => {
                 const circleUpdateRequest: CircleUpdateRequest = {
                     id: this.circle.id,
-                    name: name.trimEnd()
+                    name: name.trimEnd(),
+                    validFrom: this.form.controls.validFrom.value,
+                    validUntil: this.form.controls.validUntil.value
                 };
                 return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
             }),
@@ -73,11 +74,13 @@ export class CircleDetailEditFormComponent implements OnInit {
         this.form.controls.description.valueChanges.pipe(
             debounceTime(400),
             distinctUntilChanged(),
-            filter(() => this.form.controls.description.valid),
+            filter(() => this.form.valid),
             tap(description => {
                 const circleUpdateRequest: CircleUpdateRequest = {
                     id: this.circle.id,
-                    description: description?.trimEnd() || ''
+                    description: description?.trimEnd() || '',
+                    validFrom: this.form.controls.validFrom.value,
+                    validUntil: this.form.controls.validUntil.value
                 };
                 return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
             }),
@@ -87,13 +90,14 @@ export class CircleDetailEditFormComponent implements OnInit {
 
     private subscribeToValidFromChanges() {
         this.form.controls.validFrom.valueChanges.pipe(
-            debounceTime(400),
+            debounceTime(600),
             distinctUntilChanged(),
-            filter(() => this.form.controls.validFrom.valid),
+            filter(() => this.form.valid),
             tap(date => {
                 const circleUpdateRequest: CircleUpdateRequest = {
                     id: this.circle.id,
-                    validFrom: date
+                    validFrom: date,
+                    validUntil: this.form.controls.validUntil.value
                 };
                 return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
             }),
@@ -103,13 +107,14 @@ export class CircleDetailEditFormComponent implements OnInit {
 
     private subscribeToValidUntilChanges() {
         this.form.controls.validUntil.valueChanges.pipe(
-            debounceTime(400),
+            debounceTime(600),
             distinctUntilChanged(),
-            filter(() => this.form.controls.validUntil.valid),
+            filter(() => this.form.valid),
             tap(date => {
                 const circleUpdateRequest: CircleUpdateRequest = {
                     id: this.circle.id,
-                    validUntil: date
+                    validUntil: date,
+                    validFrom: this.form.controls.validFrom.value
                 };
                 return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
             }),

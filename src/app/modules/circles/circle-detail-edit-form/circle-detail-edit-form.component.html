@@ -46,42 +46,36 @@
         <div class="col-span-full md:col-span-1">
             <mat-label>
                 <label for="validFrom">
-                    Valid from
+                    Date range
                 </label>
             </mat-label>
-            <mat-form-field appearance="outline">
-                <input matInput
-                       id="validFrom"
-                       name="validFrom"
-                       [matDatepicker]="pickerFrom"
-                       [formControl]="form.controls.validFrom"
-                       [min]="minValidFromDate"
-                       [max]="maxValidFromDate">
-                <mat-datepicker-toggle matIconSuffix
-                                       [for]="pickerFrom">
-                </mat-datepicker-toggle>
-                <mat-datepicker #pickerFrom></mat-datepicker>
-            </mat-form-field>
-        </div>
 
-        <div class="col-span-full md:col-span-1">
-            <mat-label>
-                <label for="validUntil">
-                    Valid until
-                </label>
-            </mat-label>
             <mat-form-field appearance="outline">
-                <input matInput
-                       id="validUntil"
-                       name="validUntil"
-                       [matDatepicker]="pickerUntil"
-                       [formControl]="form.controls.validUntil"
-                       [min]="minValidUntilDate"
-                       [max]="maxValidUntilDate">
+                <mat-date-range-input [formGroup]="form"
+                                      [min]="minValidFromDate"
+                                      [max]="maxValidUntilDate"
+                                      [rangePicker]="picker">
+                    <input matStartDate
+                           id="validFrom"
+                           name="validFrom"
+                           placeholder="Start date"
+                           [formControlName]="'validFrom'"
+                           [min]="minValidFromDate"
+                           [max]="maxValidFromDate">
+                    <input matEndDate
+                           id="validUntil"
+                           name="validUntil"
+                           placeholder="End date"
+                           [formControlName]="'validUntil'"
+                           [min]="minValidUntilDate"
+                           [max]="maxValidUntilDate">
+                </mat-date-range-input>
                 <mat-datepicker-toggle matIconSuffix
-                                       [for]="pickerUntil">
+                                       [for]="picker">
                 </mat-datepicker-toggle>
-                <mat-datepicker #pickerUntil></mat-datepicker>
+                <mat-date-range-picker #picker
+                                       [startAt]="minValidFromDate">
+                </mat-date-range-picker>
             </mat-form-field>
         </div>
     } @else {
