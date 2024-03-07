@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
-import { isDefined } from '@vyf/base';
+import { DateTime, isDefined } from '@vyf/base';
 import { Circle } from '@vyf/vote-circle-service';
 import { BehaviorSubject, combineLatest, filter, map, Observable, switchMap, tap } from 'rxjs';
 import { CandidateMemberListDialogComponent } from '../candidate-member-list-dialog/candidate-member-list-dialog.component';
@@ -14,6 +14,8 @@ interface RankingListComponentView {
     circle: Circle;
     topThreePlacements: Placement[];
     placements: Placement[];
+    emptyPlacements: boolean;
+    hasStarted: boolean;
 }
 
 @Component({
@@ -43,7 +45,9 @@ export class RankingListComponent {
             map(([circle, topThreePlacements, placements]: [Circle, Placement[], Placement[]]) => ({
                 circle,
                 topThreePlacements,
-                placements
+                placements,
+                emptyPlacements: !topThreePlacements.length && !placements.length,
+                hasStarted: circle.validFrom ? circle.validFrom >= DateTime.Day.today() : false
             }))
         );
     }

@@ -13,13 +13,13 @@
         </div>
 
         <div class="col-start-3 col-span-2 row-start-2 md:col-start-4 md:col-span-1">
-                <vyf-badge [text]="'Live'"
-                           [icon]="'circle'"
-                           [color]="'green'"
-                           class="flex flex-row justify-end">
-                </vyf-badge>
-                <app-valid-until>
-                </app-valid-until>
+            <vyf-badge [text]="'Live'"
+                       [icon]="'circle'"
+                       [color]="'green'"
+                       class="flex flex-row justify-end">
+            </vyf-badge>
+            <app-valid-until>
+            </app-valid-until>
         </div>
 
         <section class="col-span-full row-start-3 md:col-start-2 md:col-span-2 md:row-start-2">
@@ -60,7 +60,7 @@
                     }
                 </ul>
 
-                @if (!view.placements.length && !view.topThreePlacements.length) {
+                @if (view.hasStarted && view.emptyPlacements) {
                     <div class="relative h-60 w-60 mx-auto">
                         <img ngSrc="/assets/img/svg/election-day.svg"
                              priority="true"
@@ -78,6 +78,21 @@
                                 (click)="onShowMembers()">
                             give a vote!
                         </button>
+                    </h5>
+                }
+
+                @if (!view.hasStarted) {
+                    <div class="relative h-60 w-60 mx-auto">
+                        <img ngSrc="/assets/img/svg/election-wait.svg"
+                             priority="true"
+                             alt="election wait"
+                             fill="true"
+                             class="object-cover select-none">
+                    </div>
+
+                    <h5 class="text-xl text-center my-6 font-normal tracking-wide">
+                        We are very excited to vote. <br>
+                        But the voting hasn't started yet...
                     </h5>
                 }
             </ng-container>
