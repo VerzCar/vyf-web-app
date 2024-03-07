@@ -33,8 +33,10 @@ import { CirclesSelectors } from '../state/circles.selectors';
 export class CircleDetailEditFormComponent implements OnInit {
     @Input({ required: true }) public circle!: Circle;
     public readonly form = createCircleForm();
-    public readonly minDate = DateTime.Day.next();
-    public readonly maxDate = new Date(DateTime.Day.today().setFullYear(DateTime.Day.today().getFullYear() + 5));
+    public readonly minValidUntilDate = DateTime.Day.next();
+    public readonly maxValidUntilDate = new Date(DateTime.Day.today().setFullYear(DateTime.Day.today().getFullYear() + 5));
+    public readonly minValidFromDate = DateTime.Day.today();
+    public readonly maxValidFromDate = this.maxValidUntilDate;
     public canEditCircle = false;
 
     private readonly store = inject(Store);
@@ -42,6 +44,7 @@ export class CircleDetailEditFormComponent implements OnInit {
     constructor() {
         this.subscribeToNameChanges();
         this.subscribeToDescriptionChanges();
+        this.subscribeToValidFromChanges();
         this.subscribeToValidUntilChanges();
     }
 
@@ -75,6 +78,22 @@ export class CircleDetailEditFormComponent implements OnInit {
                 const circleUpdateRequest: CircleUpdateRequest = {
                     id: this.circle.id,
                     description: description?.trimEnd() || ''
+                };
+                return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
+            }),
+            takeUntilDestroyed()
+        ).subscribe();
+    }
+
+    private subscribeToValidFromChanges() {
+        this.form.controls.validFrom.valueChanges.pipe(
+            debounceTime(400),
+            distinctUntilChanged(),
+            filter(() => this.form.controls.validFrom.valid),
+            tap(date => {
+                const circleUpdateRequest: CircleUpdateRequest = {
+                    id: this.circle.id,
+                    validFrom: date
                 };
                 return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
             }),

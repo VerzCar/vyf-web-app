@@ -47,8 +47,10 @@ export class CircleCreateDialogComponent {
     public isLoading = false;
 
     public readonly form = createCircleForm();
-    public readonly minDate = DateTime.Day.next();
-    public readonly maxDate = new Date(DateTime.Day.today().setFullYear(DateTime.Day.today().getFullYear() + 5));
+    public readonly minValidUntilDate = DateTime.Day.next();
+    public readonly maxValidUntilDate = new Date(DateTime.Day.today().setFullYear(DateTime.Day.today().getFullYear() + 5));
+    public readonly minValidFromDate = DateTime.Day.today();
+    public readonly maxValidFromDate = this.maxValidUntilDate;
     public readonly formIsValid$: Observable<boolean>;
 
     private readonly dialogRef: MatDialogRef<CircleCreateDialogComponent, null> = inject(MatDialogRef<CircleCreateDialogComponent, null>);

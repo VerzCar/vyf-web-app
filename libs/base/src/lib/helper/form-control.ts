@@ -41,3 +41,19 @@ export const statusChangesToValid = (ctrl: AbstractControl) =>
 
 export const statusChangesToValidAndNotPending = (ctrl: AbstractControl) =>
     statusChangesToInvalidOrPending(ctrl).pipe(map(v => !v));
+
+export const addErrorToControl = (errorToAdd: string, control: AbstractControl): void => {
+    const errors = control.errors;
+    control.setErrors({ [errorToAdd]: true, ...errors });
+};
+
+export const removeErrorFromControl = (errorToRemove: string, control: AbstractControl): void => {
+    const errors = { ...control.errors };
+    delete errors[errorToRemove];
+    const emptyErrors = !Object.keys(errors).length;
+    control.setErrors(emptyErrors ? null : errors);
+};
+
+export const addErrorToControls = (error: string, controls: AbstractControl[]) => controls.forEach((c) => addErrorToControl(error, c));
+
+export const removeErrorFromControls = (error: string, controls: AbstractControl[]) => controls.forEach((c) => removeErrorFromControl(error, c));

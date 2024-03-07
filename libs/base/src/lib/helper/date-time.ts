@@ -114,6 +114,20 @@ export namespace DateTime {
 	  return givenDay < startDay;
 	};
 
+	  /***
+	   * Checks whether the given date day is after the given start date day.
+	   * @param {Date | null} date
+	   * @param {Date} startDate
+	   * @returns {boolean} true if the day is after the given one, otherwise false.
+	   */
+	  export const isAfter = (date: Date | null, startDate: Date): boolean => {
+		  const copyDate = isDefined(date) ? new Date(date) : new Date();
+		  const copyStartDate = new Date(startDate);
+		  const givenDay = new Date(copyDate.getFullYear(), copyDate.getMonth(), copyDate.getDate());
+		  const startDay = new Date(copyStartDate.getFullYear(), copyStartDate.getMonth(), copyStartDate.getDate());
+		  return givenDay > startDay;
+	  };
+
 	/***
 	 * Checks whether the given date day is same or after the given start date day.
 	 * @param {Date | null} date

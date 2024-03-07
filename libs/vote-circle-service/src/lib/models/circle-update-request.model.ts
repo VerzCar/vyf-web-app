@@ -7,5 +7,6 @@ export interface CircleUpdateRequest {
     readonly description?: string;
     readonly imageSrc?: string;
     readonly delete?: boolean;
+    readonly validFrom?: Date | null;
     readonly validUntil?: Date | null;
 }

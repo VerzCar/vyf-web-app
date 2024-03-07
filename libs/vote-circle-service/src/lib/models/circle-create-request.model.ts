@@ -8,5 +8,6 @@ export interface CircleCreateRequest {
     readonly voters: VoterRequest[];
     readonly candidates: CandidateRequest[];
     readonly private?: boolean;
+    readonly validFrom?: Date;
     readonly validUntil?: Date;
 }

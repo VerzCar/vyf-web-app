@@ -45,6 +45,27 @@
 
         <div class="col-span-full md:col-span-1">
             <mat-label>
+                <label for="validFrom">
+                    Valid from
+                </label>
+            </mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput
+                       id="validFrom"
+                       name="validFrom"
+                       [matDatepicker]="pickerFrom"
+                       [formControl]="form.controls.validFrom"
+                       [min]="minValidFromDate"
+                       [max]="maxValidFromDate">
+                <mat-datepicker-toggle matIconSuffix
+                                       [for]="pickerFrom">
+                </mat-datepicker-toggle>
+                <mat-datepicker #pickerFrom></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div class="col-span-full md:col-span-1">
+            <mat-label>
                 <label for="validUntil">
                     Valid until
                 </label>
@@ -53,14 +74,14 @@
                 <input matInput
                        id="validUntil"
                        name="validUntil"
-                       [matDatepicker]="picker"
+                       [matDatepicker]="pickerUntil"
                        [formControl]="form.controls.validUntil"
-                       [min]="minDate"
-                       [max]="maxDate">
+                       [min]="minValidUntilDate"
+                       [max]="maxValidUntilDate">
                 <mat-datepicker-toggle matIconSuffix
-                                       [for]="picker">
+                                       [for]="pickerUntil">
                 </mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <mat-datepicker #pickerUntil></mat-datepicker>
             </mat-form-field>
         </div>
     } @else {
