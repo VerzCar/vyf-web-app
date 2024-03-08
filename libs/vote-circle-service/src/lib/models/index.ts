@@ -6,6 +6,7 @@ export { CircleVoter } from './circle-voter.model';
 export { Ranking, Placement } from './ranking.model';
 export { RankingChangeEvent } from './ranking-change-event.model';
 export { Commitment } from './commitment.model';
+export { CircleStage } from './circle-stage.model';
 export { CircleVotersFilter } from './circle-voters-filter.model';
 
 export { CircleCreateRequest } from './circle-create-request.model';

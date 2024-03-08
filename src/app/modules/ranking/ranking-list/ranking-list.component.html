@@ -60,7 +60,7 @@
                     }
                 </ul>
 
-                @if (view.hasStarted && view.emptyPlacements) {
+                @if (view.emptyPlacements) {
                     <div class="relative h-60 w-60 mx-auto">
                         <img ngSrc="/assets/img/svg/election-day.svg"
                              priority="true"
@@ -81,7 +81,7 @@
                     </h5>
                 }
 
-                @if (!view.hasStarted) {
+                @if (view.circle.stage === CircleStage.Cold) {
                     <div class="relative h-60 w-60 mx-auto">
                         <img ngSrc="/assets/img/svg/election-wait.svg"
                              priority="true"

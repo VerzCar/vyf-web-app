@@ -61,7 +61,6 @@ export class CircleDetailEditFormComponent implements OnInit {
                 const circleUpdateRequest: CircleUpdateRequest = {
                     id: this.circle.id,
                     name: name.trimEnd(),
-                    validFrom: this.form.controls.validFrom.value,
                     validUntil: this.form.controls.validUntil.value
                 };
                 return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
@@ -79,7 +78,6 @@ export class CircleDetailEditFormComponent implements OnInit {
                 const circleUpdateRequest: CircleUpdateRequest = {
                     id: this.circle.id,
                     description: description?.trimEnd() || '',
-                    validFrom: this.form.controls.validFrom.value,
                     validUntil: this.form.controls.validUntil.value
                 };
                 return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
@@ -113,8 +111,7 @@ export class CircleDetailEditFormComponent implements OnInit {
             tap(date => {
                 const circleUpdateRequest: CircleUpdateRequest = {
                     id: this.circle.id,
-                    validUntil: date,
-                    validFrom: this.form.controls.validFrom.value
+                    validUntil: date
                 };
                 return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
             }),

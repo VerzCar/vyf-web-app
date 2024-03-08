@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
-import { DateTime, isDefined } from '@vyf/base';
-import { Circle } from '@vyf/vote-circle-service';
+import { isDefined } from '@vyf/base';
+import { Circle, CircleStage } from '@vyf/vote-circle-service';
 import { BehaviorSubject, combineLatest, filter, map, Observable, switchMap, tap } from 'rxjs';
 import { CandidateMemberListDialogComponent } from '../candidate-member-list-dialog/candidate-member-list-dialog.component';
 import { placementTracking } from '../helper/placement-tracking';
@@ -15,7 +15,6 @@ interface RankingListComponentView {
     topThreePlacements: Placement[];
     placements: Placement[];
     emptyPlacements: boolean;
-    hasStarted: boolean;
 }
 
 @Component({
@@ -27,6 +26,7 @@ interface RankingListComponentView {
 export class RankingListComponent {
     public readonly view$: Observable<RankingListComponentView>;
     public readonly suspenseTrigger$ = new BehaviorSubject<void>(void 0);
+    public readonly CircleStage = CircleStage;
 
     private readonly store = inject(Store);
     private readonly dialog = inject(MatDialog);
@@ -46,8 +46,7 @@ export class RankingListComponent {
                 circle,
                 topThreePlacements,
                 placements,
-                emptyPlacements: !topThreePlacements.length && !placements.length,
-                hasStarted: circle.validFrom ? circle.validFrom >= DateTime.Day.today() : false
+                emptyPlacements: !topThreePlacements.length && !placements.length
             }))
         );
     }
