@@ -12,12 +12,21 @@ import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import {
     AvatarImgComponent,
-    AvatarStackComponent, BadgeComponent, CircleAutocompleteSearchComponent, CircleAutocompleteSelectComponent,
+    AvatarStackComponent,
+    BadgeComponent,
+    CircleAutocompleteSearchComponent,
+    CircleAutocompleteSelectComponent,
     CircleOwnerComponent,
+    CircleStagePipe,
     ShortNamePipe,
-    ShortNumberPipe, SkeletonAvatarComponent, SkeletonAvatarListComponent, SkeletonAvatarStackComponent, SkeletonListComponent,
+    ShortNumberPipe,
+    SkeletonAvatarComponent,
+    SkeletonAvatarListComponent,
+    SkeletonAvatarStackComponent,
+    SkeletonListComponent,
     TrendingIconPipe,
-    UserListItemComponent
+    UserListItemComponent,
+    ValidityPeriodComponent
 } from '@vyf/component';
 import { InfoState } from '../../shared/state/info.state';
 import { MemberState } from '../../shared/state/member.state';
@@ -37,7 +46,7 @@ import { ListResolver } from './services/resolver/list.resolver';
 import { RankingState } from './state/ranking.state';
 import { MembersNeedVoteComponent } from './ranking-list/members-need-vote/members-need-vote.component';
 import { RankingSelectComponent } from './ranking-list/ranking-select/ranking-select.component';
-import { ValidUntilComponent } from './ranking-list/valid-until/valid-until.component';
+import { ValidPeriodComponent } from './ranking-list/valid-until/valid-period.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +60,7 @@ import { ValidUntilComponent } from './ranking-list/valid-until/valid-until.comp
     RankingComponent,
     MembersNeedVoteComponent,
     RankingSelectComponent,
-    ValidUntilComponent,
+    ValidPeriodComponent,
   ],
     imports: [
         CommonModule,
@@ -81,7 +90,9 @@ import { ValidUntilComponent } from './ranking-list/valid-until/valid-until.comp
         CircleAutocompleteSearchComponent,
         CircleAutocompleteSelectComponent,
         RxPush,
-        BadgeComponent
+        BadgeComponent,
+        CircleStagePipe,
+        ValidityPeriodComponent
     ],
   providers: [ListResolver],
 })

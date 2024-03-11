@@ -11,11 +11,11 @@ interface ValidUntilComponentView {
 
 @Component({
     selector: 'app-valid-until',
-    templateUrl: './valid-until.component.html',
-    styleUrl: './valid-until.component.scss',
+    templateUrl: './valid-period.component.html',
+    styleUrl: './valid-period.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ValidUntilComponent {
+export class ValidPeriodComponent {
     public readonly view$: Observable<ValidUntilComponentView>;
 
     private readonly store = inject(Store);

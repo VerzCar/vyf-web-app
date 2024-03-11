@@ -42,6 +42,9 @@ export * from './lib/skeleton/skeleton-avatar-list/skeleton-avatar-list.componen
 
 export * from './lib/badge/badge.component';
 
+export * from './lib/validity-period/validity-period.component';
+
 export * from './lib/pipes/short-name.pipe';
 export * from './lib/pipes/short-number.pipe';
 export * from './lib/pipes/trending-icon.pipe';
+export * from './lib/pipes/circle-stage.pipe';

@@ -21,7 +21,7 @@ import {
     CircleOwnerComponent,
     ImageUploadComponent,
     ShortNumberPipe, SkeletonAvatarStackComponent, SkeletonListComponent,
-    UserAutocompleteSelectComponent
+    UserAutocompleteSelectComponent, ValidityPeriodComponent
 } from '@vyf/component';
 import { InfoState } from '../../shared/state/info.state';
 import { MemberState } from '../../shared/state/member.state';
@@ -84,7 +84,8 @@ import { CircleDetailMembersComponent } from './circle-detail-members/circle-det
         CircleOwnerComponent,
         AvatarStackComponent,
         SkeletonListComponent,
-        SkeletonAvatarStackComponent
+        SkeletonAvatarStackComponent,
+        ValidityPeriodComponent
     ],
   providers: [DetailsResolver, OverviewResolver],
 })

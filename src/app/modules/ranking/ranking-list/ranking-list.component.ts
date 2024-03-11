@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
+import { RxNotificationKind } from '@rx-angular/cdk/notifications';
 import { isDefined } from '@vyf/base';
 import { Circle, CircleStage } from '@vyf/vote-circle-service';
-import { BehaviorSubject, combineLatest, filter, map, Observable, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, filter, map, Observable, of, switchMap, tap } from 'rxjs';
+import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { CandidateMemberListDialogComponent } from '../candidate-member-list-dialog/candidate-member-list-dialog.component';
 import { placementTracking } from '../helper/placement-tracking';
 import { Placement } from '../models';
@@ -14,7 +16,7 @@ interface RankingListComponentView {
     circle: Circle;
     topThreePlacements: Placement[];
     placements: Placement[];
-    emptyPlacements: boolean;
+    hasEmptyPlacements: boolean;
 }
 
 @Component({
@@ -25,7 +27,8 @@ interface RankingListComponentView {
 })
 export class RankingListComponent {
     public readonly view$: Observable<RankingListComponentView>;
-    public readonly suspenseTrigger$ = new BehaviorSubject<void>(void 0);
+    public readonly contextTrg$ = new BehaviorSubject<RxNotificationKind>(RxNotificationKind.Suspense);
+    public readonly isVoter$: Observable<boolean>;
     public readonly CircleStage = CircleStage;
 
     private readonly store = inject(Store);
@@ -33,22 +36,26 @@ export class RankingListComponent {
 
     constructor() {
         this.view$ = this.store.select(RankingSelectors.slices.selectedCircle).pipe(
-            tap(() => this.suspenseTrigger$.next(void 0)),
+            tap(() => this.contextTrg$.next(RxNotificationKind.Suspense)),
             filter(circle => isDefined(circle)),
-            tap(circle => this.store.dispatch(new RankingAction.FetchRankings(circle!.id))),
-            switchMap(circle => combineLatest([
-                this.store.select(RankingSelectors.topThreePlacements),
-                this.store.select(RankingSelectors.placements)
-            ]).pipe(
-                map(src => [circle, ...src] as [Circle, Placement[], Placement[]])
-            )),
+            switchMap(circle => {
+                    if (circle!.stage !== CircleStage.Cold) {
+                        return this.rankingListSource$(circle as Circle);
+                    }
+
+                    return this.coldRankingListSource$(circle as Circle);
+                }
+            ),
             map(([circle, topThreePlacements, placements]: [Circle, Placement[], Placement[]]) => ({
                 circle,
                 topThreePlacements,
                 placements,
-                emptyPlacements: !topThreePlacements.length && !placements.length
-            }))
+                hasEmptyPlacements: !topThreePlacements.length && !placements.length
+            })),
+            tap(() => this.contextTrg$.next(RxNotificationKind.Next))
         );
+
+        this.isVoter$ = this.store.select(MemberSelectors.RankingSelector.isVoter());
     }
 
     public onShowMembers() {
@@ -57,5 +64,22 @@ export class RankingListComponent {
 
     public placementTrackingBy(index: number, placement: Placement) {
         return placementTracking(index, placement);
+    }
+
+    private rankingListSource$(circle: Circle): Observable<[Circle, Placement[], Placement[]]> {
+        return this.store.dispatch(new RankingAction.FetchRankings(circle!.id)).pipe(
+            switchMap(() =>
+                combineLatest([
+                    this.store.select(RankingSelectors.topThreePlacements),
+                    this.store.select(RankingSelectors.placements)
+                ])
+            ),
+            catchError(() => [[], []]),
+            map(src => [circle, ...src] as [Circle, Placement[], Placement[]])
+        );
+    }
+
+    private coldRankingListSource$(circle: Circle): Observable<[Circle, Placement[], Placement[]]> {
+        return of([circle, [], []] as [Circle, Placement[], Placement[]]);
     }
 }

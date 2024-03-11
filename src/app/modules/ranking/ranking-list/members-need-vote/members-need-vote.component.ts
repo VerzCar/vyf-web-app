@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
+import { RxNotificationKind } from '@rx-angular/cdk/notifications';
 import { isDefined } from '@vyf/base';
 import { User } from '@vyf/user-service';
-import { CircleCandidatesFilter } from '@vyf/vote-circle-service';
-import { combineLatest, filter, map, Observable, Subject, switchMap, tap } from 'rxjs';
+import { CircleCandidatesFilter, CircleStage } from '@vyf/vote-circle-service';
+import { BehaviorSubject, catchError, filter, map, Observable, of, switchMap, tap } from 'rxjs';
 import { CandidateMember } from '../../../../shared/models';
 import { MemberAction } from '../../../../shared/state/actions/member.action';
 import { MemberSelectors } from '../../../../shared/state/member.selectors';
@@ -24,7 +25,7 @@ interface MembersNeedVoteComponentView {
 })
 export class MembersNeedVoteComponent {
     public readonly view$: Observable<MembersNeedVoteComponentView>;
-    public readonly suspenseTrigger$ = new Subject<void>();
+    public readonly contextTrg$ = new BehaviorSubject<RxNotificationKind>(RxNotificationKind.Suspense);
 
     private readonly maxMembersCount = 3;
 
@@ -33,19 +34,25 @@ export class MembersNeedVoteComponent {
 
     constructor() {
         this.view$ = this.store.select(RankingSelectors.slices.selectedCircle).pipe(
+            tap(() => this.contextTrg$.next(RxNotificationKind.Suspense)),
             filter(circle => isDefined(circle)),
             switchMap(circle => {
-                const candidatesFilter: Partial<CircleCandidatesFilter> = {
-                    hasBeenVoted: false
-                };
-                return this.store.dispatch(new MemberAction.Ranking.InitMembers(circle!.id, candidatesFilter));
+                if (circle!.stage !== CircleStage.Cold) {
+                    const candidatesFilter: Partial<CircleCandidatesFilter> = {
+                        hasBeenVoted: false
+                    };
+                    return this.store.dispatch(new MemberAction.Ranking.InitMembers(circle!.id, candidatesFilter)).pipe(
+                        switchMap(() => this.store.select(MemberSelectors.Member.slices.rankingCandidateNeedVoteMembers)),
+                        catchError(() => [])
+                    );
+                }
+
+                return of([]);
             }),
-            switchMap(() => combineLatest([
-                this.store.select(MemberSelectors.Member.slices.rankingCandidateNeedVoteMembers)
-            ])),
-            map(([members]) => ({
+            map(members => ({
                 ...this.mapMembersToPreview(members)
-            }))
+            })),
+            tap(() => this.contextTrg$.next(RxNotificationKind.Next))
         );
     }
 

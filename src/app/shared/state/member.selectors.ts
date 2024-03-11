@@ -148,5 +148,19 @@ export namespace MemberSelectors {
                 return member.voter.votedFor === identityId;
             });
         }
+
+        /**
+         * Determines if the current user is a member as voter for the circle ranking list.
+         * @returns {(member: (VoterMember | undefined)) => boolean} true if the user is a voter, otherwise false.
+         */
+        public static isVoter() {
+            return createSelector([Member.slices.rankingUserVoterMember], (member: VoterMember | undefined): boolean => {
+                if (!member) {
+                    return false;
+                }
+
+                return true;
+            });
+        }
     }
 }

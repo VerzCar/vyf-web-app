@@ -1,8 +1,8 @@
-<p>
+<h5 class="font-normal text-gray-900">
     Need a vote
-</p>
+</h5>
 
-<ng-container *rxLet="view$; let view; suspense: suspense; suspenseTrigger: suspenseTrigger$;">
+<ng-container *rxLet="view$; let view; suspense: suspense; contextTrigger: contextTrg$;">
     <vyf-avatar-stack (stackClicked)="onShowMembers()"
                       [users]="view.previewUsers"
                       [plusCount]="view.membersCount">

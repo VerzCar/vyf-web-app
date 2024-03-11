@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ValidUntilComponent } from './valid-until.component';
+import { ValidPeriodComponent } from './valid-period.component';
 
 describe('ValidUntilComponent', () => {
-  let component: ValidUntilComponent;
-  let fixture: ComponentFixture<ValidUntilComponent>;
+  let component: ValidPeriodComponent;
+  let fixture: ComponentFixture<ValidPeriodComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ValidUntilComponent],
+      declarations: [ValidPeriodComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ValidUntilComponent);
+    fixture = TestBed.createComponent(ValidPeriodComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

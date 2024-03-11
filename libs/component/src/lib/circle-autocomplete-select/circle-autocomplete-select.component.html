@@ -1,5 +1,6 @@
 @if (!showSearchField) {
-    <div class="flex flex-row items-center space-x-2">
+    <div class="flex flex-row items-center space-x-2"
+         (dblclick)="toggleSearchBox()">
         <i-feather class="text-gray-600 hover:cursor-pointer"
                    name="search"
                    (click)="toggleSearchBox()">

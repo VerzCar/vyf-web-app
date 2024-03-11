@@ -5,6 +5,7 @@ export const createCircleFormToRequest = (rawForm: CircleCreateRawForm): CircleC
     description: rawForm.description ?? undefined,
     name: rawForm.name,
     private: rawForm.private,
+    validFrom: rawForm.validFrom ? new Date(rawForm.validFrom) : undefined,
     validUntil: rawForm.validUntil ? new Date(rawForm.validUntil) : undefined,
     voters: mapVoters(rawForm.voters),
     candidates: mapCandidates(rawForm.candidates)

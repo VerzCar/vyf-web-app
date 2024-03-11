@@ -12,18 +12,21 @@
             </app-members-need-vote>
         </div>
 
-        <div class="col-start-3 col-span-2 row-start-2 md:col-start-4 md:col-span-1">
-            <vyf-badge [text]="'Live'"
-                       [icon]="'circle'"
-                       [color]="'green'"
-                       class="flex flex-row justify-end">
-            </vyf-badge>
+        <div class="col-start-3 col-span-2 row-start-2 md:col-start-4 md:col-span-1 justify-self-end">
             <app-valid-until>
             </app-valid-until>
         </div>
 
         <section class="col-span-full row-start-3 md:col-start-2 md:col-span-2 md:row-start-2">
-            <ng-container *rxLet="view$; let view; suspense: suspense; suspenseTrigger: suspenseTrigger$;">
+            <ng-container
+                    *rxLet="view$; let view; suspense: suspense; contextTrigger: contextTrg$;">
+
+                @if (view.circle.stage | circleStage:CircleStage.Hot) {
+                    <vyf-badge [text]="'Live'"
+                               [icon]="'circle'"
+                               [color]="'green'">
+                    </vyf-badge>
+                }
 
                 @if (view.topThreePlacements.length) {
                     <app-top-three [topThreePlacements]="view.topThreePlacements"
@@ -32,56 +35,36 @@
                     </app-top-three>
                 }
 
-                <ul *rxIf="view.placements.length"
-                    class="divide-y divide-solid mt-2">
-                    @for (placement of view.placements; track placementTrackingBy(i, placement); let i = $index) {
-                        <app-list-item [placement]="placement"
-                                       [circle]="view.circle"
-                                       class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
-                        </app-list-item>
-                        @if ((i % 3) === 2) {
-                            <li class="min-h-24 max-h-60 w-full px-2 py-3 sm:pb-4 rounded border border-transparent hover:shadow hover:border hover:border-gray-300">
-                                <span class="text-gray-400">Werbung</span>
-                                <script async
-                                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2498063545767573"
-                                        crossorigin="anonymous"></script>
-                                <ins class="adsbygoogle"
-                                     style="display:block"
-                                     data-ad-format="fluid"
-                                     data-ad-layout-key="-fb+5w+4e-db+86"
-                                     data-ad-client="ca-pub-2498063545767573"
-                                     data-adtest="on"
-                                     data-ad-slot="6968659993"></ins>
-                                <script>
-                                    (adsbygoogle = window.adsbygoogle || []).push({});
-                                </script>
-                            </li>
+                @if (view.placements.length) {
+                    <ul class="divide-y divide-solid mt-2">
+                        @for (placement of view.placements; track placementTrackingBy(i, placement); let i = $index) {
+                            <app-list-item [placement]="placement"
+                                           [circle]="view.circle"
+                                           class="animate-fade-up animate-once animate-duration-[850ms] animate-delay-[400ms] animate-ease-in-out">
+                            </app-list-item>
+                            @if ((i % 3) === 2) {
+                                <li class="min-h-24 max-h-60 w-full px-2 py-3 sm:pb-4 rounded border border-transparent hover:shadow hover:border hover:border-gray-300">
+                                    <span class="text-gray-400">Werbung</span>
+                                    <script async
+                                            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2498063545767573"
+                                            crossorigin="anonymous"></script>
+                                    <ins class="adsbygoogle"
+                                         style="display:block"
+                                         data-ad-format="fluid"
+                                         data-ad-layout-key="-fb+5w+4e-db+86"
+                                         data-ad-client="ca-pub-2498063545767573"
+                                         data-adtest="on"
+                                         data-ad-slot="6968659993"></ins>
+                                    <script>
+                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                    </script>
+                                </li>
+                            }
                         }
-                    }
-                </ul>
-
-                @if (view.emptyPlacements) {
-                    <div class="relative h-60 w-60 mx-auto">
-                        <img ngSrc="/assets/img/svg/election-day.svg"
-                             priority="true"
-                             alt="election vote"
-                             fill="true"
-                             class="object-cover select-none">
-                    </div>
-
-                    <h5 class="text-xl text-center my-6 font-normal tracking-wide">
-                        No one has voted, <br>
-                        <button mat-button
-                                color="accent"
-                                role="button"
-                                type="button"
-                                (click)="onShowMembers()">
-                            give a vote!
-                        </button>
-                    </h5>
+                    </ul>
                 }
 
-                @if (view.circle.stage === CircleStage.Cold) {
+                @if (view.circle.stage | circleStage:CircleStage.Cold) {
                     <div class="relative h-60 w-60 mx-auto">
                         <img ngSrc="/assets/img/svg/election-wait.svg"
                              priority="true"
@@ -93,6 +76,26 @@
                     <h5 class="text-xl text-center my-6 font-normal tracking-wide">
                         We are very excited to vote. <br>
                         But the voting hasn't started yet...
+                    </h5>
+                } @else if (view.hasEmptyPlacements) {
+                    <div class="relative h-60 w-60 mx-auto">
+                        <img ngSrc="/assets/img/svg/election-day.svg"
+                             priority="true"
+                             alt="election vote"
+                             fill="true"
+                             class="object-cover select-none">
+                    </div>
+
+                    <h5 class="text-xl text-center my-6 font-normal tracking-wide">
+                        No one has voted so far <br>
+                        <button *rxIf="isVoter$"
+                                mat-button
+                                color="accent"
+                                role="button"
+                                type="button"
+                                (click)="onShowMembers()">
+                            give a vote!
+                        </button>
                     </h5>
                 }
             </ng-container>
