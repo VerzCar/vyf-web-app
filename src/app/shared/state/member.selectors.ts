@@ -1,5 +1,7 @@
 import { createPropertySelectors, createSelector, Selector } from '@ngxs/store';
 import { User, UserPaginated } from '@vyf/user-service';
+import { Circle, CircleStage } from '@vyf/vote-circle-service';
+import { RankingSelectors } from '../../modules/ranking/state/ranking.selectors';
 import { UserSelectors } from '../../modules/user/state/user.selectors';
 import { CandidateMember, MemberStateModel, VoterMember } from '../models';
 import { MemberState } from './member.state';
@@ -100,8 +102,15 @@ export namespace MemberSelectors {
          * @returns {(member: (VoterMember | undefined)) => boolean} - A function that takes a voter member object and returns a boolean value indicating whether the user can vote.
          */
         public static canVote(identityId: string) {
-            return createSelector([Member.slices.rankingUserVoterMember], (member: VoterMember | undefined): boolean => {
-                if (!member) {
+            return createSelector([
+                RankingSelectors.slices.selectedCircle,
+                Member.slices.rankingUserVoterMember
+            ], (circle: Circle | undefined, member: VoterMember | undefined): boolean => {
+                if (!member || !circle) {
+                    return false;
+                }
+
+                if (circle.stage !== CircleStage.Hot) {
                     return false;
                 }
 
@@ -114,13 +123,26 @@ export namespace MemberSelectors {
         }
 
         /**
-         * Determines if the ranking user as voter has voted for the given identityId.
+         * Determines if the user is a voter, if not it cannot revoke a vote at all.
+         * And if he has already placed a vote.
+         * And the placed vote id the same as the given identityId.
          * @param {string} identityId
-         * @returns {(member: (VoterMember | undefined)) => boolean} true if has voted for the given id, otherwise false.
+         * @returns {(member: (VoterMember | undefined)) => boolean} - A function that takes a voter member object and returns a boolean value indicating whether the user can revoke a vote.
          */
-        public static hasVotedFor(identityId: string) {
-            return createSelector([Member.slices.rankingUserVoterMember], (member: VoterMember | undefined): boolean => {
-                if (!member) {
+        public static canRevokeVote(identityId: string) {
+            return createSelector([
+                RankingSelectors.slices.selectedCircle,
+                Member.slices.rankingUserVoterMember
+            ], (circle: Circle | undefined, member: VoterMember | undefined): boolean => {
+                if (!member || !circle) {
+                    return false;
+                }
+
+                if (circle.stage !== CircleStage.Hot) {
+                    return false;
+                }
+
+                if (member.voter.votedFor === null) {
                     return false;
                 }
 
@@ -129,19 +151,13 @@ export namespace MemberSelectors {
         }
 
         /**
-         * Determines if the user is a voter, if not it cannot revoke a vote at all.
-         * And if he has already placed a vote.
-         * And the placed vote id the same as the given identityId.
+         * Determines if the ranking user as voter has voted for the given identityId.
          * @param {string} identityId
-         * @returns {(member: (VoterMember | undefined)) => boolean} - A function that takes a voter member object and returns a boolean value indicating whether the user can revoke a vote.
+         * @returns {(member: (VoterMember | undefined)) => boolean} true if has voted for the given id, otherwise false.
          */
-        public static canRevokeVote(identityId: string) {
+        public static hasVotedFor(identityId: string) {
             return createSelector([Member.slices.rankingUserVoterMember], (member: VoterMember | undefined): boolean => {
                 if (!member) {
-                    return false;
-                }
-
-                if (member.voter.votedFor === null) {
                     return false;
                 }
 

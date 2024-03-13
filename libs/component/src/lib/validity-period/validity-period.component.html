@@ -1,11 +1,12 @@
-<div class="flex flex-row md:flex-col divide-x md:divide-y md:divide-x-0 divide-gray-300">
-    <div class="pr-2 md:pr-0 md:py-2">
+<div class="flex divide-gray-300"
+     [ngClass]="alignment">
+    <div class="left">
         <p class="text-sm text-gray-700">From</p>
         <p class="block md:hidden">{{ circle.validFrom | date:'shortDate' }}</p>
         <p class="hidden md:block">{{ circle.validFrom | date }}</p>
         <p class="hidden md:block">{{ circle.validFrom | date:'shortTime' }}</p>
     </div>
-    <div class="pl-2 md:pl-0 md:py-2">
+    <div class="right">
         <p class="text-sm text-gray-700">Until</p>
         @if (circle.validUntil) {
             <p class="block md:hidden">{{ circle.validUntil | date:'shortDate' }}</p>

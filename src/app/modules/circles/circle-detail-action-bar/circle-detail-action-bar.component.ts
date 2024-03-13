@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Circle, Commitment } from '@vyf/vote-circle-service';
+import { Circle, CircleStage, Commitment } from '@vyf/vote-circle-service';
 import { combineLatest, map, Observable } from 'rxjs';
 import { CandidateMember } from '../../../shared/models';
 import { MemberSelectors } from '../../../shared/state/member.selectors';
@@ -22,6 +22,7 @@ export interface CircleDetailActionBarComponentView {
 })
 export class CircleDetailActionBarComponent {
     public readonly view$: Observable<CircleDetailActionBarComponentView>;
+    public readonly CircleStage = CircleStage;
 
     private readonly store = inject(Store);
 

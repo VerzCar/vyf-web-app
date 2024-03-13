@@ -15,20 +15,16 @@ import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import {
-    AvatarStackComponent,
-    CircleAutocompleteSearchComponent,
-    CircleOwnerComponent,
-    ImageUploadComponent,
-    ShortNumberPipe, SkeletonAvatarStackComponent, SkeletonListComponent,
-    UserAutocompleteSelectComponent, ValidityPeriodComponent
-} from '@vyf/component';
+import { AvatarStackComponent, CircleAutocompleteSearchComponent, CircleOwnerComponent, CircleStagePipe, ImageUploadComponent, ShortNumberPipe, SkeletonAvatarStackComponent, SkeletonListComponent, UserAutocompleteSelectComponent, ValidityPeriodComponent } from '@vyf/component';
 import { InfoState } from '../../shared/state/info.state';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { UserState } from '../user/state/user.state';
 import { CircleDetailActionBarComponent } from './circle-detail-action-bar/circle-detail-action-bar.component';
+import { CircleDetailActionItemCommitmentComponent } from './circle-detail-action-bar/circle-detail-action-item-commitment/circle-detail-action-item-commitment.component';
 import { CircleDetailActionItemJoinComponent } from './circle-detail-action-bar/circle-detail-action-item-join/circle-detail-action-item-join.component';
+import { CircleDetailActionItemLeaveVoterComponent } from './circle-detail-action-bar/circle-detail-action-item-leave-voter/circle-detail-action-item-leave-voter.component';
+import { CircleDetailMembersComponent } from './circle-detail-members/circle-detail-members.component';
 import { CircleDetailComponent } from './circle-detail/circle-detail.component';
 import { CircleNotEligibleComponent } from './circle-not-eligible/circle-not-eligible.component';
 import { CircleCardComponent } from './circles-overview/circle-card/circle-card.component';
@@ -39,9 +35,6 @@ import { CirclesRoutingModule } from './circles-routing.module';
 import { DetailsResolver } from './services/resolver/details.resolver';
 import { OverviewResolver } from './services/resolver/overview.resolver';
 import { CirclesState } from './state/circles.state';
-import { CircleDetailActionItemCommitmentComponent } from './circle-detail-action-bar/circle-detail-action-item-commitment/circle-detail-action-item-commitment.component';
-import { CircleDetailActionItemLeaveVoterComponent } from './circle-detail-action-bar/circle-detail-action-item-leave-voter/circle-detail-action-item-leave-voter.component';
-import { CircleDetailMembersComponent } from './circle-detail-members/circle-detail-members.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +78,8 @@ import { CircleDetailMembersComponent } from './circle-detail-members/circle-det
         AvatarStackComponent,
         SkeletonListComponent,
         SkeletonAvatarStackComponent,
-        ValidityPeriodComponent
+        ValidityPeriodComponent,
+        CircleStagePipe
     ],
   providers: [DetailsResolver, OverviewResolver],
 })

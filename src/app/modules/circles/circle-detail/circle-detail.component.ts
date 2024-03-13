@@ -1,4 +1,3 @@
-import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
@@ -6,7 +5,6 @@ import { isDefined } from '@vyf/base';
 import { User } from '@vyf/user-service';
 import { Circle } from '@vyf/vote-circle-service';
 import { combineLatest, filter, map, Observable } from 'rxjs';
-import { MemberSelectors } from '../../../shared/state/member.selectors';
 import { CircleDetailSettingsDialogComponent, CircleDetailSettingsDialogComponentView } from '../circle-detail-settings-dialog/circle-detail-settings-dialog.component';
 import { CirclesSelectors } from '../state/circles.selectors';
 
@@ -34,24 +32,19 @@ export class CircleDetailComponent {
         this.view$ = combineLatest([
             this.store.select(CirclesSelectors.slices.selectedCircle),
             this.store.select(CirclesSelectors.slices.selectedCircleOwner),
-            this.store.select(MemberSelectors.Member.slices.circleVoterMembers),
-            this.store.select(MemberSelectors.Member.slices.circleCandidateMembers)
+            this.store.select(CirclesSelectors.canEditCircle)
         ]).pipe(
             filter((
                 [
                     circle,
-                    owner,
-                    circleVoterMembers,
-                    circleCandidateMembers
+                    owner
                 ]
-            ) => isDefined(circle) && isDefined(owner) && isDefined(circleVoterMembers) && isDefined(circleCandidateMembers)),
-            map(([c, owner, voterMembers, candidateMembers]) => {
-                return {
-                    circle: c as Circle,
-                    owner: owner as User,
-                    disabled: !this.store.selectSnapshot(CirclesSelectors.canEditCircle)
-                };
-            })
+            ) => isDefined(circle) && isDefined(owner)),
+            map(([c, owner, canEditCircle]) => ({
+                circle: c as Circle,
+                owner: owner as User,
+                disabled: !canEditCircle
+            }))
         );
     }
 

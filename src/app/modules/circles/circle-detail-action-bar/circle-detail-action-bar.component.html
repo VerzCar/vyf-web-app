@@ -12,28 +12,29 @@
             </a>
         </li>
 
-        @if (!view.isUserVoterMemberOfCircle && !view.circle.private) {
-            <app-circle-detail-action-item-join [circleId]="view.circle.id"
-                                                [subject]="'voter'">
-            </app-circle-detail-action-item-join>
-        }
+        @if (!(view.circle.stage | circleStage:CircleStage.Closed)) {
+            @if (!view.isUserVoterMemberOfCircle && !view.circle.private) {
+                <app-circle-detail-action-item-join [circleId]="view.circle.id"
+                                                    [subject]="'voter'">
+                </app-circle-detail-action-item-join>
+            }
 
-        @if (view.isUserVoterMemberOfCircle) {
-            <app-circle-detail-action-item-leave-voter [circleId]="view.circle.id">
-            </app-circle-detail-action-item-leave-voter>
-        }
+            @if (view.isUserVoterMemberOfCircle) {
+                <app-circle-detail-action-item-leave-voter [circleId]="view.circle.id">
+                </app-circle-detail-action-item-leave-voter>
+            }
 
-        @if (!view.isUserCandidateMemberOfCircle && !view.circle.private) {
-            <app-circle-detail-action-item-join [circleId]="view.circle.id"
-                                                [subject]="'candidate'">
-            </app-circle-detail-action-item-join>
-        }
+            @if (!view.isUserCandidateMemberOfCircle && !view.circle.private) {
+                <app-circle-detail-action-item-join [circleId]="view.circle.id"
+                                                    [subject]="'candidate'">
+                </app-circle-detail-action-item-join>
+            }
 
-        @if (view.isUserCandidateMemberOfCircle) {
-            <app-circle-detail-action-item-commitment [circleId]="view.circle.id"
-                                                      [commitment]="view.circleUserCandidateMember!.candidate.commitment">
-            </app-circle-detail-action-item-commitment>
+            @if (view.isUserCandidateMemberOfCircle) {
+                <app-circle-detail-action-item-commitment [circleId]="view.circle.id"
+                                                          [commitment]="view.circleUserCandidateMember!.candidate.commitment">
+                </app-circle-detail-action-item-commitment>
+            }
         }
-
     </ul>
 </ng-container>
