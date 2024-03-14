@@ -312,7 +312,7 @@ export class CirclesState implements NgxsOnInit {
         const req: VoterRequest = {
             voter: action.userIdentityId
         };
-console.log(req)
+
         return this.voteCircleService.removeVoterFromCircle(action.circleId, req).pipe(
             map(res => res.data),
             tap(() => ctx.setState(

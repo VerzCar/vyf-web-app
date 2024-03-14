@@ -10,24 +10,7 @@ import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
-import {
-    AvatarImgComponent,
-    AvatarStackComponent,
-    BadgeComponent,
-    CircleAutocompleteSearchComponent,
-    CircleAutocompleteSelectComponent,
-    CircleOwnerComponent,
-    CircleStagePipe,
-    ShortNamePipe,
-    ShortNumberPipe,
-    SkeletonAvatarComponent,
-    SkeletonAvatarListComponent,
-    SkeletonAvatarStackComponent,
-    SkeletonListComponent,
-    TrendingIconPipe,
-    UserListItemComponent,
-    ValidityPeriodComponent
-} from '@vyf/component';
+import { AvatarImgComponent, AvatarStackComponent, BadgeComponent, CircleAutocompleteSearchComponent, CircleAutocompleteSelectComponent, CircleOwnerComponent, CircleStagePipe, ShortNamePipe, ShortNumberPipe, SkeletonAvatarComponent, SkeletonAvatarListComponent, SkeletonAvatarStackComponent, SkeletonListComponent, TrendingIconPipe, UserListItemComponent, ValidityPeriodComponent } from '@vyf/component';
 import { InfoState } from '../../shared/state/info.state';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
@@ -36,32 +19,32 @@ import { CandidateMemberListDialogComponent } from './candidate-member-list-dial
 import { CandidateMemberListItemComponent } from './candidate-member-list/candidate-member-list-item/candidate-member-list-item.component';
 import { CandidateMemberListComponent } from './candidate-member-list/candidate-member-list.component';
 import { ListItemComponent } from './ranking-list/list-item/list-item.component';
+import { MembersNeedVoteComponent } from './ranking-list/members-need-vote/members-need-vote.component';
 import { RankingListComponent } from './ranking-list/ranking-list.component';
+import { RankingSelectComponent } from './ranking-list/ranking-select/ranking-select.component';
 import { TopRankedComponent } from './ranking-list/top-three/top-ranked/top-ranked.component';
 import { TopThreeComponent } from './ranking-list/top-three/top-three.component';
+import { ValidPeriodComponent } from './ranking-list/valid-until/valid-period.component';
 
 import { RankingRoutingModule } from './ranking-routing.module';
 import { RankingComponent } from './ranking/ranking.component';
 import { ListResolver } from './services/resolver/list.resolver';
 import { RankingState } from './state/ranking.state';
-import { MembersNeedVoteComponent } from './ranking-list/members-need-vote/members-need-vote.component';
-import { RankingSelectComponent } from './ranking-list/ranking-select/ranking-select.component';
-import { ValidPeriodComponent } from './ranking-list/valid-until/valid-period.component';
 
 @NgModule({
-  declarations: [
-    RankingListComponent,
-    ListItemComponent,
-    TopThreeComponent,
-    TopRankedComponent,
-    CandidateMemberListComponent,
-    CandidateMemberListItemComponent,
-    CandidateMemberListDialogComponent,
-    RankingComponent,
-    MembersNeedVoteComponent,
-    RankingSelectComponent,
-    ValidPeriodComponent,
-  ],
+    declarations: [
+        RankingListComponent,
+        ListItemComponent,
+        TopThreeComponent,
+        TopRankedComponent,
+        CandidateMemberListComponent,
+        CandidateMemberListItemComponent,
+        CandidateMemberListDialogComponent,
+        RankingComponent,
+        MembersNeedVoteComponent,
+        RankingSelectComponent,
+        ValidPeriodComponent
+    ],
     imports: [
         CommonModule,
         NgxsModule.forFeature([UserState, RankingState, MemberState, InfoState]),
@@ -94,6 +77,6 @@ import { ValidPeriodComponent } from './ranking-list/valid-until/valid-period.co
         CircleStagePipe,
         ValidityPeriodComponent
     ],
-  providers: [ListResolver],
+    providers: [ListResolver]
 })
 export class RankingModule {}

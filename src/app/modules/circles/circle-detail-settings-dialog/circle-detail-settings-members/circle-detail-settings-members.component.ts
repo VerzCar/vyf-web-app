@@ -176,7 +176,6 @@ export class CircleDetailSettingsMembersComponent {
     }
 
     public removeVoter(member: VoterMember) {
-        console.log(member, member.user.identityId)
         const circle = this.store.selectSnapshot(CirclesSelectors.slices.selectedCircle);
         this.store.dispatch(new CirclesAction.RemoveVoter(circle?.id ?? 0, member.user.identityId));
     }

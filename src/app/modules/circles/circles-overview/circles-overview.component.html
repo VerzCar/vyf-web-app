@@ -69,43 +69,4 @@
         </div>
     </ng-template>
     <ng-template #error>ERROR!</ng-template>
-
-    <div class="my-4">
-        <h3>
-            Open candidacy invitations
-        </h3>
-        <ul class="divide-y-2 divide-solid">
-            @for (circle of circles$ | push; track $index) {
-                <li class="flex flex-row items-center gap-2 py-1">
-                    <a [routerLink]="['/circles', circle.id]"
-                       class="text-gray-950 hover:text-blue-700">
-                        {{ circle.name }}:
-                    </a>
-
-                    <button mat-stroked-button
-                            color="accent"
-                            role="button"
-                            type="button"
-                            (click)="onRejection()"
-                            class="ml-auto">
-                        Reject candidacy
-                        <i-feather name="slash"
-                                   class="align-top flex-shrink-0 text-red-600">
-                        </i-feather>
-                    </button>
-
-                    <button mat-stroked-button
-                            color="accent"
-                            role="button"
-                            type="button"
-                            (click)="onCommitment()">
-                        Accept candidacy
-                        <i-feather name="check"
-                                   class="align-top flex-shrink-0 text-green-600">
-                        </i-feather>
-                    </button>
-                </li>
-            }
-        </ul>
-    </div>
 </div>
