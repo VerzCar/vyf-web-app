@@ -28,7 +28,7 @@
                         You have entered more than allowed, maybe you shorten your introduction.
                     </mat-error>
                     <mat-hint [align]="'end'">
-                        {{whyVoteMeRef.value.length}}/250
+                        {{ whyVoteMeRef.value.length }}/250
                     </mat-hint>
                 </mat-form-field>
             </div>
@@ -50,7 +50,7 @@
                           formControlName="bio">
                     </textarea>
                     <mat-hint [align]="'end'">
-                        {{bioRef.value.length}}/1500
+                        {{ bioRef.value.length }}/1500
                     </mat-hint>
                 </mat-form-field>
             </div>
@@ -65,7 +65,8 @@
                     </a>
                 </div>
 
-                <vyf-submit-button [formIsValid$]="formIsValid$">
+                <vyf-submit-button [formIsValid$]="formIsValid$"
+                                   [label]="'Save'">
                 </vyf-submit-button>
             </div>
         </div>

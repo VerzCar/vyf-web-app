@@ -1,5 +1,6 @@
 <button [matMenuTriggerFor]="menu"
         [matBadge]="(circles$ | push).length"
+        [matBadgeHidden]="!(circles$ | push).length"
         [matBadgeOverlap]="false"
         [matBadgePosition]="'before'"
         [matBadgeSize]="'small'"
@@ -12,9 +13,10 @@
     <ng-template matMenuContent>
         @for (circle of circles$ | push; track $index) {
             <div mat-menu-item
-                 [routerLink]="['/circles', circle.id]">
+                 [routerLink]="['/circles', circle.id]"
+                 class="divide-y">
                 <a [routerLink]="['/circles', circle.id]"
-                   class="text-gray-950 hover:text-blue-700">
+                   class="text-gray-950 hover:text-blue-700 block">
                     {{ circle.name }}:
                 </a>
 
@@ -41,6 +43,11 @@
                                class="align-top flex-shrink-0 text-green-600">
                     </i-feather>
                 </button>
+            </div>
+        } @empty {
+            <div mat-menu-item
+                 [disabled]="true">
+                <p>There are no invitations currently.</p>
             </div>
         }
     </ng-template>
