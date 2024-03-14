@@ -7,7 +7,6 @@ import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { UserAutocompleteSelectComponent, UserListItemComponent } from '@vyf/component';
 import { UserPaginated, UserService } from '@vyf/user-service';
-import { UserOption } from '@vyf/vote-circle-service';
 import { FeatherModule } from 'angular-feather';
 import { catchError, combineLatest, map, Observable } from 'rxjs';
 import { candidateMemberTracking } from '../../../../shared/helper/candidate-member-tracking';
@@ -47,6 +46,8 @@ export class CircleDetailSettingsMembersComponent {
     public readonly canEditCircle$: Observable<boolean>;
     public readonly canAddCandidate$: Observable<boolean>;
     public readonly canAddVoter$: Observable<boolean>;
+    public readonly canRemoveCandidate$: Observable<boolean>;
+    public readonly canRemoveVoter$: Observable<boolean>;
     public readonly settingsCandidate$: Observable<CircleDetailSettings>;
     public readonly settingsVoter$: Observable<CircleDetailSettings>;
 
@@ -95,6 +96,8 @@ export class CircleDetailSettingsMembersComponent {
                 return voters.length < option.maxVoters;
             })
         );
+        this.canRemoveCandidate$ = this.store.select(CirclesSelectors.canEditCircle);
+        this.canRemoveVoter$ = this.store.select(CirclesSelectors.canEditCircle);
 
         this.settingsCandidate$ = combineLatest([
             this.store.select(CirclesSelectors.slices.selectedCircle),
@@ -153,7 +156,8 @@ export class CircleDetailSettingsMembersComponent {
     }
 
     public onCandidateDeselection(userIdentityId: string) {
-        console.log('remove candidate');
+        const circle = this.store.selectSnapshot(CirclesSelectors.slices.selectedCircle);
+        this.store.dispatch(new CirclesAction.RemoveCandidate(circle?.id ?? 0, userIdentityId));
     }
 
     public onVoterSelected(userIdentityId: string) {
@@ -162,7 +166,19 @@ export class CircleDetailSettingsMembersComponent {
     }
 
     public onVoterDeselection(userIdentityId: string) {
-        console.log('remove voter');
+        const circle = this.store.selectSnapshot(CirclesSelectors.slices.selectedCircle);
+        this.store.dispatch(new CirclesAction.RemoveVoter(circle?.id ?? 0, userIdentityId));
+    }
+
+    public removeCandidate(member: CandidateMember) {
+        const circle = this.store.selectSnapshot(CirclesSelectors.slices.selectedCircle);
+        this.store.dispatch(new CirclesAction.RemoveCandidate(circle?.id ?? 0, member.user.identityId));
+    }
+
+    public removeVoter(member: VoterMember) {
+        console.log(member, member.user.identityId)
+        const circle = this.store.selectSnapshot(CirclesSelectors.slices.selectedCircle);
+        this.store.dispatch(new CirclesAction.RemoveVoter(circle?.id ?? 0, member.user.identityId));
     }
 
     public candidateMemberTrackingBy(index: number, member: CandidateMember): number {

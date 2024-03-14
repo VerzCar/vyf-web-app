@@ -16,13 +16,25 @@
                               [placeholder]="'Search candidate'"
                               [preSelectedUsers]="candidateUsers$ | push"
                               [showSelectionInField]="false"
-                              [removable]="false"
+                              [removable]="canRemoveCandidate$ | push"
                               [addable]="canAddCandidate$ | push">
 </vyf-user-autocomplete-select>
 
 <div class="flex flex-col space-y-2 max-h-60 overflow-y-auto">
     <ng-container *rxFor="let member of candidateMembers$; trackBy: candidateMemberTrackingBy">
         <vyf-user-list-item [user]="member.user">
+
+            <button *rxIf="canRemoveCandidate$"
+                    mat-button
+                    suffix-content
+                    color="accent"
+                    type="button"
+                    (click)="removeCandidate(member)">
+                <i-feather class="text-red-700 align-top"
+                           name="x">
+                </i-feather>
+            </button>
+
         </vyf-user-list-item>
     </ng-container>
 </div>
@@ -47,13 +59,25 @@
                               [placeholder]="'Search voter'"
                               [preSelectedUsers]="voterUsers$ | push"
                               [showSelectionInField]="false"
-                              [removable]="false"
+                              [removable]="canRemoveVoter$ | push"
                               [addable]="canAddVoter$ | push">
 </vyf-user-autocomplete-select>
 
 <div class="flex flex-col space-y-2 max-h-60 overflow-y-auto">
     <ng-container *rxFor="let member of voterMembers$; trackBy: voterMemberTrackingBy">
         <vyf-user-list-item [user]="member.user">
+
+            <button *rxIf="canRemoveVoter$"
+                    mat-button
+                    suffix-content
+                    color="accent"
+                    type="button"
+                    (click)="removeVoter(member)">
+                <i-feather class="text-red-700 align-top"
+                           name="x">
+                </i-feather>
+            </button>
+
         </vyf-user-list-item>
     </ng-container>
 </div>

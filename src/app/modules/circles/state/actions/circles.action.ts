@@ -112,6 +112,22 @@ export namespace CirclesAction {
         }
     }
 
+    export class RemoveCandidate {
+        public static readonly type = `[${domainName}] Remove Candidate from circle`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public circleId: number, public userIdentityId: string) {
+        }
+    }
+
+    export class RemoveVoter {
+        public static readonly type = `[${domainName}] Remove Voter from circle`;
+
+        // eslint-disable-next-line no-useless-constructor
+        constructor(public circleId: number, public userIdentityId: string) {
+        }
+    }
+
     export class LeaveCircleAsCandidate {
         public static readonly type = `[${domainName}] Leave Circle as candidate`;
 
@@ -138,6 +154,8 @@ export const CirclesErrorTrackedActions = [
     CirclesAction.CommittedToCircle,
     CirclesAction.AddCandidate,
     CirclesAction.AddVoter,
+    CirclesAction.RemoveCandidate,
+    CirclesAction.RemoveVoter,
     CirclesAction.JoinCircleAsVoter,
     CirclesAction.JoinCircleAsCandidate,
     CirclesAction.LeaveCircleAsCandidate,

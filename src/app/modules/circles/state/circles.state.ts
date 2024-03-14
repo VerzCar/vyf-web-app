@@ -276,6 +276,62 @@ export class CirclesState implements NgxsOnInit {
         );
     }
 
+    @Action(CirclesAction.RemoveCandidate)
+    private removeCandidate(
+        ctx: StateContext<CirclesStateModel>,
+        action: CirclesAction.RemoveCandidate
+    ) {
+        const req: CandidateRequest = {
+            candidate: action.userIdentityId
+        };
+
+        return this.voteCircleService.removeCandidateFromCircle(action.circleId, req).pipe(
+            map(res => res.data),
+            tap(() => ctx.setState(
+                patch<CirclesStateModel>({
+                    circlesOfInterest: updateItem<CirclePaginated>(
+                        circle => circle.id === action.circleId,
+                        circle => ({ ...circle, candidatesCount: circle.candidatesCount ? circle.candidatesCount - 1 : 0 })
+                    )
+                })
+            )),
+            tap(() => {
+                const data: SnackbarSuccessComponentData = {
+                    message: 'You removed the candidate from the circle.'
+                };
+                this.snackbar.openSuccess(SnackbarSuccessComponent, data);
+            })
+        );
+    }
+
+    @Action(CirclesAction.RemoveVoter)
+    private removeVoter(
+        ctx: StateContext<CirclesStateModel>,
+        action: CirclesAction.RemoveVoter
+    ) {
+        const req: VoterRequest = {
+            voter: action.userIdentityId
+        };
+console.log(req)
+        return this.voteCircleService.removeVoterFromCircle(action.circleId, req).pipe(
+            map(res => res.data),
+            tap(() => ctx.setState(
+                patch<CirclesStateModel>({
+                    circlesOfInterest: updateItem<CirclePaginated>(
+                        circle => circle.id === action.circleId,
+                        circle => ({ ...circle, candidatesCount: circle.candidatesCount ? circle.candidatesCount - 1 : 0 })
+                    )
+                })
+            )),
+            tap(() => {
+                const data: SnackbarSuccessComponentData = {
+                    message: 'You removed the voter from the circle.'
+                };
+                this.snackbar.openSuccess(SnackbarSuccessComponent, data);
+            })
+        );
+    }
+
     @Action(CirclesAction.LeaveCircleAsCandidate)
     private leaveCircleAsCandidate(
         ctx: StateContext<CirclesStateModel>,
