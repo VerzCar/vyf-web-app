@@ -1,5 +1,29 @@
-<amplify-authenticator>
+<amplify-authenticator [socialProviders]="['apple', 'google']">
+    <ng-template amplifySlot="header">
+        <div style="padding: var(--amplify-space-large); text-align: center">
+            <img class="amplify-image"
+                 alt="Vote your face logo"
+                 src="assets/img/svg/logo-colored-36.svg"
+            />
+        </div>
+    </ng-template>
+
+    <ng-template amplifySlot="sign-in-header">
+        <h3 class="amplify-heading"
+            style="padding: var(--amplify-space-medium) 0 0 var(--amplify-space-xl); font-size: 2rem">
+            Sign in to Vote Your Face
+        </h3>
+    </ng-template>
+
+    <ng-template amplifySlot="sign-up-header">
+        <h3 class="amplify-heading"
+            style="padding: var(--amplify-space-medium) 0 0 var(--amplify-space-xl); font-size: 2rem">
+            Create a new account to <br> Vote Your Face
+        </h3>
+    </ng-template>
+
     <ng-template amplifySlot="authenticated">
         <router-outlet></router-outlet>
     </ng-template>
+
 </amplify-authenticator>
