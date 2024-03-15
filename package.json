@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve",
+    "start": "node server.js",
     "build": "nx build",
     "test": "nx test",
     "heroku-postbuild": "nx build"
@@ -12,7 +12,6 @@
     "node": "20.10.0",
     "npm": "10.2.4"
   },
-  "start" : "node server.js",
   "private": true,
   "dependencies": {
     "@angular/animations": "17.1.1",
