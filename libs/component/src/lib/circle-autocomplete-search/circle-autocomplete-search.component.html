@@ -1,0 +1,26 @@
+<form>
+    <mat-form-field appearance="outline"
+                    class="w-full"
+                    subscriptSizing="dynamic">
+        <div matPrefix
+             class="px-2">
+            <mat-spinner *rxIf="isLoading; else icon"
+                         diameter="24">
+            </mat-spinner>
+            <ng-template #icon>
+                <i-feather class="text-gray-600"
+                           name="search">
+                </i-feather>
+            </ng-template>
+        </div>
+
+        <input #circleSearchInput
+               matInput
+               id="searchSircles"
+               aria-label="Circles"
+               type="search"
+               [placeholder]="'Search circle'"
+               [formControl]="control"
+               (keydown.enter)="onInputKeyEnter($event)">
+    </mat-form-field>
+</form>

@@ -1,0 +1,15 @@
+:host {
+    @apply flex flex-col h-full;
+}
+
+header {
+    flex: 0 1 auto;
+}
+
+main {
+    flex: 1 1 auto;
+}
+
+footer {
+    flex: 0 1 auto;
+}

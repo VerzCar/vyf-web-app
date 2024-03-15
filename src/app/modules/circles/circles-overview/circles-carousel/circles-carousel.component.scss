@@ -1,0 +1,11 @@
+:host {
+    @apply block overflow-x-scroll;
+}
+
+.carousel {
+    @apply snap-mandatory snap-x inline-flex scroll-smooth p-4 space-x-4;
+
+    .item {
+        @apply flex snap-start box-content;
+    }
+}

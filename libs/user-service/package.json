@@ -1,0 +1,9 @@
+{
+  "name": "@vyf/user-service",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/core": "17.0.4"
+  },
+  "dependencies": {},
+  "sideEffects": false
+}

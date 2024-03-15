@@ -1,0 +1,103 @@
+<div class="layout-container layout-whitespace">
+    <ng-container *rxLet="view$;
+    let view;
+    error: error;
+    suspense: suspense;">
+        <div class="flex flex-col gap-6 mb-2">
+            <div class="flex flex-row items-center justify-between">
+                <div>
+                    <a [routerLink]="['/circles']"
+                       mat-button
+                       color="accent">
+                        Back to circles
+                    </a>
+                </div>
+                <button mat-flat-button
+                        color="accent"
+                        role="button"
+                        type="button"
+                        [disabled]="view.disabled"
+                        (click)="onOpenSettings(view)">
+                    Edit
+                </button>
+            </div>
+
+            <div class="flex flex-row items-center justify-center">
+                <div class="flex flex-row items-center gap-4">
+                    <div *rxIf="view.circle.private"
+                         class="flex flex-col items-center">
+                        <mat-icon>
+                            lock
+                        </mat-icon>
+                        <span class="text-gray-500 text-xs">Private</span>
+                    </div>
+                    <h2>
+                        {{ view.circle.name }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-4 gap-4 auto-rows-max">
+
+            <figure class="col-start-1 col-span-full md:col-span-3 md:row-start-1 relative h-[16rem]">
+                <img class="object-cover object-center md:blur-[2px] rounded"
+                     ngSrc="{{view.circle.imageSrc.length ? view.circle.imageSrc : placeholderImageSrc}}"
+                     alt="{{view.circle.name}}"
+                     fill="true">
+                <div class="relative mx-auto h-[16rem] w-full md:w-[16rem]">
+                    <img class="object-cover object-center rounded-2xl"
+                         ngSrc="{{view.circle.imageSrc.length ? view.circle.imageSrc : placeholderImageSrc}}"
+                         alt="{{view.circle.name}}"
+                         fill="true"
+                         priority="true">
+                </div>
+            </figure>
+
+            <app-circle-detail-action-bar class="col-start-1 col-span-full md:col-start-4 md:col-end-5 md:row-start-1">
+            </app-circle-detail-action-bar>
+
+            <div class="col-start-1 col-span-2 row-start-3 md:col-span-1 md:row-start-2">
+                <h3>
+                    Owner
+                </h3>
+                <vyf-circle-owner [user]="view.owner">
+                </vyf-circle-owner>
+            </div>
+
+            <div class="col-start-3 col-span-2 md:col-span-1 md:col-start-3 md:row-start-2 place-items-end flex flex-col">
+                <h3>
+                    Valid
+                </h3>
+                <vyf-validity-period [circle]="view.circle">
+                </vyf-validity-period>
+            </div>
+
+            <div class="col-start-1 col-span-full md:col-span-2 md:row-start-3">
+                <h3>
+                    Description
+                </h3>
+                <p class="md:max-w-5xl">
+                    @if (view.circle.description) {
+                        {{ view.circle.description }}
+                    } @else {
+                        <div class="my-4 min-h-10">
+                        </div>
+                    }
+                </p>
+            </div>
+
+            <div class="col-start-1 col-span-full md:col-span-2 md:row-start-4">
+                <app-circle-detail-members>
+                </app-circle-detail-members>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #suspense>
+        <div class="flex justify-center items-center">
+            <mat-spinner></mat-spinner>
+        </div>
+    </ng-template>
+    <ng-template #error>ERROR!</ng-template>
+</div>

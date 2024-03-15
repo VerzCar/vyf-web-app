@@ -1,0 +1,10 @@
+{
+  "name": "@vyf/vote-circle-service",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "17.0.4",
+    "@angular/core": "17.0.4"
+  },
+  "dependencies": {},
+  "sideEffects": false
+}

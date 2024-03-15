@@ -1,0 +1,24 @@
+<form>
+    <mat-form-field appearance="outline" class="w-full">
+        <span matPrefix
+              class="px-2">
+            <mat-spinner *rxIf="isLoading; else icon"
+                         diameter="24">
+            </mat-spinner>
+            <ng-template #icon>
+                <i-feather class="text-gray-600"
+                           name="search">
+                </i-feather>
+            </ng-template>
+            </span>
+
+        <input #userSearchInput
+               matInput
+               id="searchUser"
+               aria-label="Users"
+               type="search"
+               [placeholder]="'Search user'"
+               [formControl]="control"
+               (keydown.enter)="onInputKeyEnter($event)">
+    </mat-form-field>
+</form>

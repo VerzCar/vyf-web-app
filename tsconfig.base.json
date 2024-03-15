@@ -1,0 +1,26 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2022",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "paths": {
+      "@vyf/base": ["libs/base/src/index.ts"],
+      "@vyf/component": ["libs/component/src/index.ts"],
+      "@vyf/user-service": ["libs/user-service/src/index.ts"],
+      "@vyf/vote-circle-service": ["libs/vote-circle-service/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

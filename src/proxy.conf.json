@@ -1,0 +1,14 @@
+{
+  "/v1/api/user/*": {
+    "target": "https://vyf-user-service-4fe07f1427d1.herokuapp.com",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/v1/api/vote-circle/*": {
+    "target": "https://vyf-vote-circle-309d72dfd728.herokuapp.com",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

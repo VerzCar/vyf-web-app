@@ -1,0 +1,79 @@
+<div class="absolute top-1 right-1">
+    <button mat-icon-button
+            type="button"
+            (click)="onClose()">
+        <i-feather name="x"
+                   class="align-top">
+        </i-feather>
+    </button>
+</div>
+
+<div class="flex flex-col gap-4">
+
+    <section class="self-center">
+        <p class="tracking-wide font-bold text-gray-800 text-lg">
+            Placement Nr. {{ view.placement.ranking.number }}
+        </p>
+    </section>
+
+    <section class="self-center">
+        <vyf-avatar-img [imageSrc]="view.placement.user.profile.imageSrc"
+                        [username]="view.placement.user.username"
+                        [size]="AvatarImgSize.Xxl">
+        </vyf-avatar-img>
+
+        <p class="text-center">
+            {{ view.placement.user.username }}
+        </p>
+    </section>
+
+    <section class="flex flex-col gap-4 max-w-prose">
+        <div>
+            <h4>
+                Why vote me
+            </h4>
+            <p>
+                {{ view.placement.user.profile.whyVoteMe }}
+            </p>
+        </div>
+
+        <div>
+            <h4>
+                Bio
+            </h4>
+            <p>
+                {{ view.placement.user.profile.bio }}
+            </p>
+        </div>
+    </section>
+
+    <hr class="text-gray-600">
+
+    <section class="flex flex-row justify-between gap-2">
+        <div>
+            <h4>
+                Voted by:
+            </h4>
+            <div *rxLet="votedByUsers$; let users; suspense: suspense;"
+                 class="flex flex-col space-y-2 max-h-60 overflow-y-auto">
+                <ng-container *rxFor="let user of users;">
+                    <vyf-user-list-item [user]="user">
+                    </vyf-user-list-item>
+                </ng-container>
+            </div>
+            <ng-template #suspense>
+                <vyf-skeleton-avatar-list>
+                </vyf-skeleton-avatar-list>
+            </ng-template>
+        </div>
+
+        <div>
+            <h4>
+                Has been voted
+            </h4>
+            <p>
+                User X | User Y | User ABC
+            </p>
+        </div>
+    </section>
+</div>

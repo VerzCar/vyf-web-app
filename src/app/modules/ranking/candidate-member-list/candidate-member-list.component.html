@@ -1,0 +1,20 @@
+<ng-container *rxLet="view$;
+    let view;
+    error: error;
+    suspense: suspense;">
+    <ul class="divide-y-2 divide-gray-300">
+        @for (member of view.members; track candidateMemberTrackingBy($index, member)) {
+            <app-candidate-member-list-item [member]="member"
+                                            [selectedCircle]="view.selectedCircle">
+            </app-candidate-member-list-item>
+        }
+    </ul>
+</ng-container>
+
+<ng-template #suspense>
+    <div class="flex justify-center items-center">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
+<ng-template #error>ERROR!</ng-template>
+

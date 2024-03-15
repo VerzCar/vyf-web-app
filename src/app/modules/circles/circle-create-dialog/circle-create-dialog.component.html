@@ -1,0 +1,143 @@
+<h1 mat-dialog-title>Create Circle</h1>
+<div mat-dialog-content
+     class="dialog-content">
+    <form [formGroup]="form"
+          (submit)="onSubmit()">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
+
+            <div class="col-span-full md:col-span-2 mb-5 md:mb-3">
+                <mat-label>
+                    <label for="name">
+                        Name
+                    </label>
+                </mat-label>
+                <mat-form-field class="w-full"
+                                appearance="outline">
+                    <input matInput
+                           type="text"
+                           id="name"
+                           name="name"
+                           required
+                           [formControl]="form.controls.name"/>
+                    <mat-hint class="tracking-tight leading-tight text-sm">
+                        A Circle represents a point of interest people should be involved to be voted in there.
+                    </mat-hint>
+                    @if (form.controls.name.invalid) {
+                        <mat-error>Invalid name or non name given</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <div class="col-span-full md:col-span-2">
+                <mat-label>
+                    <label for="description">
+                        Description
+                    </label>
+                </mat-label>
+                <mat-form-field class="w-full"
+                                appearance="outline">
+                             <textarea matInput
+                                       [cdkTextareaAutosize]="true"
+                                       [rows]="2"
+                                       [cols]="30"
+                                       id="description"
+                                       [placeholder]="'Give a representative description for what the circle is for.'"
+                                       [formControl]="form.controls.description">
+                            </textarea>
+                </mat-form-field>
+            </div>
+
+            <div class="col-span-full md:col-span-1">
+                <mat-label>
+                    <label for="validFrom">
+                        Valid from
+                    </label>
+                </mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput
+                           id="validFrom"
+                           name="validFrom"
+                           [matDatepicker]="pickerFrom"
+                           [formControl]="form.controls.validFrom"
+                           [min]="minValidFromDate"
+                           [max]="maxValidFromDate">
+                    <mat-datepicker-toggle matIconSuffix
+                                           [for]="pickerFrom">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #pickerFrom></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-span-full md:col-span-1">
+                <mat-label>
+                    <label for="validUntil">
+                        Valid until
+                    </label>
+                </mat-label>
+                <mat-form-field appearance="outline">
+                    <input matInput
+                           id="validUntil"
+                           name="validUntil"
+                           [matDatepicker]="pickerUntil"
+                           [formControl]="form.controls.validUntil"
+                           [min]="minValidUntilDate"
+                           [max]="maxValidUntilDate">
+                    <mat-datepicker-toggle matIconSuffix
+                                           [for]="pickerUntil">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #pickerUntil></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-span-full">
+                <div class="flex items-center">
+                    <i-feather name="lock"
+                               class="align-top text-gray-900">
+                    </i-feather>
+                    <mat-checkbox [formControl]="form.controls.private">
+                        Private
+                    </mat-checkbox>
+                </div>
+            </div>
+
+            <ng-container *rxIf="form.controls.private.value">
+                <hr class="col-span-full md:col-span-2 h-px my-2 bg-gray-200 border-0">
+
+                <div class="col-span-full md:col-span-2">
+                    <label>
+                        <span class="daisy-label-text">Add some candidates for the circle</span>
+                    </label>
+                    <vyf-user-autocomplete-select [fetchOptionsFn]="allUsersFn$"
+                                                  [filteredFetchOptionsFn]="allFilteredUsersFn$"
+                                                  (selectedUsers)="onCandidatesSelected($event)">
+                    </vyf-user-autocomplete-select>
+                </div>
+
+                <div class="col-span-full md:col-span-2">
+                    <label>
+                        <span class="daisy-label-text">Add some voters to the circle</span>
+                    </label>
+                    <vyf-user-autocomplete-select [fetchOptionsFn]="allUsersFn$"
+                                                  [filteredFetchOptionsFn]="allFilteredUsersFn$"
+                                                  (selectedUsers)="onVotersSelected($event)">
+                    </vyf-user-autocomplete-select>
+                </div>
+            </ng-container>
+        </div>
+    </form>
+</div>
+<div mat-dialog-actions
+     [align]="'end'">
+    <div class="flex flex-row gap-2 place-content-end mt-3 md:mt-0">
+        <button mat-stroked-button
+                type="button"
+                (click)="close()">
+            Cancel
+        </button>
+        <vyf-submit-button [isLoading]="isLoading"
+                           [label]="'Create Circle'"
+                           [formIsValid$]="formIsValid$"
+                           (clicked)="onSubmit()">
+        </vyf-submit-button>
+    </div>
+</div>

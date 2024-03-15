@@ -1,0 +1,19 @@
+<a [routerLink]="['/circles', circle.id]"
+   class="w-40 md:w-48">
+    <div class="max-w-xs h-full bg-white border border-gray-200 rounded-lg shadow">
+        <figure class="relative w-full h-40 md:h-48">
+            <img class="object-cover"
+                 ngSrc="{{circle.imageSrc.length ? circle.imageSrc : placeholderImageSrc}}"
+                 alt="{{circle.name}}"
+                 fill="true"/>
+        </figure>
+        <div class="p-3">
+            <h5 class="mb-2 text-xl md:text-2xl text-ellipsis font-bold tracking-tight whitespace-nowrap overflow-hidden text-gray-900">
+                {{circle.name}}
+            </h5>
+            <p class="mb-3 font-normal text-ellipsis whitespace-pre-line max-h-12 overflow-hidden text-gray-700">
+                {{circle.description}}
+            </p>
+        </div>
+    </div>
+</a>

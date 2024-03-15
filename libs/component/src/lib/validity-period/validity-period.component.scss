@@ -1,0 +1,23 @@
+.horizontal {
+    @apply flex-row divide-x;
+
+    .left {
+        @apply pr-2;
+    }
+
+    .right {
+        @apply pl-2;
+    }
+}
+
+.vertical {
+    @apply flex-col divide-y;
+
+    .left {
+        @apply py-2;
+    }
+
+    .right {
+        @apply py-2;
+    }
+}

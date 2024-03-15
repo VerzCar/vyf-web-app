@@ -1,0 +1,90 @@
+{
+  "name": "component",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/component/src",
+  "prefix": "vyf",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/component/ng-package.json",
+        "tailwindConfig": "libs/component/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/component/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/component/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/component/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/component/**/*.ts",
+          "libs/component/**/*.html",
+          "libs/component/package.json"
+        ]
+      }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "libs/component/.storybook",
+        "browserTarget": "component:build-storybook",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/component",
+        "configDir": "libs/component/.storybook",
+        "browserTarget": "component:build-storybook",
+        "compodoc": false,
+        "styles": ["libs/component/src/styles/styles.scss"],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/component/src/styles"]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "component:build-storybook",
+        "staticFilePath": "dist/storybook/component"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "component:build-storybook:ci"
+        }
+      }
+    }
+  }
+}

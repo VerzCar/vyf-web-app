@@ -1,0 +1,74 @@
+<div class="layout-container layout-whitespace">
+    <form [formGroup]="form"
+          (submit)="onSubmit()">
+        <div class="flex flex-col gap-4">
+            <div>
+                <vyf-image-upload [profileImageSrc]="userProfileImageSrc$"
+                                  (fileSelected)="onUserProfileImageSelected($event)">
+                </vyf-image-upload>
+            </div>
+
+            <div>
+                <mat-label>
+                    <label for="whyVoteMe">
+                        Why vote me
+                    </label>
+                </mat-label>
+                <mat-form-field class="w-full"
+                                appearance="outline">
+                <textarea matInput
+                          [cdkTextareaAutosize]="true"
+                          #whyVoteMeRef
+                          rows="2"
+                          cols="30"
+                          id="whyVoteMe"
+                          formControlName="whyVoteMe">
+                    </textarea>
+                    <mat-error *rxIf="form.controls.whyVoteMe.invalid">
+                        You have entered more than allowed, maybe you shorten your introduction.
+                    </mat-error>
+                    <mat-hint [align]="'end'">
+                        {{ whyVoteMeRef.value.length }}/250
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-label>
+                    <label for="bio">
+                        Bio
+                    </label>
+                </mat-label>
+                <mat-form-field class="w-full"
+                                appearance="outline">
+                <textarea matInput
+                          [cdkTextareaAutosize]="true"
+                          #bioRef
+                          rows="2"
+                          cols="30"
+                          id="bio"
+                          formControlName="bio">
+                    </textarea>
+                    <mat-hint [align]="'end'">
+                        {{ bioRef.value.length }}/1500
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="flex flex-row justify-between">
+                <div>
+                    <a mat-flat-button
+                       type="button"
+                       color="accent"
+                       [routerLink]="'/user/profile'">
+                        Close
+                    </a>
+                </div>
+
+                <vyf-submit-button [formIsValid$]="formIsValid$"
+                                   [label]="'Save'">
+                </vyf-submit-button>
+            </div>
+        </div>
+    </form>
+</div>

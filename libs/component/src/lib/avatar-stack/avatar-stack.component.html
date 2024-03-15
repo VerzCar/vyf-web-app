@@ -1,0 +1,16 @@
+<button (click)="onStackClicked($event)"
+        class="hover:shadow hover:ring flex flex-row">
+    <div class="flex -space-x-4">
+        <ng-container *rxFor="let user of users;">
+            <vyf-avatar-img [imageSrc]="user.profile.imageSrc"
+                            [username]="user.username"
+                            [size]="AvatarImgSize.Sm"
+                            [withBorder]="true">
+            </vyf-avatar-img>
+        </ng-container>
+    </div>
+    <div *rxIf="plusCount"
+         class="flex items-center justify-center w-10 h-10 text-base font-medium text-gray-950 border-2 border-white rounded">
+        {{plusCount}}
+    </div>
+</button>

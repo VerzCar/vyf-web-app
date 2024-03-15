@@ -1,0 +1,52 @@
+<li class="py-2.5 border-b-2 border-b-gray-300">
+    <div class="flex flex-row gap-2 md:gap-4"
+         [ngClass]="{'bg-red-50': member.candidate.commitment === Commitment.Rejected}">
+        <a [routerLink]="['/user', member.user.identityId]"
+           class="shrink-0"
+           [ngClass]="{'opacity-25': member.candidate.commitment !== Commitment.Committed}">
+            <vyf-avatar-img [imageSrc]="member.user.profile.imageSrc"
+                            [username]="member.user.username"
+                            class="hover:ring">
+            </vyf-avatar-img>
+        </a>
+
+        <div class="flex flex-col justify-between">
+            <p class="text-gray-900 font-medium text-md max-w-28 md:max-w-44 text-ellipsis overflow-hidden"
+               [ngClass]="{'opacity-25': member.candidate.commitment !== Commitment.Committed}">
+                {{ member.user.username }}
+            </p>
+            @if (member.candidate.commitment !== Commitment.Committed) {
+                <div class="flex flex-row items-center gap-1">
+                    @if (member.candidate.commitment === Commitment.Open) {
+                        <i-feather class="text-blue-700 align-top"
+                                   name="help-circle">
+                        </i-feather>
+                    } @else {
+                        <i-feather class="text-red-700 align-top"
+                                   name="x">
+                        </i-feather>
+                    }
+
+                    <p class="hidden md:block text-gray-900 font-medium text-md max-w-40 text-ellipsis overflow-hidden">
+                        @if (member.candidate.commitment === Commitment.Open) {
+                            Commitment Open
+                        } @else {
+                            Rejected candidacy
+                        }
+                    </p>
+                </div>
+            }
+        </div>
+
+        @if (canVote$(member.candidate.candidate) | async) {
+            <button mat-flat-button
+                    color="accent"
+                    type="button"
+                    [disabled]="member.candidate.commitment !== Commitment.Committed"
+                    (click)="onVote(member.candidate.candidate, selectedCircle.id)"
+                    class="ml-auto self-end">
+                Vote
+            </button>
+        }
+    </div>
+</li>

@@ -1,0 +1,72 @@
+<div class="layout-container layout-whitespace">
+    <h2 class="text-center mb-4">Circles</h2>
+
+    <ng-container *rxLet="view$;
+    let view;
+    error: error;
+    suspense: suspense;">
+        <div class="flex flex-col gap-4">
+            <section class="flex flex-row items-center justify-between">
+                <h3>
+                    Your Circles
+                    <span class="font-light text-base tracking-wider text-gray-600">
+                        ({{ view.circles.length }}/{{ view.maxAllowedCircles }})
+                    </span>
+                </h3>
+
+                <button mat-flat-button
+                        color="accent"
+                        role="button"
+                        type="button"
+                        (click)="onOpenCreateCircle()"
+                        [disabled]="!view.canCreate">
+                    <i-feather name="plus"
+                               class="align-top">
+                    </i-feather>
+                    Create Circle
+                </button>
+            </section>
+
+            <div class="border rounded p-2">
+                <app-circles-carousel [circles]="view.circles"
+                                      (createNewCircle)="onOpenCreateCircle()">
+                </app-circles-carousel>
+            </div>
+
+            <section>
+                <h3>
+                    Circles for You
+                </h3>
+                <div class="border rounded p-2">
+                    <app-circles-interest>
+                    </app-circles-interest>
+                </div>
+            </section>
+
+            <vyf-circle-autocomplete-search [filteredFetchOptionsFn]="allFilteredCirclesFn$"
+                                            (foundCircles)="searchedResult($event)">
+            </vyf-circle-autocomplete-search>
+
+            <div class="border rounded p-2">
+                <div class="flex flex-row flex-wrap gap-4 py-5 px-3">
+                    <ng-container *rxFor="let circle of circleSearchResult">
+                        <div>
+                            <a [routerLink]="['/circles', circle.id]"
+                               class="bg-gray-100 text-gray-950 text-center font-semibold tracking-wide p-3 rounded-2xl min-w-[8rem] hover:shadow">
+                                {{ circle.name }}
+                            </a>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+
+        </div>
+    </ng-container>
+
+    <ng-template #suspense>
+        <div class="flex justify-center items-center">
+            <mat-spinner></mat-spinner>
+        </div>
+    </ng-template>
+    <ng-template #error>ERROR!</ng-template>
+</div>

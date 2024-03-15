@@ -1,0 +1,11 @@
+@for (placement of topThreePlacements; track placementTrackingBy($index, placement); ) {
+    <app-top-ranked [placement]="placement"
+                    [circle]="circle"
+                    [topPlacement]="placement.ranking.number === 1 ? TopThreePlacement.First : placement.ranking.number === 2 ? TopThreePlacement.Second : placement.ranking.number === 3 ? TopThreePlacement.Third : TopThreePlacement.Third"
+                    [ngClass]="{
+                     'order-2': placement.ranking.number === 1,
+                 'order-1': placement.ranking.number === 2,
+                 'order-3': placement.ranking.number === 3}"
+                    (click)="onShowItem(placement, circle)">
+    </app-top-ranked>
+}

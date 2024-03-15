@@ -1,1 +1,72 @@
+@use '@angular/material' as mat;
+@import "theming";
+
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($vyf-web-theme);
+
 /* You can add global styles to this file, and also import other style files */
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: 'Lato', "Helvetica Neue", sans-serif;
+}
+
+.layout-container {
+    @apply max-w-7xl mx-auto px-2;
+}
+
+h2 {
+    @apply text-2xl font-semibold text-gray-900;
+}
+
+h3 {
+    @apply text-xl font-normal text-gray-900 mb-2;
+}
+
+p {
+    @apply text-gray-500;
+}
+
+.layout-whitespace {
+    @apply py-4 md:py-8;
+}
+
+// snackbar styling
+.mat-mdc-snack-bar-container {
+    @apply border-2 border-gray-800 rounded;
+    &.success {
+        --mdc-snackbar-container-color: #f8fafc;
+        --mat-mdc-snack-bar-button-color: #111827;
+        --mdc-snackbar-supporting-text-color: #111827;
+    }
+
+    &.error {
+        --mdc-snackbar-container-color: #f8fafc;
+        --mat-mdc-snack-bar-button-color: #111827;
+        --mdc-snackbar-supporting-text-color: #111827;
+    }
+}
+
+// mat menu items
+.mat-mdc-menu-item {
+    min-height: 36px !important;
+}
+
+// icons
+i-feather {
+    width: 20px !important;
+    height: 20px !important;
+    vertical-align: text-top !important;
+}

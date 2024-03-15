@@ -1,0 +1,29 @@
+<ng-container *rxLet="view$;
+    let view;
+    error: error;
+    suspense: suspense;">
+
+    <div class="flex flex-row flex-wrap gap-4 py-5 px-3">
+
+        <ng-container *rxFor="let circle of view.circles;">
+            <div>
+                <a [routerLink]="['/circles', circle.id]"
+                   class="bg-gray-100 text-gray-950 text-center font-semibold tracking-wide p-3 rounded-2xl min-w-[8rem] hover:shadow">
+                    {{ circle.name }}
+                </a>
+                <p class="backdrop-blur-sm text-gray-950 font-normal text-right">
+                    {{ (circle.votersCount ?? 0) + (circle.candidatesCount ?? 0) | shortNumber }} People
+                </p>
+            </div>
+        </ng-container>
+
+    </div>
+
+</ng-container>
+
+<ng-template #suspense>
+    <div class="flex justify-center items-center">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
+<ng-template #error>ERROR!</ng-template>

@@ -1,0 +1,18 @@
+<div class="flex flex-row items-center justify-start gap-2 w-full">
+    <vyf-avatar-img [imageSrc]="user.profile.imageSrc"
+                    [username]="user.username"
+                    [size]="AvatarImgSize.Xs"
+                    class="shrink-0">
+    </vyf-avatar-img>
+    <p class="max-w-20 md:max-w-xl text-xs text-ellipsis overflow-hidden md:text-base"
+       [ngClass]="{'text-blue-500': highlight}">
+        #{{ user.username }}
+    </p>
+    <ng-content select="[suffix-user-content]">
+    </ng-content>
+    <div class="ml-auto">
+        <ng-content select="[suffix-content]">
+        </ng-content>
+    </div>
+</div>
+

@@ -1,0 +1,44 @@
+{
+  "name": "vote-circle-service",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/vote-circle-service/src",
+  "prefix": "lib",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/vote-circle-service/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/vote-circle-service/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/vote-circle-service/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/vote-circle-service/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/vote-circle-service/**/*.ts",
+          "libs/vote-circle-service/**/*.html",
+          "libs/vote-circle-service/package.json"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+<input type="file" class="hidden"
+       (change)="onFileSelect($event)"
+       #fileUpload>
+
+<ng-container
+        *rxLet="profileImageSrc$; let src; let isLoading = suspense; suspenseTrigger: suspenseTrigger$; nextTrigger: nextTrigger$;">
+    <button class="shadow hover:ring hover:rounded group"
+            (click)="fileUpload.click()"
+            type="button"
+            [disabled]="isLoading">
+        <div class="relative w-28 h-32">
+            <div *rxIf="!isLoading">
+                <img class="object-cover rounded"
+                     [ngSrc]="src"
+                     alt="placeholder image"
+                     fill="true">
+                <div class="absolute bottom-0 right-0 p-1 m-1 flex bg-gray-300 rounded-full group-hover:shadow group-hover:bg-gray-200">
+                    <i-feather class="text-gray-500" name="plus-circle"></i-feather>
+                </div>
+            </div>
+
+            <div *rxIf="isLoading" class="flex justify-center items-center h-full bg-gray-300" role="status">
+                <mat-spinner>
+                </mat-spinner>
+            </div>
+        </div>
+    </button>
+</ng-container>

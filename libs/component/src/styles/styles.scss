@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.user-option {
+    span {
+        width: 100%;
+    }
+
+    &.disabled span {
+        opacity: 1 !important;
+    }
+}

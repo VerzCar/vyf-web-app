@@ -1,0 +1,12 @@
+<div class="inline-flex flex-row gap-4">
+    <a [routerLink]="['/user', user.identityId]">
+        <vyf-avatar-img [imageSrc]="user.profile.imageSrc"
+                        [username]="user.username">
+        </vyf-avatar-img>
+    </a>
+
+    <a [routerLink]="['/user', user.identityId]"
+       class="block hover:text-blue-600 text-gray-900 font-medium">
+        #{{ user.username }}
+    </a>
+</div>

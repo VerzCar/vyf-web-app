@@ -1,0 +1,19 @@
+{
+  "name": "@vyf/component",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "17.0.4",
+    "@angular/core": "17.0.4",
+    "@rx-angular/template": "17.0.0",
+    "@angular/router": "17.0.4",
+    "@vyf/user-service": "*",
+    "@angular/material": "17.0.1",
+    "@vyf/vote-circle-service": "*",
+    "angular-feather": "^6.5.0",
+    "rxjs": "~7.8.0",
+    "@angular/forms": "17.0.4",
+    "@nx/angular": "17.1.3"
+  },
+  "dependencies": {},
+  "sideEffects": false
+}

@@ -1,0 +1,15 @@
+<ng-container *ngIf="!href">
+    <a class="button-link"
+       [ngClass]="componentClass"
+       href="{{href}}">
+        <ng-content></ng-content>
+    </a>
+</ng-container>
+
+<ng-container *ngIf="routerLink">
+    <a class="button-link"
+       [ngClass]="componentClass"
+       [routerLink]="routerLink">
+        <ng-content></ng-content>
+    </a>
+</ng-container>

@@ -1,0 +1,97 @@
+<form>
+    <mat-form-field appearance="outline" class="w-full">
+        <div matPrefix
+             class="px-2">
+            <mat-spinner *rxIf="isLoading; else icon"
+                         diameter="24">
+            </mat-spinner>
+            <ng-template #icon>
+                <i-feather class="text-gray-600"
+                           name="search">
+                </i-feather>
+            </ng-template>
+        </div>
+
+
+        @if (showSelectionInField) {
+            <div aria-label="User selection"
+                 class="flex flex-row flex-wrap items-center gap-2 overflow-hidden mb-1">
+                <ng-container *rxFor="let user of selectedUserOptions$; let index = index;">
+                    <div class="border border-gray-500 rounded pr-1">
+                        <div class="flex flex-row items-center gap-2">
+                            <vyf-avatar-img [imageSrc]="user.profile.imageSrc"
+                                            [username]="user.username"
+                                            [size]="AvatarImgSize.Xs">
+                            </vyf-avatar-img>
+                            <p>#{{ user.username }}</p>
+                            <button (click)="removeSelectedInFieldUser(index)"
+                                    type="button"
+                                    [attr.aria-label]="'remove ' + user">
+                                <i-feather class="text-red-700 align-top"
+                                           name="x-octagon">
+                                </i-feather>
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        }
+
+        <input #userInput
+               matInput
+               id="selectedUser"
+               aria-label="Users"
+               type="search"
+               [placeholder]="placeholder"
+               [matAutocomplete]="auto"
+               [formControl]="control"
+               (keydown.enter)="onInputKeyEnter($event)">
+
+        <mat-autocomplete #auto="matAutocomplete"
+                          (optionSelected)="onOptionSelected($event.option.value)"
+                          [displayWith]="displayFn"
+                          [hideSingleSelectionIndicator]="true">
+            <mat-option *rxFor="let user of filteredUserOptions$"
+                        [value]="user"
+                        [disabled]="user.disabled && !removable"
+                        class="user-option"
+                        [ngClass]="{'disabled': user.disabled}">
+                <p *rxIf="user.noMatch; else: listItem;">
+                    No Results.
+                </p>
+
+                <ng-template #listItem>
+                    <vyf-user-list-item [user]="user"
+                                        [highlight]="user.disabled">
+                        <div *rxIf="user.disabled"
+                             suffix-user-content>
+                            <i-feather class="text-green-700 align-top"
+                                       name="user-check">
+                            </i-feather>
+                        </div>
+
+                        <button *rxIf="removable && user.disabled"
+                                mat-button
+                                suffix-content
+                                color="accent"
+                                type="button"
+                                (click)="removeUser(user)">
+                            <i-feather class="text-red-700 align-top"
+                                       name="x">
+                            </i-feather>
+                        </button>
+
+                        <button *rxIf="addable && !user.disabled"
+                                mat-button
+                                suffix-content
+                                color="accent"
+                                type="button">
+                            Add
+                        </button>
+                    </vyf-user-list-item>
+                </ng-template>
+
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</form>

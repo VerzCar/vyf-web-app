@@ -1,0 +1,9 @@
+<ng-container *rxLet="view$; let view;">
+    <app-circle-detail-edit-form [circle]="view.circle">
+    </app-circle-detail-edit-form>
+
+    <div>
+        <p>Created at: {{ view.circle.createdAt | date }}</p>
+    </div>
+
+</ng-container>

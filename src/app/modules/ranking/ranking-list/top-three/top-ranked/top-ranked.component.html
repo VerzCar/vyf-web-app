@@ -1,0 +1,54 @@
+<div class="flex flex-col items-center"
+     [ngClass]="{'pt-12': topPlacement !== TopThreePlacement.First}">
+
+    <div class="relative rounded-full border border-transparent hover:cursor-pointer hover:shadow hover:border hover:border-gray-300"
+         [ngClass]="{
+                 'w-36 h-36 bg-gray-100 shadow-xl': topPlacement === TopThreePlacement.First,
+                 'w-24 h-24': topPlacement !== TopThreePlacement.First
+                 }">
+        <img *rxIf="placement.user.profile.imageSrc"
+             class="object-cover rounded-full p-1"
+             [ngClass]="{'p-3': topPlacement === TopThreePlacement.First}"
+             ngSrc="{{placement.user.profile.imageSrc}}"
+             alt="{{placement.user.username}}"
+             fill="true">
+        <div *rxIf="!placement.user.profile.imageSrc"
+             class="bg-gray-800 text-gray-200 flex items-center justify-center rounded-full p-1"
+             [ngClass]="{'w-36 h-36': topPlacement === TopThreePlacement.First, 'w-24 h-24': topPlacement !== TopThreePlacement.First}">
+            <span class="text-2xl uppercase">{{placement.user.username | shortName}}</span>
+        </div>
+        <p class="absolute -top-2 right-2 text-lg font-semibold text-gray-900">
+            {{placement.ranking.votes | shortNumber }}
+        </p>
+    </div>
+
+    <p class="font-semibold text-4xl">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500">
+                {{placement.ranking.number}}
+            </span>
+    </p>
+
+    <p class="text-gray-900">
+        {{placement.user.username}}
+    </p>
+
+    <div class="flex flex-col justify-between gap-y-1 ml-4">
+
+    </div>
+
+    <button *rxIf="canVote$"
+            mat-flat-button
+            color="accent"
+            type="button"
+            (click)="onVote(circle.id, placement.ranking.identityId)">
+        vote
+    </button>
+
+    <button *rxIf="canRevokeVote$"
+            mat-stroked-button
+            color="accent"
+            type="button"
+            (click)="onRevokeVote(circle.id, placement.ranking.identityId)">
+        revoke vote
+    </button>
+</div>
