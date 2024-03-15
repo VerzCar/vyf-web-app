@@ -1,12 +1,22 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, InjectionToken } from '@angular/core';
 import { ApiBaseService, ApiResponse } from '@vyf/base';
 import { Observable } from 'rxjs';
 import { User, UserPaginated } from '../models';
+
+export const USER_API_URL = new InjectionToken<string>('User API Url', {
+    providedIn: 'any',
+    factory: () => window.location.origin
+});
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService extends ApiBaseService {
+    private readonly _baseUrl = inject(USER_API_URL);
+
+    protected get baseUrl(): string {
+        return this._baseUrl;
+    }
     protected get endpointPath(): string {
         return 'v1/api/user';
     }

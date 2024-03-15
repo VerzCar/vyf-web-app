@@ -19,8 +19,9 @@ export abstract class ApiBaseService {
     });
 
     protected readonly httpClient = inject(HttpClient);
-    private readonly _baseUrl = inject(BASE_API_URL);
+    //private readonly _baseUrl = inject(BASE_API_URL);
 
+    protected abstract get baseUrl(): string;
     protected abstract get endpointPath(): string;
 
     protected get<T>(
@@ -120,7 +121,7 @@ export abstract class ApiBaseService {
     }
 
     private get url(): string {
-        return `${this._baseUrl}/${this.endpointPath}`;
+        return `${this.baseUrl}/${this.endpointPath}`;
     }
 
     private adaptApiGetOptions(url: string, opts?: ApiGetOpts): string {

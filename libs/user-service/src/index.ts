@@ -4,4 +4,4 @@ export * from './lib/user-service.module';
 export * from './lib/models';
 
 // services
-export { UserService } from './lib/services/user.service';
+export { UserService, USER_API_URL } from './lib/services/user.service';

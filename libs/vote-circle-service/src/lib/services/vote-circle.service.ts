@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable, InjectionToken } from '@angular/core';
 import { ApiBaseService, ApiResponse } from '@vyf/base';
 import { Observable } from 'rxjs';
 
@@ -9,10 +9,21 @@ import { CircleCandidateCommitmentRequest } from '../models/circle-candidate-com
 import { CircleCandidatesFilter } from '../models/circle-candidates-filter.model';
 import { UserOption } from '../models/user-option.model';
 
+export const VOTE_CIRCLE_API_URL = new InjectionToken<string>('Vote circle API Url', {
+    providedIn: 'any',
+    factory: () => window.location.origin
+});
+
 @Injectable({
     providedIn: 'root'
 })
 export class VoteCircleService extends ApiBaseService {
+    private readonly _baseUrl = inject(VOTE_CIRCLE_API_URL);
+
+    protected get baseUrl(): string {
+        return this._baseUrl;
+    }
+
     protected get endpointPath(): string {
         return 'v1/api/vote-circle';
     }

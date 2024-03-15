@@ -4,4 +4,4 @@ export * from './lib/vote-circle-service.module';
 export * from './lib/models';
 
 // services
-export { VoteCircleService } from './lib/services/vote-circle.service';
+export { VoteCircleService, VOTE_CIRCLE_API_URL } from './lib/services/vote-circle.service';
