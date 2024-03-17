@@ -9,6 +9,11 @@ export const AUTH_JWT_TOKEN_FACTORY = new InjectionToken<Observable<string>>('JW
     factory: () => of('')
 });
 
+export const ABLY_TOKEN_URL_FACTORY = new InjectionToken<string>('Ably Token url factory', {
+    providedIn: 'any',
+    factory: () => window.location.origin
+});
+
 export type AblyMessage = Types.Message;
 
 @Injectable({
@@ -19,9 +24,10 @@ export class AblyService implements OnDestroy {
     private readonly _client: Ably.Types.RealtimePromise;
 
     private readonly _authJwtTokenReqFactory = inject(AUTH_JWT_TOKEN_FACTORY);
+    private readonly _ablyTokenUrl = inject(ABLY_TOKEN_URL_FACTORY);
 
     private readonly defaultClientOptions: Types.ClientOptions = {
-        authUrl: 'v1/api/vote-circle/token/ably',
+        authUrl: this._ablyTokenUrl,
         authMethod: 'GET',
         autoConnect: false
     };
@@ -77,8 +83,7 @@ export class AblyService implements OnDestroy {
         return from(this._client.auth.authorize(undefined, {
             ...this.defaultClientOptions,
             authHeaders: {
-                'Authorization': `Bearer ${token}`,
-                'Origin': location.origin
+                'Authorization': `Bearer ${token}`
             }
         }));
     }

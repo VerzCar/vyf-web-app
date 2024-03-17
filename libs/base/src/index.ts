@@ -8,7 +8,7 @@ export * from './lib/helper';
 
 // token
 export { BASE_API_URL } from './lib/services/api-base.service';
-export { AUTH_JWT_TOKEN_FACTORY } from './lib/services/ably.service';
+export { AUTH_JWT_TOKEN_FACTORY, ABLY_TOKEN_URL_FACTORY } from './lib/services/ably.service';
 export { ERROR_ACTIONS, ERROR_ACTION_EXECUTOR } from './lib/services/action-notification.service';
 
 // services

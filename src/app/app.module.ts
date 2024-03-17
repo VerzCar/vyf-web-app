@@ -12,7 +12,7 @@ import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxsModule } from '@ngxs/store';
-import { ActionNotificationModule, AUTH_JWT_TOKEN_FACTORY, ERROR_ACTION_EXECUTOR, SnackbarService } from '@vyf/base';
+import { ABLY_TOKEN_URL_FACTORY, ActionNotificationModule, AUTH_JWT_TOKEN_FACTORY, ERROR_ACTION_EXECUTOR, SnackbarService } from '@vyf/base';
 import { USER_API_URL } from '@vyf/user-service';
 import { VOTE_CIRCLE_API_URL } from '@vyf/vote-circle-service';
 import { Amplify } from 'aws-amplify';
@@ -99,6 +99,10 @@ const globalRippleConfig: RippleGlobalOptions = {
         {
             provide: VOTE_CIRCLE_API_URL,
             useValue: 'https://vyf-vote-circle-309d72dfd728.herokuapp.com'
+        },
+        {
+            provide: ABLY_TOKEN_URL_FACTORY,
+            useValue: 'https://vyf-vote-circle-309d72dfd728.herokuapp.com/v1/api/vote-circle/token/ably'
         },
         {
             provide: MAT_RIPPLE_GLOBAL_OPTIONS,
