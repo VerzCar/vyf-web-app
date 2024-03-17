@@ -77,7 +77,8 @@ export class AblyService implements OnDestroy {
         return from(this._client.auth.authorize(undefined, {
             ...this.defaultClientOptions,
             authHeaders: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Origin': location.origin
             }
         }));
     }
