@@ -26,6 +26,7 @@ import { authJwtTokenFactory } from './core/factory/auth-jw-token.factory';
 import { langCodeFactory, timezoneFactory } from './core/factory/lang-code.factory';
 import { AwsCognitoService } from './core/services/aws-cognito.service';
 import { CirclesErrorTrackedActions } from './modules/circles/state/actions/circles.action';
+import { LayoutModule } from './modules/layout/layout.module';
 import { RankingErrorTrackedActions } from './modules/ranking/state/actions/ranking.action';
 import { UserErrorTrackedActions } from './modules/user/state/actions/user.action';
 import { InfoErrorTrackedActions } from './shared/state/actions/info.action';
@@ -76,6 +77,7 @@ const globalRippleConfig: RippleGlobalOptions = {
             }
         ),
         AppRoutingModule,
+        LayoutModule,
         MatNativeDateModule
     ],
     providers: [
