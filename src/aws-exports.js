@@ -4,19 +4,17 @@
 const awsmobile = {
     "aws_project_region": "eu-central-1",
     "aws_cognito_region": "eu-central-1",
-    "aws_user_pools_id": "eu-central-1_edqU5YuCK",
-    "aws_user_pools_web_client_id": "60pudhrn5qhmuc464jir2dss9t",
+    "aws_user_pools_id": "eu-central-1_pX1mKgETU",
+    "aws_user_pools_web_client_id": "73ot9gku0nb41smmecdm7jbn73",
     "oauth": {
-        "domain": "vyf-user.auth.eu-central-1.amazoncognito.com"
+        "domain": "vyf-user-idp.auth.eu-central-1.amazoncognito.com"
     },
     "aws_cognito_username_attributes": [],
     "aws_cognito_social_providers": [],
-    "aws_cognito_signup_attributes": [
-        "PREFERRED_USERNAME",
-        "EMAIL"
-    ],
+    "aws_cognito_signup_attributes": [],
     "aws_cognito_mfa_configuration": "OPTIONAL",
     "aws_cognito_mfa_types": [
+        "SMS",
         "TOTP"
     ],
     "aws_cognito_password_protection_settings": {

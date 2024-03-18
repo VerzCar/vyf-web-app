@@ -13,11 +13,11 @@
     },
     "categories": {
       "auth": {
-        "vyfwebapp69eb1ef6": {
-          "userPoolId": "eu-central-1_edqU5YuCK",
+        "vyfwebappf555c93a": {
+          "userPoolId": "eu-central-1_pX1mKgETU",
           "userPoolName": "vyf-user-pool",
-          "webClientId": "60pudhrn5qhmuc464jir2dss9t",
-          "nativeClientId": "60pudhrn5qhmuc464jir2dss9t"
+          "webClientId": "73ot9gku0nb41smmecdm7jbn73",
+          "nativeClientId": "73ot9gku0nb41smmecdm7jbn73"
         }
       }
     }

@@ -13,26 +13,24 @@
     }
   },
   "auth": {
-    "vyfwebapp69eb1ef6": {
+    "vyfwebappf555c93a": {
       "service": "Cognito",
       "serviceType": "imported",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false,
       "output": {
-        "UserPoolId": "eu-central-1_edqU5YuCK",
+        "UserPoolId": "eu-central-1_pX1mKgETU",
         "UserPoolName": "vyf-user-pool",
-        "AppClientID": "60pudhrn5qhmuc464jir2dss9t",
-        "AppClientIDWeb": "60pudhrn5qhmuc464jir2dss9t",
-        "HostedUIDomain": "vyf-user"
+        "AppClientID": "73ot9gku0nb41smmecdm7jbn73",
+        "AppClientIDWeb": "73ot9gku0nb41smmecdm7jbn73",
+        "HostedUIDomain": "vyf-user-idp",
+        "CreatedSNSRole": "arn:aws:iam::451034840874:role/service-role/cognito-iam-sms-role"
       },
       "frontendAuthConfig": {
         "socialProviders": [],
         "usernameAttributes": [],
-        "signupAttributes": [
-          "PREFERRED_USERNAME",
-          "EMAIL"
-        ],
+        "signupAttributes": [],
         "passwordProtectionSettings": {
           "passwordPolicyMinLength": 8,
           "passwordPolicyCharacters": [
@@ -44,13 +42,14 @@
         },
         "mfaConfiguration": "OPTIONAL",
         "mfaTypes": [
+          "SMS",
           "TOTP"
         ],
         "verificationMechanisms": [
           "EMAIL"
         ]
       },
-      "lastPushTimeStamp": "2023-09-27T12:05:31.989Z"
+      "lastPushTimeStamp": "2024-03-18T09:36:32.083Z"
     }
   }
 }

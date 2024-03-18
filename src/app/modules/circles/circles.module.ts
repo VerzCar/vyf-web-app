@@ -37,19 +37,19 @@ import { OverviewResolver } from './services/resolver/overview.resolver';
 import { CirclesState } from './state/circles.state';
 
 @NgModule({
-  declarations: [
-    CirclesOverviewComponent,
-    CircleDetailComponent,
-    CircleNotEligibleComponent,
-    CircleCardComponent,
-    CirclesCarouselComponent,
-    CirclesInterestComponent,
-    CircleDetailActionBarComponent,
-    CircleDetailActionItemJoinComponent,
-    CircleDetailActionItemCommitmentComponent,
-    CircleDetailActionItemLeaveVoterComponent,
-    CircleDetailMembersComponent,
-  ],
+    declarations: [
+        CirclesOverviewComponent,
+        CircleDetailComponent,
+        CircleNotEligibleComponent,
+        CircleCardComponent,
+        CirclesCarouselComponent,
+        CirclesInterestComponent,
+        CircleDetailActionBarComponent,
+        CircleDetailActionItemJoinComponent,
+        CircleDetailActionItemCommitmentComponent,
+        CircleDetailActionItemLeaveVoterComponent,
+        CircleDetailMembersComponent
+    ],
     imports: [
         CommonModule,
         NgxsModule.forFeature([UserState, CirclesState, MemberState, InfoState]),
@@ -81,6 +81,6 @@ import { CirclesState } from './state/circles.state';
         ValidityPeriodComponent,
         CircleStagePipe
     ],
-  providers: [DetailsResolver, OverviewResolver],
+    providers: [DetailsResolver, OverviewResolver]
 })
 export class CirclesModule {}
