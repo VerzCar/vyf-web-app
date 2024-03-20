@@ -1,6 +1,4 @@
 import { Routes } from '@angular/router';
-import { LayoutComponent } from './modules/layout/layout/layout.component';
-import { Vyf404Component } from './shared/components/vyf-404/vyf-404.component';
 import { Route } from './routes';
 
 export const appRoutes: Routes = [
@@ -18,12 +16,6 @@ export const appRoutes: Routes = [
     },
     {
         path: '**',
-        component: LayoutComponent,
-        children: [
-            {
-                path: '',
-                component: Vyf404Component
-            }
-        ]
+        loadChildren: () => import('./modules/four-zero-four/four-zero-four.module').then(m => m.FourZeroFourModule)
     }
 ];

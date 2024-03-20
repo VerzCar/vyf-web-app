@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -28,7 +28,6 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         ToolbarCircleInvitationsComponent
     ],
     imports: [
-        CommonModule,
         NgxsModule.forFeature([UserState]),
         TranslateModule.forChild({
             loader: {
@@ -48,7 +47,10 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         RxPush,
         MatButtonModule,
         FeatherIconModule,
-        MatBadgeModule
+        MatBadgeModule,
+        NgClass,
+        TitleCasePipe,
+        DatePipe
     ]
 })
 export class LayoutModule {}

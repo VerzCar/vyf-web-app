@@ -1,4 +1,4 @@
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { AsyncPipe, NgClass, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,6 +14,7 @@ import { AvatarImgComponent, AvatarStackComponent, BadgeComponent, CircleAutocom
 import { InfoState } from '../../shared/state/info.state';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
+import { LayoutModule } from '../layout/layout.module';
 import { UserState } from '../user/state/user.state';
 import { CandidateMemberListDialogComponent } from './candidate-member-list-dialog/candidate-member-list-dialog.component';
 import { CandidateMemberListItemComponent } from './candidate-member-list/candidate-member-list-item/candidate-member-list-item.component';
@@ -46,7 +47,7 @@ import { RankingState } from './state/ranking.state';
         ValidPeriodComponent
     ],
     imports: [
-        CommonModule,
+        LayoutModule,
         NgxsModule.forFeature([UserState, RankingState, MemberState, InfoState]),
         RankingRoutingModule,
         FeatherIconModule,
@@ -75,7 +76,9 @@ import { RankingState } from './state/ranking.state';
         RxPush,
         BadgeComponent,
         CircleStagePipe,
-        ValidityPeriodComponent
+        ValidityPeriodComponent,
+        NgClass,
+        AsyncPipe
     ],
     providers: [ListResolver]
 })

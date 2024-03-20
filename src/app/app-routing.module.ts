@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { appRoutes } from './app.routes';
 
 @NgModule({
-    imports: [RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' })],
+    imports: [RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledNonBlocking' })],
     exports: [RouterModule]
 })
 export class AppRoutingModule {

@@ -4,7 +4,7 @@ import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import localeItExtra from '@angular/common/locales/extra/it';
 import localeIt from '@angular/common/locales/it';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { MAT_RIPPLE_GLOBAL_OPTIONS, MatNativeDateModule, RippleGlobalOptions } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,10 +23,11 @@ import { AppComponent } from './app.component';
 import { AuthInterceptor } from './core/auth/auth-interceptor.interceptor';
 import { actionErroredFactory } from './core/factory/action-errored.factory';
 import { authJwtTokenFactory } from './core/factory/auth-jw-token.factory';
+import { ablyTokenEndpointUrlFactory, userBaseApiUrlFactory, voteCircleBaseApiUrlFactory } from './core/factory/base-url.factory';
+import { initializeAppFactory } from './core/factory/init-app.factory';
 import { langCodeFactory, timezoneFactory } from './core/factory/lang-code.factory';
 import { AwsCognitoService } from './core/services/aws-cognito.service';
 import { CirclesErrorTrackedActions } from './modules/circles/state/actions/circles.action';
-import { LayoutModule } from './modules/layout/layout.module';
 import { RankingErrorTrackedActions } from './modules/ranking/state/actions/ranking.action';
 import { UserErrorTrackedActions } from './modules/user/state/actions/user.action';
 import { InfoErrorTrackedActions } from './shared/state/actions/info.action';
@@ -77,7 +78,6 @@ const globalRippleConfig: RippleGlobalOptions = {
             }
         ),
         AppRoutingModule,
-        LayoutModule,
         MatNativeDateModule
     ],
     providers: [
@@ -87,21 +87,27 @@ const globalRippleConfig: RippleGlobalOptions = {
             useClass: AuthInterceptor,
             multi: true
         },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeAppFactory,
+            multi: true,
+            deps: [AwsCognitoService]
+        },
         // {
         //     provide: BASE_API_URL,
         //     useValue: ''
         // },
         {
             provide: USER_API_URL,
-            useValue: 'https://vyf-user-service-4fe07f1427d1.herokuapp.com'
+            useFactory: userBaseApiUrlFactory
         },
         {
             provide: VOTE_CIRCLE_API_URL,
-            useValue: 'https://vyf-vote-circle-309d72dfd728.herokuapp.com'
+            useFactory: voteCircleBaseApiUrlFactory
         },
         {
             provide: ABLY_TOKEN_URL_FACTORY,
-            useValue: 'https://vyf-vote-circle-309d72dfd728.herokuapp.com/v1/api/vote-circle/token/ably'
+            useFactory: ablyTokenEndpointUrlFactory
         },
         {
             provide: MAT_RIPPLE_GLOBAL_OPTIONS,
