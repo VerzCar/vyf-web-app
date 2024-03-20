@@ -1,4 +1,4 @@
-import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
+import { DatePipe, NgClass, NgForOf, TitleCasePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -11,8 +11,9 @@ import { NgxsModule } from '@ngxs/store';
 import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { AvatarImgComponent } from '@vyf/component';
+import { InfoState } from '../../shared/state/info.state';
+import { UserState } from '../../shared/state/user.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
-import { UserState } from '../user/state/user.state';
 import { FooterComponent } from './footer/footer.component';
 import { LayoutComponent } from './layout/layout.component';
 import { ToolbarCircleInvitationsComponent } from './toolbar/toolbar-circle-invitations/toolbar-circle-invitations.component';
@@ -28,7 +29,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         ToolbarCircleInvitationsComponent
     ],
     imports: [
-        NgxsModule.forFeature([UserState]),
+        NgxsModule.forFeature([UserState, InfoState]),
         TranslateModule.forChild({
             loader: {
                 provide: TranslateLoader,
@@ -50,7 +51,8 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
         MatBadgeModule,
         NgClass,
         TitleCasePipe,
-        DatePipe
+        DatePipe,
+        NgForOf
     ]
 })
 export class LayoutModule {}

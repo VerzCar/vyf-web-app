@@ -1,7 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { Action, NgxsOnInit, State, StateContext } from '@ngxs/store';
+import { Action, NgxsAfterBootstrap, State, StateContext } from '@ngxs/store';
 import { UserService } from '@vyf/user-service';
 import { firstValueFrom, map, tap } from 'rxjs';
+import { UserStorageService } from '../../core/services/user-storage.service';
 import { UserStateModel } from '../models/user-state.model';
 import { UserAction } from './actions/user.action';
 
@@ -9,13 +10,13 @@ import { UserAction } from './actions/user.action';
     name: 'user'
 })
 @Injectable()
-export class UserState implements NgxsOnInit {
+export class UserState implements NgxsAfterBootstrap {
     private readonly userService = inject(UserService);
+    private readonly userStorageService = inject(UserStorageService);
 
-    @Action(UserAction.FetchUser)
-    private async fetchUser(ctx: StateContext<UserStateModel>) {
-        const res = await firstValueFrom(this.userService.me());
-        const user = res.data;
+    @Action(UserAction.InitUser)
+    private async initUser(ctx: StateContext<UserStateModel>, action: UserAction.InitUser) {
+        const user = await this.userStorageService.initUser();
         return ctx.patchState({ user });
     }
 
@@ -51,7 +52,7 @@ export class UserState implements NgxsOnInit {
         );
     }
 
-    public async ngxsOnInit(ctx: StateContext<UserStateModel>) {
-        return await firstValueFrom(ctx.dispatch(new UserAction.FetchUser()));
+    public async ngxsAfterBootstrap(ctx: StateContext<UserStateModel>) {
+        await firstValueFrom(ctx.dispatch(new UserAction.InitUser()));
     }
 }

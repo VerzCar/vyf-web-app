@@ -7,7 +7,7 @@ import { User, UserService } from '@vyf/user-service';
 import { CandidateRequest, Circle, CircleCandidateCommitmentRequest, CirclePaginated, UserOption, VoteCircleService, VoterRequest } from '@vyf/vote-circle-service';
 import { firstValueFrom, map, Observable, of, tap } from 'rxjs';
 import { InfoAction } from '../../../shared/state/actions/info.action';
-import { UserSelectors } from '../../user/state/user.selectors';
+import { UserSelectors } from '../../../shared/state/user.selectors';
 import { CirclesStateModel } from '../models';
 import { CirclesAction } from './actions/circles.action';
 

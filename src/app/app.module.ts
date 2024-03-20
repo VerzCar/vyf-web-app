@@ -27,11 +27,12 @@ import { ablyTokenEndpointUrlFactory, userBaseApiUrlFactory, voteCircleBaseApiUr
 import { initializeAppFactory } from './core/factory/init-app.factory';
 import { langCodeFactory, timezoneFactory } from './core/factory/lang-code.factory';
 import { AwsCognitoService } from './core/services/aws-cognito.service';
+import { UserStorageService } from './core/services/user-storage.service';
 import { CirclesErrorTrackedActions } from './modules/circles/state/actions/circles.action';
 import { RankingErrorTrackedActions } from './modules/ranking/state/actions/ranking.action';
-import { UserErrorTrackedActions } from './modules/user/state/actions/user.action';
 import { InfoErrorTrackedActions } from './shared/state/actions/info.action';
 import { MemberCircleErrorTrackedActions, MemberErrorTrackedActions, MemberRankingErrorTrackedActions } from './shared/state/actions/member.action';
+import { UserErrorTrackedActions } from './shared/state/actions/user.action';
 
 registerLocaleData(localeDe, 'de', localeDeExtra);
 registerLocaleData(localeIt, 'it', localeItExtra);
@@ -52,7 +53,6 @@ const globalRippleConfig: RippleGlobalOptions = {
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
-        AmplifyAuthenticatorModule,
         NgxsModule.forRoot([], {
             developmentMode: !environment.production
         }),
@@ -77,10 +77,12 @@ const globalRippleConfig: RippleGlobalOptions = {
                 extend: true
             }
         ),
+        AmplifyAuthenticatorModule,
         AppRoutingModule,
         MatNativeDateModule
     ],
     providers: [
+        UserStorageService,
         AwsCognitoService,
         {
             provide: HTTP_INTERCEPTORS,
@@ -91,7 +93,7 @@ const globalRippleConfig: RippleGlobalOptions = {
             provide: APP_INITIALIZER,
             useFactory: initializeAppFactory,
             multi: true,
-            deps: [AwsCognitoService]
+            deps: [AwsCognitoService, UserStorageService]
         },
         // {
         //     provide: BASE_API_URL,

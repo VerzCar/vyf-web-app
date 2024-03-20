@@ -2,7 +2,8 @@
     <vyf-avatar-img [imageSrc]="view.user.profile.imageSrc"
                     [username]="view.user.username"
                     [size]="AvatarImgSize.Xs"
-                    [matMenuTriggerFor]="menu">
+                    [matMenuTriggerFor]="menu"
+                    class="cursor-pointer hover:shadow">
     </vyf-avatar-img>
 
     <mat-menu #menu="matMenu">

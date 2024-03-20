@@ -4,15 +4,15 @@ import { Route } from './routes';
 export const appRoutes: Routes = [
     {
         path: Route.user,
-        loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
+        loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule),
     },
     {
         path: Route.circles,
-        loadChildren: () => import('./modules/circles/circles.module').then(m => m.CirclesModule)
+        loadChildren: () => import('./modules/circles/circles.module').then(m => m.CirclesModule),
     },
     {
         path: Route.ranking,
-        loadChildren: () => import('./modules/ranking/ranking.module').then(m => m.RankingModule)
+        loadChildren: () => import('./modules/ranking/ranking.module').then(m => m.RankingModule),
     },
     {
         path: '**',

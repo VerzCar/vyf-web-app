@@ -1,11 +1,14 @@
-import { tap } from 'rxjs';
+import { catchError, from, of, switchMap } from 'rxjs';
 import { AwsCognitoService } from '../services/aws-cognito.service';
+import { UserStorageService } from '../services/user-storage.service';
 
-export const initializeAppFactory = (awsService: AwsCognitoService) => {
+export const initializeAppFactory = (awsService: AwsCognitoService, userStorageService: UserStorageService) => {
     return () => awsService.getCurrentSession$().pipe(
-        tap({
-            next: session => console.log('logged in', session),
-            error: err => console.log('not signed in', err)
+        switchMap(() => {
+            return from(userStorageService.initUser());
+        }),
+        catchError(err => {
+            return of();
         })
     );
 };

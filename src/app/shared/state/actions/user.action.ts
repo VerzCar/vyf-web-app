@@ -4,8 +4,8 @@ const domainName = 'User';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace UserAction {
-    export class FetchUser {
-        public static readonly type = `[${domainName}] Fetch User`;
+    export class InitUser {
+        public static readonly type = `[${domainName}] Init User`;
     }
 
     export class UpdateProfileImage {
@@ -26,7 +26,7 @@ export namespace UserAction {
 }
 
 export const UserErrorTrackedActions = [
-    UserAction.FetchUser,
+    UserAction.InitUser,
     UserAction.UpdateProfileImage,
     UserAction.UpdateUser
 ];

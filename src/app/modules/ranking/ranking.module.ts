@@ -15,7 +15,7 @@ import { InfoState } from '../../shared/state/info.state';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
 import { LayoutModule } from '../layout/layout.module';
-import { UserState } from '../user/state/user.state';
+import { UserState } from '../../shared/state/user.state';
 import { CandidateMemberListDialogComponent } from './candidate-member-list-dialog/candidate-member-list-dialog.component';
 import { CandidateMemberListItemComponent } from './candidate-member-list/candidate-member-list-item/candidate-member-list-item.component';
 import { CandidateMemberListComponent } from './candidate-member-list/candidate-member-list.component';
