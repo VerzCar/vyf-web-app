@@ -18,6 +18,7 @@ export interface SnackbarErrorComponentData {
         JsonPipe
     ],
     template: `
+        <div class="flex">
         <span matSnackBarLabel>
           <i-feather name="alert-circle" class="align-top text-red-500 mr-1"></i-feather>
             {{ data.message }}
@@ -31,9 +32,7 @@ export interface SnackbarErrorComponentData {
                 </span>
             }
        </span>
-    `,
-    styles: `
-        :host {@apply flex;}
+        </div>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

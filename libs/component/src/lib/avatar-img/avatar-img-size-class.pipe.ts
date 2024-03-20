@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AvatarImgSize } from '@vyf/component';
+import { AvatarImgSize } from './avatar-img.component';
 
 @Pipe({
   name: 'avatarImgSizeClass',

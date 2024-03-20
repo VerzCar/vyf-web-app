@@ -90,7 +90,8 @@
           "style-dictionary/lib/utils/flattenProperties",
           "style-dictionary/lib/utils/references/usesReference",
           "classnames",
-          "qrcode"
+          "qrcode",
+          "ably"
         ]
       },
       "configurations": {
