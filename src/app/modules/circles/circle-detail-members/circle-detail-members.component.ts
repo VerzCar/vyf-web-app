@@ -14,6 +14,7 @@ import { CirclesSelectors } from '../state/circles.selectors';
 interface CircleDetailMembersComponentView {
     previewUsers: User[];
     membersCount: number;
+    canEditCircle: boolean;
 }
 
 @Component({
@@ -37,10 +38,12 @@ export class CircleDetailMembersComponent {
             switchMap(circle => this.store.dispatch(new MemberAction.Circle.InitMembers(circle!.id))),
             switchMap(() => combineLatest([
                 this.store.select(MemberSelectors.Member.slices.circleVoterMembers),
-                this.store.select(MemberSelectors.Member.slices.circleCandidateMembers)
+                this.store.select(MemberSelectors.Member.slices.circleCandidateMembers),
+                this.store.select(CirclesSelectors.canEditCircle)
             ])),
-            map(([voterMembers, candidateMembers]) => ({
-                ...this.mapMembersToPreview(voterMembers, candidateMembers)
+            map(([voterMembers, candidateMembers, canEditCircle]) => ({
+                ...this.mapMembersToPreview(voterMembers, candidateMembers),
+                canEditCircle
             }))
         );
     }
