@@ -1,6 +1,6 @@
 {
   "auth": {
-    "vyfwebappf555c93a": {
+    "vyfwebappe6da86b0": {
       "customAuth": false,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
@@ -9,35 +9,35 @@
     }
   },
   "parameters": {
-    "AMPLIFY_auth_vyfwebappf555c93a_nativeClientId": {
+    "AMPLIFY_auth_vyfwebappe6da86b0_nativeClientId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "vyfwebappf555c93a"
+          "resourceName": "vyfwebappe6da86b0"
         }
       ]
     },
-    "AMPLIFY_auth_vyfwebappf555c93a_userPoolId": {
+    "AMPLIFY_auth_vyfwebappe6da86b0_userPoolId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "vyfwebappf555c93a"
+          "resourceName": "vyfwebappe6da86b0"
         }
       ]
     },
-    "AMPLIFY_auth_vyfwebappf555c93a_userPoolName": {
+    "AMPLIFY_auth_vyfwebappe6da86b0_userPoolName": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "vyfwebappf555c93a"
+          "resourceName": "vyfwebappe6da86b0"
         }
       ]
     },
-    "AMPLIFY_auth_vyfwebappf555c93a_webClientId": {
+    "AMPLIFY_auth_vyfwebappe6da86b0_webClientId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "vyfwebappf555c93a"
+          "resourceName": "vyfwebappe6da86b0"
         }
       ]
     }
