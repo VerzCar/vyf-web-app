@@ -48,7 +48,7 @@
                         Why vote me
                     </h3>
                     <p>
-                        {{view.user.profile.whyVoteMe}}
+                        {{ view.user.profile.whyVoteMe }}
                     </p>
                 </div>
 
@@ -57,7 +57,43 @@
                         Bio
                     </h3>
                     <p>
-                        {{view.user.profile.bio}}
+                        {{ view.user.profile.bio }}
+                    </p>
+                </div>
+
+                <div>
+                    <h5>
+                        Joined on
+                    </h5>
+                    <p>
+                        {{ view.user.createdAt | date:'shortDate' }}
+                    </p>
+                </div>
+
+                <div>
+                    <h5>
+                        First name
+                    </h5>
+                    <p>
+                        {{ view.user.firstName }}
+                    </p>
+                </div>
+
+                <div>
+                    <h5>
+                        Last name
+                    </h5>
+                    <p>
+                        {{ view.user.lastName }}
+                    </p>
+                </div>
+
+                <div>
+                    <h5>
+                        Address
+                    </h5>
+                    <p>
+                        {{ view.user.address?.address }}
                     </p>
                 </div>
             </section>

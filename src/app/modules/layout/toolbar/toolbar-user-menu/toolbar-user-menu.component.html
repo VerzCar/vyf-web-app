@@ -8,7 +8,7 @@
 
     <mat-menu #menu="matMenu">
         <ng-template matMenuContent>
-            <p class="text-base font-medium px-2">
+            <p class="text-base font-medium px-2 py-1">
                 # {{ view.user.username }}
             </p>
             <hr>
@@ -17,19 +17,26 @@
                class="min-h-[20px]">
                 My Profile
             </a>
-            <label mat-menu-item>
+            <button mat-menu-item
+                    [matMenuTriggerFor]="languages">
                 {{ 'LANGUAGE' | translate }}
-                <select #langSelect (change)="translate.use(langSelect.value)">
-                    <option *ngFor="let lang of translate.getLangs()" [value]="lang"
-                            [selected]="lang === translate.currentLang">{{ lang }}
-                    </option>
-                </select>
-            </label>
+                <!--                <select #langSelect (change)="translate.use(langSelect.value)">-->
+                <!--                    <option *ngFor="let lang of translate.getLangs()" [value]="lang"-->
+                <!--                            [selected]="lang === translate.currentLang">{{ lang }}-->
+                <!--                    </option>-->
+                <!--                </select>-->
+            </button>
             <hr>
             <button mat-menu-item
                     (click)="signOut()">
                 Sign out
             </button>
+
+            <mat-menu #languages="matMenu">
+                <button mat-menu-item>English</button>
+                <button mat-menu-item>Deutsch</button>
+                <button mat-menu-item>Italiano</button>
+            </mat-menu>
         </ng-template>
     </mat-menu>
 </ng-container>

@@ -1,4 +1,4 @@
-import { NgOptimizedImage } from '@angular/common';
+import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -65,7 +65,8 @@ import { UserXComponent } from './user-x/user-x.component';
         SubmitButtonComponent,
         UserAutocompleteSelectComponent,
         UserAutocompleteSearchComponent,
-        UserListItemComponent
+        UserListItemComponent,
+        DatePipe
     ]
 })
 export class UserModule {}
