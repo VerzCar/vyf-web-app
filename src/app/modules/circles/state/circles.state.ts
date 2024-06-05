@@ -83,7 +83,7 @@ export class CirclesState implements NgxsOnInit {
         ctx: StateContext<CirclesStateModel>,
         action: CirclesAction.UpdateCircle
     ): Observable<Circle> {
-        return this.voteCircleService.updateCircle(action.circle).pipe(
+        return this.voteCircleService.updateCircle(action.circleId, action.circle).pipe(
             map(res => res.data),
             tap(circle => ctx.patchState({ selectedCircle: circle })),
             tap((circle) => ctx.setState(

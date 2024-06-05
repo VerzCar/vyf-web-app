@@ -56,7 +56,7 @@ export namespace CirclesAction {
         public static readonly type = `[${domainName}] Update Circle`;
 
         // eslint-disable-next-line no-useless-constructor
-        constructor(public circle: CircleUpdateRequest) {
+        constructor(public circleId: number, public circle: CircleUpdateRequest) {
         }
     }
 

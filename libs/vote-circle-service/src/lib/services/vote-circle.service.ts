@@ -52,8 +52,8 @@ export class VoteCircleService extends ApiBaseService {
         return this.create(circle, 'circle');
     }
 
-    public updateCircle(circle: Partial<CircleUpdateRequest>): Observable<ApiResponse<Circle>> {
-        return this.update(circle, 'circle');
+    public updateCircle(circleId: number, circle: Partial<CircleUpdateRequest>): Observable<ApiResponse<Circle>> {
+        return this.update(circle, `circle/${circleId}`);
     }
 
     public deleteCircle(circleId: number): Observable<ApiResponse<string>> {
