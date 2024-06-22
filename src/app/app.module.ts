@@ -1,5 +1,5 @@
 import { DATE_PIPE_DEFAULT_OPTIONS, registerLocaleData } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import localeItExtra from '@angular/common/locales/extra/it';
@@ -49,10 +49,8 @@ const globalRippleConfig: RippleGlobalOptions = {
 
 @NgModule({
     declarations: [AppComponent],
-    imports: [
-        BrowserModule,
+    bootstrap: [AppComponent], imports: [BrowserModule,
         BrowserAnimationsModule,
-        HttpClientModule,
         NgxsModule.forRoot([], {
             developmentMode: !environment.production
         }),
@@ -67,21 +65,17 @@ const globalRippleConfig: RippleGlobalOptions = {
                 ...InfoErrorTrackedActions
             ]
         }),
-        TranslateModule.forRoot(
-            {
-                loader: {
-                    provide: TranslateLoader,
-                    useFactory: (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/core/'),
-                    deps: [HttpClient]
-                },
-                extend: true
-            }
-        ),
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/core/'),
+                deps: [HttpClient]
+            },
+            extend: true
+        }),
         AmplifyAuthenticatorModule,
         AppRoutingModule,
-        MatNativeDateModule
-    ],
-    providers: [
+        MatNativeDateModule], providers: [
         UserStorageService,
         AwsCognitoService,
         {
@@ -133,8 +127,8 @@ const globalRippleConfig: RippleGlobalOptions = {
         {
             provide: DATE_PIPE_DEFAULT_OPTIONS,
             useFactory: timezoneFactory
-        }
-    ],
-    bootstrap: [AppComponent]
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ]
 })
 export class AppModule {}
