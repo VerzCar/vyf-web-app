@@ -231,7 +231,7 @@ export class CirclesState implements NgxsOnInit {
             candidate: action.userIdentityId
         };
 
-        return this.voteCircleService.addCandidateToCircle(action.circleId, req).pipe(
+        return this.voteCircleService.addCandidateToCircle(action.circleId, [req]).pipe(
             map(res => res.data),
             tap(() => ctx.setState(
                 patch<CirclesStateModel>({
@@ -259,7 +259,7 @@ export class CirclesState implements NgxsOnInit {
             voter: action.userIdentityId
         };
 
-        return this.voteCircleService.addVoterToCircle(action.circleId, req).pipe(
+        return this.voteCircleService.addVoterToCircle(action.circleId, [req]).pipe(
             map(res => res.data),
             tap(() => ctx.setState(
                 patch<CirclesStateModel>({
