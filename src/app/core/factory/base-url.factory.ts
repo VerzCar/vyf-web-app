@@ -1,24 +1,24 @@
 export const voteCircleBaseApiUrlFactory = (production = false): string => {
     if (production) {
-        return '';
+        return 'https://vote-circle.api.voteyourface.de';
     }
 
-    return 'https://vyf-vote-circle-309d72dfd728.herokuapp.com';
+    return 'https://vote-circle.dev.api.voteyourface.de';
 };
 
 export const userBaseApiUrlFactory = (production = false): string => {
     if (production) {
-        return '';
+        return 'https://user.api.voteyourface.de';
     }
 
-    return 'https://vyf-user-service-4fe07f1427d1.herokuapp.com';
+    return 'https://user.dev.api.voteyourface.de';
 };
 
 export const ablyTokenEndpointUrlFactory = (production = false): string => {
     if (production) {
-        return '';
+        return 'https://vote-circle.api.voteyourface.de/v1/api/vote-circle/token/ably';
     }
 
-    return 'https://vyf-vote-circle-309d72dfd728.herokuapp.com/v1/api/vote-circle/token/ably';
+    return 'https://vote-circle.dev.api.voteyourface.de/v1/api/vote-circle/token/ably';
 };
 
