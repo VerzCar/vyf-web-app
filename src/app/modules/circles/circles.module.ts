@@ -1,5 +1,5 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +19,8 @@ import { AvatarStackComponent, CircleAutocompleteSearchComponent, CircleOwnerCom
 import { InfoState } from '../../shared/state/info.state';
 import { MemberState } from '../../shared/state/member.state';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
-import { UserState } from '../user/state/user.state';
+import { LayoutModule } from '../layout/layout.module';
+import { UserState } from '../../shared/state/user.state';
 import { CircleDetailActionBarComponent } from './circle-detail-action-bar/circle-detail-action-bar.component';
 import { CircleDetailActionItemCommitmentComponent } from './circle-detail-action-bar/circle-detail-action-item-commitment/circle-detail-action-item-commitment.component';
 import { CircleDetailActionItemJoinComponent } from './circle-detail-action-bar/circle-detail-action-item-join/circle-detail-action-item-join.component';
@@ -37,21 +38,21 @@ import { OverviewResolver } from './services/resolver/overview.resolver';
 import { CirclesState } from './state/circles.state';
 
 @NgModule({
-  declarations: [
-    CirclesOverviewComponent,
-    CircleDetailComponent,
-    CircleNotEligibleComponent,
-    CircleCardComponent,
-    CirclesCarouselComponent,
-    CirclesInterestComponent,
-    CircleDetailActionBarComponent,
-    CircleDetailActionItemJoinComponent,
-    CircleDetailActionItemCommitmentComponent,
-    CircleDetailActionItemLeaveVoterComponent,
-    CircleDetailMembersComponent,
-  ],
+    declarations: [
+        CirclesOverviewComponent,
+        CircleDetailComponent,
+        CircleNotEligibleComponent,
+        CircleCardComponent,
+        CirclesCarouselComponent,
+        CirclesInterestComponent,
+        CircleDetailActionBarComponent,
+        CircleDetailActionItemJoinComponent,
+        CircleDetailActionItemCommitmentComponent,
+        CircleDetailActionItemLeaveVoterComponent,
+        CircleDetailMembersComponent
+    ],
     imports: [
-        CommonModule,
+        LayoutModule,
         NgxsModule.forFeature([UserState, CirclesState, MemberState, InfoState]),
         MatButtonModule,
         RxLet,
@@ -81,6 +82,6 @@ import { CirclesState } from './state/circles.state';
         ValidityPeriodComponent,
         CircleStagePipe
     ],
-  providers: [DetailsResolver, OverviewResolver],
+    providers: [DetailsResolver, OverviewResolver]
 })
 export class CirclesModule {}

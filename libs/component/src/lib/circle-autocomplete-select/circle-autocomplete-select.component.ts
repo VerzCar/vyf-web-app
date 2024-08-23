@@ -9,10 +9,11 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 import { RxFor } from '@rx-angular/template/for';
 import { RxIf } from '@rx-angular/template/if';
-import { AvatarImgComponent, UserListItemComponent } from '@vyf/component';
 import { Circle, CirclePaginated } from '@vyf/vote-circle-service';
 import { FeatherModule } from 'angular-feather';
 import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, finalize, map, Observable, startWith, switchMap, tap } from 'rxjs';
+import { AvatarImgComponent } from '../avatar-img/avatar-img.component';
+import { UserListItemComponent } from '../user-list-item/user-list-item.component';
 
 interface CircleAutocompleteSelectOption extends CirclePaginated {
     disabled: boolean;

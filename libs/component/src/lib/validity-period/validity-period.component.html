@@ -1,5 +1,10 @@
 <div class="flex divide-gray-300"
-     [ngClass]="alignment">
+     [ngClass]="{
+     'horizontal': alignment === 'horizontal',
+     'vertical': alignment === 'vertical',
+     'divide-x': alignment === 'horizontal',
+     'divide-y': alignment === 'vertical'
+     }">
     <div class="left">
         <p class="text-sm text-gray-700">From</p>
         <p class="block md:hidden">{{ circle.validFrom | date:'shortDate' }}</p>

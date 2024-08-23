@@ -5,8 +5,8 @@ import { Store } from '@ngxs/store';
 import { isDefined, statusChangesToValidAndNotPending } from '@vyf/base';
 import { Profile, User } from '@vyf/user-service';
 import { BehaviorSubject, filter, map, Observable, shareReplay, tap } from 'rxjs';
-import { UserAction } from '../state/actions/user.action';
-import { UserSelectors } from '../state/user.selectors';
+import { UserAction } from '../../../shared/state/actions/user.action';
+import { UserSelectors } from '../../../shared/state/user.selectors';
 
 interface UserForm {
     whyVoteMe: FormControl<string>;

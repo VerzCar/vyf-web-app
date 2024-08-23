@@ -9,7 +9,7 @@ import { Store } from '@ngxs/store';
 import { DateTime } from '@vyf/base';
 import { Circle, CircleUpdateRequest } from '@vyf/vote-circle-service';
 import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
-import { createCircleForm } from '../services/factory/forms.factory';
+import { updateCircleForm } from '../services/factory/forms.factory';
 import { CirclesAction } from '../state/actions/circles.action';
 import { CirclesSelectors } from '../state/circles.selectors';
 
@@ -31,7 +31,7 @@ import { CirclesSelectors } from '../state/circles.selectors';
 })
 export class CircleDetailEditFormComponent implements OnInit {
     @Input({ required: true }) public circle!: Circle;
-    public readonly form = createCircleForm();
+    public readonly form = updateCircleForm();
     public readonly minValidUntilDate = DateTime.Day.next();
     public readonly maxValidUntilDate = new Date(DateTime.Day.today().setFullYear(DateTime.Day.today().getFullYear() + 5));
     public readonly minValidFromDate = DateTime.Day.today();
@@ -56,14 +56,13 @@ export class CircleDetailEditFormComponent implements OnInit {
         this.form.controls.name.valueChanges.pipe(
             debounceTime(400),
             distinctUntilChanged(),
-            filter(() => this.form.valid),
+            filter(() => this.form.controls.name.valid),
             tap(name => {
                 const circleUpdateRequest: CircleUpdateRequest = {
-                    id: this.circle.id,
                     name: name.trimEnd(),
                     validUntil: this.form.controls.validUntil.value
                 };
-                return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
+                return this.store.dispatch(new CirclesAction.UpdateCircle(this.circle.id, circleUpdateRequest));
             }),
             takeUntilDestroyed()
         ).subscribe();
@@ -73,19 +72,19 @@ export class CircleDetailEditFormComponent implements OnInit {
         this.form.controls.description.valueChanges.pipe(
             debounceTime(400),
             distinctUntilChanged(),
-            filter(() => this.form.valid),
+            filter(() => this.form.controls.description.valid),
             tap(description => {
                 const circleUpdateRequest: CircleUpdateRequest = {
-                    id: this.circle.id,
                     description: description?.trimEnd() || '',
                     validUntil: this.form.controls.validUntil.value
                 };
-                return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
+                return this.store.dispatch(new CirclesAction.UpdateCircle(this.circle.id, circleUpdateRequest));
             }),
             takeUntilDestroyed()
         ).subscribe();
     }
 
+    // TODO: improve range date selector
     private subscribeToValidFromChanges() {
         this.form.controls.validFrom.valueChanges.pipe(
             debounceTime(600),
@@ -93,16 +92,16 @@ export class CircleDetailEditFormComponent implements OnInit {
             filter(() => this.form.valid),
             tap(date => {
                 const circleUpdateRequest: CircleUpdateRequest = {
-                    id: this.circle.id,
                     validFrom: date,
                     validUntil: this.form.controls.validUntil.value
                 };
-                return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
+                return this.store.dispatch(new CirclesAction.UpdateCircle(this.circle.id, circleUpdateRequest));
             }),
             takeUntilDestroyed()
         ).subscribe();
     }
 
+// TODO: improve range date selector
     private subscribeToValidUntilChanges() {
         this.form.controls.validUntil.valueChanges.pipe(
             debounceTime(600),
@@ -110,10 +109,9 @@ export class CircleDetailEditFormComponent implements OnInit {
             filter(() => this.form.valid),
             tap(date => {
                 const circleUpdateRequest: CircleUpdateRequest = {
-                    id: this.circle.id,
                     validUntil: date
                 };
-                return this.store.dispatch(new CirclesAction.UpdateCircle(circleUpdateRequest));
+                return this.store.dispatch(new CirclesAction.UpdateCircle(this.circle.id, circleUpdateRequest));
             }),
             takeUntilDestroyed()
         ).subscribe();

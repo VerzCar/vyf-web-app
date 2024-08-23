@@ -7,7 +7,7 @@ import { User } from '@vyf/user-service';
 import { filter, map, Observable, take } from 'rxjs';
 import { AwsCognitoService } from '../../../../core/services/aws-cognito.service';
 import { Route } from '../../../../routes';
-import { UserSelectors } from '../../../user/state/user.selectors';
+import { UserSelectors } from '../../../../shared/state/user.selectors';
 
 interface ToolbarUserMenuComponentView {
     user: User;

@@ -18,6 +18,7 @@ export interface SnackbarSuccessComponentData {
         RouterLink
     ],
     template: `
+        <div class="flex">
         <span matSnackBarLabel>
           <i-feather name="check" class="align-top text-green-500"></i-feather>
             {{ data.message }}
@@ -28,9 +29,7 @@ export interface SnackbarSuccessComponentData {
                 </a>
             }
        </span>
-    `,
-    styles: `
-        :host {@apply flex;}
+        </div>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

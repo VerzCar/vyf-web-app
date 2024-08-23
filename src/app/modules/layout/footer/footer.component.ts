@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Route } from '../../../routes';
 
 @Component({
     selector: 'app-footer',
@@ -7,7 +8,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterComponent {
-    public currentDate = new Date();
+    public readonly currentDate = new Date();
+    public readonly route = Route;
 
     public readonly routes = [];
 }

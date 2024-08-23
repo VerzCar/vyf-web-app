@@ -1,6 +1,6 @@
 <button [matMenuTriggerFor]="menu"
-        [matBadge]="(circles$ | push).length"
-        [matBadgeHidden]="!(circles$ | push).length"
+        [matBadge]="(circles$ | push)?.length"
+        [matBadgeHidden]="!(circles$ | push)?.length"
         [matBadgeOverlap]="false"
         [matBadgePosition]="'before'"
         [matBadgeSize]="'small'"

@@ -69,59 +69,59 @@ $vyf-base-accent: (
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$vyf-web-primary: mat.define-palette($vyf-base-primary);
-$vyf-web-accent: mat.define-palette($vyf-base-accent);
+$vyf-web-primary: mat.m2-define-palette($vyf-base-primary);
+$vyf-web-accent: mat.m2-define-palette($vyf-base-accent);
 
 // The warn palette is optional (defaults to red).
-$vyf-web-warn: mat.define-palette(mat.$red-palette);
+$vyf-web-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
 // The warn palette is optional (defaults to red).
-$vyf-web-success: mat.define-palette(mat.$green-palette);
+$vyf-web-success: mat.m2-define-palette(mat.$m2-green-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$vyf-web-theme: mat.define-light-theme((
+$vyf-web-theme: mat.m2-define-light-theme((
         color: (
                 primary: $vyf-web-primary,
                 accent: $vyf-web-accent,
                 warn: $vyf-web-warn,
         ),
-        density: -2,
+        density: -1,
 ));
 
 // global variables
 
 // colors ---------------
 // Primary
-$vyf-primary: mat.get-color-from-palette($vyf-web-primary);
-$vyf-primary-900: mat.get-color-from-palette($vyf-web-primary, 900);
-$vyf-primary-800: mat.get-color-from-palette($vyf-web-primary, 800);
-$vyf-primary-700: mat.get-color-from-palette($vyf-web-primary, 700);
-$vyf-primary-600: mat.get-color-from-palette($vyf-web-primary, 600);
-$vyf-primary-500: mat.get-color-from-palette($vyf-web-primary, 500);
-$vyf-primary-400: mat.get-color-from-palette($vyf-web-primary, 400);
-$vyf-primary-300: mat.get-color-from-palette($vyf-web-primary, 300);
-$vyf-primary-200: mat.get-color-from-palette($vyf-web-primary, 200);
-$vyf-primary-100: mat.get-color-from-palette($vyf-web-primary, 100);
-$vyf-primary-50: mat.get-color-from-palette($vyf-web-primary, 50);
+$vyf-primary: mat.m2-get-color-from-palette($vyf-web-primary);
+$vyf-primary-900: mat.m2-get-color-from-palette($vyf-web-primary, 900);
+$vyf-primary-800: mat.m2-get-color-from-palette($vyf-web-primary, 800);
+$vyf-primary-700: mat.m2-get-color-from-palette($vyf-web-primary, 700);
+$vyf-primary-600: mat.m2-get-color-from-palette($vyf-web-primary, 600);
+$vyf-primary-500: mat.m2-get-color-from-palette($vyf-web-primary, 500);
+$vyf-primary-400: mat.m2-get-color-from-palette($vyf-web-primary, 400);
+$vyf-primary-300: mat.m2-get-color-from-palette($vyf-web-primary, 300);
+$vyf-primary-200: mat.m2-get-color-from-palette($vyf-web-primary, 200);
+$vyf-primary-100: mat.m2-get-color-from-palette($vyf-web-primary, 100);
+$vyf-primary-50: mat.m2-get-color-from-palette($vyf-web-primary, 50);
 $vyf-on-primary: #FFFFFF;
 
 // Accent
-$vyf-accent: mat.get-color-from-palette($vyf-web-accent);
-$vyf-accent-900: mat.get-color-from-palette($vyf-web-accent, 900);
-$vyf-accent-800: mat.get-color-from-palette($vyf-web-accent, 800);
-$vyf-accent-700: mat.get-color-from-palette($vyf-web-accent, 700);
-$vyf-accent-600: mat.get-color-from-palette($vyf-web-accent, 600);
-$vyf-accent-500: mat.get-color-from-palette($vyf-web-accent, 500);
-$vyf-accent-400: mat.get-color-from-palette($vyf-web-accent, 400);
-$vyf-accent-300: mat.get-color-from-palette($vyf-web-accent, 300);
-$vyf-accent-200: mat.get-color-from-palette($vyf-web-accent, 200);
-$vyf-accent-100: mat.get-color-from-palette($vyf-web-accent, 100);
-$vyf-accent-50: mat.get-color-from-palette($vyf-web-accent, 50);
+$vyf-accent: mat.m2-get-color-from-palette($vyf-web-accent);
+$vyf-accent-900: mat.m2-get-color-from-palette($vyf-web-accent, 900);
+$vyf-accent-800: mat.m2-get-color-from-palette($vyf-web-accent, 800);
+$vyf-accent-700: mat.m2-get-color-from-palette($vyf-web-accent, 700);
+$vyf-accent-600: mat.m2-get-color-from-palette($vyf-web-accent, 600);
+$vyf-accent-500: mat.m2-get-color-from-palette($vyf-web-accent, 500);
+$vyf-accent-400: mat.m2-get-color-from-palette($vyf-web-accent, 400);
+$vyf-accent-300: mat.m2-get-color-from-palette($vyf-web-accent, 300);
+$vyf-accent-200: mat.m2-get-color-from-palette($vyf-web-accent, 200);
+$vyf-accent-100: mat.m2-get-color-from-palette($vyf-web-accent, 100);
+$vyf-accent-50: mat.m2-get-color-from-palette($vyf-web-accent, 50);
 $vyf-on-accent: #000000;
 
 // Warn
-$vyf-warn: mat.get-color-from-palette($vyf-web-warn);
-$vyf-warn-light: mat.get-color-from-palette($vyf-web-warn, 400);
+$vyf-warn: mat.m2-get-color-from-palette($vyf-web-warn);
+$vyf-warn-light: mat.m2-get-color-from-palette($vyf-web-warn, 400);
 
 

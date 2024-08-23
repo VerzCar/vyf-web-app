@@ -1,18 +1,24 @@
 import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable, InjectionToken } from '@angular/core';
 import { ApiBaseService, ApiResponse } from '@vyf/base';
 import { Observable } from 'rxjs';
+import { Candidate, CandidateRequest, Circle, CircleCandidate, CircleCandidateCommitmentRequest, CircleCandidatesFilter, CircleCreateRequest, CirclePaginated, CircleUpdateRequest, CircleVoter, CircleVotersFilter, Commitment, Ranking, UserOption, VoteCreateRequest, Voter, VoterRequest } from '../models';
 
-import { CandidateRequest, Circle, CircleCandidate, CircleCreateRequest, CirclePaginated, CircleUpdateRequest, CircleVoter, CircleVotersFilter, Commitment, Ranking, VoteCreateRequest, Voter, VoterRequest } from '../models';
-import { Candidate } from '../models/candidate.model';
-import { CircleCandidateCommitmentRequest } from '../models/circle-candidate-commitment-request.model';
-import { CircleCandidatesFilter } from '../models/circle-candidates-filter.model';
-import { UserOption } from '../models/user-option.model';
+export const VOTE_CIRCLE_API_URL = new InjectionToken<string>('Vote circle API Url', {
+    providedIn: 'any',
+    factory: () => window.location.origin
+});
 
 @Injectable({
     providedIn: 'root'
 })
 export class VoteCircleService extends ApiBaseService {
+    private readonly _baseUrl = inject(VOTE_CIRCLE_API_URL);
+
+    protected get baseUrl(): string {
+        return this._baseUrl;
+    }
+
     protected get endpointPath(): string {
         return 'v1/api/vote-circle';
     }
@@ -41,8 +47,8 @@ export class VoteCircleService extends ApiBaseService {
         return this.create(circle, 'circle');
     }
 
-    public updateCircle(circle: Partial<CircleUpdateRequest>): Observable<ApiResponse<Circle>> {
-        return this.update(circle, 'circle');
+    public updateCircle(circleId: number, circle: Partial<CircleUpdateRequest>): Observable<ApiResponse<Circle>> {
+        return this.update(circle, `circle/${circleId}`);
     }
 
     public deleteCircle(circleId: number): Observable<ApiResponse<string>> {
@@ -89,12 +95,12 @@ export class VoteCircleService extends ApiBaseService {
         return this.create<unknown, Candidate>(null, `circle-candidates/${circleId}/join`);
     }
 
-    public addCandidateToCircle(circleId: number, req: CandidateRequest): Observable<ApiResponse<Candidate>> {
-        return this.create<CandidateRequest, Candidate>(req, `circle-candidates/${circleId}/add`);
+    public addCandidateToCircle(circleId: number, requests: CandidateRequest[]): Observable<ApiResponse<Candidate[]>> {
+        return this.create<CandidateRequest[], Candidate[]>(requests, `circle-candidates/${circleId}/add`);
     }
 
-    public addVoterToCircle(circleId: number, req: VoterRequest): Observable<ApiResponse<Voter>> {
-        return this.create<VoterRequest, Voter>(req, `circle-voters/${circleId}/add`);
+    public addVoterToCircle(circleId: number, requests: VoterRequest[]): Observable<ApiResponse<Voter[]>> {
+        return this.create<VoterRequest[], Voter[]>(requests, `circle-voters/${circleId}/add`);
     }
 
     public leaveCircleAsCandidate(circleId: number): Observable<ApiResponse<string>> {

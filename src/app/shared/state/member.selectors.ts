@@ -2,7 +2,7 @@ import { createPropertySelectors, createSelector, Selector } from '@ngxs/store';
 import { User, UserPaginated } from '@vyf/user-service';
 import { Circle, CircleStage } from '@vyf/vote-circle-service';
 import { RankingSelectors } from '../../modules/ranking/state/ranking.selectors';
-import { UserSelectors } from '../../modules/user/state/user.selectors';
+import { UserSelectors } from './user.selectors';
 import { CandidateMember, MemberStateModel, VoterMember } from '../models';
 import { MemberState } from './member.state';
 

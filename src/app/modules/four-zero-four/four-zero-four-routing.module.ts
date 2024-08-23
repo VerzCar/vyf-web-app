@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { Vyf404Component } from '../../shared/components/vyf-404/vyf-404.component';
 import { LayoutComponent } from '../layout/layout/layout.component';
-import { VyfLandingComponent } from './vyf-landing/vyf-landing.component';
 
 const routes: Routes = [
     {
@@ -10,7 +10,7 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: VyfLandingComponent
+                component: Vyf404Component
             }
         ]
     }
@@ -20,4 +20,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class VyfRoutingModule {}
+export class FourZeroFourRoutingModule {}

@@ -1,4 +1,4 @@
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { DatePipe, NgOptimizedImage } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,7 +18,8 @@ import { RxLet } from '@rx-angular/template/let';
 import { RxPush } from '@rx-angular/template/push';
 import { CircleOwnerComponent, ImageUploadComponent, SubmitButtonComponent, UserAutocompleteSearchComponent, UserAutocompleteSelectComponent, UserListItemComponent } from '@vyf/component';
 import { FeatherIconModule } from '../feather-icon/feather-icon.module';
-import { UserState } from './state/user.state';
+import { LayoutModule } from '../layout/layout.module';
+import { UserState } from '../../shared/state/user.state';
 import { UserOverviewComponent } from './user-overview/user-overview.component';
 import { UserProfileEditComponent } from './user-profile-edit/user-profile-edit.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -33,7 +34,7 @@ import { UserXComponent } from './user-x/user-x.component';
         UserOverviewComponent
     ],
     imports: [
-        CommonModule,
+        LayoutModule,
         TranslateModule.forChild({
             loader: {
                 provide: TranslateLoader,
@@ -64,7 +65,8 @@ import { UserXComponent } from './user-x/user-x.component';
         SubmitButtonComponent,
         UserAutocompleteSelectComponent,
         UserAutocompleteSearchComponent,
-        UserListItemComponent
+        UserListItemComponent,
+        DatePipe
     ]
 })
 export class UserModule {}

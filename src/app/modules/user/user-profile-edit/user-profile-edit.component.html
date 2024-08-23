@@ -1,14 +1,51 @@
 <div class="layout-container layout-whitespace">
     <form [formGroup]="form"
           (submit)="onSubmit()">
-        <div class="flex flex-col gap-4">
-            <div>
-                <vyf-image-upload [profileImageSrc]="userProfileImageSrc$"
-                                  (fileSelected)="onUserProfileImageSelected($event)">
-                </vyf-image-upload>
+        <p>
+
+        </p>
+        <div class="grid grid-cols-12 gap-4">
+
+            <vyf-image-upload [profileImageSrc]="userProfileImageSrc$"
+                              (fileSelected)="onUserProfileImageSelected($event)"
+                              class="col-span-2 row-start-1">
+            </vyf-image-upload>
+
+            <div class="col-span-2 row-start-1">
+                <mat-label>
+                    <label for="firstName">
+                        First name
+                    </label>
+                </mat-label>
+                <mat-form-field class="w-full"
+                                appearance="outline">
+                    <input matInput
+                           type="text"
+                           id="firstName"
+                           name="firstName"
+                           required
+                           [formControl]="form.controls.whyVoteMe"/>
+                </mat-form-field>
             </div>
 
-            <div>
+            <div class="col-span-2 row-start-1">
+                <mat-label>
+                    <label for="lastName">
+                        Last name
+                    </label>
+                </mat-label>
+                <mat-form-field class="w-full"
+                                appearance="outline">
+                    <input matInput
+                           type="text"
+                           id="lastName"
+                           name="lastName"
+                           required
+                           [formControl]="form.controls.whyVoteMe"/>
+                </mat-form-field>
+            </div>
+
+            <div class="col-span-6 row-start-2">
                 <mat-label>
                     <label for="whyVoteMe">
                         Why vote me
@@ -33,7 +70,7 @@
                 </mat-form-field>
             </div>
 
-            <div>
+            <div class="col-span-6 row-start-2">
                 <mat-label>
                     <label for="bio">
                         Bio
@@ -55,7 +92,7 @@
                 </mat-form-field>
             </div>
 
-            <div class="flex flex-row justify-between">
+            <div class="col-span-full row-start-3 flex flex-row justify-between">
                 <div>
                     <a mat-flat-button
                        type="button"

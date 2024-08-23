@@ -90,7 +90,8 @@
           "style-dictionary/lib/utils/flattenProperties",
           "style-dictionary/lib/utils/references/usesReference",
           "classnames",
-          "qrcode"
+          "qrcode",
+          "ably"
         ]
       },
       "configurations": {
@@ -99,7 +100,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "2mb"
             },
             {
               "type": "anyComponentStyle",

@@ -1,7 +1,7 @@
 import { createPropertySelectors, Selector } from '@ngxs/store';
 import { User } from '@vyf/user-service';
 import { Circle, CircleStage } from '@vyf/vote-circle-service';
-import { UserSelectors } from '../../user/state/user.selectors';
+import { UserSelectors } from '../../../shared/state/user.selectors';
 import { CirclesStateModel } from '../models';
 import { CirclesState } from './circles.state';
 

@@ -10,8 +10,8 @@ export interface User {
     firstName: string;
     lastName: string;
     gender: Gender;
-    address: Address;
-    contact: Contact;
+    address?: Address;
+    contact?: Contact;
     profile: Profile;
     createdAt: Date;
     updatedAt: Date;

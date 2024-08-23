@@ -7,7 +7,7 @@ import { User, UserService } from '@vyf/user-service';
 import { CandidateRequest, Circle, CircleCandidateCommitmentRequest, CirclePaginated, UserOption, VoteCircleService, VoterRequest } from '@vyf/vote-circle-service';
 import { firstValueFrom, map, Observable, of, tap } from 'rxjs';
 import { InfoAction } from '../../../shared/state/actions/info.action';
-import { UserSelectors } from '../../user/state/user.selectors';
+import { UserSelectors } from '../../../shared/state/user.selectors';
 import { CirclesStateModel } from '../models';
 import { CirclesAction } from './actions/circles.action';
 
@@ -83,7 +83,7 @@ export class CirclesState implements NgxsOnInit {
         ctx: StateContext<CirclesStateModel>,
         action: CirclesAction.UpdateCircle
     ): Observable<Circle> {
-        return this.voteCircleService.updateCircle(action.circle).pipe(
+        return this.voteCircleService.updateCircle(action.circleId, action.circle).pipe(
             map(res => res.data),
             tap(circle => ctx.patchState({ selectedCircle: circle })),
             tap((circle) => ctx.setState(
@@ -231,7 +231,7 @@ export class CirclesState implements NgxsOnInit {
             candidate: action.userIdentityId
         };
 
-        return this.voteCircleService.addCandidateToCircle(action.circleId, req).pipe(
+        return this.voteCircleService.addCandidateToCircle(action.circleId, [req]).pipe(
             map(res => res.data),
             tap(() => ctx.setState(
                 patch<CirclesStateModel>({
@@ -259,7 +259,7 @@ export class CirclesState implements NgxsOnInit {
             voter: action.userIdentityId
         };
 
-        return this.voteCircleService.addVoterToCircle(action.circleId, req).pipe(
+        return this.voteCircleService.addVoterToCircle(action.circleId, [req]).pipe(
             map(res => res.data),
             tap(() => ctx.setState(
                 patch<CirclesStateModel>({

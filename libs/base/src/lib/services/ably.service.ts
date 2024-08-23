@@ -1,7 +1,7 @@
 import { inject, Injectable, InjectionToken, OnDestroy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import * as Ably from 'ably';
-import { Types } from 'ably';
+
 import { from, map, Observable, of, Subject, switchMap } from 'rxjs';
 
 export const AUTH_JWT_TOKEN_FACTORY = new InjectionToken<Observable<string>>('JWT Token request factory', {
@@ -9,25 +9,31 @@ export const AUTH_JWT_TOKEN_FACTORY = new InjectionToken<Observable<string>>('JW
     factory: () => of('')
 });
 
-export type AblyMessage = Types.Message;
+export const ABLY_TOKEN_URL_FACTORY = new InjectionToken<string>('Ably Token url factory', {
+    providedIn: 'any',
+    factory: () => window.location.origin
+});
+
+export type AblyMessage = Ably.Message;
 
 @Injectable({
     providedIn: 'root'
 })
 export class AblyService implements OnDestroy {
 
-    private readonly _client: Ably.Types.RealtimePromise;
+    private readonly _client: Ably.RealtimeClient;
 
     private readonly _authJwtTokenReqFactory = inject(AUTH_JWT_TOKEN_FACTORY);
+    private readonly _ablyTokenUrl = inject(ABLY_TOKEN_URL_FACTORY);
 
-    private readonly defaultClientOptions: Types.ClientOptions = {
-        authUrl: 'v1/api/vote-circle/token/ably',
+    private readonly defaultClientOptions: Ably.ClientOptions = {
+        authUrl: this._ablyTokenUrl,
         authMethod: 'GET',
         autoConnect: false
     };
 
     constructor() {
-        this._client = new Ably.Realtime.Promise(this.defaultClientOptions);
+        this._client = new Ably.Realtime(this.defaultClientOptions);
         this.authorize$().pipe(
             takeUntilDestroyed()
         ).subscribe();
@@ -37,28 +43,28 @@ export class AblyService implements OnDestroy {
         this._client.close();
     }
 
-    public close$(): Observable<Types.ConnectionStateChange> {
+    public close$(): Observable<Ably.ConnectionStateChange> {
         this._client.close();
         return from(this._client.connection.once('closed'));
     }
 
-    public stats(): Types.ConnectionState {
+    public stats(): Ably.ConnectionState {
         return this._client.connection.state;
     }
 
-    public channel(name: string): Types.RealtimeChannelPromise {
+    public channel(name: string): Ably.RealtimeChannel {
         return this._client.channels.get(name);
     }
 
-    public subscribeToChannel(channel: Types.RealtimeChannelPromise, event: string, messageSubject: Subject<Types.Message>) {
+    public subscribeToChannel(channel: Ably.RealtimeChannel, event: string, messageSubject: Subject<Ably.Message>) {
         return from(channel.subscribe(event, (msg) => messageSubject.next(msg)));
     }
 
-    public unsubscribeFromChannel(channel: Types.RealtimeChannelPromise) {
+    public unsubscribeFromChannel(channel: Ably.RealtimeChannel) {
         channel.unsubscribe();
     }
 
-    public authorize$(): Observable<Types.TokenDetails> {
+    public authorize$(): Observable<Ably.TokenDetails> {
         return this._authJwtTokenReqFactory.pipe(
             switchMap(token => {
                 if (this.stats() === 'connected') {
@@ -73,7 +79,7 @@ export class AblyService implements OnDestroy {
         );
     }
 
-    private authorizeFromToken$(token: string): Observable<Types.TokenDetails> {
+    private authorizeFromToken$(token: string): Observable<Ably.TokenDetails> {
         return from(this._client.auth.authorize(undefined, {
             ...this.defaultClientOptions,
             authHeaders: {

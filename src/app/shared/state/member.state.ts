@@ -18,7 +18,7 @@ import {
 import { distinctUntilChanged, filter, forkJoin, map, Observable, of, pairwise, startWith, Subject, switchMap, tap } from 'rxjs';
 import { CirclesSelectors } from '../../modules/circles/state/circles.selectors';
 import { RankingSelectors } from '../../modules/ranking/state/ranking.selectors';
-import { UserSelectors } from '../../modules/user/state/user.selectors';
+import { UserSelectors } from './user.selectors';
 import { CandidateMember, MemberStateModel, VoterMember } from '../models';
 import { MemberAction } from './actions/member.action';
 

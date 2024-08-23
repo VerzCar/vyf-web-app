@@ -8,16 +8,20 @@
                           [plusCount]="view.membersCount">
         </vyf-avatar-stack>
     } @else {
-        <button mat-button
-                type="button"
-                role="button"
-                color="accent"
-                (click)="onShowMembers()">
-            <mat-icon>
-                add
-            </mat-icon>
-            There are no Members - Invite some
-        </button>
+        @if (view.canEditCircle) {
+            <button mat-button
+                    type="button"
+                    role="button"
+                    color="accent"
+                    (click)="onShowMembers()">
+                <mat-icon>
+                    add
+                </mat-icon>
+                There are no Members - Invite some
+            </button>
+        } @else {
+            There are no Members - Be the first and join!
+        }
     }
 </ng-container>
 
