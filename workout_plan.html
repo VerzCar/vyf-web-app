@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOME FORGE — Weekly Training Programme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --card: #1a1a1a;
+    --border: #2a2a2a;
+    --accent: #e8541a;
+    --accent2: #f4a432;
+    --text: #e8e6e1;
+    --muted: #888;
+    --green: #3dba7b;
+    --blue: #3d8bba;
+    --purple: #8b5cf6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    padding: 60px 40px 50px;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    background: radial-gradient(ellipse at 60% 0%, #2a0e04 0%, transparent 60%);
+  }
+  .hero::before {
+    content: 'HOME FORGE';
+    position: absolute;
+    top: -20px; right: -10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 200px;
+    color: rgba(232,84,26,0.04);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 4px;
+  }
+  .badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 4px 12px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 8vw, 100px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--muted);
+    max-width: 600px;
+    line-height: 1.7;
+    letter-spacing: 0.3px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .stat-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 60px 40px; border-bottom: 1px solid var(--border); }
+
+  /* ── SCIENCE BOX ── */
+  .science-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 36px;
+  }
+  .science-card {
+    background: var(--card);
+    padding: 24px;
+  }
+  .science-card .icon {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+  .science-card h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .science-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── PHASE BARS ── */
+  .phase-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 36px;
+  }
+  .phase-card {
+    border: 1px solid var(--border);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .phase-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .phase-card.p1::before { background: var(--green); }
+  .phase-card.p2::before { background: var(--accent2); }
+  .phase-card.p3::before { background: var(--accent); }
+  .phase-card .phase-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    line-height: 1;
+    color: var(--border);
+    position: absolute;
+    right: 16px; top: 12px;
+  }
+  .phase-card h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .phase-card.p1 h3 { color: var(--green); }
+  .phase-card.p2 h3 { color: var(--accent2); }
+  .phase-card.p3 h3 { color: var(--accent); }
+  .phase-card .weeks {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .phase-detail {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 4px;
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+  .phase-detail strong { color: var(--text); font-size: 13px; }
+
+  /* ── WEEKLY OVERVIEW ── */
+  .week-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 36px;
+    margin-bottom: 48px;
+  }
+  .day-chip {
+    background: var(--card);
+    padding: 20px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .day-chip:hover { background: #202020; }
+  .day-chip.active { background: var(--surface); border-top: 3px solid var(--accent); }
+  .day-chip .day-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: var(--text);
+  }
+  .day-chip .day-focus {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .day-chip .day-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    margin: 8px auto 0;
+  }
+
+  /* ── WORKOUT DAY CARDS ── */
+  .day-section { display: none; }
+  .day-section.active { display: block; }
+
+  .day-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .day-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    line-height: 1;
+    letter-spacing: 1px;
+  }
+  .day-meta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid;
+  }
+  .tag-push { color: var(--accent); border-color: var(--accent); }
+  .tag-pull { color: var(--blue); border-color: var(--blue); }
+  .tag-legs { color: var(--green); border-color: var(--green); }
+  .tag-upper { color: var(--purple); border-color: var(--purple); }
+  .tag-full { color: var(--accent2); border-color: var(--accent2); }
+
+  /* ── EXERCISE TABLE ── */
+  .ex-table { width: 100%; border-collapse: collapse; }
+  .ex-table thead tr {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .ex-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 500;
+  }
+  .ex-table th:nth-child(2),
+  .ex-table th:nth-child(3),
+  .ex-table th:nth-child(4),
+  .ex-table th:nth-child(5) { text-align: center; }
+  .ex-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .ex-table tbody tr:hover { background: var(--card); }
+  .ex-table td {
+    padding: 14px 16px;
+    font-size: 13.5px;
+    vertical-align: middle;
+  }
+  .ex-table td:nth-child(2),
+  .ex-table td:nth-child(3),
+  .ex-table td:nth-child(4),
+  .ex-table td:nth-child(5) { text-align: center; }
+  .ex-name { font-weight: 500; color: var(--text); }
+  .ex-gear {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .reps-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--accent2);
+  }
+  .sets-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .rest-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .tip-text {
+    font-size: 11.5px;
+    color: var(--muted);
+    font-style: italic;
+    max-width: 220px;
+  }
+  .group-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 8px 16px;
+    background: rgba(232,84,26,0.06);
+    border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+  }
+
+  .warmup-box {
+    background: rgba(61,186,123,0.07);
+    border: 1px solid rgba(61,186,123,0.2);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .warmup-box strong { color: var(--green); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    font-size: 13.5px;
+    color: var(--muted);
+    max-width: 620px;
+    line-height: 1.7;
+  }
+
+  /* ── NUTRITION ── */
+  .nutrition-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 36px;
+  }
+  .nutri-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 28px;
+  }
+  .nutri-card h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 16px;
+  }
+  .nutri-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+  }
+  .nutri-row:last-child { border-bottom: none; }
+  .nutri-row .nutri-label { color: var(--muted); }
+  .nutri-row .nutri-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--accent2);
+    font-weight: 500;
+  }
+  .timeline-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 28px;
+    grid-column: 1 / -1;
+  }
+  .timeline-box h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 20px;
+  }
+  .tl-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0;
+  }
+  .tl-item {
+    padding: 0 24px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .tl-item:first-child { padding-left: 0; }
+  .tl-item:last-child { border-right: none; }
+  .tl-time {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--accent2);
+    line-height: 1;
+  }
+  .tl-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+  .tl-amount {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    margin-top: 4px;
+  }
+
+  /* ── MOTIVATION ── */
+  .moti-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 36px;
+  }
+  .moti-card {
+    border: 1px solid var(--border);
+    padding: 24px;
+    position: relative;
+  }
+  .moti-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    line-height: 0.85;
+    color: rgba(232,84,26,0.12);
+    position: absolute;
+    right: 12px; top: 8px;
+  }
+  .moti-card h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .moti-card p {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* ── QUOTE ── */
+  .quote-bar {
+    background: var(--accent);
+    padding: 32px 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .quote-bar blockquote {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    color: #fff;
+    font-style: normal;
+  }
+  .quote-bar cite {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.6);
+    display: block;
+    margin-top: 6px;
+    letter-spacing: 2px;
+    font-style: normal;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: var(--muted);
+  }
+  footer .disclaimer {
+    font-size: 11px;
+    color: var(--muted);
+    max-width: 500px;
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  /* ── TABS NAV ── */
+  .tabs-nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+  .tabs-nav button {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 12px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: -1px;
+  }
+  .tabs-nav button:hover { color: var(--text); }
+  .tabs-nav button.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .progress-tracker {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 28px;
+    margin-top: 36px;
+  }
+  .progress-tracker h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 20px;
+  }
+  .tracker-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .tracker-item {
+    background: var(--surface);
+    padding: 16px;
+  }
+  .tracker-item h5 {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .tracker-item p {
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 700px) {
+    .hero { padding: 40px 20px 36px; }
+    .section { padding: 40px 20px; }
+    .week-strip { grid-template-columns: repeat(5, 1fr); }
+    .day-chip .day-name { font-size: 15px; }
+    .day-chip .day-focus { display: none; }
+    .phase-row { grid-template-columns: 1fr; }
+    .nutrition-grid { grid-template-columns: 1fr; }
+    .timeline-box { grid-column: auto; }
+    .tl-items { grid-template-columns: 1fr; }
+    .tl-item { border-right: none; border-bottom: 1px solid var(--border); padding: 12px 0; }
+    .hero::before { font-size: 80px; top: 10px; }
+    footer .disclaimer { text-align: left; }
+    .quote-bar { padding: 24px 20px; }
+    .quote-bar blockquote { font-size: 20px; }
+    .ex-table { font-size: 12px; }
+    .ex-table th, .ex-table td { padding: 10px 8px; }
+    .tip-text { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<div class="hero">
+  <div class="badge">Evidence-Based · Home Training · 12-Week Programme</div>
+  <h1>HOME<br><span>FORGE</span></h1>
+  <p class="hero-sub">A science-backed 5-day weekly training programme built for returning intermediate athletes training at home. Upper-body emphasis, full-body coverage, progressive overload across three distinct phases.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-val">5</div><div class="stat-label">Days / Week</div></div>
+    <div class="stat"><div class="stat-val">~60</div><div class="stat-label">Min / Session</div></div>
+    <div class="stat"><div class="stat-val">12</div><div class="stat-label">Week Programme</div></div>
+    <div class="stat"><div class="stat-val">3</div><div class="stat-label">Progressive Phases</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SCIENCE FOUNDATION ══════════════════════ -->
+<div class="section">
+  <div class="section-label">Research Foundation</div>
+  <div class="section-title">What the Science Says</div>
+  <p class="section-sub">This programme is built on current peer-reviewed consensus from sports science, including work by Schoenfeld, Krieger, and the ISSN. Here's what the evidence actually supports.</p>
+  <div class="science-grid">
+    <div class="science-card">
+      <div class="icon">📊</div>
+      <h4>Volume is King</h4>
+      <p>Research confirms a clear dose-response: more weekly sets → more hypertrophy. Aim for 10–20 direct sets per muscle group per week. Keep sessions under 16 sets to avoid diminishing returns.</p>
+    </div>
+    <div class="science-card">
+      <div class="icon">🔁</div>
+      <h4>Frequency 2×/Week</h4>
+      <p>Hitting each muscle group twice per week is the research sweet spot for hypertrophy. The key driver is total weekly volume — frequency is just the vehicle to distribute it effectively.</p>
+    </div>
+    <div class="science-card">
+      <div class="icon">🎯</div>
+      <h4>Rep Range Flexibility</h4>
+      <p>Hypertrophy occurs across 6–30 reps when effort is high. A mix of 6–10 (strength) and 10–15 (metabolic) sets is optimal. Technique and proximity to failure matter more than exact rep counts.</p>
+    </div>
+    <div class="science-card">
+      <div class="icon">⚡</div>
+      <h4>Progressive Overload</h4>
+      <p>Measurable growth begins after ~4 weeks of consistent training. Systematically increasing load, reps, or sets over time is the non-negotiable driver of long-term adaptation.</p>
+    </div>
+    <div class="science-card">
+      <div class="icon">💤</div>
+      <h4>Recovery is Training</h4>
+      <p>Muscle protein synthesis peaks 5–24h post-session. Sleep (7–9h), rest days on weekends, and managing session intensity are as important as the training itself for returners.</p>
+    </div>
+    <div class="science-card">
+      <div class="icon">🔬</div>
+      <h4>RIR — Reps in Reserve</h4>
+      <p>Training within 1–3 reps of failure provides maximal stimulus. This programme starts at RIR 3–4 (comfortable challenge) and builds to RIR 1 (near-maximal effort) by Week 12.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ PHASES ══════════════════════ -->
+<div class="section">
+  <div class="section-label">Programme Architecture</div>
+  <div class="section-title">3-Phase Progression</div>
+  <p class="section-sub">Each phase builds on the last. Do not skip ahead — the foundation weeks prevent injury and build the neuromuscular efficiency needed for the high-intensity phases.</p>
+  <div class="phase-row">
+    <div class="phase-card p1">
+      <div class="phase-num">01</div>
+      <h3>Phase 1</h3>
+      <div class="weeks">Weeks 1–4 · Foundation</div>
+      <div class="phase-detail"><strong>3 sets</strong> per exercise</div>
+      <div class="phase-detail"><strong>12–15 reps</strong> — moderate load</div>
+      <div class="phase-detail"><strong>90 sec</strong> rest between sets</div>
+      <div class="phase-detail"><strong>RIR 3–4</strong> — controlled effort</div>
+      <div class="phase-detail" style="margin-top:10px;font-style:italic;">Focus on perfect form, mind-muscle connection, and tissue adaptation. Start lighter than you think you should.</div>
+    </div>
+    <div class="phase-card p2">
+      <div class="phase-num">02</div>
+      <h3>Phase 2</h3>
+      <div class="weeks">Weeks 5–8 · Build</div>
+      <div class="phase-detail"><strong>4 sets</strong> per exercise</div>
+      <div class="phase-detail"><strong>8–12 reps</strong> — moderate-heavy load</div>
+      <div class="phase-detail"><strong>75 sec</strong> rest between sets</div>
+      <div class="phase-detail"><strong>RIR 2–3</strong> — genuine challenge</div>
+      <div class="phase-detail" style="margin-top:10px;font-style:italic;">Increase weight on all main lifts by Week 5. Add one compound superset per session.</div>
+    </div>
+    <div class="phase-card p3">
+      <div class="phase-num">03</div>
+      <h3>Phase 3</h3>
+      <div class="weeks">Weeks 9–12 · Intensify</div>
+      <div class="phase-detail"><strong>4 sets</strong> + drop set on last</div>
+      <div class="phase-detail"><strong>6–10 reps</strong> — heavy</div>
+      <div class="phase-detail"><strong>60 sec</strong> rest between sets</div>
+      <div class="phase-detail"><strong>RIR 1–2</strong> — near-maximal</div>
+      <div class="phase-detail" style="margin-top:10px;font-style:italic;">Final set of main exercises: drop 30% weight, rep to near-failure. This is where the real gains consolidate.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ WEEKLY PLAN ══════════════════════ -->
+<div class="section">
+  <div class="section-label">Weekly Schedule</div>
+  <div class="section-title">The 5-Day Split</div>
+  <p class="section-sub">Each major muscle group is trained twice per week. Upper body receives priority volume (Mon, Tue, Thu, Fri). Wednesday is legs + core. Weekend = full rest.</p>
+
+  <div class="week-strip" id="weekStrip">
+    <div class="day-chip active" onclick="showDay('mon', this)">
+      <div class="day-name">MON</div>
+      <div class="day-focus">Chest + Triceps</div>
+      <div class="day-dot" style="background:var(--accent);"></div>
+    </div>
+    <div class="day-chip" onclick="showDay('tue', this)">
+      <div class="day-name">TUE</div>
+      <div class="day-focus">Back + Biceps</div>
+      <div class="day-dot" style="background:var(--blue);"></div>
+    </div>
+    <div class="day-chip" onclick="showDay('wed', this)">
+      <div class="day-name">WED</div>
+      <div class="day-focus">Legs + Core</div>
+      <div class="day-dot" style="background:var(--green);"></div>
+    </div>
+    <div class="day-chip" onclick="showDay('thu', this)">
+      <div class="day-name">THU</div>
+      <div class="day-focus">Shoulders + Arms</div>
+      <div class="day-dot" style="background:var(--purple);"></div>
+    </div>
+    <div class="day-chip" onclick="showDay('fri', this)">
+      <div class="day-name">FRI</div>
+      <div class="day-focus">Full Upper</div>
+      <div class="day-dot" style="background:var(--accent2);"></div>
+    </div>
+  </div>
+
+  <!-- MONDAY -->
+  <div class="day-section active" id="day-mon">
+    <div class="day-header">
+      <div>
+        <div class="section-label" style="margin-bottom:4px;">Monday</div>
+        <div class="day-title" style="color:var(--accent);">CHEST + TRICEPS</div>
+      </div>
+      <div class="day-meta">
+        <span class="tag tag-push">Push A</span>
+        <span class="tag" style="color:var(--muted);border-color:var(--border);">~55 min</span>
+      </div>
+    </div>
+    <div class="warmup-box">
+      <strong>Warm-Up · 5–7 min</strong><br>
+      30 sec arm circles forward + backward · 20 shoulder rolls · 10 slow push-ups · 10 band pull-aparts (or towel rows) · 1–2 warm-up sets at 50% of working weight on the bench before starting.
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Key Cue / Tip</th></tr></thead>
+      <tbody>
+        <tr><td colspan="5" class="group-label">▸ CHEST — PRIMARY</td></tr>
+        <tr>
+          <td><div class="ex-name">Bench Press Machine</div><div class="ex-gear">bench press machine · up to 35 kg</div></td>
+          <td class="sets-val">3→4</td><td class="reps-val">12→8</td><td class="rest-val">90→60s</td>
+          <td class="tip-text">Retract scapula before pressing. Full ROM, no bouncing. Feel the chest — not the shoulders.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Dumbbell Flat Flyes</div><div class="ex-gear">dumbbells</div></td>
+          <td class="sets-val">3</td><td class="reps-val">12–15</td><td class="rest-val">75s</td>
+          <td class="tip-text">Slight elbow bend throughout. Stretch at the bottom, squeeze hard at top. Controlled eccentric.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Dumbbell Incline Press</div><div class="ex-gear">dumbbells · improvise angle on bench if possible</div></td>
+          <td class="sets-val">3</td><td class="reps-val">10–12</td><td class="rest-val">75s</td>
+          <td class="tip-text">Upper chest focus. Elbows at ~45° to body. Don't flare them out wide.</td>
+        </tr>
+        <tr><td colspan="5" class="group-label">▸ TRICEPS — PRIMARY</td></tr>
+        <tr>
+          <td><div class="ex-name">Close-Grip Barbell Press</div><div class="ex-gear">barbell · grip shoulder-width</div></td>
+          <td class="sets-val">3→4</td><td class="reps-val">10–12</td><td class="rest-val">75s</td>
+          <td class="tip-text">Elbows tucked in. This is a tricep exercise — keep chest as a secondary mover.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Dumbbell Overhead Tricep Extension</div><div class="ex-gear">one dumbbell (both hands)</div></td>
+          <td class="sets-val">3</td><td class="reps-val">12–15</td><td class="rest-val">60s</td>
+          <td class="tip-text">Long head stretch. Keep elbows pointing forward, not flaring. Slow on the way down.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Diamond Push-Ups</div><div class="ex-gear">bodyweight</div></td>
+          <td class="sets-val">2–3</td><td class="reps-val">to near failure</td><td class="rest-val">60s</td>
+          <td class="tip-text">Hands form a diamond. A perfect burnout finisher. Modify to knees if needed early in Phase 1.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TUESDAY -->
+  <div class="day-section" id="day-tue">
+    <div class="day-header">
+      <div>
+        <div class="section-label" style="margin-bottom:4px;">Tuesday</div>
+        <div class="day-title" style="color:var(--blue);">BACK + BICEPS</div>
+      </div>
+      <div class="day-meta">
+        <span class="tag tag-pull">Pull A</span>
+        <span class="tag" style="color:var(--muted);border-color:var(--border);">~55 min</span>
+      </div>
+    </div>
+    <div class="warmup-box">
+      <strong>Warm-Up · 5–7 min</strong><br>
+      Cat-cow × 10 · Thoracic rotations × 10 each side · Dead hangs 3 × 10 sec · Band face-pulls or towel rows × 15 · 1 light warm-up set of barbell rows at 50% load.
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Key Cue / Tip</th></tr></thead>
+      <tbody>
+        <tr><td colspan="5" class="group-label">▸ BACK — PRIMARY</td></tr>
+        <tr>
+          <td><div class="ex-name">Barbell Bent-Over Row</div><div class="ex-gear">barbell · overhand grip</div></td>
+          <td class="sets-val">4</td><td class="reps-val">8–10</td><td class="rest-val">90→75s</td>
+          <td class="tip-text">Hinge at hip, back flat (~45°). Pull elbows back past the hip. Squeeze at the top — pause 1 sec.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Dumbbell Single-Arm Row</div><div class="ex-gear">dumbbell · supported on bench</div></td>
+          <td class="sets-val">3</td><td class="reps-val">10–12 each</td><td class="rest-val">60s</td>
+          <td class="tip-text">Let the shoulder fully protract at the bottom. Pull elbow toward the ceiling. No torso rotation.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Inverted Row (Table/Bar)</div><div class="ex-gear">bodyweight · any low bar or table edge</div></td>
+          <td class="sets-val">3</td><td class="reps-val">max controlled</td><td class="rest-val">75s</td>
+          <td class="tip-text">Body rigid like a plank. Feet elevated = harder. The bodyweight pull-up equivalent for returners.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Dumbbell Reverse Fly</div><div class="ex-gear">dumbbells · hinged at hip</div></td>
+          <td class="sets-val">3</td><td class="reps-val">15</td><td class="rest-val">60s</td>
+          <td class="tip-text">Rear delts + rhomboids. Use light weight. Think: elbows leading outward, like wings opening.</td>
+        </tr>
+        <tr><td colspan="5" class="group-label">▸ BICEPS — PRIMARY</td></tr>
+        <tr>
+          <td><div class="ex-name">Barbell Curl</div><div class="ex-gear">barbell · underhand grip</div></td>
+          <td class="sets-val">3→4</td><td class="reps-val">10–12</td><td class="rest-val">75s</td>
+          <td class="tip-text">No swinging. Elbows pinned at sides. Supinate at the top. Lower slowly — 3-second eccentric.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Dumbbell Hammer Curl</div><div class="ex-gear">dumbbells</div></td>
+          <td class="sets-val">3</td><td class="reps-val">12 each</td><td class="rest-val">60s</td>
+          <td class="tip-text">Neutral grip targets brachialis (thickness). Alternate arms. Keep upper arm still at all times.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- WEDNESDAY -->
+  <div class="day-section" id="day-wed">
+    <div class="day-header">
+      <div>
+        <div class="section-label" style="margin-bottom:4px;">Wednesday</div>
+        <div class="day-title" style="color:var(--green);">LEGS + CORE</div>
+      </div>
+      <div class="day-meta">
+        <span class="tag tag-legs">Lower Body</span>
+        <span class="tag" style="color:var(--muted);border-color:var(--border);">~55 min</span>
+      </div>
+    </div>
+    <div class="warmup-box">
+      <strong>Warm-Up · 7–10 min</strong><br>
+      Hip circles × 10 each · Leg swings × 15 each · Bodyweight squats × 15 · Hip flexor stretch 30 sec each · Glute bridges × 15 · 1–2 light warm-up squat sets.
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Key Cue / Tip</th></tr></thead>
+      <tbody>
+        <tr><td colspan="5" class="group-label">▸ LEGS — PRIMARY</td></tr>
+        <tr>
+          <td><div class="ex-name">Barbell Back Squat</div><div class="ex-gear">barbell · on shoulders</div></td>
+          <td class="sets-val">4</td><td class="reps-val">10–12</td><td class="rest-val">90→75s</td>
+          <td class="tip-text">Feet shoulder-width, toes slightly out. Knees track over toes. Chest up. Squat to parallel minimum. This is your anchor lift — prioritise form above all.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Romanian Deadlift (RDL)</div><div class="ex-gear">barbell</div></td>
+          <td class="sets-val">3</td><td class="reps-val">10</td><td class="rest-val">90s</td>
+          <td class="tip-text">Hamstring + glute hinge. Push hips back, bar close to legs, neutral spine. Feel the stretch — don't round the back.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Dumbbell Reverse Lunges</div><div class="ex-gear">dumbbells (or bodyweight)</div></td>
+          <td class="sets-val">3</td><td class="reps-val">12 each leg</td><td class="rest-val">75s</td>
+          <td class="tip-text">Reverse lunges are kinder to the knees than forward lunges. Step back, front knee at 90°, keep torso upright.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Standing Calf Raises</div><div class="ex-gear">bodyweight · on a step edge</div></td>
+          <td class="sets-val">4</td><td class="reps-val">20–25</td><td class="rest-val">45s</td>
+          <td class="tip-text">Full range: heel drop below step, rise to full contraction. Pause 1 sec at top. Add weight in Phase 2.</td>
+        </tr>
+        <tr><td colspan="5" class="group-label">▸ CORE — PRIMARY</td></tr>
+        <tr>
+          <td><div class="ex-name">Plank</div><div class="ex-gear">bodyweight</div></td>
+          <td class="sets-val">3</td><td class="reps-val">30–60 sec</td><td class="rest-val">45s</td>
+          <td class="tip-text">Posterior pelvic tilt slightly (flatten the low back). Glutes squeezed. Don't let hips drop or rise.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Dead Bug</div><div class="ex-gear">bodyweight · on floor</div></td>
+          <td class="sets-val">3</td><td class="reps-val">10 each side</td><td class="rest-val">45s</td>
+          <td class="tip-text">Opposite arm + leg extend. Press low back into the floor throughout. Slow and controlled — this is precision training, not cardio.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Bicycle Crunches</div><div class="ex-gear">bodyweight</div></td>
+          <td class="sets-val">3</td><td class="reps-val">20 total</td><td class="rest-val">45s</td>
+          <td class="tip-text">Slow and deliberate. Rotate to elbow, not to neck. Don't pull your head with your hands.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- THURSDAY -->
+  <div class="day-section" id="day-thu">
+    <div class="day-header">
+      <div>
+        <div class="section-label" style="margin-bottom:4px;">Thursday</div>
+        <div class="day-title" style="color:var(--purple);">SHOULDERS + ARMS</div>
+      </div>
+      <div class="day-meta">
+        <span class="tag tag-upper">Upper Detail</span>
+        <span class="tag" style="color:var(--muted);border-color:var(--border);">~55 min</span>
+      </div>
+    </div>
+    <div class="warmup-box">
+      <strong>Warm-Up · 5 min</strong><br>
+      Neck rolls × 10 · Shoulder circles forward + backward · 10 wall slides · 15 face-pulls with towel · 1 light warm-up set of dumbbell presses.
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Key Cue / Tip</th></tr></thead>
+      <tbody>
+        <tr><td colspan="5" class="group-label">▸ SHOULDERS — PRIMARY</td></tr>
+        <tr>
+          <td><div class="ex-name">Dumbbell Seated Overhead Press</div><div class="ex-gear">dumbbells</div></td>
+          <td class="sets-val">4</td><td class="reps-val">10–12</td><td class="rest-val">90→75s</td>
+          <td class="tip-text">Press from ear level, not from the front. Full lockout at top. Control the descent. This is your anchor shoulder movement.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Dumbbell Lateral Raise</div><div class="ex-gear">dumbbells · light!</div></td>
+          <td class="sets-val">4</td><td class="reps-val">15–20</td><td class="rest-val">60s</td>
+          <td class="tip-text">Thumb slightly down (as if pouring water). Lead with elbows. Stop at shoulder height. Use a weight that lets you feel medial delts — not a weight that makes you shrug.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Dumbbell Front Raise</div><div class="ex-gear">dumbbells · alternating</div></td>
+          <td class="sets-val">3</td><td class="reps-val">12 each</td><td class="rest-val">60s</td>
+          <td class="tip-text">Anterior deltoid isolation. Slight elbow bend. Don't swing the torso.</td>
+        </tr>
+        <tr><td colspan="5" class="group-label">▸ BICEPS — SECONDARY</td></tr>
+        <tr>
+          <td><div class="ex-name">Barbell Reverse Curl</div><div class="ex-gear">barbell · overhand grip</div></td>
+          <td class="sets-val">3</td><td class="reps-val">12</td><td class="rest-val">60s</td>
+          <td class="tip-text">Targets brachialis + brachioradialis (forearm). Underused and extremely effective. Use moderate weight.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Dumbbell Concentration Curl</div><div class="ex-gear">dumbbell</div></td>
+          <td class="sets-val">3</td><td class="reps-val">12 each</td><td class="rest-val">60s</td>
+          <td class="tip-text">Elbow braced against inner thigh. Best exercise for bicep peak activation. Squeeze hard at top.</td>
+        </tr>
+        <tr><td colspan="5" class="group-label">▸ TRICEPS — SECONDARY</td></tr>
+        <tr>
+          <td><div class="ex-name">Dumbbell Tricep Kickback</div><div class="ex-gear">dumbbells · hinged forward</div></td>
+          <td class="sets-val">3</td><td class="reps-val">15</td><td class="rest-val">60s</td>
+          <td class="tip-text">Upper arm parallel to floor, extend to full lockout. Hold for 1 sec. Light weight — this is isolation work.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Bench Tricep Dips</div><div class="ex-gear">bodyweight · using the bench</div></td>
+          <td class="sets-val">3</td><td class="reps-val">12–15</td><td class="rest-val">60s</td>
+          <td class="tip-text">Hands behind on bench, feet out. Keep chest up, lower until elbows at 90°. Elevate feet in Phase 2/3.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FRIDAY -->
+  <div class="day-section" id="day-fri">
+    <div class="day-header">
+      <div>
+        <div class="section-label" style="margin-bottom:4px;">Friday</div>
+        <div class="day-title" style="color:var(--accent2);">FULL UPPER BODY</div>
+      </div>
+      <div class="day-meta">
+        <span class="tag tag-full">Compound Focus</span>
+        <span class="tag" style="color:var(--muted);border-color:var(--border);">~60 min</span>
+      </div>
+    </div>
+    <div class="warmup-box">
+      <strong>Warm-Up · 7 min</strong><br>
+      This is your most demanding day. Full upper body warm-up: 5 min light movement (arm swings, shoulder openers, push-ups) + 1 warm-up set for every main compound before starting working sets.
+    </div>
+    <table class="ex-table">
+      <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th>Key Cue / Tip</th></tr></thead>
+      <tbody>
+        <tr><td colspan="5" class="group-label">▸ PUSH — COMPOUND</td></tr>
+        <tr>
+          <td><div class="ex-name">Barbell Overhead Press (OHP)</div><div class="ex-gear">barbell · standing or seated</div></td>
+          <td class="sets-val">4</td><td class="reps-val">8–10</td><td class="rest-val">90s</td>
+          <td class="tip-text">The king of shoulder strength. Bar starts at collarbone, press directly overhead, bar passes in front of face. Brace core hard throughout.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Bench Press Machine</div><div class="ex-gear">bench press machine</div></td>
+          <td class="sets-val">4</td><td class="reps-val">8–10</td><td class="rest-val">75s</td>
+          <td class="tip-text">Heavier than Monday — this is your strength set. Push the load while maintaining form. Add weight each week by smallest increment.</td>
+        </tr>
+        <tr><td colspan="5" class="group-label">▸ PULL — COMPOUND</td></tr>
+        <tr>
+          <td><div class="ex-name">Barbell Bent-Over Row (Underhand)</div><div class="ex-gear">barbell · supinated grip</div></td>
+          <td class="sets-val">4</td><td class="reps-val">8–10</td><td class="rest-val">90s</td>
+          <td class="tip-text">Underhand (Yates-style) row shifts emphasis to lower lats and biceps — excellent pairing with the OHP. Pull to lower sternum.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Inverted Row</div><div class="ex-gear">bodyweight · table / low bar</div></td>
+          <td class="sets-val">3</td><td class="reps-val">max, controlled</td><td class="rest-val">75s</td>
+          <td class="tip-text">Aim to improve reps each week. When you can do 15+ easily, elevate feet. By Week 8–10 progress toward full pull-ups if possible.</td>
+        </tr>
+        <tr><td colspan="5" class="group-label">▸ FINISHER — ARMS + BODYWEIGHT</td></tr>
+        <tr>
+          <td><div class="ex-name">Dumbbell Curl-to-Press</div><div class="ex-gear">dumbbells · combo movement</div></td>
+          <td class="sets-val">3</td><td class="reps-val">10</td><td class="rest-val">60s</td>
+          <td class="tip-text">Curl to shoulder height, then press overhead. One smooth movement. Bicep + shoulder + coordination. Great for time efficiency.</td>
+        </tr>
+        <tr>
+          <td><div class="ex-name">Wide Push-Ups</div><div class="ex-gear">bodyweight</div></td>
+          <td class="sets-val">2–3</td><td class="reps-val">to near failure</td><td class="rest-val">45s</td>
+          <td class="tip-text">End the week strong. Wider grip → more chest. Go to 2 reps shy of failure each set. A perfect metabolic finisher to cap the week.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════ NUTRITION ══════════════════════ -->
+<div class="section">
+  <div class="section-label">Nutrition Science</div>
+  <div class="section-title">Protein Strategy</div>
+  <p class="section-sub">Based on current research (2024–2025), including the ISSN Position Stand and meta-analyses by Morton et al. and Nunes et al. Total daily intake is the primary lever — timing is secondary but still beneficial.</p>
+  <div class="nutrition-grid">
+    <div class="nutri-card">
+      <h3>Daily Protein Target</h3>
+      <div class="nutri-row"><span class="nutri-label">Minimum threshold (hypertrophy)</span><span class="nutri-val">1.6 g / kg BW</span></div>
+      <div class="nutri-row"><span class="nutri-label">Optimal target (returner)</span><span class="nutri-val">2.0–2.2 g / kg BW</span></div>
+      <div class="nutri-row"><span class="nutri-label">Max with clear benefit</span><span class="nutri-val">~2.4 g / kg BW</span></div>
+      <div class="nutri-row"><span class="nutri-label">Example: 80 kg athlete</span><span class="nutri-val">160–175 g / day</span></div>
+      <div class="nutri-row"><span class="nutri-label">Example: 90 kg athlete</span><span class="nutri-val">180–200 g / day</span></div>
+      <div class="nutri-row"><span class="nutri-label">Meals per day</span><span class="nutri-val">4–5 spaced feedings</span></div>
+    </div>
+    <div class="nutri-card">
+      <h3>Protein Quality & Sources</h3>
+      <div class="nutri-row"><span class="nutri-label">Best post-workout (fast)</span><span class="nutri-val">Whey protein</span></div>
+      <div class="nutri-row"><span class="nutri-label">Best before sleep (slow)</span><span class="nutri-val">Casein / Greek yogurt</span></div>
+      <div class="nutri-row"><span class="nutri-label">Best whole food sources</span><span class="nutri-val">Chicken, eggs, fish, beef</span></div>
+      <div class="nutri-row"><span class="nutri-label">Plant-based option</span><span class="nutri-val">Pea + rice blend</span></div>
+      <div class="nutri-row"><span class="nutri-label">Per meal dose (MPS peak)</span><span class="nutri-val">~30–40 g</span></div>
+      <div class="nutri-row"><span class="nutri-label">Leucine trigger per meal</span><span class="nutri-val">≥ 2.5 g leucine</span></div>
+    </div>
+    <div class="timeline-box">
+      <h3>Daily Protein Timing — Training Day Example</h3>
+      <div class="tl-items">
+        <div class="tl-item">
+          <div class="tl-time">07:00</div>
+          <div class="tl-desc">Breakfast</div>
+          <div class="tl-amount">3–4 whole eggs + Greek yogurt<br><strong>~35–40g protein</strong></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time">12:00</div>
+          <div class="tl-desc">Lunch</div>
+          <div class="tl-amount">Chicken/fish + legumes + veg<br><strong>~35–40g protein</strong></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time">~30 min pre</div>
+          <div class="tl-desc">Pre-Workout (optional)</div>
+          <div class="tl-amount">Banana + 20g whey or a small protein-rich snack<br><strong>~20g protein</strong></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time">Post-workout</div>
+          <div class="tl-desc">Within 2h (broad window)</div>
+          <div class="tl-amount">Whey shake or whole food<br><strong>30–40g protein</strong></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time">19:00</div>
+          <div class="tl-desc">Dinner</div>
+          <div class="tl-amount">Lean meat / fish + carbs + veg<br><strong>~35–40g protein</strong></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time">21:30</div>
+          <div class="tl-desc">Before Sleep</div>
+          <div class="tl-amount">Casein shake or cottage cheese<br><strong>~20–30g protein</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:20px;padding:20px;background:rgba(244,164,50,0.06);border:1px solid rgba(244,164,50,0.2);font-size:13px;color:var(--muted);line-height:1.7;">
+    <strong style="color:var(--accent2);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;">Research Note on Timing</strong><br>
+    The "anabolic window" (the idea you must consume protein within 30 minutes post-workout) has been largely debunked by meta-analyses. Current evidence shows total daily protein intake is the primary driver of hypertrophy. That said, consuming protein in a wider 2-hour window post-workout still aids recovery. A pre-sleep casein dose (20–40g) has consistent evidence for overnight MPS support — this one is worth doing.
+  </div>
+</div>
+
+<!-- ══════════════════════ MOTIVATION ══════════════════════ -->
+<div class="section">
+  <div class="section-label">The Long Game</div>
+  <div class="section-title">Staying Motivated & Tracking Progress</div>
+  <p class="section-sub">Motivation is finite. Systems are permanent. Here's how to stay on track when the initial excitement fades — which it will, usually around Week 3.</p>
+  <div class="moti-grid">
+    <div class="moti-card">
+      <div class="moti-num">01</div>
+      <h4>Log Every Session</h4>
+      <p>Write down weight, sets, reps. Seeing last week's numbers in front of you creates automatic competition with your past self. A simple notebook or your phone notes work fine. No app required.</p>
+    </div>
+    <div class="moti-card">
+      <div class="moti-num">02</div>
+      <h4>The +1 Rule</h4>
+      <p>Each week, aim to do one more rep OR add the smallest weight increment (1–2 kg) to at least one exercise. One small win per week = 52 improvements per year. This is progressive overload made practical.</p>
+    </div>
+    <div class="moti-card">
+      <div class="moti-num">03</div>
+      <h4>Monthly Photo Check-In</h4>
+      <p>Take a photo on the same day each month, same lighting, same angle. Mirrors lie. Photos don't. Progress is slower than you'd like — monthly photos prevent you from quitting too early.</p>
+    </div>
+    <div class="moti-card">
+      <div class="moti-num">04</div>
+      <h4>Measure What Matters</h4>
+      <p>Track: chest circumference, upper arm (flexed), shoulder width, bodyweight. Measure every 4 weeks. Scale weight alone is misleading — muscle gain and fat loss can net to zero on the scale.</p>
+    </div>
+    <div class="moti-card">
+      <div class="moti-num">05</div>
+      <h4>Never Miss Twice</h4>
+      <p>Missing one session is human. Missing two in a row is a pattern. Life will interrupt — travel, illness, kids. The rule is simple: whatever happens, never let a gap exceed one missed session before you return.</p>
+    </div>
+    <div class="moti-card">
+      <div class="moti-num">06</div>
+      <h4>Anchor the Habit</h4>
+      <p>Train at the same time each day. Link it to an existing habit (morning coffee → training). The session shouldn't require a decision — it's just what you do after X. Decision fatigue is the enemy of consistency.</p>
+    </div>
+    <div class="moti-card">
+      <div class="moti-num">07</div>
+      <h4>Celebrate Phase Completions</h4>
+      <p>Finishing 4 weeks is a real achievement. Mark it. Plan Phase 2. The structure of a 12-week programme gives you natural milestones — use them as motivational resets, not as endpoints.</p>
+    </div>
+    <div class="moti-card">
+      <div class="moti-num">08</div>
+      <h4>Sleep is Your Cheat Code</h4>
+      <p>7–9 hours is not optional. Testosterone drops significantly with under 6 hours sleep. Recovery, motivation, and muscle protein synthesis are all sleep-dependent. Protect it as fiercely as your training time.</p>
+    </div>
+  </div>
+
+  <div class="progress-tracker">
+    <h3>Progress Tracking Checklist — What to Record</h3>
+    <div class="tracker-grid">
+      <div class="tracker-item">
+        <h5>Weekly (every session)</h5>
+        <p>Exercise name · Weight used · Sets completed · Reps per set · How you felt (1–10)</p>
+      </div>
+      <div class="tracker-item">
+        <h5>Every 4 Weeks</h5>
+        <p>Body measurements (chest, arm, waist) · Progress photos · Scale weight (average over 7 days)</p>
+      </div>
+      <div class="tracker-item">
+        <h5>At Phase End (Wk 4 / 8 / 12)</h5>
+        <p>Max reps test on key lifts · Compare Phase 1 weights to current · Assess form with phone video</p>
+      </div>
+      <div class="tracker-item">
+        <h5>Subjective Markers</h5>
+        <p>Sleep quality · Energy levels · Recovery rate between sessions · Mood and stress load</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ QUOTE ══════════════════════ -->
+<div class="quote-bar">
+  <div>
+    <blockquote>"The iron never lies to you. It always spotlights the truth — weak becomes strong, and strong stays strong only through the work."</blockquote>
+    <cite>— Henry Rollins, adapted · The Iron (1994)</cite>
+  </div>
+</div>
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer>
+  <div class="logo">HOME FORGE</div>
+  <div class="disclaimer">This programme is for informational purposes. Consult a physician before beginning any new training regimen, especially after a period of inactivity. Adjust loads based on your individual fitness level and any pre-existing conditions.</div>
+</footer>
+
+<script>
+  function showDay(dayId, clickedEl) {
+    document.querySelectorAll('.day-section').forEach(d => d.classList.remove('active'));
+    document.querySelectorAll('.day-chip').forEach(c => c.classList.remove('active'));
+    document.getElementById('day-' + dayId).classList.add('active');
+    clickedEl.classList.add('active');
+  }
+</script>
+</body>
+</html>
